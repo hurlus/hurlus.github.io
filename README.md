@@ -254,6 +254,10 @@
 
 * 1936, Où va la France ?  <a class="html" href="https://hurlus.github.io/trotsky/trotsky1936_france.html">[html]</a>  <a class="mobi" href="https://hurlus.github.io/trotsky/trotsky1936_france.mobi">[kindle]</a>  <a class="ebub" href="https://hurlus.github.io/trotsky/trotsky1936_france.epub">[epub]</a> 
 
+## Vaneigem, Raoul
+
+* 1967, Traité de savoir-vivre à l’usage des jeunes générations  <a class="html" href="https://hurlus.github.io/vaneigem/vaneigem1967_savoir-vivre.html">[html]</a>  <a class="mobi" href="https://hurlus.github.io/vaneigem/vaneigem1967_savoir-vivre.mobi">[kindle]</a>  <a class="ebub" href="https://hurlus.github.io/vaneigem/vaneigem1967_savoir-vivre.epub">[epub]</a> 
+
 ## Vico, Giambattista
 
 * 1827, Principes de la philosophie de l’histoire (trad. Michelet)  <a class="html" href="https://hurlus.github.io/vico/vico1827_michelet.html">[html]</a>  <a class="mobi" href="https://hurlus.github.io/vico/vico1827_michelet.mobi">[kindle]</a>  <a class="ebub" href="https://hurlus.github.io/vico/vico1827_michelet.epub">[epub]</a> 
