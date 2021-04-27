@@ -25,24 +25,31 @@ class Hurlus
       Build::mkdir($dstpath);
       $dstpath .= $name;
       
+      $done = false;
+      
       $dstepub = $dstpath.".epub";
-      if (file_exists($dstepub) && filemtime($dstepub) > filemtime($srcfile)) continue;
-      echo $dstpath, "\n";
-      
-      self::html($srcfile, $dstpath.".html");
-      
-      
-      $livre = new Livrable($srcfile, STDERR);
-      $livre->epub($dstepub);
-      $cmd = $kindlegen." ".$dstepub;
-      $output = '';
-      $last = exec($cmd, $output, $status);
-      // error ?
-      $dstmobi = $dstpath.".mobi";
-      if (!file_exists($dstmobi)) {
-        self::log(E_USER_ERROR, "\n".$status."\n".join("\n", $output)."\n".$last."\n");
+      if (!file_exists($dstepub) || filemtime($dstepub) < filemtime($srcfile)) {
+        $livre = new Livrable($srcfile, STDERR);
+        $livre->epub($dstepub);
+        $cmd = $kindlegen." ".$dstepub;
+        $output = '';
+        $last = exec($cmd, $output, $status);
+        // error ?
+        $dstmobi = $dstpath.".mobi";
+        if (!file_exists($dstmobi)) {
+          self::log(E_USER_ERROR, "\n".$status."\n".join("\n", $output)."\n".$last."\n");
+        }
+        $done = true;
+      }
+      $dstfile = $dstpath.".html";
+      if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
+        $done = true;
+        self::html($srcfile, $dstfile);
       }
       
+      
+      
+      if ($done) echo $dstpath, "\n";
     }
   }
   
@@ -54,7 +61,9 @@ class Hurlus
     $theme = 'http://oeuvres.github.io/teinte/'; // where to find web assets like css and jslog for html file
     $xsl = dirname(dirname(__FILE__)).'/teinte/tei2html.xsl';
     $dom = Build::dom($srcfile);
-    $pars = array();
+    $pars = array(
+      'theme' => $theme,
+    );
     Build::transformDoc($dom, $xsl, $dstfile, $pars);
   }
 
