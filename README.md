@@ -75,9 +75,9 @@
 
 * 1898, La cité antique  <a class="html" href="https://hurlus.github.io/fustel-de-coulanges/fustel-de-coulanges1898_cite-antique.html">[html]</a>  <a class="mobi" href="https://hurlus.github.io/fustel-de-coulanges/fustel-de-coulanges1898_cite-antique.mobi">[kindle]</a>  <a class="ebub" href="https://hurlus.github.io/fustel-de-coulanges/fustel-de-coulanges1898_cite-antique.epub">[epub]</a> 
 
-## Author : Gide, André
+## Gide, André
 
-* 1936, Title : Retour de l’URSS  <a class="html" href="https://hurlus.github.io/gide/gide1936_urss.html">[html]</a>  <a class="mobi" href="https://hurlus.github.io/gide/gide1936_urss.mobi">[kindle]</a>  <a class="ebub" href="https://hurlus.github.io/gide/gide1936_urss.epub">[epub]</a> 
+* 1936, Retour de l’URSS  <a class="html" href="https://hurlus.github.io/gide/gide1936_urss.html">[html]</a>  <a class="mobi" href="https://hurlus.github.io/gide/gide1936_urss.mobi">[kindle]</a>  <a class="ebub" href="https://hurlus.github.io/gide/gide1936_urss.epub">[epub]</a> 
 
 ## Gobineau, Arthur de
 
