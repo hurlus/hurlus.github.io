@@ -1,6 +1,5 @@
 
-# [Hurlus](https://hurlus.github.io/export/). Livres libres et classiques, pour nourrir les débats
-
+# Auteurs / titres
 
 ## <a href="aristote/">Aristote</a>
 
