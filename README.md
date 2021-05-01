@@ -135,6 +135,7 @@
 
 ## <a href="lafargue/">Lafargue, Paul</a>
 
+* 1883, Le droit à la paresse (Réfutation du droit au travail de 1848)  <a class="file tei" href="https://hurlus.github.io/tei/lafargue1883_paresse.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/lafargue/lafargue1883_paresse.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/lafargue/lafargue1883_paresse.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/lafargue/lafargue1883_paresse.epub">[epub]</a> 
 * 1885, La légende de Victor Hugo  <a class="file tei" href="https://hurlus.github.io/tei/lafargue1885_hugo.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/lafargue/lafargue1885_hugo.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/lafargue/lafargue1885_hugo.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/lafargue/lafargue1885_hugo.epub">[epub]</a> 
 * 1887, La religion du capital  <a class="file tei" href="https://hurlus.github.io/tei/lafargue1887_religion-capital.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/lafargue/lafargue1887_religion-capital.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/lafargue/lafargue1887_religion-capital.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/lafargue/lafargue1887_religion-capital.epub">[epub]</a> 
 * 1896, Les origines du romantisme : étude critique sur la période révolutionnaire  <a class="file tei" href="https://hurlus.github.io/tei/lafargue1896_romantisme.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/lafargue/lafargue1896_romantisme.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/lafargue/lafargue1896_romantisme.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/lafargue/lafargue1896_romantisme.epub">[epub]</a> 
@@ -183,6 +184,10 @@
 ## <a href="michel-louise/">Michel, Louise</a>
 
 * 1886, Mémoires de Louise Michel écrits par elle-même  <a class="file tei" href="https://hurlus.github.io/tei/michel-louise1886_memoires.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/michel-louise/michel-louise1886_memoires.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/michel-louise/michel-louise1886_memoires.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/michel-louise/michel-louise1886_memoires.epub">[epub]</a> 
+
+## <a href="moliere/">Molière</a>
+
+* 1666, Le médecin malgré lui  <a class="file tei" href="https://hurlus.github.io/tei/moliere1666_medecin-malgre-lui.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/moliere/moliere1666_medecin-malgre-lui.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/moliere/moliere1666_medecin-malgre-lui.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/moliere/moliere1666_medecin-malgre-lui.epub">[epub]</a> 
 
 ## <a href="montesquieu/">Montesquieu, Charles-Louis de Secondat</a>
 
