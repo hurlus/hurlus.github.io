@@ -15,8 +15,13 @@ body {
   width: 80ex;
 }
 
+#container {
+  background: transparent;
+}
+
 a.file {
   color: transparent;
+  text-shadow: unset;
   display: inline-block;
   vertical-align: middle;
   width: 32px;

@@ -1,7 +1,4 @@
-#Siéyès, Emmanuel Joseph
-
-* 1788, Essai sur les privilèges  <a class="file tei" href="https://hurlus.github.io/tei/sieyes1788_essai-privileges.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/sieyes/sieyes1788_essai-privileges.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/sieyes/sieyes1788_essai-privileges.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/sieyes/sieyes1788_essai-privileges.epub">[epub]</a> 
-#Siéyès, Emmanuel Joseph
+# Siéyès, Emmanuel Joseph
 
 * 1788, Essai sur les privilèges  <a class="file tei" href="https://hurlus.github.io/tei/sieyes1788_essai-privileges.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/sieyes/sieyes1788_essai-privileges.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/sieyes/sieyes1788_essai-privileges.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/sieyes/sieyes1788_essai-privileges.epub">[epub]</a> 
 * Qu’est-ce que le Tiers-État ?  <a class="file tei" href="https://hurlus.github.io/tei/sieyes1789_tiers-etat.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/sieyes/sieyes1789_tiers-etat.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/sieyes/sieyes1789_tiers-etat.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/sieyes/sieyes1789_tiers-etat.epub">[epub]</a> 

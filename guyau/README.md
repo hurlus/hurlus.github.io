@@ -1,11 +1,4 @@
-#Guyau, Jean-Marie
-
-* 1884, Les problèmes de l’esthétique contemporaine  <a class="file tei" href="https://hurlus.github.io/tei/guyau1884_problemes-esthetique.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.epub">[epub]</a> 
-#Guyau, Jean-Marie
-
-* 1884, Les problèmes de l’esthétique contemporaine  <a class="file tei" href="https://hurlus.github.io/tei/guyau1884_problemes-esthetique.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.epub">[epub]</a> 
-* 1885, Esquisse d’une morale sans obligation ni sanction  <a class="file tei" href="https://hurlus.github.io/tei/guyau1885_morale.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/guyau/guyau1885_morale.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/guyau/guyau1885_morale.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/guyau/guyau1885_morale.epub">[epub]</a> 
-#Guyau, Jean-Marie
+# Guyau, Jean-Marie
 
 * 1884, Les problèmes de l’esthétique contemporaine  <a class="file tei" href="https://hurlus.github.io/tei/guyau1884_problemes-esthetique.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/guyau/guyau1884_problemes-esthetique.epub">[epub]</a> 
 * 1885, Esquisse d’une morale sans obligation ni sanction  <a class="file tei" href="https://hurlus.github.io/tei/guyau1885_morale.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/guyau/guyau1885_morale.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/guyau/guyau1885_morale.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/guyau/guyau1885_morale.epub">[epub]</a> 

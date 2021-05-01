@@ -92,10 +92,11 @@ class Hurlus
       if ($authorLast != $author) {
         $fopen = dirname(__FILE__).'/'.$author.'/README.md';
         $fauth = fopen($fopen, "w");
-        $authbib = '#'.$meta['byline']."\n\n";
+        $readme .= "\n## (".$meta['byline'].")[".$author."/]\n\n";
+        fwrite($fauth, '# '.$meta['byline']."\n\n");
         $authorLast = $author;
       }
-      $authbib .= '* ';
+      $authbib = '* ';
       if ($meta['date']) $authbib .= $meta['date'].', ';
       $authbib .= $meta['title'].' ';
       $authbib .= ' <a class="file tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
@@ -104,7 +105,7 @@ class Hurlus
       $authbib .= ' <a class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
       $authbib .= "\n";
       $i++;
-      $readme .= "\n#".$authbib;
+      $readme .= $authbib;
       fwrite($fauth, $authbib);
     }
     return $readme;
