@@ -1,0 +1,7 @@
+#Voltaire
+
+* 1742, Le fanatisme  <a class="file tei" href="https://hurlus.github.io/tei/voltaire1741_fanatisme.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/voltaire/voltaire1741_fanatisme.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/voltaire/voltaire1741_fanatisme.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/voltaire/voltaire1741_fanatisme.epub">[epub]</a> 
+#Voltaire
+
+* 1742, Le fanatisme  <a class="file tei" href="https://hurlus.github.io/tei/voltaire1741_fanatisme.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/voltaire/voltaire1741_fanatisme.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/voltaire/voltaire1741_fanatisme.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/voltaire/voltaire1741_fanatisme.epub">[epub]</a> 
+* 1765, De l’horrible danger de la lecture  <a class="file tei" href="https://hurlus.github.io/tei/voltaire1765_lecture.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/voltaire/voltaire1765_lecture.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/voltaire/voltaire1765_lecture.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/voltaire/voltaire1765_lecture.epub">[epub]</a> 

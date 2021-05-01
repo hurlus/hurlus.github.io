@@ -79,26 +79,33 @@ class Hurlus
     $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
     $authorLast = '';
     $i = 1;
+    
+    $fauth = null;
+    $authbib = '';
     foreach (glob($glob) as $srcfile) {
       $name = pathinfo($srcfile,  PATHINFO_FILENAME);
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
       $author = $matches[1];
       $dstpath = 'https://hurlus.github.io/'.$author.'/'.$name;
-
       $teidoc = new Teidoc($srcfile);
       $meta = $teidoc->meta();
       if ($authorLast != $author) {
-        $readme .= "\n## ".$meta['byline']."\n\n";
+        $fopen = dirname(__FILE__).'/'.$author.'/README.md';
+        $fauth = fopen($fopen, "w");
+        $authbib = '#'.$meta['byline']."\n\n";
         $authorLast = $author;
       }
-      $readme .= '* ';
-      if ($meta['date']) $readme .= $meta['date'].', ';
-      $readme .= $meta['title'].' ';
-      $readme .= ' <a class="html" href="'.$dstpath.'.html">[html]</a> ';
-      $readme .= ' <a class="mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
-      $readme .= ' <a class="ebub" href="'.$dstpath.'.epub">[epub]</a> ';
-      $readme .= "\n";
+      $authbib .= '* ';
+      if ($meta['date']) $authbib .= $meta['date'].', ';
+      $authbib .= $meta['title'].' ';
+      $authbib .= ' <a class="file tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
+      $authbib .= ' <a class="file html" href="'.$dstpath.'.html">[html]</a> ';
+      $authbib .= ' <a class="file mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
+      $authbib .= ' <a class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
+      $authbib .= "\n";
       $i++;
+      $readme .= "\n#".$authbib;
+      fwrite($fauth, $authbib);
     }
     return $readme;
   }

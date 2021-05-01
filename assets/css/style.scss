@@ -3,6 +3,34 @@
 
 @import "{{ site.theme }}";
 
-a.mobi {
-  color: #008;
+* {
+
 }
+
+
+a.file {
+  color: transparent;
+  display: inline-block;
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  background-size: 32px 32px;
+  margin-right: 8px;
+}
+
+a.tei {
+  background-image: url(icon_tei.svg);
+}
+
+a.html {
+  background-image: url(icon_html.svg);
+}
+
+a.epub {
+  background-image: url(icon_epub.svg);
+}
+
+a.mobi {
+  background-image: url(icon_mobi.svg);
+}
+

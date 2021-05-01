@@ -1,0 +1,7 @@
+#César, Jules
+
+* 1865, La guerre des Gaules  <a class="file tei" href="https://hurlus.github.io/tei/cesar-52_gaules-1865.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/cesar/cesar-52_gaules-1865.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/cesar/cesar-52_gaules-1865.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/cesar/cesar-52_gaules-1865.epub">[epub]</a> 
+#César, Jules
+
+* 1865, La guerre des Gaules  <a class="file tei" href="https://hurlus.github.io/tei/cesar-52_gaules-1865.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/cesar/cesar-52_gaules-1865.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/cesar/cesar-52_gaules-1865.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/cesar/cesar-52_gaules-1865.epub">[epub]</a> 
+* 1926, La guerre des Gaules  <a class="file tei" href="https://hurlus.github.io/tei/cesar-52_gaules-1926.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/cesar/cesar-52_gaules-1926.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/cesar/cesar-52_gaules-1926.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/cesar/cesar-52_gaules-1926.epub">[epub]</a> 

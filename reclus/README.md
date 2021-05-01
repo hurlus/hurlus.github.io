@@ -1,0 +1,7 @@
+#Reclus, Élisée
+
+* 1925, A mon Frère le paysan  <a class="file tei" href="https://hurlus.github.io/tei/reclus1894_frere-paysan.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/reclus/reclus1894_frere-paysan.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/reclus/reclus1894_frere-paysan.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/reclus/reclus1894_frere-paysan.epub">[epub]</a> 
+#Reclus, Élisée
+
+* 1925, A mon Frère le paysan  <a class="file tei" href="https://hurlus.github.io/tei/reclus1894_frere-paysan.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/reclus/reclus1894_frere-paysan.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/reclus/reclus1894_frere-paysan.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/reclus/reclus1894_frere-paysan.epub">[epub]</a> 
+* 1914, L’évolution, la révolution et l’idéal anarchique  <a class="file tei" href="https://hurlus.github.io/tei/reclus1897_ideal-anarchique.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/reclus/reclus1897_ideal-anarchique.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/reclus/reclus1897_ideal-anarchique.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/reclus/reclus1897_ideal-anarchique.epub">[epub]</a> 

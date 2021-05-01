@@ -1,0 +1,7 @@
+#Durkheim, Émile
+
+* 1895, Les règles de la méthode sociologique  <a class="file tei" href="https://hurlus.github.io/tei/durkheim1895_regles-methode-sociologique.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/durkheim/durkheim1895_regles-methode-sociologique.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/durkheim/durkheim1895_regles-methode-sociologique.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/durkheim/durkheim1895_regles-methode-sociologique.epub">[epub]</a> 
+#Durkheim, Émile
+
+* 1895, Les règles de la méthode sociologique  <a class="file tei" href="https://hurlus.github.io/tei/durkheim1895_regles-methode-sociologique.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/durkheim/durkheim1895_regles-methode-sociologique.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/durkheim/durkheim1895_regles-methode-sociologique.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/durkheim/durkheim1895_regles-methode-sociologique.epub">[epub]</a> 
+* 1911, Jugements de valeur et jugements de réalité  <a class="file tei" href="https://hurlus.github.io/tei/durkheim1911_jugements-de-valeur.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/durkheim/durkheim1911_jugements-de-valeur.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/durkheim/durkheim1911_jugements-de-valeur.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/durkheim/durkheim1911_jugements-de-valeur.epub">[epub]</a> 

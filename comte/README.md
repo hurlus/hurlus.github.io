@@ -1,0 +1,7 @@
+#Comte, Auguste
+
+* 1830, Cours de philosophie positive : première et deuxième leçons  <a class="file tei" href="https://hurlus.github.io/tei/comte1830_cours-philosophie-positive.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/comte/comte1830_cours-philosophie-positive.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/comte/comte1830_cours-philosophie-positive.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/comte/comte1830_cours-philosophie-positive.epub">[epub]</a> 
+#Comte, Auguste
+
+* 1830, Cours de philosophie positive : première et deuxième leçons  <a class="file tei" href="https://hurlus.github.io/tei/comte1830_cours-philosophie-positive.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/comte/comte1830_cours-philosophie-positive.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/comte/comte1830_cours-philosophie-positive.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/comte/comte1830_cours-philosophie-positive.epub">[epub]</a> 
+* 1842, Discours sur l’esprit positif  <a class="file tei" href="https://hurlus.github.io/tei/comte1842_discours-esprit-positif.xml">[TEI]</a>  <a class="file html" href="https://hurlus.github.io/comte/comte1842_discours-esprit-positif.html">[html]</a>  <a class="file mobi" href="https://hurlus.github.io/comte/comte1842_discours-esprit-positif.mobi">[kindle]</a>  <a class="file epub" href="https://hurlus.github.io/comte/comte1842_discours-esprit-positif.epub">[epub]</a> 
