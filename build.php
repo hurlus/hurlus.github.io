@@ -99,10 +99,10 @@ class Hurlus
       $authbib = '* ';
       if ($meta['date']) $authbib .= $meta['date'].', ';
       $authbib .= $meta['title'].' ';
-      $authbib .= ' <a class="file tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
-      $authbib .= ' <a class="file html" href="'.$dstpath.'.html">[html]</a> ';
-      $authbib .= ' <a class="file mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
-      $authbib .= ' <a class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
+      $authbib .= ' <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
+      $authbib .= ' <a title="HTML une page" class="file html" href="'.$dstpath.'.html">[html]</a> ';
+      $authbib .= ' <a title="Amazon.kindle" class="file mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
+      $authbib .= ' <a title="EPUB, pour liseuses et téléphones" class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
       $authbib .= "\n";
       $i++;
       $readme .= $authbib;
