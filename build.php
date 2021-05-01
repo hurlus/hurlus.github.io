@@ -73,7 +73,7 @@ class Hurlus
   {
     include(dirname(dirname(__FILE__)).'/teinte/teidoc.php');
     $readme = "
-# [Hurlus](https://hurlus.github.io/export/). Livres libres et classiques, pour nourrir les débats
+# Auteurs / titres
 
 ";
     $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
