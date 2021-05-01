@@ -92,7 +92,7 @@ class Hurlus
       if ($authorLast != $author) {
         $fopen = dirname(__FILE__).'/'.$author.'/README.md';
         $fauth = fopen($fopen, "w");
-        $readme .= "\n## (".$meta['byline'].")[".$author."/]\n\n";
+        $readme .= "\n## ".'<a href="'.$author.'/">'.$meta['byline']."</a>\n\n";
         fwrite($fauth, '# '.$meta['byline']."\n\n");
         $authorLast = $author;
       }
