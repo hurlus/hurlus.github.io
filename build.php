@@ -58,7 +58,7 @@ class Hurlus
    */
   public function html($srcfile, $dstfile)
   {
-    $theme = '//oeuvres.github.io/teinte/'; // where to find web assets like css and jslog for html file
+    $theme = 'https://oeuvres.github.io/teinte/'; // where to find web assets like css and jslog for html file
     $xsl = dirname(dirname(__FILE__)).'/teinte/tei2html.xsl';
     $dom = Build::dom($srcfile);
     $pars = array(
