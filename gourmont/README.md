@@ -1,0 +1,3 @@
+# Gourmont, Remy de
+
+* 1899, Esthétique de la langue française  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/gourmont1899_esthetique-francais.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/gourmont/gourmont1899_esthetique-francais.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/gourmont/gourmont1899_esthetique-francais.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/gourmont/gourmont1899_esthetique-francais.epub">[epub]</a> 

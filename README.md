@@ -92,6 +92,10 @@
 
 * 1855, Essai sur l'inégalité des races humaines  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/gobineau1855_racisme.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/gobineau/gobineau1855_racisme.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/gobineau/gobineau1855_racisme.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/gobineau/gobineau1855_racisme.epub">[epub]</a> 
 
+## <a href="gourmont/">Gourmont, Remy de</a>
+
+* 1899, Esthétique de la langue française  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/gourmont1899_esthetique-francais.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/gourmont/gourmont1899_esthetique-francais.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/gourmont/gourmont1899_esthetique-francais.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/gourmont/gourmont1899_esthetique-francais.epub">[epub]</a> 
+
 ## <a href="gramsci/">Gramsci, Antonio</a>
 
 * 1935, Problèmes de civilisation et de culture  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/gramsci1935_culture.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/gramsci/gramsci1935_culture.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/gramsci/gramsci1935_culture.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/gramsci/gramsci1935_culture.epub">[epub]</a> 
@@ -180,6 +184,7 @@
 
 ## <a href="marx/">Marx, Karl</a>
 
+* 1848, Le manifeste du parti communiste  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/marx1848_manifeste.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/marx/marx1848_manifeste.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/marx/marx1848_manifeste.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/marx/marx1848_manifeste.epub">[epub]</a> 
 * 1867, Le Capital. Livre I, Section I : Marchandise et monnaie  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/marx1867_capital1-1.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/marx/marx1867_capital1-1.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/marx/marx1867_capital1-1.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/marx/marx1867_capital1-1.epub">[epub]</a> 
 
 ## <a href="melville/">Melville, Hermann</a>
