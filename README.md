@@ -53,6 +53,7 @@
 ## <a href="debord/">Debord, Guy</a>
 
 * 1967, La Société du Spectacle  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/debord1967_spectacle.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/debord/debord1967_spectacle.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/debord/debord1967_spectacle.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/debord/debord1967_spectacle.epub">[epub]</a> 
+* 1988, Commentaires sur la société du spectacle  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/debord1988_spectacle-commentaire.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/debord/debord1988_spectacle-commentaire.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/debord/debord1988_spectacle-commentaire.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/debord/debord1988_spectacle-commentaire.epub">[epub]</a> 
 
 ## <a href="descartes/">Descartes, René</a>
 
@@ -202,6 +203,10 @@
 ## <a href="petain/"></a>
 
 * 1941, État français, loi du 4 octobre 1941, dite Charte du Travail  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/petain1941_charte-travail.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/petain/petain1941_charte-travail.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/petain/petain1941_charte-travail.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/petain/petain1941_charte-travail.epub">[epub]</a> 
+
+## <a href="poe/">Poe, Edgar Allan</a>
+
+* 1856, Histoires extraordinaires (traduction Baudelaire)  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/poe1856_histoires1.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/poe/poe1856_histoires1.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/poe/poe1856_histoires1.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/poe/poe1856_histoires1.epub">[epub]</a> 
 
 ## <a href="reclus/">Reclus, Élisée</a>
 
