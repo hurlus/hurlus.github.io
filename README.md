@@ -166,6 +166,11 @@
 
 * 1918,  <a href="https://hurlus.github.io/lenine/lenine1918_infantilisme.html">Sur l’infantilisme "de gauche" et les idées petites-bourgeoises</a> <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/lenine1918_infantilisme.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/lenine/lenine1918_infantilisme.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/lenine/lenine1918_infantilisme.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/lenine/lenine1918_infantilisme.epub">[epub]</a> 
 
+## <a href="loi/">Lois</a>
+
+* 1685,  <a href="https://hurlus.github.io/loi/loi1685_code-noir.html">Code noir</a> <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/loi1685_code-noir.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/loi/loi1685_code-noir.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/loi/loi1685_code-noir.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/loi/loi1685_code-noir.epub">[epub]</a> 
+* 1941,  <a href="https://hurlus.github.io/loi/loi1941_charte-travail.html">État français, loi du 4 octobre 1941, dite Charte du Travail</a> <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/loi1941_charte-travail.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/loi/loi1941_charte-travail.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/loi/loi1941_charte-travail.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/loi/loi1941_charte-travail.epub">[epub]</a> 
+
 ## <a href="london/">London, Jack</a>
 
 * 1909,  <a href="https://hurlus.github.io/london/london1909_reve-debs.html">Le rêve de Debs</a> <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/london1909_reve-debs.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/london/london1909_reve-debs.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/london/london1909_reve-debs.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/london/london1909_reve-debs.epub">[epub]</a> 
@@ -212,10 +217,6 @@
 ## <a href="mottaz/">Μottaz, Eugène</a>
 
 * 1903,  <a href="https://hurlus.github.io/mottaz/mottaz1903_boulapapey.html">Les Bourla-Papey et la Révolution vaudoise</a> <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/mottaz1903_boulapapey.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/mottaz/mottaz1903_boulapapey.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/mottaz/mottaz1903_boulapapey.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/mottaz/mottaz1903_boulapapey.epub">[epub]</a> 
-
-## <a href="petain/"></a>
-
-* 1941,  <a href="https://hurlus.github.io/petain/petain1941_charte-travail.html">État français, loi du 4 octobre 1941, dite Charte du Travail</a> <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/petain1941_charte-travail.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/petain/petain1941_charte-travail.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/petain/petain1941_charte-travail.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/petain/petain1941_charte-travail.epub">[epub]</a> 
 
 ## <a href="poe/">Poe, Edgar Allan</a>
 
