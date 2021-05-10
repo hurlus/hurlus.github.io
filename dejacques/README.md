@@ -1,0 +1,3 @@
+# Déjacque, Joseph
+
+* 1864, À bas les chefs  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/dejacques1864_chefs.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/dejacques/dejacques1864_chefs.html">[html]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/dejacques/dejacques1864_chefs.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/dejacques/dejacques1864_chefs.epub">[epub]</a> 
