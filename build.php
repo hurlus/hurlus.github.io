@@ -14,8 +14,9 @@ class Hurlus
   
   public static function export()
   {
-    include(dirname(dirname(__FILE__)).'/livrable/livrable.php');
-    $kindlegen = dirname(dirname(__FILE__))."/livrable/kindlegen";
+    include(dirname(dirname(__FILE__)).'/teinte/docx/docx.php');
+    include(dirname(dirname(__FILE__)).'/teinte/epub/epub.php');
+    $kindlegen = dirname(dirname(__FILE__))."/teinte/epub/kindlegen";
     $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
     foreach (glob($glob) as $srcfile) {
       $name = pathinfo($srcfile,  PATHINFO_FILENAME);
@@ -29,8 +30,8 @@ class Hurlus
       
       $dstepub = $dstpath.".epub";
       if (!file_exists($dstepub) || filemtime($dstepub) < filemtime($srcfile)) {
-        $livre = new Livrable($srcfile, STDERR);
-        $livre->epub($dstepub);
+        $livre = new Epub($srcfile, STDERR);
+        $livre->export($dstepub);
         $cmd = $kindlegen." ".$dstepub;
         $output = '';
         $last = exec($cmd, $output, $status);
@@ -45,6 +46,11 @@ class Hurlus
       if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
         $done = true;
         self::html($srcfile, $dstfile);
+      }
+      $dstfile = $dstpath.".docx";
+      if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
+        $done = true;
+        Docx::export($srcfile, $dstfile);
       }
       
       
@@ -101,6 +107,7 @@ class Hurlus
       $authbib .= ' <a href="'.$dstpath.'.html">' . $meta['title'].'</a>';
       $authbib .= ' <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
       $authbib .= ' <a title="HTML une page" class="file html" href="'.$dstpath.'.html">[html]</a> ';
+      $authbib .= ' <a title="Bureautique (LibreOffice, MS.Word)" class="file docx" href="'.$dstpath.'.docx">[docx]</a> ';
       $authbib .= ' <a title="Amazon.kindle" class="file mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
       $authbib .= ' <a title="EPUB, pour liseuses et téléphones" class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
       $authbib .= "\n";
