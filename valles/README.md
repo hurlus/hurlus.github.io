@@ -1,0 +1,3 @@
+# Vallès, Jules
+
+* 1879,  <a title="Source XML/TEI" class="file tei" href="https://hurlus.github.io/tei/valles1879_enfant.xml">[TEI]</a>  <a title="HTML une page" class="file html" href="https://hurlus.github.io/valles/valles1879_enfant.html">[html]</a>  <a title="Bureautique (LibreOffice, MS.Word)" class="file docx" href="https://hurlus.github.io/valles/valles1879_enfant.docx">[docx]</a>  <a title="Amazon.kindle" class="file mobi" href="https://hurlus.github.io/valles/valles1879_enfant.mobi">[kindle]</a>  <a title="EPUB, pour liseuses et téléphones" class="file epub" href="https://hurlus.github.io/valles/valles1879_enfant.epub">[epub]</a>  <a href="https://hurlus.github.io/valles/valles1879_enfant.html">L’enfant</a>
