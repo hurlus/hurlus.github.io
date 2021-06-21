@@ -6,12 +6,12 @@ file_put_contents(dirname(__FILE__)."/README.md", Hurlus::readme());
 
 class Hurlus
 {
-  
+
   public static function init()
   {
-    
+
   }
-  
+
   public static function export()
   {
     include(dirname(dirname(__FILE__)).'/teinte/docx/docx.php');
@@ -20,14 +20,15 @@ class Hurlus
     $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
     foreach (glob($glob) as $srcfile) {
       $name = pathinfo($srcfile,  PATHINFO_FILENAME);
+      if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
       $author = $matches[1];
       $dstpath = dirname(__FILE__).'/'.$author.'/';
       Build::mkdir($dstpath);
       $dstpath .= $name;
-      
+
       $done = false;
-      
+
       $dstepub = $dstpath.".epub";
       if (!file_exists($dstepub) || filemtime($dstepub) < filemtime($srcfile)) {
         $livre = new Epub($srcfile, STDERR);
@@ -52,13 +53,13 @@ class Hurlus
         $done = true;
         Docx::export($srcfile, $dstfile);
       }
-      
-      
-      
+
+
+
       if ($done) echo $dstpath, "\n";
     }
   }
-  
+
     /**
    * Output html
    */
@@ -85,11 +86,12 @@ class Hurlus
     $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
     $authorLast = '';
     $i = 1;
-    
+
     $fauth = null;
     $authbib = '';
     foreach (glob($glob) as $srcfile) {
       $name = pathinfo($srcfile,  PATHINFO_FILENAME);
+      if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
       $author = $matches[1];
       $dstpath = 'https://hurlus.github.io/'.$author.'/'.$name;
@@ -117,7 +119,7 @@ class Hurlus
     }
     return $readme;
   }
-  
+
   /** A logger, maybe a stream or a callable, used by self::log() */
   private static $_logger=STDERR;
   /**
@@ -171,7 +173,7 @@ class Build
     );
     return $mois[(int)$num];
   }
-  
+
   /**
    * get a pdo link to an sqlite database with good options
    */
@@ -182,7 +184,7 @@ class Build
     if (!file_exists($file)) return self::sqlcreate($file, $sql);
     else return self::sqlopen($file, $sql);
   }
-    
+
   /**
    * Open a pdo link
    */
@@ -194,7 +196,7 @@ class Build
     $pdo->exec("PRAGMA temp_store = 2;");
     return $pdo;
   }
-  
+
   /**
    * Renew a database with an SQL script to create tables
    */
@@ -289,7 +291,7 @@ class Build
     }
     return $ret;
   }
-  
+
   /**
    * A safe mkdir dealing with rights
    */
@@ -299,7 +301,7 @@ class Build
     if (!mkdir($dir, 0775, true)) throw new Exception("Directory not created: ".$dir);
     @chmod(dirname($dir), 0775);  // let @, if www-data is not owner but allowed to write
     return $dir;
-  } 
+  }
 
   /**
    * Recursive deletion of a directory
@@ -320,8 +322,8 @@ class Build
     if (!$keep) rmdir($dir);
     return $dir;
   }
-  
-  
+
+
   /**
    * Recursive copy of folder
    */
