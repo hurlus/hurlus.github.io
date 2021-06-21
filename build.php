@@ -98,6 +98,7 @@ class Hurlus
       $teidoc = new Teidoc($srcfile);
       $meta = $teidoc->meta();
       if ($authorLast != $author) {
+        if ($author == 'bible') $meta['byline'] = 'Bible';
         $fopen = dirname(__FILE__).'/'.$author.'/README.md';
         $fauth = fopen($fopen, "w");
         $readme .= "\n## ".'<a href="'.$author.'/">'.$meta['byline']."</a>\n\n";
