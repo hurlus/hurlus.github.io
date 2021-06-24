@@ -119,8 +119,6 @@ class HurlusBuild
       $authbib .= ' <a title="EPUB, pour liseuses et téléphones" class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
       // add pdf links ?
       foreach (glob($exportpath."*.pdf") as $exportfile) {
-        echo "pdf  ", $exportfile, "\n";
-        $class=' pdf';
         if (strpos($exportfile, '_a5') !== false) {
           $authbib .= ' <a title="PDF à lire, A5 une colonne" class="file a5" href="'.$dstdir.basename($exportfile).'">[pdf a5]</a> ';
         }
@@ -128,7 +126,7 @@ class HurlusBuild
           $authbib .= ' <a title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="file brochure" href="'.$dstdir.basename($exportfile).'">[brochure]</a> ';
         }
         else {
-          $authbib .= ' <a title="PDF à imprimer, A4 2 colonnes" class="file brochure" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
+          $authbib .= ' <a title="PDF à imprimer, A4 2 colonnes" class="file pdf" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
         }
       }
 
