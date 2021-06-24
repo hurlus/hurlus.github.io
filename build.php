@@ -1,10 +1,10 @@
 <?php
 
-Hurlus::init();
-Hurlus::export();
-file_put_contents(dirname(__FILE__)."/README.md", Hurlus::readme());
+HurlusBuild::init();
+HurlusBuild::export();
+file_put_contents(dirname(__FILE__)."/README.md", HurlusBuild::readme());
 
-class Hurlus
+class HurlusBuild
 {
 
   public static function init()
@@ -14,8 +14,9 @@ class Hurlus
 
   public static function export()
   {
-    include(dirname(dirname(__FILE__)).'/teinte/docx/docx.php');
-    include(dirname(dirname(__FILE__)).'/teinte/epub/epub.php');
+    include_once(dirname(dirname(__FILE__)).'/teinte/hurlus/hurlus.php');
+    include_once(dirname(dirname(__FILE__)).'/teinte/docx/docx.php');
+    include_once(dirname(dirname(__FILE__)).'/teinte/epub/epub.php');
     $kindlegen = dirname(dirname(__FILE__))."/teinte/epub/kindlegen";
     $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
     foreach (glob($glob) as $srcfile) {
@@ -23,9 +24,9 @@ class Hurlus
       if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
       $author = $matches[1];
-      $dstpath = dirname(__FILE__).'/'.$author.'/';
-      Build::mkdir($dstpath);
-      $dstpath .= $name;
+      $dstdir = dirname(__FILE__).'/'.$author.'/';
+      Build::mkdir($dstdir);
+      $dstpath = $dstdir.$name;
 
       $done = false;
 
@@ -47,6 +48,8 @@ class Hurlus
       if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
         $done = true;
         self::html($srcfile, $dstfile);
+        // test pdf for new file only
+        Hurlus::pdf($srcfile, $dstdir);
       }
       $dstfile = $dstpath.".docx";
       if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
@@ -78,7 +81,7 @@ class Hurlus
 
   public static function readme()
   {
-    include(dirname(dirname(__FILE__)).'/teinte/teidoc.php');
+    include_once(dirname(dirname(__FILE__)).'/teinte/teidoc.php');
     $readme = "
 # Auteurs / titres
 
@@ -94,7 +97,9 @@ class Hurlus
       if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
       $author = $matches[1];
-      $dstpath = 'https://hurlus.github.io/'.$author.'/'.$name;
+      $exportpath = dirname(__FILE__).'/'.$author.'/'.$name;
+      $dstdir = 'https://hurlus.github.io/'.$author.'/';
+      $dstpath = $dstdir.$name;
       $teidoc = new Teidoc($srcfile);
       $meta = $teidoc->meta();
       if ($authorLast != $author) {
@@ -112,6 +117,21 @@ class Hurlus
       $authbib .= ' <a title="Bureautique (LibreOffice, MS.Word)" class="file docx" href="'.$dstpath.'.docx">[docx]</a> ';
       $authbib .= ' <a title="Amazon.kindle" class="file mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
       $authbib .= ' <a title="EPUB, pour liseuses et téléphones" class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
+      // add pdf links ?
+      foreach (glob($exportpath."*.pdf") as $exportfile) {
+        echo "pdf  ", $exportfile, "\n";
+        $class=' pdf';
+        if (strpos($exportfile, '_a5') !== false) {
+          $authbib .= ' <a title="PDF à lire, A5 une colonne" class="file a5" href="'.$dstdir.basename($exportfile).'">[pdf a5]</a> ';
+        }
+        else if (strpos($exportfile, '_brochure') !== false) {
+          $authbib .= ' <a title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="file brochure" href="'.$dstdir.basename($exportfile).'">[brochure]</a> ';
+        }
+        else {
+          $authbib .= ' <a title="PDF à imprimer, A4 2 colonnes" class="file brochure" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
+        }
+      }
+
       $authbib .= ' <a href="'.$dstpath.'.html">' . $meta['title'].'</a>';
       $authbib .= "\n";
       $i++;
