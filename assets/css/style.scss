@@ -11,8 +11,16 @@ body {
   background: #fff;
 }
 
+a {
+  color: #000;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .inner {
-  width: 80ex;
+  width: 100ex;
 }
 
 #container {
