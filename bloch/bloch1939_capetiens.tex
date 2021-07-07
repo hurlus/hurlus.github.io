@@ -60,7 +60,7 @@
 %%%%%%%%%%%%%%
 % Alignments %
 %%%%%%%%%%%%%%
-
+% before teinte macros
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
@@ -117,7 +117,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{tabularx} % <table>
-\usepackage[explicit]{titlesec} % NO implicit !, wear titles
+\usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
 \usepackage{tocloft} % styling tocs
 \usepackage[fit]{truncate} % used im runing titles
@@ -222,30 +222,37 @@
 \newcommand{\astermono}{\medskip\centerline{\color{rubric}\large\selectfont{\syms ✻}}\medskip\par}%
 \newcommand{\astertri}{\medskip\par\centerline{\color{rubric}\large\selectfont{\syms ✻\,✻\,✻}}\medskip\par}%
 \newcommand{\asterism}{\bigskip\par\noindent\parbox{\linewidth}{\centering\color{rubric}\large{\syms ✻}\\{\syms ✻}\hskip 0.75em{\syms ✻}}\bigskip\par}%
-% \setlist{nolistsep,noitemsep,wide,leftmargin=*, labelindent=0pt, itemindent=!} % labelindent=\parindent,leftmargin=*
+
+% lists
+\newlength{\listmod}
+\setlength{\listmod}{\parindent}
+\setlist{
+  itemindent=!,
+  listparindent=\listmod,
+  labelsep=0.2\listmod,
+  parsep=0pt,
+  % topsep=0.2em, % default topsep is best
+}
 \setlist[itemize]{
   label=—,
-  parsep=0pt,
   leftmargin=0pt,
   labelindent=1.2em,
-  itemindent=!,
   labelwidth=0pt,
 }
 \setlist[enumerate]{
-  label={\bf\color{rubric}\arabic*°},
-  listparindent=\parindent,
-  leftmargin=*,
-  parsep=0pt,
+  label={\bf\color{rubric}\arabic*.},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
 }
 \newlist{listalpha}{enumerate}{1}
 \setlist[listalpha]{
-  label={\bf\color{rubric}\alph*)},
-  parsep=0pt,
+  label={\bf\color{rubric}\alph*.},
   leftmargin=0pt,
-  labelindent=1.2em,
-  itemindent=!,
+  labelindent=0.8\listmod,
   labelwidth=0pt,
 }
+\newcommand{\listhead}[1]{\hspace{-1\listmod}\emph{#1}}
 
 \renewcommand{\hrulefill}{%
   \leavevmode\leaders\hrule height 0.2pt\hfill\kern\z@}
@@ -561,7 +568,7 @@
   {} % \thesection
   {} % separator \arrayrulewidth
   {}
-[#1]
+[\uline{#1}]
 % \titlespacing{\subsection}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 
@@ -653,12 +660,9 @@ Lectures essentielles :\par
 \item Parce que le droit était moins purement formaliste. Époque d’ordre relatif, il a conservé et il n’y a pas eu, depuis, d’immenses catastrophes globales.
 
 \end{enumerate}\noindent Les archives des églises. Multiplication des cartulaires (qui eut d’ailleurs pour résultat de faire disparaître les originaux).\par
-Elles ne sont plus les seules. Apparition des archives laïques. Archives de la Royauté reconstituées sous Philippe Auguste après Fréteval, 1194, par des copies, et déposées au Palais \footnote{
-\begin{listalpha}[itemsep=0pt,]
-\item En décembre 1231 ({\itshape Layettes du Trésor des Chartes}, t. V, n° 360), saint Louis ordonne au concierge du Palais (qui était en même temps garde des Archives) de fournir à un personnage de l’entourage royal, maître Jean de la Cour, copie d’un traité conclu entre Louis VIII et le comte Ferrand de Flandre.
-\item Sous Philippe le Long (F. Delaborde, Introduction au t. V des {\itshape Layettes du Trésor des Chartes}, p. XLIII), Pierre d’Étampes, clerc du roi, a la garde des archives où il accomplit de gros travaux de copie et d’inventorisation. Nous possédons une lettre que lui fit écrire le bouteiller Henri de Sully : Ce soir même à l’heure des Vêpres, apportez à notre hôtel du Palais les privilèges de la cour de Rome qui autorisent le Roi à \emph{« faire prenre clers et les faire tenir sans encourre sentences »} et ce que vous trouverez du fait de Narbonne. Car le conseil s’assemblera à cette heure (Arch. Nat., J 476, n° 1 \textsuperscript{14}).
-
-\end{listalpha}}. Dès Philippe Auguste, s’est prise l’habitude des registres. Ce sont, à l’origine, des cartulaires : leur utilisation se marque bien par les faits suivants. Parmi les registres composés sous Philippe Auguste, le plus commode parce que le mieux classé était celui qu’après plusieurs tâtonnements le garde des sceaux, Guérin, avait fait compiler en 1220 \footnote{Arch. nat., JJ 26.}. On y écrira jusqu’à Philippe III des actes nouveaux sur les pages blanches. Quand saint Louis partit pour la Croisade, il dut le laisser à la Régente, mais il en fit faire une copie emportée à la croisade qui fut naturellement tenue au courant \footnote{Bibl. nat., ms. lat. 9778.}. Ils devinrent peu à peu des livres d’enregistrement. L’évolution s’achève sous Philippe le Bel. Cependant les méthodes de la chancellerie sont encore assez imparfaites. Surtout l’habitude des commissions déléguées fait que beaucoup de documents échappent à l’enregistrement.\par
+Elles ne sont plus les seules. Apparition des archives laïques. Archives de la Royauté reconstituées sous Philippe Auguste après Fréteval, 1194, par des copies, et déposées au Palais \footnote{\noindent a) En décembre 1231 ({\itshape Layettes du Trésor des Chartes}, t. V, n° 360), saint Louis ordonne au concierge du Palais (qui était en même temps garde des Archives) de fournir à un personnage de l’entourage royal, maître Jean de la Cour, copie d’un traité conclu entre Louis VIII et le comte Ferrand de Flandre.\par
+b) Sous Philippe le Long (F. Delaborde, Introduction au t. V des {\itshape Layettes du Trésor des Chartes}, p. XLIII), Pierre d’Étampes, clerc du roi, a la garde des archives où il accomplit de gros travaux de copie et d’inventorisation. Nous possédons une lettre que lui fit écrire le bouteiller Henri de Sully : Ce soir même à l’heure des Vêpres, apportez à notre hôtel du Palais les privilèges de la cour de Rome qui autorisent le Roi à \emph{« faire prenre clers et les faire tenir sans encourre sentences »} et ce que vous trouverez du fait de Narbonne. Car le conseil s’assemblera à cette heure (Arch. Nat., J 476, n° 1 \textsuperscript{14}).
+}. Dès Philippe Auguste, s’est prise l’habitude des registres. Ce sont, à l’origine, des cartulaires : leur utilisation se marque bien par les faits suivants. Parmi les registres composés sous Philippe Auguste, le plus commode parce que le mieux classé était celui qu’après plusieurs tâtonnements le garde des sceaux, Guérin, avait fait compiler en 1220 \footnote{Arch. nat., JJ 26.}. On y écrira jusqu’à Philippe III des actes nouveaux sur les pages blanches. Quand saint Louis partit pour la Croisade, il dut le laisser à la Régente, mais il en fit faire une copie emportée à la croisade qui fut naturellement tenue au courant \footnote{Bibl. nat., ms. lat. 9778.}. Ils devinrent peu à peu des livres d’enregistrement. L’évolution s’achève sous Philippe le Bel. Cependant les méthodes de la chancellerie sont encore assez imparfaites. Surtout l’habitude des commissions déléguées fait que beaucoup de documents échappent à l’enregistrement.\par
  \phantomsection
 \label{p3} Parallèlement, le Parlement. Brève histoire des {\itshape Olim} qui nous montre de même le passage du spicilège à l’enregistrement.\par
 En même temps, les archives des grandes principautés se constituent (encore fort mal étudiées aujourd’hui). Exemples : les Cartulaires des comtes de Toulouse (Raymond VII), des comtes de Flandre etc. Même des petits seigneurs. Archives urbaines.\par
@@ -686,7 +690,7 @@ D’autre part, le français. Sous saint Louis, un moine de Saint-Denis, Primat,
 \noindent \labelchar{e)} Les biographies.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il faut distinguer deux catégories :}
+\item[]\listhead{Il faut distinguer deux catégories :}
 \item Les autobiographies qui sont en même temps le récit des grandes choses auxquelles le personnage a été mêlé. Le premier exemple avait été donné au siècle précédent par des ouvrages inspirés des confessions (Guibert de Nogent, {\itshape De vita sua).} Désormais, nous trouvons l’habitude autobiographique entre les mains des laïques et qui écrivent en français : Villehardouin (après 1207) et Robert de Clary (vers 1216).
 \item Les biographies. Elles ont été sans doute plus nombreuses qu’il n’en subsiste. Voyez celle de Guillaume le Maréchal (en vers) — mort en 1219 — conservée par un seul manuscrit ; il y a dû y avoir des cas analogues. Mais le seul roi sur lequel il nous reste des documents biographiques était saint Louis. Ici, il s’agit d’hagiographie.
 
@@ -695,7 +699,7 @@ D’autre part, le français. Sous saint Louis, un moine de Saint-Denis, Primat,
 Perdues sauf quelques fragments.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il faut y suppléer par les vies :}
+\item[]\listhead{Il faut y suppléer par les vies :}
 \item Le confesseur même de saint Louis, Geoffroi de Beaulieu, un dominicain qui écrivit entre 1272 et 1276 à la prière du pape Grégoire X.
 \item Le chapelain du roi, Guillaume de Chartres, qui écrivit (avant 1282) pour compléter Geoffroi de Beaulieu.
 \item Le plus intéressant, Guillaume de Saint-Pathus, frère mineur, confesseur de la reine Marguerite qui écrit en 1302 ou 1303, sur la requête d’une fille du roi. Le grand intérêt est qu’il avait reçu communication d’une copie ou d’un abrégé de la deuxième enquête. Nous ne possédons qu’un texte en français, dont on ne peut dire s’il a été ou non précédé d’un texte en latin (ce qui est probable), ou s’il a été ou non traduit par l’auteur lui-même.
@@ -725,7 +729,7 @@ Y joindre bien d’autres sources indirectes : littéraires notamment. Nous auro
 Limites du royaume de France. À l’avènement de Louis VIII, ce sont encore celles du royaume de Charles le Chauve, à bien peu près. La grande extension est de plus tard. Mais elle a déjà un peu commencé.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ces limites sont :}
+\item[]\listhead{Ces limites sont :}
 \item L’Escaut jusqu’à un peu en amont de Tournai (au XIII\textsuperscript{e} siècle, l’Empire revendique le Pays de Waes à tort). Primitivement, l’Escaut était borné jusqu’à Bouchain. Mais l’Ostrevant, sur la rive gauche, ayant été occupé par les comtes de Hainaut au XI\textsuperscript{e} siècle, on perdit le souvenir de l’appartenance au royaume.
 \item De là, la limite fait une boucle autour du Cambrésis, recoupe l’Escaut peu en aval de sa source, puis formée par des frontières de comtés, se dirige vers la Meuse qu’elle coupe en aval du confluent de la Semois.
 \item Mais elle ne suivait le fleuve que sur quelques kilomètres. Sans contestations possibles, les comtés qui bordaient la Meuse du {\itshape pagus Castricius} aux environs de Mézières, jusqu’au Bassigny étaient d’Empire. De même, des comtés voisins du fleuve sans le toucher, comme le Barrois et une partie au moins de l’Ornois. Donc, la frontière était éloignée du fleuve de quelques lieues : elle courait, en particulier dans l’Argonne, où elle était peu claire. On s’accordait en général à la fixer à la Bienne.
@@ -741,28 +745,28 @@ Limites du royaume de France. À l’avènement de Louis VIII, ce sont encore ce
 Nous le savons mal. Et — ce qui est important — les gens du temps le savaient mal. On a tenté des évaluations. La plus récente est celle de Lot \footnote{F. LOT, {\itshape L’État des paroisses et des feux de 1328}, dans {\itshape Bibl. Éc. Chartes}, 1929, t. XC, p. 51-107 et p. 256-315.}. Lot s’appuie sur un état des paroisses et des feux dressé en 1328 par sénéchaussées ou bailliages. Naturellement, il faut interpoler : certaines principautés n’ont pas été recensées par les agents royaux.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Lot suppose :}
+\item[]\listhead{Lot suppose :}
 \item que tout feu égale une famille,
 \item de 5 personnes (sauf à Paris où il en compte 3).
 
 \end{enumerate}\noindent Il trouve dans la région recensée 12 213 000. D’où, par extension, dans la France, entre 16 à 17 millions, sans les villes, et avec les villes, 19 à 20 millions. Il y a là dedans beaucoup d’hypothèses.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Je crois :}
+\item[]\listhead{Je crois :}
 \item que Lot compte pour le feu un chiffre un peu faible ;
 \item qu’il n’a pas tenu compte que, parmi les régions non recensées, se trouvaient deux des régions les plus peuplées du royaume, Normandie et Flandre.
 
 \end{enumerate}\noindent Ses chiffres peuvent du moins fixer un ordre de grandeur. Disons, en chiffre rond, 20 millions. La France, aujourd’hui, est un pays de 40 millions. La superficie du royaume en 1328 était à peu près les 7/9 de celle d’aujourd’hui.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries En gros :}
+\item[]\listhead{En gros :}
 \item la population totale était de peu supérieure à la moitié de celle d’aujourd’hui (France pour France) ;
 \item un peu supérieure aux 5/8, territoire égal.
 
 \end{enumerate} \phantomsection
 \label{p9}
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Explication de ces différences :}
+\item[]\listhead{Explication de ces différences :}
 \item il n’y a pas de grandes villes. En 1328, Paris avec environ 200 000 habitants est très grand. Bruges, 35 000, Rouen peut-être 40 000. Les autres ... ;
 \item la proportion de la surface réellement cultivée est faible — en raison des systèmes d’assolement.
 
@@ -771,7 +775,7 @@ Plus intéressantes peut-être que les chiffres, approximatifs, sont les consid�
 Il n’y a aucun doute que la première partie du XIII\textsuperscript{e} siècle n’ait coïncidé avec un moment d’intense peuplement, commencé au siècle précédent.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Connu :}
+\item[]\listhead{Connu :}
 \item dans les villes par les témoignages directs, notamment paroisses, enceintes ;
 \item dans les campagnes par a) les fondations de villes neuves ; b) le défrichement en général.
 
@@ -780,7 +784,7 @@ En 1227 et 1228, une série d’actes nous montrent de nombreuses {\itshape nova
 Dans la seconde moitié du siècle et au début du XIV\textsuperscript{e}, le mouvement semble se ralentir, sans recul.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Or, voyons ce que, pratiquement, cela signifie :}
+\item[]\listhead{Or, voyons ce que, pratiquement, cela signifie :}
 \item Il y a plus de terre cultivée. Plus d’hommes aussi à vrai dire. Il est difficile de calculer le rapport. Mais les rendements aussi sont meilleurs. Et il semble bien hors de doute que la proportion des denrées agricoles aux hommes ait augmenté et, par conséquent, la possibilité d’une main-d’œuvre industrielle.
 \item Il y a plus de sécurité que précédemment (moins qu’aujourd’hui).
 \item Il y a des contacts plus aisés entre les hommes. Mais ici il faut voir de plus près.
@@ -791,7 +795,7 @@ Dans la seconde moitié du siècle et au début du XIV\textsuperscript{e}, le mo
 \label{p10} Au sujet des possibilités naturelles de communication, il convient de noter qu’elles sont certainement meilleures en 1223 qu’un siècle auparavant et qu’elles vont, durant le siècle qui suit, en s’améliorant.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Cela pour les raisons qui suivent :}
+\item[]\listhead{Cela pour les raisons qui suivent :}
 \item La sécurité est plus grande : a) parce que les hommes sont plus proches ; b) les pouvoirs plus forts.
 \item En ce qui concerne le transport des marchandises, transformations de l’attelage \footnote{ LEFEBVRE DES NOETTES, {\itshape L’attelage du cheval à travers les âges}, 2 vol., Paris, 1931.}.
 \item Les pouvoirs publics — rois, princes, villes — ont pris en mains certains travaux publics. Guère, semble-t-il, les routes elles-mêmes. Mais constructions de ponts (très fréquentés depuis le XI\textsuperscript{e} siècle) ; mesures propres à faciliter la navigation sur les cours d’eau.
@@ -799,14 +803,14 @@ Dans la seconde moitié du siècle et au début du XIV\textsuperscript{e}, le mo
 \end{enumerate}\noindent Mais il ne faut pas exagérer. Si la situation n’est guère différente, en gros, en 1328, de ce qu’elle sera sous François 1\textsuperscript{er}, et même au début du règne de Louis XIV, elle est extrêmement différente, ne disons même pas de celle du XX\textsuperscript{e} siècle, mais de celle de l’époque de la Révolution.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Précisons :}
+\item[]\listhead{Précisons :}
 \item Les routes sont uniformément mauvaises. Des pistes. On y voyage à cheval, à cause des boues, etc.
 \item Il n’y a nulle part d’entreprises de transport : des voituriers de métier, voilà tout.
 \item Les distances horaires. Moyenne : 30 à 40 km par jour.
 
 \end{enumerate}
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Caractère de la circulation :}
+\item[]\listhead{Caractère de la circulation :}
 \item Les hommes circulent beaucoup — plus en un certain sens que dans des civilisations de liaisons plus faciles. Ex. : les chefs, les fonctionnaires, les marchands, les jongleurs, les clercs, les pèlerins, les migrations paysannes. Mais en circulant beaucoup, ils sont moins en contact régulier.
 \item Il n’existe pas de service régulier de nouvelles. Quelques détails si possible sur les arrivées de nouvelles.
 \item La circulation des grosses marchandises est redevenue possible. Mais elle n’atteint pas encore le fin fond des campagnes.
@@ -848,7 +852,7 @@ Louis X mourut à Vincennes, le 5 juin 1316. Il laissait une fille, Jeanne. En o
 \label{p13} le Bel, l’opposition au pouvoir royal se manifestait volontiers sous la forme de ligues provinciales qui réunissaient dans un territoire donné les nobles et parfois quelques bonnes villes. Le même procédé fut naturellement employé par les partisans de \emph{Madame Jeanne}. Des réunions de cette sorte eurent lieu dans le duché de Bourgogne par les soins du duc, et en Champagne (Louis X, comme ses frères, étant issu du mariage de l’héritière de la maison de Champagne avec Philippe le Bel, sa fille pouvait compter dans cette province sur la force d’un sentiment de légitimité dynastique).\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Par ailleurs, Philippe fit appel à l’opinion :}
+\item[]\listhead{Par ailleurs, Philippe fit appel à l’opinion :}
 \item en convoquant à Paris une assemblée de nobles, de prélats, de bourgeois de la ville et de docteurs de l’Université, par laquelle il se fit approuver ;
 \item en envoyant dans tout le royaume des commissaires chargés de recruter des adhésions et surtout d’empêcher les sujets de s’associer aux ligues.
 \end{itemize}
@@ -958,7 +962,7 @@ Un hasard a limité le danger. Des grands apanages, seuls subsistent encore, en 
 \subsubsection[a) La liquidation de l’héritage angevin]{a) La liquidation de l’héritage angevin}
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Les événements antérieurs doivent être rappelés en deux mots :}
+\item[]\listhead{Les événements antérieurs doivent être rappelés en deux mots :}
 \item conquête de 1066,
 \item mariage de 1152,
 \item confiscation de 1202 et la conquête de 1202-1204.
@@ -1007,7 +1011,7 @@ Ainsi tout le Midi était passé sous la domination royale. À cela s’ajouta �
 \noindent Depuis la ruine de la maison de Toulouse, et devant les graves difficultés intérieures de la Flandre, les comtes de Champagne de la maison de Blois étaient les plus hauts barons de France. À la mort du roi de Navarre Sanche VII, en 1234, le comte Thibaut IV, son neveu, fut reconnu pour roi de ce petit royaume. Ainsi la maison de Blois obtenait une de ces couronnes qu’elle avait tant de fois poursuivies. Durant la minorité de saint Louis, Thibaut avait été un vassal quinteux, tantôt ennemi, tantôt allié. On le disait amoureux de la reine mère. Ses deux fils, dont l’aîné était gendre de saint Louis, et qui lui succédèrent tour à tour, furent de fidèles vassaux. Lorsque le second d’entre eux, Henri III, mourut en 1274, il ne laissait qu’une fille. Elle fut fiancée au second fils du roi de France, Philippe. Comme ce dernier, par la mort de son aîné en 1270, devint l’héritier présomptif, ce mariage eut pour effet une importante réunion. La Navarre était un petit royaume turbulent et exotique, qui fut surtout une source d’embarras.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Mais la Champagne :}
+\item[]\listhead{Mais la Champagne :}
 \item proximité de Paris ;
 \item les foires ;
 \item la frontière de l’Empire.
@@ -1060,7 +1064,7 @@ Philippe IV liquida l’affaire par une paix de statu quo. Le roi d’Aragon, en
  \phantomsection
 \label{p30}
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Comment se posait le problème :}
+\item[]\listhead{Comment se posait le problème :}
 \item L’Empire et ses prétentions à la monarchie universelle.
 \item L’attitude à prendre entre le Sacerdoce et l’Empire.
 \item Les ambitions territoriales.
@@ -1071,7 +1075,7 @@ Philippe IV liquida l’affaire par une paix de statu quo. Le roi d’Aragon, en
 \noindent Les problèmes de Frédéric II. Ses États. Sa lutte avec la Papauté depuis 1227. Apreté de la lutte ; effort de propagande (comme le prouve la ligue anticléricale des barons de France, en 1246).\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries L’attitude de saint Louis :}
+\item[]\listhead{L’attitude de saint Louis :}
 \item piété,
 \item mais alliance traditionnelle avec les Hohenstaufen,
 \item surtout idée de la grandeur de l’autorité royale, et peu de sympathie pour une Papauté trop militante ; idée de la croisade ; enfin nécessité de tenir compte de l’opinion qui, dans le baronnat et même dans le clergé, n’était pas particulièrement favorable au pape.
@@ -1103,7 +1107,7 @@ Rappel de l’essai de candidature de Philippe III, en 1272 ; en 1308, candidatu
 Mais, surtout, {\itshape les acquisitions territoriales sur la frontière de} l’Est.\par
 
 \begin{enumerate}[itemsep=\baselineskip,]
-\item[] \hspace{-1.5em}{\bfseries Ici, il faut de toute nécessité sérier géographiquement :}
+\item[]\listhead{Ici, il faut de toute nécessité sérier géographiquement :}
 \item Zone de rayonnement : l’affaire des décimes. En 1284, pour la guerre d’Aragon, considérée comme une croisade, le pape accorda une décime s’étendant aux diocèses de Liège, Metz, Toul, Verdun, aux provinces de Besançon, Lyon, Vienne, Tarentaise et Embrun. Les provinces d’Aix et Arles payaient à Charles d’Anjou. Sous Philippe le Bel, des décimes dans quelques-unes de ces provinces ou diocèses furent plusieurs fois accordées. La guerre d’Aragon ne finit officiellement qu’en 1295. Rodolphe de Habsbourg protesta sans rien faire.
 \item Les Pays-Bas. Là, comme l’on sait, la grande pénétration s’est faite en Flandre, c’est-à-dire en terre du royaume (pour l’essentiel). Mais en Hainaut aussi, d’abord contre le centre (en occupant Valenciennes), puis en attirant dans son orbite cet ennemi né des Dampierre. Le comte fut forcé de prêter hommage pour la partie du comté sise sur la rive gauche (Ostrevant).
 \item La France en Lorraine : 
@@ -1132,7 +1136,7 @@ Il faut comprendre non seulement Lyon, mais aussi le Lyonnais (adresse au roi pa
 \item Vers le Sud, l’Uzegois avait été annexé avec le don des comtes de Toulouse. La grosse question fut Viviers. L’évêque et ses sujets étaient sans cesse harcelés de procédures par le sénéchal de Beaucaire. Finalement, le sénéchal, en 1283, ayant pénétré dans le territoire épiscopal, fut excommunié par l’évêque. Le roi fit saisir le temporel et construire une bastide. En 1286, l’évêque se soumit. Un accord de 1306 régla définitivement la question. L’Église reconnut le gouvernement du roi.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Problèmes :}
+\item[]\listhead{Problèmes :}
 \item Attitude de l’Empire. Rodolphe de Habsbourg a protesté vaguement, à grands coups d’arguments juridiques et historiques. Adolphe de Nassau aussi, qui fut l’allié d’Edouard 1\textsuperscript{er}, mais ne fit rien. Avec Albert d’Autriche, Philippe le Bel eut une entrevue à Quatrevaux, en 1299. Un mariage fut décidé entre les deux maisons. On raconta que Philippe avait promis l’Empire héréditaire ; Albert, la rive gauche du Rhin. On-dits dont il est difficile de voir s’ils contiennent une part de vérité : une part seulement, en tout cas. Il est certain qu’Albert a reconnu la frontière de la Meuse. Ce n’était pas l’Allemagne.
 \item 2. Y a-t-il eu politique consciente ? Non pas de frontières naturelles. Mais désir méthodique de prendre pied dans une sorte de {\itshape no man’s land}, le long d’une ligne de moindre résistance ? Qui. Et cet instinct de grignotage des fonctionnaires royaux.
 \end{itemize}
@@ -1243,7 +1247,7 @@ Ces deux-là n’étaient que d’opinion publique.\par
 — Celle du 1\textsuperscript{er} août 1314, au Palais, à Paris, a un tout autre caractère et annonciateur de l’avenir. Il s’agissait d’obtenir l’approbation pour un subside général pour l’ost.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Quelques remarques :}
+\item[]\listhead{Quelques remarques :}
 \item Le rôle effectif de ces assemblées est médiocre. Les établissements religieux ou les villes qui envoient des procureurs, les nomment souvent \emph{« ad audiendum ea quae per dominum regeni ordinabuntur »}, \emph{« pour oir et raporter la volenté le roy »}. En 1314, Enguerrand de Marigny, après avoir requis les bourgeois des villes de payer l’aide et expliquer les raisons, fit lever le roi pour que celui-ci pût voir \emph{« ceux qui luy voudroient faire aide »}.
 \item Mais ce sont des réunions, et qui devaient être nombreuses. Des trois ordres (en 1302 au moins, ils ont délibéré à part). La présence des villes — parmi lesquelles on doit comprendre même certains bourgs de campagne — n’avait rien de révolutionnaire. Mais elle supposait déjà un rudiment de système électif. Les prélats et les seigneurs étaient en principe convoqués nommément, ce qui aboutissait à laisser de côté, à la différence de l’Angleterre, la masse des petits seigneurs ; ils pouvaient d’ailleurs se faire représenter par procureurs et le firent souvent. Mais pour les communautés religieuses et les villes, il fallait des représentants (dont le roi en général fixait le nombre). Pour les villes, ils étaient nommés de façon fort variable : par les magisirats ; par les communes ; par le prévôt royal ou le seigneur.
 
@@ -1276,7 +1280,7 @@ Fait caractéristique : si les ligues s’étaient levées en Artois contre la c
 \item Les fondements : le caractère sacré du roi ; la protection du roi sur la Sainte Église ; et la notion (dès l’époque carolingienne) de la fortune de l’Église, réservoir pour les nécessités du roi. Dans un mémoire d’un envoyé de saint Louis à Innocent IV : \emph{« istud etiam juris [rex] habet quod omnes ecclesiarum thesauros et omnia temporalia ipsarum pro sua et pro sui regni necessitate potest accipere, sicut sua »}. {\hskip1pt}\\{}Et tout cela se résume assez bien par ce mot que l’on prêtait à Philippe Auguste sur son lit de mort (Conon de Lausanne) : \emph{« Rogo te quod honores Deum et sanctam ecclesiam, sicut ego feci. Ego magnam utilitatem inde consecutus sum, et tu magnam inde consequeris \footnote{ Conon de Lausanne, {\itshape Notae}, éd. Waitz, {\itshape Monumenta Germaniae, Scriptores}, t. XXIV, p. 783.}. »}
 \item 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Mais ce droit avait été restreint de diverses façons :}
+\item[]\listhead{Mais ce droit avait été restreint de diverses façons :}
 \item Par la distinction entre les églises royales (ou les abbayes royales) et les autres. Les progrès du domaine ont, en ce qui regarde les évêques, peu à peu supprimé cette distinction. N’échappent plus au roi, à la fin du XIII\textsuperscript{e} siècle, que les évêchés de la Guyenne et ceux de la Bretagne. Ni le duc de Bourgogne, ni le comte de Flandre n’avaient d’évêchés. Beaucoup d’abbayes de même sont tombées dans le domaine. D’autres sont devenues royales par lettres de sauvegarde. Et la théorie de la garde générale du roi (par dessus les gardes spéciales) est une arme puissante.
 \item Par la réforme grégorienne. Celle-ci avait surtout supprimé les formes choquantes (pas toutes, nous le verrons). Elle a aussi dressé devant le roi le pouvoir de la papauté.
 
@@ -1290,7 +1294,7 @@ Fait caractéristique : si les ligues s’étaient levées en Artois contre la c
 \item Après l’élection, il faut l’approbation royale qui se traduit par la mainlevée de la régale. En général, le roi exige le serment de fidélité. Parfois celui-ci conserve la forme d’un hommage vassalique. Autant que je puis voir, la consécration n’a lieu qu’après ces formalités. {\hskip1pt}\\{}En somme, le roi entend rester maître des électeurs. Le mémoire de 1247 dit : \emph{« non est multum temporis quod reges Franciae conferebant omnes episcopatus in camera sua quibus voluerint... »}
 \item 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Le roi et la fortune de l’Église :}
+\item[]\listhead{Le roi et la fortune de l’Église :}
 \item  La régale. Régale temporelle. Régale spirituelle. Elles ne sont pas universelles, et l’étendue du droit, là même où il s’exerce, est souvent indécise : d’où d’assez nombreux procès. Mais le privilège est répandu, et lucratif.
 \item Les impôts sur l’Église. Simple rappel.
 \item L’utilisation des terres des Églises au moins royales : levées d’hommes et de tailles (rappel).
@@ -1304,7 +1308,7 @@ Fait caractéristique : si les ligues s’étaient levées en Artois contre la c
 \noindent Elle s’est produite sur deux domaines : l’imposition, les nominations. Nous savons déjà par quels procédés.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries En fait, il y a eu visiblement :}
+\item[]\listhead{En fait, il y a eu visiblement :}
 \item Jusque vers l’avènement du pape français Clément IV, une politique en somme assez raide.
 \item Ensuite, une espèce d’alliance : le roi et le pape se partagent les décimes ou en lèvent tour à tour. Les nominations soulèvent des difficultés ; mais le roi souvent utilise le droit de nomination du pape. C’est cet accord que devait rompre provisoirement le passage sur le trône de saint Pierre d’un vieillard violent, héritier des théories d’Innocent III et d’Innocent IV : Boniface VIII.
 
@@ -1344,10 +1348,10 @@ Je ne reviendrai pas sur ces accusations \footnote{ Voir Ch. V. LANGLOIS, {\itsh
 Pour le détail, voir Langlois ; c’est une belle expérience de critique du témoignage.\par
 
 \begin{enumerate}[itemsep=\baselineskip,]
-\item[] \hspace{-1.5em}{\bfseries Les phases sont :}
+\item[]\listhead{Les phases sont :}
 \item 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Premier interrogatoire à deux stades :}
+\item[]\listhead{Premier interrogatoire à deux stades :}
 \item par les commissaires royaux,
 \item par l’Inquisition assistée de fonctionnaires royaux.
 
@@ -1356,7 +1360,7 @@ Pour le détail, voir Langlois ; c’est une belle expérience de critique du t�
 \item Mais Clément V s’émut. Tout en ordonnant dans toute la chrétienté l’arrestation des Templiers et le séquestre de leurs biens, il envoya deux cardinaux devant lesquels les Templiers et Jacques de Molay (arrêté en France) rétractèrent leurs aveux. Il prétendit alors se réserver le procès (février 1308). D’où violente campagne d’intimidation. Philippe se fit approuver par l’Assemblée de Tours (mai 1308).\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries À l’entrevue de Poitiers (juin 1308), il fut décidé :}
+\item[]\listhead{À l’entrevue de Poitiers (juin 1308), il fut décidé :}
 \item Administration des biens par des commissaires du roi et des évêques.
 \item Le sort de l’Ordre serait réglé en un concile, l’affaire préparée par des commissaires pontificaux enquêtants.
 \item Dans chaque diocèse, le procès contre les personnes serait mené par l’évêque qui s’adjoindrait des inquisiteurs. Le jugement définitif devait être prononcé par un Conseil provincial (donc, des deux parts, enquête, puis concile) ; les hauts dignitaires réservés au Saint-Siège.
@@ -1378,7 +1382,7 @@ Pour le détail, voir Langlois ; c’est une belle expérience de critique du t�
  \phantomsection
 \label{p55}
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il faut être bref :}
+\item[]\listhead{Il faut être bref :}
 \item parce que le sujet est très mal connu,
 \item parce que, à tort, il est un peu en dehors des cadres de l’histoire, telle qu’on l’enseigne, et que ce n’est pas ici le lieu de critiquer — sauf pour indiquer discrètement que la conception aurait bien besoin d’en être renouvelée.
 
@@ -1398,7 +1402,7 @@ Cependant, cette organisation familiale, qui avait toujours souffert de l’ince
 \footnotetext{ Voir H. SÉE, {\itshape Les classes rurales et le régime domanial en France au Moyen âge}, Paris, 1901. Marc BLOCH, {\itshape Caractères originaux de l’histoire rurale française}, Paris, 1931.}
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Définitions :}
+\item[]\listhead{Définitions :}
 \item Territorialement, petites exploitations autour d’une grande.
 \item Groupes d’hommes soumis à un même maître.
 
@@ -1414,7 +1418,7 @@ Ne nous demandons pas qui est \emph{propriétaire} (encore qu’au XIII\textsupe
 \subsection[3° Les charges de la tenure]{3° Les charges de la tenure}
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Quelques tendances :}
+\item[]\listhead{Quelques tendances :}
 \item Diminution des services par rapport aux redevances ;
 \item Remplacement des redevances en nature par des redevances en argent ;
 \item Fusion des redevances d’origines différentes, dont on ne sent plus la différence, parce qu’elles tendent toutes à se fixer sur la terre ;
@@ -1422,7 +1426,7 @@ Ne nous demandons pas qui est \emph{propriétaire} (encore qu’au XIII\textsupe
 
 \end{listalpha}
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Essai de classement des principales redevances :}
+\item[]\listhead{Essai de classement des principales redevances :}
 \item Le cens, ses formes en nature (champart, terrier, agrier), taux variable : 1/30 à 1/6. Fréquemment, autour de 1/10. Sa faiblesse relative (chef cens ; menu cens).
 \item Les redevances sur les maisons : œufs, poules, etc.
 \item La taille ; étude réservée pour plus tard.
@@ -1447,7 +1451,7 @@ Ne nous demandons pas qui est \emph{propriétaire} (encore qu’au XIII\textsupe
 \item La taille, ou aide. Histoire sommaire. L’idée de prière. À qui s’étend l’obligation à la taille ? Que toute taille à l’ordinaire est arbitraire.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Exemples de Notre-Dame de Paris :}
+\item[]\listhead{Exemples de Notre-Dame de Paris :}
 \item Entre 1198 et 1216 : taille pour le paiement de la décime papale ;
 \item Vers 1212 : pour la construction des bâtiments capitulaires ;
 \item En 1219 : pour la construction des maisons destinées aux chanoines ;
@@ -1462,7 +1466,7 @@ Ne nous demandons pas qui est \emph{propriétaire} (encore qu’au XIII\textsupe
 \end{enumerate}\noindent Caractère toujours un peu contesté de la redevance, en raison de son caractère variable, dans le temps et dans le montant. Mais tendance à devenir fréquente (progrès de l’économie argent) et fixe.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Deux formes :}
+\item[]\listhead{Deux formes :}
 \item Au cas : mais se borne en général à la taille du roi sur ses sujets ou du seigneur sur ses vassaux militaires.
 \item Annuelle et de montant stable : c’est l’abonnement, forme type de la fixation de la taille rurale (parfois avec réserve de certains \emph{cas} — exemples). La taille se fixe sur le sol.
 
@@ -1471,13 +1475,13 @@ Ne nous demandons pas qui est \emph{propriétaire} (encore qu’au XIII\textsupe
 \subsection[6° Liberté et servage]{6° Liberté et servage}
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Distinction de deux classes, par catégorie de liens :}
+\item[]\listhead{Distinction de deux classes, par catégorie de liens :}
 \item Le vilain libre \footnote{ Voir Marc BLOCH, {\itshape Liberté et servitude personnelles au Moyen âge, particulièrenient en France. Contribution à une étude des classes}, dans {\itshape Anuario de historia del Derecho español}, 1933, p. 19-115.}. Il n’est attaché au seigneur que par l’habitat et la possession. Sa condition n’est donc pas héréditaire (les efforts faits par les seigneurs pour retenir leurs vilains ont en général échoué, parce que la chose n’était pas possible ; ils ont dû se borner à enlever parfois aux partants leurs tenures : c’est la sanction que prévoient pour les \emph{taillables} les coutumes de Simon de Montfort, le 1\textsuperscript{er} décembre 1212). Il choisit donc son seigneur. En cela, consiste sa liberté. Les autres mots : \emph{hôtes}, \emph{manants}, \emph{couchants} et \emph{levants}.
 \item Le serf, appelé aussi \emph{homme de corps}, parfois \emph{homme lige}. Le serf n’est pas un esclave. Il est, lui aussi, un \emph{hôte}, etc. Mais en outre, il est attaché à un seigneur (qui est ordinairement ou forcément le seigneur de sa terre) par les liens d’une dépendance personnelle et héréditaire. Par là même, il est astreint à certaines charges propres. Voyons-les, en remarquant bien qu’un tableau général est forcément amené à négliger les nuances des coutumes locales.
 
 \end{listalpha}
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Mais d’abord équivoques à prévenir :}
+\item[]\listhead{Mais d’abord équivoques à prévenir :}
 \item Le serf n’est pas \emph{attaché à la glèbe} (encore que les expressions \emph{servi glebe} ou \emph{glebe affixi} commencent à apparaître à notre époque dans quelques documents ; mais ce sont des expressions savantes maladroitement empruntées au vocabulaire du colonat). Il y a eu une tentative comme pour les vilains, un peu plus que pour eux. Les coutumes de Simon de Montfort soumettent les serfs émigrés à la confiscation des meubles, alors que le vilain émigré ne perd que ses immeubles. Mais elles sont restées là aussi fragmentaires et inefficaces. La particularité du serf est que, où il va, il reste attaché à son seigneur de corps. C’est la thèse (justifiée par les faits) de Beaumanoir qui, expressément, reconnaît la faculté de déplacement du serf. Les serfs forains. Leur sort.
 \item De la même manière, il n’y a pas de tenure servile. Quelques efforts isolés au XII\textsuperscript{e} siècle ont été faits par divers seigneurs pour refuser d’admettre sur des terres — possédées originellement par leurs serfs — des tenanciers qui ne fussent pas de condition servile. Ils n’ont pas abouti à créer un droit. Raisons : l’abondance de la terre pendant longtemps. Le changement qui ne se fera qu’aux derniers siècles du moyen âge, sera le résultat de l’accroissement des disponibilités terriennes. Aussi de la constitution plus nette des traits de classe, de la disparition de la notion d’attache. Une réserve toutefois : le Midi, ou peut-être plus exactement le Sud-Ouest. Les terres de casalages sont spécifiquement serviles ; et l’attache apparaît au moins dès le début du XIV\textsuperscript{e} siècle.
 \item La taille, même arbitraire, n’est pas spécifiquement servile. Le serf risque simplement de devoir deux fois la taille — tout comme d’ailleurs le vilain qui a des terres en deux seigneuries. Mais comme la plupart des affranchissements comportaient abonnements, la confusion se fait (en Champagne, dès le début du XIV\textsuperscript{e} siècle).
@@ -1485,7 +1489,7 @@ Ne nous demandons pas qui est \emph{propriétaire} (encore qu’au XIII\textsupe
 \end{enumerate} \phantomsection
 \label{p60}
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ceci dit, voyons les charges typiques :}
+\item[]\listhead{Ceci dit, voyons les charges typiques :}
 \item Le chevage. Sa désuétude.
 \item Le formariage. Sa raison d’être. Caractère contagieux en principe du servage.
 \item La mainmorte. Les deux types. La pratique (rachat).
@@ -1498,7 +1502,7 @@ Or, les choses changent beaucoup au XIII\textsuperscript{e} siècle. Il est prob
 Une vieille théorie, héritée du temps où il y avait des esclaves, voulait que l’affranchissement — la \emph{manumissio} — fût une œuvre pie. C’est pourquoi la plupart des affranchissements se donnent expressément pour des actes de charité ou de justice, cela même lorsque nous savons, soit par l’acte lui-même, soit par recoupements, que la liberté a été payée. Par exemple : la formule grégorienne \footnote{ M. BLOCH, {\itshape Rois et serfs}, p. 154. } ; le fameux préambule de 1315 \footnote{{\itshape Ibid.}, p. 132.}. Ne parlons pas d’hypocrisie : ce serait trop brutal.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il y a :}
+\item[]\listhead{Il y a :}
 \item obéissance à la routine notariale,
 \item obéissance aux convenances,
 \item idée qu’une bonne action ne cesse pas d’être bonne si elle est rémunératrice,
@@ -1507,7 +1511,7 @@ Une vieille théorie, héritée du temps où il y avait des esclaves, voulait qu
 \end{enumerate}\noindent En fait, je le répète, la plupart des affranchissements étaient payés. Et cela est parfaitement compréhensible.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il fallait donc deux conditions :}
+\item[]\listhead{Il fallait donc deux conditions :}
 \item Que le seigneur trouvât avantageux, et il le trouva souvent au XIII\textsuperscript{e} siècle, pour diverses raisons : parce que les charges serviles étaient de rendement irrégulier et de perception difficile (machinerie  \phantomsection
 \label{p61} des collecteurs de mainmorte) ; parce que les villages de serfs risquaient de se dépeupler ; parce que, surtout, un besoin d’argent dans la société du temps se faisait fréquemment sentir : en 1255, à Saint-Germain-des-Prés, la chapelle de la Vierge s’élève avec l’argent des manumissions ; les chanoines de Sainte-Geneviève, un peu plus tard, emploient les deniers des libertés à des achats, au paiement d’une dette aux usuriers lombards, à l’acquittement d’une décime (impôt royal sur les églises).
 \item Du côté des serfs, le désir de s’affranchir, très général et de plus en plus à mesure qu’il y avait moins de serfs (mariages) ; mais aussi la possibilité d’acheter l’affranchissement. C’est ce qui limite le mouvement. Contraste caractéristique entre les serfs des mêmes églises en Ile-de-France et Champagne ; en Beauce et en Sologne.
@@ -1515,7 +1519,7 @@ Une vieille théorie, héritée du temps où il y avait des esclaves, voulait qu
 \end{enumerate}\noindent L’état de nos connaissances ne permet pas de dresser une carte exacte, ni une courbe bien précise des affranchissements.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Du moins, quelques faits ressortent clairement :}
+\item[]\listhead{Du moins, quelques faits ressortent clairement :}
 \item Ils ont été nombreux surtout depuis le milieu du XIII\textsuperscript{e} siècle, s’appliquant non seulement à des individus ou ménages isolés, mais à des seigneuries entières (plusieurs centaines d’individus parfois).
 \item Ils ont, dans certaines régions, comme l’Ile-de-France, fait disparaître à peu près complètement la classe servile.
 \item Dans le reste du royaume, ils n’ont fait, jusqu’en 1328, que l’entamer ; la pratique se poursuivra durant les siècles suivants. Ainsi, une part notable de l’{\itshape unearned increment} paysan s’est trouvée remise en vigueur ; et le nombre des serfs a considérablement diminué.
@@ -1525,7 +1529,7 @@ Une vieille théorie, héritée du temps où il y avait des esclaves, voulait qu
 \noindent \labelchar{a)} Les {\itshape sergents} ou {\itshape ministeriales.} Fonctionnaires seigneuriaux, souvent serfs (le seigneur juge ces derniers plus sûrs). En règle générale, dans le Nord, par village, {\itshape maire} et {\itshape doyen.} Surveillance du domaine, perception des redevances, justice souvent. Dans le centre, {\itshape juges ;} dans le Midi, {\itshape bayles.} Auxquels il faut ajouter, comme répondant à la même catégorie, dans les grandes seigneuries, les fonctionnaires centraux, sénéchaux, maréchaux, celleriers et — confondus à peu près avec eux ou séparés d’eux par une série de nuances — les artisans employés au service du maître. Laissons cependant ces derniers. Si ce sont des sergents, il leur manque les caractéristiques qui font des maires et doyens, comme des principaux fonctionnaires centraux, une classe sociale supérieure à la classe rurale : cela en dépit même, là où elle existe, de la terre servile.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ce sont :}
+\item[]\listhead{Ce sont :}
 \item la possession d’une terre assez importante destinée à rémunérer leurs services et qu’on appelle leur fief ;
 \item les exemptions de droits, notamment de taille (préfiguration de l’exemption pareille des officiers royaux) ;
 \item les gains de leurs charges légitimes (part des  \phantomsection
@@ -1546,14 +1550,14 @@ Et il y a souvent désaccord. Beaucoup de petites révoltes sourdes devinées da
 Mais le grand fait, c’est l’intrusion de la justice royale. À part des hésitations, elle se décide à intervenir entre le seigneur et ses sujets. Toute une jurisprudence qui n’a pas été étudiée, mais qui marque notamment l’existence sous saint Louis de procès de servage en cours royales. Cette jurisprudence est parfaitement respectueuse des droits établis. Elle n’incline pas du tout vers les paysans. Mais elle est. Et par elle, en effet, se consolidera notamment l’hérédité de la tenure.
 \section[D. La classe chevaleresque. Le fief et l’hommage]{D. La classe chevaleresque. Le fief et l’hommage}\phantomsection
 \label{c07d}
-\subsection[1° La chevalerie.]{1° La chevalerie. \protect\footnotemark}
+\subsection[1° La chevalerie]{1° La chevalerie \protect\footnotemark}
 \footnotetext{ Voir LANGLOIS, {\itshape Les origines de la noblesse en France}, dans \href{http://gallica.bnf.fr/document?O=N017467}{\dotuline{{\itshape Revue de Paris}}}\footnote{\href{http://gallica.bnf.fr/document?O=N017467}{\url{http://gallica.bnf.fr/document?O=N017467}}}, 1902, t. 5. p. 818-851.}
 \noindent La constitution, en tant que caste juridique, de la classe nobiliaire, a résulté du caractère héréditaire peu à peu revêtu par l’aptitude à recevoir la chevalerie. C’est sur celle-ci qu’il convient d’abord de tourner nos regards. Plus précisément, sur les vicissitudes de la cérémonie qui crée un chevalier : l’adoubement.\par
 
 \begin{enumerate}[itemsep=\baselineskip,]
 \item 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Description de l’adoubement :}
+\item[]\listhead{Description de l’adoubement :}
 \item remise des armes,
 \item la \emph{collée} ({\itshape alapa militaris}),
 \item les jeux à cheval, quintaine.
@@ -1563,23 +1567,23 @@ Mais le grand fait, c’est l’intrusion de la justice royale. À part des hés
 \item Spécialisation d’une classe de guerriers professionnels.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Le plus grand nombre appartiennent :}
+\item[]\listhead{Le plus grand nombre appartiennent :}
 \item à la catégorie des vassaux,
 \item à celle des possesseurs de la seigneurie.
 
 \end{listalpha}À ceux, distinctement, que d’un terme désignant alors une situation de fait, on appelle {\itshape nobiles.} C’est l’état des choses du XI\textsuperscript{e} siècle et encore d’une grande partie du XII\textsuperscript{e}. Il y a, dans la plupart des cas, hérédité de fait.\par
  \phantomsection
 \label{p64}
-\begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Mais :}
+\begin{listalpha}[itemsep=0pt,]
+\item[]\listhead{Mais :}
 \item des soldats de fortune, des serfs peuvent accéder à la chevalerie ;
 \item seuls font partie de l’ordre des chevaliers, ceux qui ont reçu l’adoubement (n’y participent point ceux qui n’ont d’autres titres que d’avoir un père chevalier).
 
-\end{enumerate}
+\end{listalpha}
 \item Il faut insister sur cette notion d’{\itshape ordre}, qui appartient au XII\textsuperscript{e} siècle. Elle se rattache au caractère religieux pris par l’adoubement. Au cours du XII\textsuperscript{e} siècle : prière, épée sur l’autel ; chants religieux durant la cérémonie ; création d’une véritable liturgie de la chevalerie. L’évolution, à la fin du règne de Philippe Auguste, peut être considérée comme accomplie — tout juste. Il s’y joint une notion morale.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Donc :}
+\item[]\listhead{Donc :}
 \item classe définie par une hérédité de fait,
 \item par un genre de vie,
 \item par un rang social, entraînant des habitudes et obligations morales particulières.
@@ -1587,7 +1591,7 @@ Mais le grand fait, c’est l’intrusion de la justice royale. À part des hés
 \end{listalpha}
 \item 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries La cristallisation s’opère lorsque :}
+\item[]\listhead{La cristallisation s’opère lorsque :}
 \item on reconnaît certains privilèges aux fils de chevaliers,
 \item lorsqu’on interdit l’adoubement à certaines personnes, qui ne sont pas fils de chevaliers,
 \item lorsque naissent des privilèges et un droit spécial.
@@ -1595,8 +1599,11 @@ Mais le grand fait, c’est l’intrusion de la justice royale. À part des hés
 \end{listalpha}
 
 \end{enumerate}
+\astermono
+
+
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ici, quelques textes peuvent nous servir utilement de points de repère :}
+\item[]\listhead{Ici, quelques textes peuvent nous servir utilement de points de repère :}
 \item {\itshape Summa de legibus in curia laicali}, composé sous saint Louis. Il s’agit du droit de monnayage. En sont exempts les moines, les clercs ordonnés, les chevaliers \emph{« et omnes ex milite de uxore propria procreati »}.
 \item Enquête de 1247 sur l’administration de Josse de Bones, bailli de Tours \footnote{{\itshape Recueil des Historiens de la France}, t. XXIV, Paris, 1904, 1\textsuperscript{re} partie, p. 100.}. Un certain Pierre de Lercé, qui se qualifie de chevalier, se plaint d’avoir été frappé d’une amende par Josse \emph{« quod non erat recte miles, quoniam pater ejus non fuerat miles »} (on ne sait ce que Pierre avait fait, qui pût être réservé aux seuls chevaliers ; peut-être seulement pris le titre). Amende injuste, dit Pierre, pour deux raisons : son père tenait sa terre en fief (nous verrons plus loin la force de cette raison) ; sa mère était fille de chevalier et dame (l’argument témoigne d’un certain flottement ; en Champagne seulement, le droit admit que le ventre anoblissait).
 \item Règle du Temple. Dès l’origine, on distinguait chevaliers et sergents, manteaux blancs et manteaux bruns. Mais la règle la plus ancienne — 1230 ou environ — ne parle pas des conditions d’admission, sans doute dépourvues de précision juridique. Par contre, la règle en français, du milieu du XIII\textsuperscript{e} siècle, introduit plus de rigueur. Au postulant, on demande s’il est chevalier et fils de chevalier, ou bien descendant de chevalier en ligne paternelle. Seulement si la réponse est affirmative, il sera accepté comme chevalier du Temple. Il y a plus : quiconque est chevalier (c’est-à-dire a reçu l’adoubement) et tel qui le doit être (c’est-à-dire dans les conditions d’hérédité plus haut mentionnées) s’il s’est fait sergent, sera mis aux fers.
@@ -1605,7 +1612,7 @@ Mais le grand fait, c’est l’intrusion de la justice royale. À part des hés
 Il n’y a pas, en France, de loi qui interdise la chevalerie à quiconque n’est pas fils de chevalier.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Mais :}
+\item[]\listhead{Mais :}
 \item  \phantomsection
 \label{p65} Le texte de la Règle du Temple montre que l’on considérait cela comme illégitime (il ne suffit pas, pour être accepté parmi les chevaliers de l’Ordre, d’avoir reçu l’adoubement ; il faut encore être fils ou descendant de chevalier).
 \item Les textes sur l’anoblissement, que nous verrons plus tard, montrent que, dès le milieu du XIII\textsuperscript{e} siècle, le roi — et avec lui encore quelques hauts feudataires — revendique le monopole de permettre l’accès à la chevalerie des non-fils de chevaliers : preuve que la chose (si elle avait probablement encore lieu quelquefois en pratique) semblait anormale.
@@ -1614,12 +1621,15 @@ Il n’y a pas, en France, de loi qui interdise la chevalerie à quiconque n’e
 \end{enumerate}\noindent En ce qui regarde le droit spécial des nobles, impossible de l’étudier avant d’avoir vu les liens de droit qui, peu à peu, sont devenus propres à cette classe : l’hommage et le fief.\par
 La synonymie noblesse = droit à la chevalerie est bien marquée par la lettre de commission de Philippe le Bel en 1302, déléguant des envoyés chargés \emph{« eos nobilitandi, ad hoc quod militiae cingulo valeant decorari »}.
 \subsection[2° L’hommage et le fief]{2° L’hommage et le fief}
-\noindent \labelchar{a)} Description de l’hommage : l’hommage de bouche et de mains. La foi. Son caractère théoriquement viager. Forme ancienne et générale de dépendance, l’hommage s’est restreint pratiquement : 1) aux vassaux militaires, 2) à certains sergents seigneuriaux.\par
+\noindent \labelchar{a) Description de l’hommage :}\par
+l’hommage de bouche et de mains. La foi. Son caractère théoriquement viager. Forme ancienne et générale de dépendance, l’hommage s’est restreint pratiquement : 1) aux vassaux militaires, 2) à certains sergents seigneuriaux.\par
 \bigbreak
-\noindent \labelchar{b)} L’aspect économique du contrat de vassalité : le fief. Le fief tenure service. Notamment tenure militaire (franc fief). Liaison du fief et de l’hommage. L’investiture. Existe-t-il encore des vassaux non chasés ? Attestés sous Philippe Auguste (1188). Leur diminution s’explique par la généralisation du fief de chambre (cf. saint Louis et Joinville).\par
+\noindent \labelchar{b) L’aspect économique du contrat de vassalité : le fief.}\par
+ Le fief tenure service. Notamment tenure militaire (franc fief). Liaison du fief et de l’hommage. L’investiture. Existe-t-il encore des vassaux non chasés ? Attestés sous Philippe Auguste (1188). Leur diminution s’explique par la généralisation du fief de chambre (cf. saint Louis et Joinville).\par
 La hiérarchie des liens de fief et d’hommage. Les ruptures : l’alleu.\par
 \bigbreak
-\noindent \labelchar{c)} Le problème de la pluralité des seigneurs. Comment il a été amené à se poser, par le fief surtout et aussi par le changement de tonalité de classe de la vassalité. Bien entendu, le problème suppose un conflit entre les divers seigneurs. L’essai de solution ; l’hommage lige (fin XI\textsuperscript{e} siècle) opposé à l’hommage {\itshape plain.} Mais l’hommage lige, à son tour, s’est attaché au fief. Il y a pluralité d’hommages liges. Déjà, il fallait, avant cette décadence, établir une espèce de hiérarchie, entre les hommages {\itshape plains.} Désormais, il faudra faire de même entre les divers hommages liges. Quelques types de solutions envisagées par la pratique ou par le droit.\par
+\noindent \labelchar{c) Le problème de la pluralité des seigneurs.}\par
+Comment il a été amené à se poser, par le fief surtout et aussi par le changement de tonalité de classe de la vassalité. Bien entendu, le problème suppose un conflit entre les divers seigneurs. L’essai de solution ; l’hommage lige (fin XI\textsuperscript{e} siècle) opposé à l’hommage {\itshape plain.} Mais l’hommage lige, à son tour, s’est attaché au fief. Il y a pluralité d’hommages liges. Déjà, il fallait, avant cette décadence, établir une espèce de hiérarchie, entre les hommages {\itshape plains.} Désormais, il faudra faire de même entre les divers hommages liges. Quelques types de solutions envisagées par la pratique ou par le droit.\par
 
 \begin{enumerate}[itemsep=0pt,]
 \item Il y a, en principe, un ordre reconnu entre deux hommages d’un même degré. Selon la solution de Guillaume Durand, évêque de Mende, dans son {\itshape Speculum judiciale}, qui est de 1271, c’est le premier auquel le vassal — ou son prédécesseur — a porté l’hommage. Dans les chartes, ceci s’explique sous forme de réserves.
@@ -1629,11 +1639,11 @@ La hiérarchie des liens de fief et d’hommage. Les ruptures : l’alleu.\par
 \end{enumerate}\noindent Le tout encore compliqué par des distinctions entre les motifs des guerres, qui peuvent modifier l’attitude à prendre par le vassal vis-à-vis des deux seigneurs.\par
 On se doute bien que tout cela aboutissait, dans la pratique, à beaucoup d’arbitraires et d’infidélités.\par
 \bigbreak
-\noindent \labelchar{d)} Quelle force avait donc le lien vassalique ?\par
+\noindent \labelchar{d) Quelle force avait donc le lien vassalique ?}\par
 En quoi consistaient, en principe, les obligations du vassal ? D’une façon générale, à la protection que lui doit le seigneur, il répond par l’aide.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Cette aide prend la forme :}
+\item[]\listhead{Cette aide prend la forme :}
 \item militaire,
 \item de service de cour,
 \item de l’aide pécuniaire ou taille.
@@ -1641,7 +1651,7 @@ En quoi consistaient, en principe, les obligations du vassal ? D’une façon g�
 \end{enumerate}\noindent Là, comme quand il s’agit de tenanciers paysans, le travail des générations a consisté à préciser, par suite à limiter.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Notamment :}
+\item[]\listhead{Notamment :}
 \item le service militaire dit d’ost et chevauchée, a une durée fixe, ordinairement de quarante jours ;
 \item la taille, à certains cas.
 
@@ -1649,25 +1659,27 @@ En quoi consistaient, en principe, les obligations du vassal ? D’une façon g�
 Il faut ajouter les rapports quasi familiaux, dont le seigneur tire le droit, souvent profitable, de marier les héritiers de ses vassaux.\par
 Que le lien ait encore quelque force, c’est ce que prouve le texte de Joinville, déjà cité. De même, les efforts de la politique de saint Louis pour éviter qu’aucun de ses sujets ne prêtât hommage à un prince étranger (le double hommage de Guillaume le Maréchal avait empêché que ce loyal serviteur des rois anglais ne suivit en France Jean sans Terre contre Philippe Auguste). Mais le lien n’est vraiment puissant que lorsqu’il s’agit d’un seigneur \emph{naturel} que l’on connaît personnellement et de petits vassaux. Le paradoxe de la vassalité.\par
 \bigbreak
-\noindent \labelchar{e)} Le droit des fiefs.\par
+\noindent \labelchar{e) Le droit des fiefs.}\par
 La qualité de tenure de service n’a pas disparu en ce sens que, soit les torts du vassal, soit même son abstention, justifient en droit la commise. Un exemple éclatant en a été la confiscation des États angevins.\par
 Le caractère primitivement viager se marque par le renouvellement de l’investiture à chaque changement dans le couple originel. Mais le fief — sauf exceptions expressément stipulées — est héréditaire, sans contestation possible. Au profit des filles également. Au profit des mineurs. Mais ici intervient l’usage du bail. Il était originellement familial. Dans certaines régions, il est devenu seigneurial ; ce qui prouve bien combien le fief a passé dans le patrimoine du vassal.\par
 Que se passait-il, lorsqu’il y avait plusieurs héritiers de même rang ? L’intérêt du seigneur avait été longtemps de prévenir l’indivision. En fait, le droit d’aînesse absolu n’a triomphé que rarement (pays de Caux). Ordinairement, l’aîné n’a qu’une part supérieure en étendue, et le manoir principal. En fait, ce système amenait rapidement un grand morcellement. La propriété noble n’était protégée un peu efficacement dans le morcellement que dans le  \phantomsection
 \label{p67} Midi, par le régime des substitutions, qui ne se transportera dans le Nord qu’après notre période.\par
 Mais en cas de partage, de qui tiennent les cadets ? Tant que la notion de service eut de sa force, il fut de l’intérêt du seigneur de ne connaître qu’un répondant. Il fut donc admis que les cadets tenaient de l’aîné {\itshape (parage).} Mais vint un moment — et c’est l’intérêt de cette histoire — où les services comptent moins que les droits casuels. Expliquer en effet ce qu’était le relief (dans l’Ile-de-France du XIII\textsuperscript{e} siècle, le \emph{roncin de service}, forme de relief, dispense de toute autre obligation, autre que négative). Alors, suppression du parage qui privait de reliefs des cadets. Ordonnance de 1209 de Philippe Auguste.\par
 \bigbreak
-\noindent \labelchar{f)} Restriction à la classe noble — c’est-à-dire à la classe des chevaliers à titre héréditaire et descendants de chevaliers — du fief militaire et de l’hommage.\par
+\noindent \labelchar{f) Restriction à la classe noble}\par
+C’est-à-dire la classe des chevaliers à titre héréditaire et descendants de chevaliers — du fief militaire et de l’hommage.\par
 Il y aurait eu, aux yeux du roi et des grands barons, un système concevable : celui qui, forçant tout acquéreur de fief à en faire les services, l’eût par là contraint à la chevalerie et, par suite, à la noblesse. Il y a des traces de cette idée. Mais le principe de classe l’emporta. Législativement, semble-t-il. Beaumanoir fait plusieurs fois allusion à une ordonnance d’un roi, qu’il ne nomme pas, par laquelle il avait été défendu aux \emph{hommes de poesté} de tenir fief (homme de poesté = sujet d’une seigneurie, non noble). Seulement le roi a toujours été conçu comme pouvant dispenser des privilèges, notamment dans l’ordre hiérarchique. D’où la pratique des autorisations d’acquérir, moyennant paiement de \emph{francs fiefs}, codifié à partir de Philippe le Hardi et qui prête à de fructueuses tournées d’agents fiscaux, car le plus souvent, on ne fait que régulariser après coup l’acquisition.\par
 Mais un cas assez grave se présentait : lorsque le non-noble avait acquis un fief d’où dépendaient à leur tour des fiefs. Un noble avait-il obligation de prêter hommage à un non-noble ? Le Parlement de Paris répondit non (décision, octave de la Chandeleur 1261).\par
 Le droit des fiefs devint le droit des nobles. C’est un élément fondamental de leur droit propre, qui se développa par ailleurs et par suite de leur place privilégiée dans la société.
 \subsection[3° La place de la noblesse dans la société ; le genre de vie noble]{3° La place de la noblesse dans la société ; le genre de vie noble}
-\noindent \labelchar{a)} Comment la classe reste ouverte ? Nous avons vu que la chevalerie est, en principe, réservée aux descendants des chevaliers. Si le principe avait été absolu, il y aurait eu fermeture radicale de la classe. En fait, on se disait toujours que les pouvoirs publics avaient le droit d’accorder des dispenses. Quels pouvoirs ? Le roi, évidemment, tout d’abord. En 1237, un bourgeois normand, nommé Robert de Beaumont, est frappé d’une lourde amende par la cour royale, parce qu’il s’est fait armer chevalier \emph{« sine licencia regis \footnote{[Une page du manuscrit manque, soit une partie des paragraphes a) et b)]} »}.\par
-[…]\par
+\noindent \labelchar{a) Comment la classe reste ouverte ?}\par
+Nous avons vu que la chevalerie est, en principe, réservée aux descendants des chevaliers. Si le principe avait été absolu, il y aurait eu fermeture radicale de la classe. En fait, on se disait toujours que les pouvoirs publics avaient le droit d’accorder des dispenses. Quels pouvoirs ? Le roi, évidemment, tout d’abord. En 1237, un bourgeois normand, nommé Robert de Beaumont, est frappé d’une lourde amende par la cour royale, parce qu’il s’est fait armer chevalier \emph{« sine licencia regis »}.\par
+[…] \footnote{[Une page du manuscrit manque, soit une partie des paragraphes a) et b)]}\par
  \phantomsection
 \label{p68} L’idée qu’il y avait des pairs de France et qu’ils étaient douze (comme les apôtres) était déjà répandue, à la fin du XI\textsuperscript{e} siècle, dans les milieux fidèles aux Capétiens, ainsi qu’en témoigne le Roland. Mais nous savons mal comment la liste s’établit. En 1216, un arrêt de la cour du roi, énumérant les juges qui ont participé aux plaids, cite avant les autres \emph{évêques et barons}, avec le titre de pairs du royaume, l’archevêque de Reims, les évêques de Langres, Chalon, Beauvais et Noyon et le duc de Bourgogne. Un peu plus tard, en 1224, nous apprenons que la comtesse de Flandre en fait partie. Vers le milieu du XIII\textsuperscript{e} siècle, la liste nous apparaît complète avec le sixième pair ecclésiastique, l’évêque de Laon, et les quatre autres pairs laïques : ducs d’Aquitaine et de Normandie, comtes de Toulouse et de Champagne (liste déjà, ou rapidement, fictive d’ailleurs, le duc de Normandie étant depuis Philippe Auguste le roi de France ; de même depuis 1270, le comte de Toulouse ; depuis Philippe le Bel, le comte de Champagne). Les raisons du choix sont peu claires. En 1297, Philippe IV créa trois pairies nouvelles (Anjou, Artois, Bretagne), arguant que le chiffre douze n’était plus atteint : ce qui était vrai. Mais plus tard, de nouvelles créations amenèrent à dépasser le nombre fatidique.\par
 Il y a quelques tentatives du haut baronnat, pour mettre quelques avantages pratiques à la base du titre honorifique de pair. En 1224, les pairs présents à la cour prétendent juger seuls dans la cause de l’un d’eux (la comtesse de Flandre), excluant les officiers royaux. Ils sont déboutés. En 1306, la comtesse d’Artois se réclame, pour son domaine, de prétendues coutumes propres aux pairs de France. Elle est déboutée. Les pairs étant trop peu nombreux pour faire pression, le comte de Bretagne, les comtes de Nevers et d’Auvergne, la foule des moyens barons et des prélats n’était pas disposée à se donner du mal pour quelques grands princes territoriaux ou quelques évêques parmi beaucoup, les uns comme les autres assez arbitrairement choisis.\par
 \bigbreak
-\noindent \labelchar{c)} La vie noble.\par
+\noindent \labelchar{c) La vie noble.}\par
 Selon la tradition, l’éducation du noble continue à se faire en bonne part hors de chez lui, chez le seigneur de son père, ou à la rigueur un égal. Cette éducation est de plus en plus rarement uniquement de sport et de guerre et de bons usages. Il y a, à vrai dire, encore de hauts personnages qui ne savent pas lire : tel Jean de Nanteuil, chambellan de France sous saint Louis. Ces cas sont de plus en plus rares. Beaucoup, parmi les hauts et moyens barons, savent le latin. Mais comme le latin n’est plus seul à s’écrire, on peut être désormais \emph{litteratus} en ne connaissant que le français. Des nobles nombreux écrivent : tel, parmi les grands princes, Thibaut le Chansonnier, comte de Champagne et roi de Navarre, mort en 1253, qui fut un poète lyrique délicat ; parmi les \emph{povres chevaliers}, Robert de Clary, qui conta en prose picarde l’histoire de la 4e croisade ; parmi les chevaliers un peu plus aisés, qui font désormais carrière au niveau du roi, sous Philippe III et Philippe IV, Beaumanoir, poète de romans courtois, puis rédacteur lucide et intelligent des {\itshape Coutumes de Beauvaisis} ; enfin, dans ces bonnes places, immédiatement au-dessous des grands princes, Joinville. La \emph{courtoisie} comprend à la fois les bonnes manières, où Joinville était passé maître (nous savons qu’on le consultait sur les questions délicates d’usage de la table) et un certain idéal de culture.\par
  \phantomsection
 \label{p69} La vertu laïque du chevalier est la prud’homie, que saint Louis prisait si haut. Elle comprend la largesse.\par
@@ -1686,7 +1698,7 @@ Enfin la chasse.\par
 Une carrière nouvelle : le service royal (ou celui des grandes principautés) : Beaumanoir, Eustache de Beaumarchais passé du service d’Alfonse de Poitiers à celui de Philippe III. Les soudoyers.\par
 Le château. Progrès relatif de l’habitat. La jonchée.\par
 \bigbreak
-\noindent \labelchar{d)} Les fortunes nobiliaires.\par
+\noindent \labelchar{d) Les fortunes nobiliaires.}\par
 Elles sont variables. Il y a de pauvres gentilshommes honteux, envers lesquels Philippe III inscrit un legs dans son testament. Dans l’ensemble, la noblesse était la classe sociale tenant les rentes de la terre. Mais ces rentes vont, on le sait, en diminuant. En réalité, la plupart des nobles ont besoin, pour vivre noblement, d’un appoint : d’où les deux {\itshape rushes} en quelque sorte continus : vers le service des rois, vers la guerre génératrice de butin.
 \chapterclose
 
@@ -1696,7 +1708,7 @@ Elles sont variables. Il y a de pauvres gentilshommes honteux, envers lesquels P
 \label{c08}
 \footnotetext{
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Bibliographie.}
+\item[]\listhead{Bibliographie}
 \item H. PIRENNE, {\itshape Les villes du Moyen âge. Essai d’histoire économique et sociale}, Bruxelles, 1927.
 \item A. LUCHAIRE, {\itshape Les communes françaises à l’époque des Capétiens directs}, 2\textsuperscript{e} édition, Paris, 1911 (dans l’Introduction, par L. Halphen, utiles indications bibliographiques).
 \item P. VIOLLET, {\itshape Les communes françaises au Moyen âge}, dans {\itshape Mémoires de l’Académie des Inscriptions}, t. XXXVI, reproduit à peu près dans {\itshape Histoire des Institutions politiques et administratives de la France}, t. III.
@@ -1721,7 +1733,7 @@ Or les villes, comme les campagnes, avaient été soumises dans des conditions o
 \end{enumerate}\noindent Les villes qui étaient parvenues au plus haut point d’autonomie portaient, au XIII\textsuperscript{e} siècle, le nom de {\itshape commune} qui avait désigné originellement l’association formée par des hommes se prêtant serment mutuel d’entraide : serment qui avait paru singulièrement révolutionnaire à une société qui ne connaissait que le serment de fidélité d’inférieurs à supérieurs. Le nom désignait aussi l’amitié des communiers. Sa valeur sentimentale (Richer). Mais valeur juridique : la jurisprudence a élaboré, au XIII\textsuperscript{e} siècle, tout un système juridique de la Commune, dont le fondement était que la personnalité morale n’est reconnue qu’aux groupes qui sont expressément — par le seigneur ou par le roi — reconnus comme des communes. En 1273, le Parlement refusa de reconnaître aux Lyonnais le droit de donner procuration à quelques-uns d’entre eux sans un sceau, parce qu’ils ne formaient pas une commune. Jugement analogue relativement à Orléans, en 1312. Les insignes habituels : sceau, beffroi. Lorsque la commune de Boulogne sera temporairement supprimée, en 1268, le roi fait détruire le beffroi de Boulogne ; les bourgeois soumis, la délimitation est arrêtée. En 1296, l’arrêt qui prive Laon de commune, la prive de sceau et de cloches.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Mais deux erreurs sont à prévenir :}
+\item[]\listhead{Mais deux erreurs sont à prévenir :}
 \item que le mot de commune n’ait été connu que dans le Nord (fausse antithèse : consulat, commune),
 \item que toutes les communes eussent atteint le même degré d’autonomie. Tant s’en faut. Les variétés de ville à ville, commune ou non, sont extrêmes.
 
@@ -1745,14 +1757,14 @@ Le nombre des bourgeois, ainsi conçu, est déjà relativement considérable. Le
 Le gouvernement de la ville appartient véritablement aux magistrats. Ceux-ci sont de types variables. Et il est impossible d’entrer ici dans le détail institutionnel. Quelques exemples suffiront.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Dans le Nord, la règle générale est qu’il y a :}
+\item[]\listhead{Dans le Nord, la règle générale est qu’il y a :}
 \item un conseil,
 \item des magistrats pourvus d’une sorte de pouvoir exécutif.
 
 \end{enumerate}\noindent Dans certaines régions, le conseil a pris le nom d’échevins. Ce sont d’anciens magistrats carolingiens.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Leur destin dans les villes a été double :}
+\item[]\listhead{Leur destin dans les villes a été double :}
 \item ou bien, ils ont subsisté comme fonctionnaires royaux, indépendamment des magistratures urbaines (type picard : exemple Saint-Quentin) ;
 \item ou bien, recrutés parmi les bourgeois, ils sont devenus des magistrats urbains (un autre échevinage pour le plat pays subsistant à part) : type flamand.
 \end{itemize}
@@ -1799,7 +1811,7 @@ Mais plus précisément, le roi pensait pouvoir tirer des communes deux choses �
 L’impôt eut donc de plus en plus grande importance. Là aussi, renvoyons. Mais surtout, avant l’établissement d’un impôt plus général sous Philippe le Bel, sous saint Louis, vraies vaches à lait de la fiscalité.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Pour tout cela, cependant, il fallait des communes :}
+\item[]\listhead{Pour tout cela, cependant, il fallait des communes :}
 \item bien administrées ;
 \item où l’ordre règne ;
 \item obéissantes.
@@ -1827,7 +1839,7 @@ Un type de ville royale : Paris \footnote{ Compléter la bibliographie par : J. 
 \label{c09}
 \footnotetext{
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Bibliographie.}
+\item[]\listhead{Bibliographie}
 \item Fondamental : H. PIRENNE, \emph{Le mouvement économique et social} dans G. GLOTZ, \emph{Histoire générale, Histoire du Moyen âge}, t. VIII, Paris, 1933. J’en recommande d’autant plus la lecture que je ne le reproduirai pas. Comme manuel précédent, je n’ai guère à citer que le très précieux recueil de renseignements de W. KULISHER, \emph{Allegemeine Wirtschaftsgeschichte des Mittelalters und der Neuzeit}, t. I, Munich, 1928.
 \item Histoire économique de la France : Henri SÉE, \emph{Esquisse d’une histoire économique et sociale de la France depuis les origines jusqu’à la guerre mondiale}, Paris, 1929, et du même \emph{Französische Wirtschaftsgeschichte}, t. I, Iena, 1930 (plus développé).
 \item Histoire rurale de la France : Marc BLOCH, \emph{Les caractères originaux de l’histoire rurale française}, Oslo et Paris, 1931, qui ne dispense pas tout à fait de recourir à l’ouvrage de H. SÉE, \emph{Les classes rurales et le régime domanial en France au Moyen âge}, Paris, 1901.
@@ -1877,7 +1889,7 @@ Mais qui accompagnait les marchandises ? On pouvait concevoir que le marchand du
 On désigne sous ce nom un groupe de six foires, siégeant dans quatre villes différentes et qui se succédaient de façon à couvrir l’année entière. Certaines d’entre elles étaient fort anciennes (une de celles de Provins est attestée en 995). Mais elles ne prirent une grande importance qu’au cours du XII\textsuperscript{e} siècle.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Tel qu’il est constitué définitivement, le cycle est le suivant :}
+\item[]\listhead{Tel qu’il est constitué définitivement, le cycle est le suivant :}
 \item Foire de Lagny, du début de janvier au lundi qui précède la mi-carême ;
 \item Bar-sur-Aube, du mardi avant la mi-carême jusqu’à la fin de février ou le début de mars ;
 \item Foire centrale de Provins (dans la ville haute) : du mardi avant l’Ascension jusqu’à une durée de quarante-six jours ;  \phantomsection
@@ -1901,7 +1913,7 @@ Importance de ces faits pour la France du XII\textsuperscript{e} siècle et de c
 \noindent Sur la façade de la Manche ou de l’Océan, la France possède des ports actifs : Rouen, La Rochelle, Bordeaux, Bayonne (ces deux derniers en terre angevine-anglaise). Et elle prend place parmi les pays exportateurs.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Pour cinq denrées surtout :}
+\item[]\listhead{Pour cinq denrées surtout :}
 \item L’argent du Massif Central, exporté en Angleterre et dans les pays musulmans ;
 \item Les laines du Languedoc, exportées en Italie ;
 \item Les draps d’un peu partout, notamment du Languedoc encore ;
@@ -1917,7 +1929,7 @@ En revanche les Italiens, qu’on appelait des Lombards. En réalité, ils ne ve
 \label{p89} grands prêteurs. Ils n’étaient pas les seuls à le faire, mais ils le faisaient largement.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ils devaient l’importance de leur rôle :}
+\item[]\listhead{Ils devaient l’importance de leur rôle :}
 \item à l’accumulation des capitaux qu’avait provoquée en Italie le très ancien commerce méditerranéen ;
 \item à la grande perfection de la technique des affaires italiennes. Ne croyons pas d’ailleurs qu’ils réussissaient toujours.
 
@@ -1929,7 +1941,7 @@ En revanche les Italiens, qu’on appelait des Lombards. En réalité, ils ne ve
 
 \labelblock{Quels sont les principaux objets des échanges ?}
 
-\subsection[a) Les denrées alimentaires de consommation courante :]{a) Les denrées alimentaires de consommation courante :}
+\subsection[1° Les denrées alimentaires de consommation courante]{1° Les denrées alimentaires de consommation courante}
 
 \begin{enumerate}[itemsep=0pt,]
 \item Existence d’agglomérations urbaines, où vit une population dont l’activité n’est pas consacrée à produire ce qui la nourrit. À dire vrai, bien des villes sont encore à demi-rurales. Le bourgeois par ailleurs est souvent propriétaire terrien et mange volontiers le pain fait avec son propre blé ou les produits de basse-cour fournis par ses tenanciers ou fermiers. À côté du boulanger, le fournier. Il en sera ainsi jusqu’au XIX\textsuperscript{e} siècle. Mais il y a les artisans. Et dans une région urbaine comme la Flandre, malgré la puissance de l’agriculture environnante, il fallait même faire venir en grande partie les blés de l’étranger. Le souci que les villes ont de réglementer l’approvisionnement en atteste l’importance.
@@ -1938,12 +1950,12 @@ En revanche les Italiens, qu’on appelait des Lombards. En réalité, ils ne ve
 \label{p90} Les paysans eux-mêmes. Importance des disettes.
 
 \end{enumerate}\noindent La circulation des blés fonde des fortunes et est le grand commerce spéculatif du temps. Un sermon de la première moitié du XIII\textsuperscript{e} siècle vitupère contre les curés, qui mettent leurs blés en réserve pour les vendre plus cher, quand le marché sera moins fourni.
-\subsection[b) Les matières premières de provenance limitée : par exemple le sel.]{b) Les matières premières de provenance limitée : par exemple le sel.}
-\subsection[c) Les produits fabriqués]{c) Les produits fabriqués}
+\subsection[2° Les matières premières de provenance limitée : par exemple le sel]{2° Les matières premières de provenance limitée : par exemple le sel}
+\subsection[3° Les produits fabriqués]{3° Les produits fabriqués}
 \noindent Dans les campagnes sans doute, le paysan fabrique encore lui-même souvent son drap ou tisse sa toile ; il fait ses outils de bois. Mais partout où un goût plus raffiné s’est répandu, ces produits grossiers ne suffisent plus. Il est très important de noter qu’à la différence de l’Allemagne, les seigneurs ont renoncé, dès les XI\textsuperscript{e} et XII\textsuperscript{e} siècles, aux redevances en produits fabriqués.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ce commerce intérieur se fait de trois diverses formes :}
+\item[]\listhead{Ce commerce intérieur se fait de trois diverses formes :}
 \item Boutiques permanentes urbaines. Parfois développées en halles ;
 \item Foires : par exemple le Lendit ;
 \item Marchés hebdomadaires très importants.
@@ -1960,13 +1972,13 @@ En revanche les Italiens, qu’on appelait des Lombards. En réalité, ils ne ve
 Elle était dans l’intérêt général.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Le pas décisif a été fait par saint Louis dans la fameuse ordonnance de 1262, qui pose les deux principes fondamentaux :}
+\item[]\listhead{Le pas décisif a été fait par saint Louis dans la fameuse ordonnance de 1262, qui pose les deux principes fondamentaux :}
 \item La monnaie du roi court par tout le royaume ;
 \item Celle des seigneurs, qui possèdent le droit de monnaie, ne peut courir que dans leurs propres terres.
 \end{itemize}
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries En outre, sous saint Louis ou sous ses successeurs, on veille à l’observation des autres règles suivantes :}
+\item[]\listhead{En outre, sous saint Louis ou sous ses successeurs, on veille à l’observation des autres règles suivantes :}
 \item Il n’est plus accordé ni toléré d’autres frappes seigneuriales que celles qui ont été consacrées par l’usage ;
 \item Les seigneurs ne peuvent frapper que les espèces consacrées par l’usage (principe clairement énoncé en 1315) ;
 \item Il est interdit d’imiter la monnaie du roi ;
@@ -1993,7 +2005,7 @@ Elle était dans l’intérêt général.\par
 \end{itemize}
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Désormais, deux catégories de mutations sont possibles :}
+\item[]\listhead{Désormais, deux catégories de mutations sont possibles :}
 \item Comme les anciennes, par modification du titre ou poids. Le dernier ne compte guère. Philippe pratiquera ces abaissements en teneur métallique en 1303 et 1311.
 \item Mutation nominale, dont peut nous donner une idée approchée la dévaluation du franc ou celle du dollar.
 \end{itemize}
@@ -2003,7 +2015,7 @@ Elle était dans l’intérêt général.\par
 Ces opérations ont été largement pratiquées sous Philippe le Bel et ses fils.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries En bref, cette histoire complexe peut être résumée ainsi :}
+\item[]\listhead{En bref, cette histoire complexe peut être résumée ainsi :}
 \item Affaiblissement nominal en 1295, accru et compliqué d’un affaiblissement matériel en 1303.
 \item Renforcement nominal et matériel en 1306.
 \item En 1309, affaiblissement nominal de l’or seul ; suivi en 1311 de la cessation de toutes autres monnaies d’argent que des monnaies noires.
@@ -2019,7 +2031,7 @@ Elles sont un fait général dans toute l’Europe, à ce point qu’en Allemagn
 Ceci ne veut pas dire que les causes aient été de tout temps et partout les mêmes. Mais qu’il s’agit du moins d’une phase à expliquer par des causes assez générales et profondes. Ceci dit, il convient, pour rechercher les causes des mutations, de se demander quelles étaient leurs conséquences, surtout celles auxquelles pensaient les contemporains.\par
 
 \begin{enumerate}[itemsep=\baselineskip,]
-\item[] \hspace{-1.5em}{\bfseries Il faut distinguer :}
+\item[]\listhead{Il faut distinguer :}
 \item {\bfseries Conséquences communes aux affaiblissements et renforcements :}\par
 Par le décri et grâce au seigneuriage, profit, pour le seigneur des ateliers. On notera que le profit était plus fort en cas d’affaiblissement, celui-ci ayant pour effet d’attirer le métal vers les ateliers comme nous le verrons.\par
 En période bi-métallique, possibilité d’un ajustement de valeur, dans un sens ou dans un autre, entre les deux métaux précieux.\par
@@ -2058,7 +2070,7 @@ Problèmes particuliers et à peu près nouveaux dans la France du XIII\textsupe
 Mais cette forme ne pouvait suffire à tout. Et, sous l’impulsion de besoins économiques nouveaux, nous voyons se développer une attitude nouvelle tendant à limiter l’intérêt à certaines conditions et à un certain taux.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Double :}
+\item[]\listhead{Double :}
 \item Dans la doctrine : effort pour réintégrer l’intérêt comme compensation pour des désavantages subis par le prêteur. De là est venu le mot intérêt ({\itshape interesse}) légitime, opposé à l’usure (qui gardera un sens péjoratif). {\itshape Quod interest} : différence entre la situation présente du prêteur et sa situation soit au point de départ du prêt, soit au moment, lorsqu’il y a eu délai, où l’obligation eût dû être exécutée. Deux formes surtout — {\itshape damnum emergens} (justification d’un vieux truc de contrat) — {\itshape lucrum cessans} (beaucoup moins bien accepté).
 \item Les actes des pouvoirs publics limitent le taux sur l’exemple antique : d’abord pour les Juifs ; en France, Philippe le Bel, en 1311 (à 20\% par an ; un taux plus faible est prescrit pour les foires de Champagne).
 
@@ -2096,7 +2108,7 @@ La réglementation peut appartenir ou appartient pour portions variables : au se
 \label{p98} au Nord de la Loire, des mots germaniques de {\itshape guildes} ou de {\itshape hanses}, ou encore par ceux de {\itshape confréries —} ou de {\itshape charités.} Elles sont en plein développement au XII\textsuperscript{e} siècle, organisées avec chefs élus et trésor commun. Objets : religieux (offrandes en commun ; les confrères doivent assister aux funérailles les uns des autres) ; mondaines (beuveries en commun). Mais surtout entraide, notamment pour les voyages à l’extérieur. Par exemple, le règlement de la charité de Valenciennes prévoit l’aide en cas de chars brisés ou de chevaux fatigués. Mais ce caractère diminue à mesure que le commerce devient stable. Alors, aide sociale et économique.\par
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries D’où les tendances :}
+\item[]\listhead{D’où les tendances :}
 \item exiger que tout marchand fît partie de la guilde. Les statuts de la guilde de Saint-Omer (1083-1127) interdisent de porter secours au marchand de la ville qui ne sera pas de la guilde ;
 \item réserver le commerce aux affiliés. La Hanse des Marchands de l’eau, à Paris, a le privilège du trafic par eau à Paris et sur la Seine, entre des limites déterminées ; sauf association ;
 \item écarter les pauvres par des droits d’entrée exorbitants, et favoriser les descendants ; souvent interdites aux gens des métiers.
@@ -2105,7 +2117,7 @@ La réglementation peut appartenir ou appartient pour portions variables : au se
 À côté de ces guildes marchandes, apparaissent, dès le XII\textsuperscript{e} siècle, les associations de métier que nous avons pris l’habitude d’appeler \emph{corporations}. Nous n’avons donc pas à rechercher leurs origines : mais il faut prévenir une équivoque. On les a parfois cru issues de groupes de travailleurs ouvrant pour le seigneur seul. La seule raison en était des impôts spécialisés, sous forme de fourniture et, par voie de conséquence, la juridiction des fonctionnaires spécialisés (à Paris, par exemple, les boulangers, dits \emph{talemeliers}, dépendent du panetier, les fripiers du chambrier). La conclusion dépasse de beaucoup les prémisses. Certes, le pouvoir seigneurial a eu sa part dans la formation de ces corporations, mais celles-ci ne sont pas de simples ateliers seigneuriaux libérés.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries En fait, deux causes expliquent la formation des corporations :}
+\item[]\listhead{En fait, deux causes expliquent la formation des corporations :}
 \item Le besoin spontané des hommes de même métier de s’unir dans des buts de solidarité : mêmes rues, confréries, entraide. Les saints patrons : saint Éloi, des orfèvres, saint Barthélémy l’écorché, des tanneurs ; sainte Claire des verriers. Les scieurs de long fêtent la Visitation (les deux scieurs s’inclinent l’un vers l’autre). Les épiciers, saint Michel, à cause de la balance. Dès la fin du XIII\textsuperscript{e} siècle, les foulons de Bruxelles ont leur hôpital.
 \item Celui des autorités, seigneuries ou villes, de grouper les métiers pour la facilité de la réglementation. Là où, même dans les villes flamandes, domine le grand patriciat, c’est la ville ou la guilde qui réglementent directement la draperie.
 
@@ -2114,7 +2126,7 @@ La réglementation peut appartenir ou appartient pour portions variables : au se
 Enfin, il convient de ne pas oublier que la corporation est essentiellement une association de maîtres, qui dominent les valets et les apprentis.\par
 
 \begin{enumerate}[itemsep=\baselineskip,]
-\item[] \hspace{-1.5em}{\bfseries Voyons plus précisément les problèmes du droit corporatif :}
+\item[]\listhead{Voyons plus précisément les problèmes du droit corporatif :}
 \item Gouvernement de la corporation : par des \emph{jurés} et des \emph{gardes}, généralement élus (je n’insiste pas sur la question de terminologie), mais souvent soumis à l’approbation du pouvoir seigneurial et urbain.
 \item Réglementation interne : mêmes difficultés ; même solution. Ici, très nettement, les intérêts s’opposent, lorsqu’il s’agit de métier de consommation intérieure.
 \item Accès à la maîtrise. Normalement, il faut pour cela l’acceptation par les gens du métier : un temps d’apprentissage ; achat du métier à la corporation ou au seigneur ; pas toujours ; souvent, une cérémonie symbolique, telle que celle-ci, décrite par Etienne Boileau, pour les talemeliers : \emph{« le nouveau talemelier doit d’abord acheter le métier. Puis ouvrer quatre ans. Ensuite, il prend un pot de terre, tout neuf, et le remplit de noix et de « meules »}, c’est-à-dire de petites pâtisseries légères. Alors, accompagné de tous les talemeliers, des maîtres-valets de chaque boutique, il se rend devant la maison du chef de la corporation, le \emph{maître} des talemeliers. Il remet à celui-ci son pot et lui dit : \emph{« Mestre, je ai fait et acompli mes quatre années ». — « Est-ce vrai ? »} demande le maître au coustumier. Si celui-ci répond \emph{oui}, le maître rend son pot au postulant. Celui-ci le jette contre le mur de la maison. Alors, tout le monde entre dans la maison du maître, qui leur offre \emph{feu et vin}. Mais non pas gratis. Chacun lui donne, pour son écot, un denier ».\par
@@ -2133,7 +2145,7 @@ Métiers strictement héréditaires : à Paris, les tisserands. Mais c’est exc
 
 \item 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Deux raisons pouvaient provoquer les luttes de classes :}
+\item[]\listhead{Deux raisons pouvaient provoquer les luttes de classes :}
 \item les artisans contre le grand capitalisme. Sensible notamment dans les villes flamandes au cours du XIII\textsuperscript{e} siècle\footnote{Renvoyer au beau développement de Pirenne, t. I, livre II, chap. IV, p. 1}. Les \emph{ongles bleus}. Guildes contre métier ;
 \item les compagnons contre les maîtres. Débuts du compagnonnage.
 
@@ -2154,7 +2166,7 @@ Métiers strictement héréditaires : à Paris, les tisserands. Mais c’est exc
 On peut dire du XII\textsuperscript{e} siècle, comme de tout le Moyen Age, qu’il est un siècle croyant. Mais en disant cela, on n’a pas dit beaucoup.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Essayons de préciser :}
+\item[]\listhead{Essayons de préciser :}
 \item Il est gênant de parler de croyance au surnaturel, la notion de \emph{naturel} elle-même étant trop imprécise. Parlons, si l’on veut, de croyance à l’intervention plus ou moins constante dans le monde visible de puissances invisibles. Sentiment, on peut le dire, universellement répandu. Je ne crois pas qu’il y ait à proprement parler d’athées.
 \item La croyance à une vérité révélée, supérieure à toute démonstration rationnelle ou expérimentale ; sentiment presque universellement répandu : seule exception : les averroïstes, sur lesquels nous reviendrons.
 \item Croyance à cette vérité révélée sous la forme de la doctrine chrétienne, élaborée par l’Église d’Occident : sentiment très général, mais qui a comporté quelques exceptions : les hérésies, et notamment le catharisme qui, sous ses formes extrêmes, est une religion à part, non chrétienne ; certaines explosions de scepticisme individuel, nées souvent d’une réaction anticléricale ; la christianisation certainement encore insuffisante, en profondeur, des campagnes.
@@ -2171,7 +2183,7 @@ Sur l’Inquisition : E. VACANDARD, {\itshape L’Inquisition, ses origines, sa 
 \label{p102}\noindent Deux hérésies fondamentales : Vaudois et Cathares.\par
 
 \begin{enumerate}[itemsep=\baselineskip,]
-\item[] \hspace{-1.5em}{\bfseries Observations préliminaires :}
+\item[]\listhead{Observations préliminaires :}
 \item Nous les connaissons l’une et l’autre fort mal.\par
 Les Vaudois ont survécu à la persécution, jusqu’au moment où ils finirent, aux XVI\textsuperscript{e} et XVII\textsuperscript{e} siècles, par se fondre dans le protestantisme. Mais ç’a été obscurément et précairement dans quelques vallées alpestres, sans grande littérature ; par surcroît, en se transformant beaucoup ; de sorte qu’il y aurait imprudence à conclure de leur doctrine relativement aux temps proches de nous à leurs doctrines anciennes.\par
 Les Cathares, eux, ont disparu, vers la fin de l’époque étudiée ; et leur littérature a été de fond en comble détruite.\par
@@ -2182,17 +2194,18 @@ Insuffisance de ces sources.
 \label{p103} du Christ (l’hostie), pourvu qu’il soit pris à bonne intention »}. La démarche mentale, dans la foule, a presque toujours été la même : sentiment antisacerdotal, très répandu, né de l’incontestable insuffisance morale d’une partie du clergé, surtout paroissial, des abus de l’Église possédante ; l’hérésie, d’antisacerdotale, devint antisacramentelle, par la répugnance à admettre la valabilité des sacrements distribués par le prêtre indigne ; quelques-uns en restent là : voyez le paysan de Cerizy. D’autres vont plus loin et se rattachent à une des doctrines, qui justifient les sentiments décrits.
 \item Mode de propagation et influence de classe : les éléments mobiles (clercs vagants, religieux, les marchands ; dans le Nord de la France, les tisserands). L’atmosphère de classe : les tisserands encore. Mais pas seulement. À Cambrai, en 1236, l’Inquisition brûla trois anciens échevins.
 
-\end{enumerate}\subsection[a) Les Vaudois.]{a) Les Vaudois.}
+\end{enumerate}\subsection[1° Les Vaudois]{1° Les Vaudois}
 \noindent L’hérésie est née dans un milieu urbain, celui de Lyon, et dans des conditions, dont on a bien souvent observé, qu’elles rappellent de fort près celles de la naissance de l’ordre franciscain.\par
 Vers 1170, un marchand lyonnais, Pierre Valdo, distribue ses bien aux indigents, prêche la pauvreté évangélique et réunit autour de lui un petit groupe de laïques prêcheurs, qui ne tardèrent pas à s’appeler {\itshape Pauperes Christi}. La prédication était interdite aux laïques, l’archevêque les excommunie. Ils ne se soumirent pas. Au concile de Latran de 1179, ils ne sont pas mal accueillis par Alexandre III, qui confirma le vœu de pauvreté de Pierre Valdo, mais le droit de prêcher lui fut accordé seulement avec l’autorisation de l’ordinaire. Celle-ci lui étant refusée, ils persévèrent. \emph{« Cette usurpation du rôle d’apôtre, comme dit Étienne de Bourbon, marque le commencement de leur désobéissance. »} Et ils sont finalement excommuniés par le pape au concile de Vérone de 1184. Alors se développèrent chez eux les doctrines proprement hérétiques. Ils conservent une messe de rite simplifié, rompant avec la communion des saints, le Purgatoire, etc., se constituant un clergé à eux. D’autant plus attachés à la Bible qu’ils étaient infidèles à la tradition patristique, ils la firent traduire en langue romane. Pierre Valdo mourut probablement avant 1218. La secte se répandit un peu partout, surtout dans les milieux urbains. En 1230 ou 1231, un boulanger de Reims, appelé Echard, fut brûlé pour hérésie à la suite d’une condamnation par un concile provincial ; c’était, comme dit un texte et comme le prouve ce que l’on sait de sa doctrine, un disciple des \emph{« pauvres de Lyon \footnote{ HASKINS, {\itshape Robert le Bougre....} p. 442.} »}. Ils avaient essaimé jusqu’à Metz aux environs de 1200. Aussi et surtout dans les vallées du Rhône et en Italie où ils rejoignaient un mouvement issu de la Patarie. Mais il y avait eu, dès 1205, scission entre le groupe français et le groupe italien. On est mal renseigné sur les circonstances de l’émigration qui, avant le XIV\textsuperscript{e} siècle, fit se réfugier dans les vallées des Alpes un grand nombre de Vaudois venus probablement de la vallée du Rhône.
-\subsection[b) Les Cathares. — Utiliser ici le dossier spécial.]{b) {\itshape Les Cathares. —} Utiliser ici le dossier spécial.}
+\subsection[2° Les Cathares]{2° Les Cathares \protect\footnotemark}
+\footnotetext{Utiliser ici le dossier spécial.}
 \noindent La répression du catharisme : dans le Midi, la Croisade des Albigeois, assez médiocrement terminée par la mort de Simon de  \phantomsection
 \label{p104} Montfort sous les murs de Toulouse, le 25 juin 1218. Nous verrons comment elle fut reprise par la royauté et terminée politiquement par une transaction. Nous intéressent ici ses conséquences religieuses. Elle a porté un coup très dur à l’hérésie, notamment en la privant de la noblesse. Mais l’extirpation a été beaucoup plutôt l’œuvre de l’inquisition.
 \section[C. L’inquisition]{C. L’inquisition}\phantomsection
 \label{c10c}
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il faut distinguer :}
+\item[]\listhead{Il faut distinguer :}
 \item La répression violente de l’hérésie.
 \item L’organisation à cette fin de tribunaux spéciaux.
 
@@ -2238,7 +2251,7 @@ La rigueur était extrême. Elle souleva des révoltes, mi-religieuses, mi-natio
  \phantomsection
 \label{p108}
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Quels résultats ? Il faut distinguer les étapes :}
+\item[]\listhead{Quels résultats ? Il faut distinguer les étapes :}
 \item La croisade a eu pour résultat de priver l’hérésie du soutien, au moins ouvert, des grandes maisons baronales.
 \item Depuis que commence, en 1233, l’œuvre de l’Inquisition et qu’elle s’intensifie après le massacre de 1242, elle frappe à coups redoublés sur toutes les classes sociales.
 
@@ -2249,7 +2262,7 @@ Finit quand ? On le sait mal, mais il semble bien qu’en France, au moment où 
  \phantomsection
 \label{p109}\section[D. La vie religieuse]{D. La vie religieuse}\phantomsection
 \label{c10d}
-\subsection[1) Comment le laïque connaît sa religion.]{1) Comment le laïque connaît sa religion.}
+\subsection[1° Comment le laïque connaît sa religion]{1° Comment le laïque connaît sa religion}
 
 \begin{listalpha}[itemsep=0pt,]
 \item {\bfseries Le clergé paroissial (chapelains, confesseurs)}. Il est médiocre. Voyez par exemple le fameux livre des visitations épiscopales d’Eudes Rigaud (1248-1269) \footnote{ Voir L. DELISLE, {\itshape Le clergé français au XIIIe siècle, d’après le Journal des visites pastorales d’Eudes Rigaud}, dans {\itshape Bibl. Éc. Chartes}, t. VIII, 1846, p. 479-499.}. Médiocre par les mœurs. La règle du célibat est mal observée. Au point que, dans un mémoire présenté au Concile de Vienne de 1312 par l’évêque de Mende, Guillaume Durant le jeune, celui-ci propose d’en venir au système de l’Église d’Orient : prêtres paroissiaux mariés. Il est ignorant. Son autorité, en outre, est souvent peu aimée du paysan : parce qu’on l’accuse de rapacité. Prêtre, sergent seigneurial, meunier, les trois ennemis : voir les fabliaux. D’où cela vient-il ? Mauvais système de nomination, le patronat ; les cures données en bénéfice, avec vicaire ; les cures monastiques. La mauvaise formation.
@@ -2257,7 +2270,7 @@ Finit quand ? On le sait mal, mais il semble bien qu’en France, au moment où 
 \item {\bfseries L’iconographie}. Importance à cet égard du développement artistique du XIII\textsuperscript{e} siècle.
 \item Pour ceux qui lisent, {\bfseries les livres de piété à l’usage des laïques}. Pas absolument séparable de la catégorie précédente. Joinville, à Acre (1250-1251), pour faire de la propagande dans son entourage, fait faire un petit livre, exposé de la foi catholique \footnote{{\itshape Le Credo de Joinville}, éd. N. de Wailly, p. 508-537.}. Littérature de piété très abondante \footnote{ Voir Ch. V. LANGLOIS, {\itshape La vie en France au Moyen âge du milieu du XIIIe au milieu du XIVe. Enseignements, méditations et controverses. La vie spirituelle d’après des écrits en français à l’usage des laïcs}, Paris, 1928.}. Prise de conscience religieuse, favorable d’ailleurs à l’hérésie.
 
-\end{listalpha}\subsection[2° Ce qu’il y a de pieux et de vivant dans la religion.]{2° Ce qu’il y a de pieux et de vivant dans la religion.}
+\end{listalpha}\subsection[2° Ce qu’il y a de pieux et de vivant dans la religion]{2° Ce qu’il y a de pieux et de vivant dans la religion}
 \noindent Problème difficile. À noter : la préoccupation du diable ; l’Enfer et la vie de l’autre Monde. D’où les Indulgences. Saint Louis à son fils : \emph{« Recherche volontiers les pardons. »} La Vierge, culte des saints, d’où les fausses reliques et les statues miraculeuses truquées, dénoncées par Guillaume de Digulleville, dans le {\itshape Pèlerinage de la Vie humaine}, entre 1330 et 1332. Le Christ et le culte de la Croix.
 \subsection[3° Le rôle du prêtre]{3° Le rôle du prêtre}
 \noindent \emph{« Cher fils, dit saint Louis, je t’enseigne que tu t’accoutumes à te confesser souvent. »} La même règle se retrouve dans deux traités d’édification à l’usage des laïcs. La confession.
@@ -2268,7 +2281,7 @@ Finit quand ? On le sait mal, mais il semble bien qu’en France, au moment où 
 Ces institutions, malgré le {\itshape rush} vers les Ordres mendiants, sont encore extrêmement vivantes, religieusement et socialement. Si d’ailleurs on laisse de côté les ordres militaires, les autres groupements bénédictins et même augustins tendent à effacer leurs distinctions : la pratique de Cîteaux tend à se rapprocher des autres pratiques bénédictines ; les monastères bénédictins isolés tendent, à l’imitation de Cîteaux et de Cluny, à s’unir entre eux par l’institution de chapitres communs.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Quelques grands faits :}
+\item[]\listhead{Quelques grands faits :}
 \item Monastères et prieurés ;
 \item L’abbé, sa fortune distincte de celle des moines ;
 \item L’élection de l’abbé : l’intrusion des pouvoirs laïques et de la papauté ;
@@ -2287,7 +2300,7 @@ Mais forme monastique nouvelle.\par
 \end{itemize}
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Qu’apportaient de neuf ces deux ordres ?}
+\item[]\listhead{Qu’apportaient de neuf ces deux ordres ?}
 \item Le principe de {\bfseries pauvreté} : sa signification, son abaissement nécessaire. Il en reste du moins une constitution de fortune différente, où la rente seigneuriale tient peu de place (sujet mal connu).
 \item Une {\bfseries concentration} beaucoup plus grande et par suite un instrument beaucoup plus en mains d’une curie pontificale, qui aspire à dominer une Église centralisée et unifiée.
 \item La rupture avec l’idée du moine loin du siècle. Les {\bfseries ordres urbains}. La {\bfseries prédication}. L’administration des sacrements et notamment la confession. Les premiers établissements fondés sont extra urbains. Puis ils entrèrent en ville (voir ci-dessous, Paris). Texte relatif à Ecouges. Ils parent à l’insuffisance du clergé séculier.
@@ -2314,7 +2327,7 @@ C’est vers la fin du règne de saint Louis que ce mouvement complexe et assez 
 Il serait inexact de se représenter à ce moment et après ce moment une papauté toute française. Mais certainement influence française très forte. Dès le XIII\textsuperscript{e} siècle. Jusqu’à la mort d’Alexandre IV (1261), tous les papes sont italiens. D’Urbain IV à Benoît XI (1261-1304), sur 13 papes, on compte trois français. Depuis Clément V jusqu’à Grégoire XI (1305-1378), ils sont tous français, à l’exception du provençal Urbain V, sujet des Angevins, princes français.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Comment se marque la centralisation ?}
+\item[]\listhead{Comment se marque la centralisation ?}
 \item Centralisation de la justice.
 \item Les impôts. Ce sont essentiellement les décimes, nées à l’origine des impôts de croisade, levées par Grégoire IX à l’occasion de la lutte contre Frédéric II (1225), parfois partagées entre le Pape et le roi. Il s’y ajoute au début du XIV\textsuperscript{e} siècle des subsides. En vérité toutes sortes de taxes de chancellerie ou afférentes aux nominations.
 \item Les nominations. Réserve générale : sous Clément IV, une décrétale du 27 août 1265 donne au pape la pleine disposition des bénéfices des mourants à la Curie. Boniface VIII étend la mesure à la distance de deux journées de marche. Clément V et Jean XXII étendent aux bénéfices des cardinaux, à ceux qui seraient vacants par disparition ou résignation etc. Désir de pouvoir et de profit ; hostilité à l’élection ; accrue avec les rois (Philippe le Bel faisait fournir au pape des prébendes à ses serviteurs).
@@ -2344,14 +2357,14 @@ Le groupe catalan (avec influences mozarabes). Ares outrepassés. Mais surtout c
 
 \item La culture. Son caractère uniquement latin, à la seule exception de l’Angleterre. Éclipse en Allemagne de la littérature en langue vulgaire. Son insignifiance en France, (Eulalie, IX\textsuperscript{e} siècle ; Passion du Christ et Saint Léger, X\textsuperscript{e}).
 
-\end{enumerate}\noindent Les grandes écoles destinées à l’enseignement des clercs (et des clercs seuls). On appelle {\foreign studia generalia} celles qui confèrent des grades reconnus par l’usage, puis par décision pontificale, dans toute la chrétienté. On dit aussi de plus en plus, dans ce sens, {\itshape Universitas}, mot qui désignait à l’origine l’association des maîtres et étudiants, douée de personnalité morale.
+\end{enumerate}\noindent Les grandes écoles destinées à l’enseignement des clercs (et des clercs seuls). On appelle \emph{studia generalia} celles qui confèrent des grades reconnus par l’usage, puis par décision pontificale, dans toute la chrétienté. On dit aussi de plus en plus, dans ce sens, {\itshape Universitas}, mot qui désignait à l’origine l’association des maîtres et étudiants, douée de personnalité morale.
 \section[B. Les Universités]{B. Les Universités}\phantomsection
 \label{c11b}
-\subsection[1° La formation et la constitution des Universités françaises.]{1° La formation et la constitution des Universités françaises.}
+\subsection[1° La formation et la constitution des Universités françaises]{1° La formation et la constitution des Universités françaises}
 \noindent L’Université de Paris. Ses origines échappent à notre période. L’importance des écoles de Paris remonte à la première moitié du XII\textsuperscript{e} siècle, aux temps d’Abélard et de Guillaume de Champeaux. C’est à cette époque que les écoles des Arts, pour échapper au chapitre, se fixent sur la rive gauche, dans le bourg Sainte-Geneviève. Les premiers privilèges de juridiction ont été accordés par Philippe Auguste en 1200. C’est en 1215 que l’enseignement est organisé par le cardinal légat Robert de Courçon ; en 1219 que nous voyons la mention d’officiers élus par les maîtres. La fin du règne de Philippe Auguste, celui de Louis VIII, le début du règne de saint Louis sont remplis par la grande querelle des maîtres avec le chancelier du chapitre : elle est marquée par la sécession, vers 1227, des maîtres en droit et en théologie sur la rive gauche. Le cardinal légat Romain de Saint-Ange, très puissant sous la régence à la cour de France, était en mauvais termes avec l’Université. Il en fit briser le sceau, en 1225, sur requête du chapitre. Une rixe entre les écoliers et les habitants du bourg Saint-Marcel amena une plainte du chapitre au légat ; celui-ci exhorta la reine à l’action. Les sergents royaux maltraitèrent les écoliers, en tuèrent plusieurs. L’Université répondit d’abord par l’arme déjà classique de la \emph{grève}, puis par celle, plus grave encore de la sécession ; elle se dispersa. Il est intéressant de voir le pape Grégoire IX s’émouvoir — c’est l’indice du rôle d’école universelle — et notamment d’école théologique — pris par les écoles parisiennes \emph{« fleuve qui irrigua et féconda le paradis de l’Église universelle »} (dit-il lui-même dans une bulle de 1229). Il rappela son légat. Le résultat fut — après réconciliation avec le gouvernement royal — la grande bulle {\itshape Parens scientiarum} de 1231.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Les clauses essentielles sont les suivantes :}
+\item[]\listhead{Les clauses essentielles sont les suivantes :}
 \item Le chancelier ne confèrera la licence en théologie et en droit qu’après enquête auprès des maîtres. Pour les médecins et les artistes, il n’accordera la licence qu’à des personnes dignes (pour les artistes, le problème n’était pas brûlant, parce qu’ils avaient le recours de s’adresser à l’abbé de Sainte-Geneviève ou à son représentant). Pratiquement, la licence sera désormais décernée par des commissions de maîtres.
 \item Droit pour les maîtres de faire des règlements touchant les heures de l’enseignement, la discipline intérieure, le prix des chambres ; et d’expulser qui n’obéira pas à ces règlements.
 \item Prescriptions relatives à la juridiction de l’évêque.
@@ -2370,14 +2383,16 @@ Le groupe catalan (avec influences mozarabes). Ares outrepassés. Mais surtout c
 \noindent Les traits généraux de sa constitution se dégagent sous le règne de saint Louis. L’Université est une université de maîtres (à la différence de Bologne et même d’Orléans). Elle se divise en quatre Facultés : Arts (trivium : grammaire, rhétorique, dialectique ; quadrivium : arithmétique, géométrie, astronomie, musique) ; théologie, droit canon, médecine. Elles sont hiérarchisées en ce sens qu’en règle générale on a passé par les Arts (à Paris ou ailleurs) pour être admis dans l’une des autres Facultés. Mais les maîtres ès Arts sont les plus nombreux et ont mené la lutte contre les chanceliers. Nous allons en voir les conséquences. Les Arts se divisent en quatre nations . française, normande, picarde, anglaise (la française comprend les Italiens ; l’anglaise, les Allemands). Chacun a son procureur. L’ensemble de la Faculté des Arts a à sa tête un recteur, qui est en même temps le chef de toute l’Université. Chacune des trois autres Facultés, un doyen. Les maîtres se divisent en trois catégories : bacheliers ( jeunes gens), qui ont le droit d’agir comme des espèces d’assistants ; licenciés {\itshape (licentia docendi) ;} docteurs (dans les trois facultés supérieures). Il n’y a pas de chaires pourvues de traitement. Les locaux sont ou prêtés par des institutions religieuses, ou loués par les maîtres ; à la fin du XIII\textsuperscript{e} siècle, les Nations se chargent du loyer. Les leçons se paient et il y a les bénéfices ecclésiastiques. Mais là, grande cause de supériorité des ordres et des collèges. L’enseignement se fait en général sous forme de commentaires d’ouvrages, auxquels s’ajoutent les {\itshape disputationes.}\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Les degrés :}
+\item[]\listhead{Les degrés :}
 \item l’étudiant commence par être un {\itshape scholaris} tout court ;
 \item après un examen sous forme de discussion publique ({\itshape determinatio}), il devient bachelier, et peut alors donner un enseignement relativement élémentaire ;
 \item la licence. Les licenciés sont dits \emph{maîtres} dans toutes les Facultés à l’exception de celle de Droit Canon où, à l’imitation de Bologne, on parle de docteurs \footnote{ Voir Charles H. HASKINS, {\itshape The Life of medieval Students as illustrated by their letters}, Madison, Wisconsin, U.S.A, t. III, 1897-1898. — {\itshape The University of Paris in the sermons of the thirteenth Century}, {\itshape Ibid}., t. X, 1904-1905.}.
 
 \end{enumerate}\noindent Les collèges. À l’origine hôtels pour étudiants, ainsi dispensés de graves soucis matériels et soumis à une certaine discipline. Le premier fut celui des Dix-huit, annexe de l’Hôtel-Dieu et fondé en 1180 par le chapitre de Notre-Dame. Ces établissements se multiplient au cours du siècle. Les premiers étaient pour les artistes (plus jeunes). Vers 1257, Robert de Sorbon, chapelain de saint Louis, établit un collège pour seize pauvres maîtres ès Arts, étudiants en théologie, visiblement dans le dessein de perpétuer la race des théologiens laïques. Le célèbre collège de Navarre, fondé en 1314 par la reine Jeanne, femme de Philippe le Bel, comprit des artistes et des théologiens. Ainsi l’Université se bâtissait en pierres. Les ordres monastiques avaient leurs maisons d’études. Dès ce moment, on commençait d’enseigner dans les collèges.\par
-Les ordres mendiants.\par
- \phantomsection
+
+\labelblock{Les ordres mendiants.}
+
+\noindent  \phantomsection
 \label{p118} En 1229, au moment de la sécession, le chancelier de Notre-Dame avait accordé la licence au maître en théologie du couvent des Dominicains ! Elle lui fut maintenue après 1231. Un peu plus tard, un maître en théologie séculier prit l’habit dominicain, un autre, le célèbre Alexandre de Hales, celui de franciscain, tout en gardant leurs enseignements. Se multiplient : parmi eux, de 1245 à 1248, Albert le Grand. En 1250, le pape ordonne au chancelier d’accorder la licence aux religieux, qui en sembleraient dignes. Heurts : de tour d’esprit, de positions intellectuelles, de concurrence. En 1253, une \emph{cessation} fut proclamée à propos du meurtre d’un écolier par les sergents du roi. Les Mendiants refusèrent d’y participer sans l’assentiment du pape. Ils furent expulsés de la société des maîtres. Alexandre IV, ancien dominicain lui-même, en 1255, ordonna de les admettre. À ce moment, Guillaume de Saint-Amour lança son {\itshape Tractatus brevis de periculis novissimorum temporum.} Il y eut deux résultats : condamnation de Jean de Flore ; interdiction faite à Guillaume, en 1257, de résider à Paris. La lutte se poursuivit. Parmi les Mendiants, qu’en 1256 les maîtres s’étaient refusé d’accepter, se trouvent Bonaventure et Thomas. L’Université finit par admettre les Mendiants. Mais l’antagonisme dura pendant tout le siècle, avec des controverses, tantôt vives, tantôt assoupies. Les Mendiants ont contribué à tenir l’Université dans le devoir papal. Mais l’hostilité contre eux a développé un esprit \emph{gallican} dans l’Université (qui se traduit par l’attitude sous Boniface VIII).\par
 La vie universitaire : l’âge (dès 14 ans pour les artistes). La turbulence. Qui sort de l’Université ?
 \section[C. Les grands problèmes intellectuels]{C. Les grands problèmes intellectuels \protect\footnotemark}\phantomsection
@@ -2392,12 +2407,12 @@ Elle cessa de l’être à partir de la fin du XII\textsuperscript{e} siècle. N
 Or, c’était là un événement intellectuel gros de conséquences : pour la première fois, la pensée occidentale se trouvait en présence d’une philosophie parfaitement organisée, séduisante et d’où la doctrine chrétienne était relativement absente. Aristote n’était pas arrivé seul. En même temps que lui, on avait traduit ses commentateurs de la fin du monde antique ou arabes. Parfois même, il arrivait que le texte, que l’on tenait pour aristotélicien, fùt en réalité de ses continuateurs : soit par interpolations (dans les manuscrits traduits de l’arabe surtout), soit sous forme d’apocryphes. Or, ces continuateurs étaient pour la foi chrétienne plus dangereux encore que le maître. Je me bornerai à citer le plus célèbre et le plus influent en Occident, celui que les Latins appelaient Averroës et dont le nom arabe était Ibn-Rochd (né à Cordoue en 1126, mort en 1178), plusieurs fois persécuté par l’orthodoxie mahométane. C’est \emph{« Averroës qui fit le grand commentaire »} (d’Aristote) comme dit Dante, qui l’a placé dans les limbes, avec son maître Aristote et tous les justes de l’Antiquité, dont la seule peine est d’être éloignés de Dieu.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Deux thèses essentielles :}
+\item[]\listhead{Deux thèses essentielles :}
 \item L’éternité du monde donc pas de création ;
 \item unité de l’intellect humain : donc pas d’immortalité personnelle, ni de jugement après la mort.
 \end{itemize}
 \noindent Contre l’influence très redoutable d’Aristote et des Averroïstes, l’Église a réagi de diverses façons.\par
-D’abord par l’interdiction et la persécution. Sans doute le {\foreign Mauritius} d’Espagne, dont les statuts de 1215 défendent d’enseigner la doctrine à Paris était averroïste.\par
+D’abord par l’interdiction et la persécution. Sans doute le \emph{Mauritius} d’Espagne, dont les statuts de 1215 défendent d’enseigner la doctrine à Paris était averroïste.\par
 
 \begin{listalpha}[itemsep=\baselineskip,]
 \item Le plus illustre des averroïstes latins fut Siger de Brabant, un maître ès arts de l’Université de Paris, contemporain de saint Louis et de Philippe III. Il écrivit d’abord assez librement, puis après une double condamnation de ses thèses, en 1270 et 1277, par l’évêque de Paris, Etienne Tempier, fut traduit en 1277 devant le tribunal de l’Inquisition, conduit ensuite à la cour pontificale, où il fut tué par le glaive, dit un poème du temps, dans des circonstances, qui nous demeurent mystérieuses.
@@ -2405,7 +2420,7 @@ D’abord par l’interdiction et la persécution. Sans doute le {\foreign Mauri
 \label{p120}\item Contre Aristote également, on procéda d’abord par l’interdiction. Le centre de la nouvelle philosophie était incontestablement Paris. Et ce fut là qu’on frappa.\par
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Une série de mesures se suivent :}
+\item[]\listhead{Une série de mesures se suivent :}
 \item  1210, interdiction par un concile de la province de Sens, réuni à Paris, \emph{« de lire à Paris en public ou secrètement les livres d’Aristote sur la philosophie naturelle ni les commentaires »}. Il semble qu’on ait brûlé des manuscrits ;
 \item en 1215, les statuts donnés à l’Université par le légat Robert de Courçon, tout en permettant expressément l’usage des écrits aristotéliciens sur la dialectique, interdisaient la lecture de la {\itshape Métaphysique} et des livres sur la philosophie naturelle.
 
@@ -2418,23 +2433,27 @@ Au premier chef deux étrangers, de race noble, dominicains, et qui ont tous deu
 On n’attend pas de moi que je résume en trois mots le thomisme.\par
 
 \begin{itemize}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Ce qu’il faut retenir je crois, surtout, du point de vue qui nous occupe ici, ce sont deux traits :}
+\item[]\listhead{Ce qu’il faut retenir je crois, surtout, du point de vue qui nous occupe ici, ce sont deux traits :}
 \item Une préoccupation très nette de marquer les différences entre la foi révélée et la raison, de faire à chacune sa part, en laissant à la raison, non seulement le droit, mais le devoir de démontrer tout ce qui est démontrable dans la foi : d’où utilisation de la philosophie.
 \item Par suite, une sympathie médiocre pour tout ce qui est intuition mystique ; il y a a) la révélation ; b) la raison. Il n’est guère d’autre manière que celle-là d’arriver à Dieu.
 \end{itemize}
 
 \begin{enumerate}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il faut bien observer que cette philosophie parut très vivement révolutionnaire :}
+\item[]\listhead{Il faut bien observer que cette philosophie parut très vivement révolutionnaire :}
 \item parce qu’il y avait quelque chose de choquant à voir un théologien passer son temps à étudier un philosophe païen ;
  \phantomsection
 \label{p121}\item par la part très faible, qu’elle faisait à la connaissance mystique.
 
 \end{enumerate}\noindent Elle fut très vivement attaquée, notamment en Angleterre. Elle eut néanmoins une très forte action. Mais elle n’est devenue philosophie officielle que de nos jours. Il y eut d’autres courants. Voici les principaux.\par
-D’une part, un courant qui fond avec l’augustinisme et, jusqu’à un certain point, la tradition platonicienne avec la source vive de mysticisme, qui coulait dans les milieux franciscains Bonaventure.\par
-Un courant, où l’étude à la fois mathématique et expérimentale du monde sensible s’unit à un violent mysticisme : l’unité étant faite de l’hostilité à la fois à la raison raisonnante et, en matière de foi, à l’argument d’autorité. Le plus illustre représentant fut un Franciscain anglais, Roger Bacon, mort peu après 1292, après avoir été emprisonné de longues années, à qui l’on doit le mot destiné à un si bel avenir : {\foreign scientia experimentalis}.\par
-Mais Bacon avait passé à Paris et, là notamment, connu un homme qu’il a indiqué comme un de ses maîtres les plus chers : le Picard Pierre de Maricourt qui, contemporain de saint Louis (nous ne connaissons pas la date de sa naissance ni de sa mort), est l’auteur d’un traité sur l’aimant, longtemps célèbre, et que Bacon a salué du beau titre de {\foreign dominus experimentorum}.\par
-Enfin, le mouvement averroïste n’était point mort. Il est significatif que Dante, malgré son orthodoxie, n’ait pas seulement colloqué Averroës, fort honorablement, dans les limbes ; dans la couronne d’âmes lumineuses, qu’il rencontre au IV\textsuperscript{e} ciel, figure avec saint Thomas et Albert son maître, nul autre que Siger. Au temps de Philippe le Bel et de ses fils, enseigne à Paris le maître ès Arts Jean de Jandun, qui, il est vrai, fut excommunié en 1327 par le pape Jean XXII, en même temps que son aîné Marsile de Padoue, mais moins pour ses opinions philosophiques que pour ses théories politiques ; il mourut en 1328. Dans son {\itshape Defensor pacis}, composé avec Marsile, Jean attaque violemment la papauté et veut soumettre l’Église à l’État (en l’espèce l’Empire), dont le chef est le représentant du peuple souverain. Mais en même temps, Jean est un averroïste déclaré, et probablement un véritable incrédule, sa théorie de la double vérité ne lui servant guère que de masque assez transparent pour ses lecteurs. Il n’est pas sans intérêt, pour l’historien des doctrines politiques, de voir un homme de cette trempe passer du Paris de Nogaret à la cour de Louis de Bavière ; ni pour l’historien des idées comme de la politique ecclésiastique en général, de voir quels contacts pouvait avoir dans la capitale même, autour du très pieux Philippe le Bel, un entourage peut-être moins pieux.\par
-Que savait-on, que disait-on de tout cela dans les couches moins intellectuelles ? Mystère. Quelques traits néanmoins à retenir.\par
+
+\begin{listalpha}[itemsep=\baselineskip,]
+\item D’une part, un courant qui fond avec l’augustinisme et, jusqu’à un certain point, la tradition platonicienne avec la source vive de mysticisme, qui coulait dans les milieux franciscains Bonaventure.
+\item Un courant, où l’étude à la fois mathématique et expérimentale du monde sensible s’unit à un violent mysticisme : l’unité étant faite de l’hostilité à la fois à la raison raisonnante et, en matière de foi, à l’argument d’autorité. Le plus illustre représentant fut un Franciscain anglais, Roger Bacon, mort peu après 1292, après avoir été emprisonné de longues années, à qui l’on doit le mot destiné à un si bel avenir : \emph{scientia experimentalis}.\par
+Mais Bacon avait passé à Paris et, là notamment, connu un homme qu’il a indiqué comme un de ses maîtres les plus chers : le Picard Pierre de Maricourt qui, contemporain de saint Louis (nous ne connaissons pas la date de sa naissance ni de sa mort), est l’auteur d’un traité sur l’aimant, longtemps célèbre, et que Bacon a salué du beau titre de \emph{dominus experimentorum}.
+
+\item Enfin, le mouvement averroïste n’était point mort. Il est significatif que Dante, malgré son orthodoxie, n’ait pas seulement colloqué Averroës, fort honorablement, dans les limbes ; dans la couronne d’âmes lumineuses, qu’il rencontre au IV\textsuperscript{e} ciel, figure avec saint Thomas et Albert son maître, nul autre que Siger. Au temps de Philippe le Bel et de ses fils, enseigne à Paris le maître ès Arts Jean de Jandun, qui, il est vrai, fut excommunié en 1327 par le pape Jean XXII, en même temps que son aîné Marsile de Padoue, mais moins pour ses opinions philosophiques que pour ses théories politiques ; il mourut en 1328. Dans son {\itshape Defensor pacis}, composé avec Marsile, Jean attaque violemment la papauté et veut soumettre l’Église à l’État (en l’espèce l’Empire), dont le chef est le représentant du peuple souverain. Mais en même temps, Jean est un averroïste déclaré, et probablement un véritable incrédule, sa théorie de la double vérité ne lui servant guère que de masque assez transparent pour ses lecteurs. Il n’est pas sans intérêt, pour l’historien des doctrines politiques, de voir un homme de cette trempe passer du Paris de Nogaret à la cour de Louis de Bavière ; ni pour l’historien des idées comme de la politique ecclésiastique en général, de voir quels contacts pouvait avoir dans la capitale même, autour du très pieux Philippe le Bel, un entourage peut-être moins pieux.
+
+\end{listalpha}\noindent Que savait-on, que disait-on de tout cela dans les couches moins intellectuelles ? Mystère. Quelques traits néanmoins à retenir.\par
 
 \begin{enumerate}[itemsep=0pt,]
 \item Le XIII\textsuperscript{e} siècle est le siècle des Sommes, logiquement et clairement ordonnées. Celles de saint Thomas sont des chefs-d’œuvre. Le {\itshape Speculum majus} du dominicain Vincent de Beauvais, qui fut {\itshape lector} de saint Louis, témoigne d’un esprit d’un degré bien inférieur ; mais elle n’en est pas moins caractéristique. C’est une vaste encyclopédie, divisée en trois parties : s{\itshape peculum naturale, doctrinale, historiale.} Dans la plupart des œuvres du temps, se manifestent ce goût et, jusqu’à un certain point, ce talent d’organisation qui est un des signes distinctifs du temps.
@@ -2453,7 +2472,8 @@ C’est enfin et surtout, à mesure que le siècle s’avance, le progrès d’u
 Mais peut-être l’originalité du XIII\textsuperscript{e} siècle est-elle d’avoir véritablement créé la littérature française en prose. Cela surtout sous la forme de la prose historique, juridique et parfois didactique (par exemple avec le {\itshape Trésor} composé, en 1265, par l’Italien Brunetto Latini). Toute cette prose n’est pas prose d’art, et l’on en a parfois exagéré les mérites. Mais Joinville est un pur chef-d’œuvre, peut-être le premier chef-d’œuvre de prose de toute la littérature européenne.\par
 Par là, on voit définitivement la littérature sortir des cadres des professionnels.\par
 Quel public ? C’est ce qu’en vérité nous savons très mal. Je ne sais s’il faut parler d’un public plus large qu’au temps des Chansons de geste. Mais certainement d’un public plus varié — bourgeoisie ! — et plus sensible aux qualités d’art ; un public qui ne se contente plus d’entendre lire — qui lit — bien que Joinville écrive encore \emph{« cel qui orront ce livre »}.\par
-Ne cherchons pas ici à faire plus qu’une histoire littéraire, une histoire de l’art. Seulement à voir, ce que l’on peut nous apprendre sur les aspects du temps.\par
+\bigbreak
+\noindent Ne cherchons pas ici à faire plus qu’une histoire littéraire, une histoire de l’art. Seulement à voir, ce que l’on peut nous apprendre sur les aspects du temps.\par
 Inutile de rappeler que l’époque étudiée a vu une admirable floraison artistique et qu’elle est la grande époque de l’art que, traditionnellement, nous appelons gothique ou encore (d’une forme de voûte) ogivale. Quelques dates d’édifices : Chartres moins le clocher roman, pour l’essentiel autour de 1220 ; Reims de 1211 à 1300 ; Amiens de 1220 à 1288 ; Bourges de 1200 environ à 1270 ; la Sainte Chapelle entre 1243 et 1248. Le Palais Royal dans la Cité, date pour l’essentiel de Philippe le Bel.\par
 La première idée, qui puisse venir au matérialisme de l’historien devant ces constructions, c’est qu’elles ont coûté beaucoup d’argent. Nous savons mal comment elles ont été subventionnées : fortunes des évêques, des chapitres, des monastères ; dons des grands et quêtes auprès de la masse ; contributions peut-être des villes. Mais il faut bien entendre que l’effort a rarement pu être soutenu jusqu’au bout. Sans aller jusqu’à l’exemple de Beauvais, dont la cathédrale, commencée en 1247 sur un plan gigantesque, n’a jamais compris qu’un chœur et un transept, peu d’édifices religieux ont été achevés jusqu’au bout.\par
 De pareils édifices, très grands, plus hauts et plus percés de fenêtres que ceux de l’âge antérieur, attestent certainement une grande habileté technique (dans le fameux album de Villard de Honnecourt, carnet de croquis techniques). Mais ici gardons-nous aussi d’exagération. La cathédrale est plus qu’une épure et comme  \phantomsection
@@ -2465,7 +2485,7 @@ Un caractère est net : c’est la disparition du fantastique et de l’apocalyp
 Enfin, autre chose encore et de plus profond peut-être à retenir de cet art. Beaucoup mieux que la littérature, encombrée d’œuvres médiocres, l’architecture, la sculpture monumentale, les savants ivoires, les vitraux, les miniatures (comme celles du psautier de saint Louis) nous rappellent que ces hommes, qui savaient peu de chose, qui se plaisaient encore à des contes bien naïfs, dont les mœurs étaient rudes et violentes, étaient cependant des esprits raffinés, avides de délicates et saines jouissances des yeux. Et ce n’est pas là, pour comprendre une époque, un fait indifférent.
 \section[E. Le bagage intellectuel]{E. Le bagage intellectuel}\phantomsection
 \label{c11e}
-\subsection[1) Les langues.]{1) Les langues.}
+\subsection[1° Les langues]{1° Les langues}
 
 \begin{listalpha}[itemsep=\baselineskip,]
 \item Les langues vulgaires. La division de la France en deux groupes linguistiques. Leur non-pénétration : Jacques Duèse devenu, en 1316, le pape Jean XXII, Cahorsin, ne sait pas le français. Mais décadence de la littérature provençale. Le dernier des grands troubadours, Guiraut Riquier, mort à la fin du XIII\textsuperscript{e} siècle, doit passer une partie de sa vie à la cour de Castille. La poésie subsiste dans les milieux bourgeois.\par
@@ -2474,10 +2494,10 @@ Le français : tendance à se former une langue littéraire de l’Ile-de-France
 \item Le latin, langue de culture et de conversation, langue véhiculaire de l’enseignement. Mais en plus, depuis saint Louis et surtout Philippe le Bel, langue unique de l’administration. L’administration royale qui, depuis saint Louis et Philippe le Bel, use du français dans le Nord, use du latin dans le Midi.
 
 \end{listalpha}\noindent La littérature en français est : poétique ou romanesque, d’édification, historique, didactique seulement sous la forme de traductions, assez rares (par exemple les {\itshape Météorologiques} d’Aristote ont été traduites vers 1250), et surtout de compilations, de sommes en général très médiocres et en retard sur la pensée des gens les plus instruits. La vraie littérature philosophique ou scientifique de ce temps — c’est tout un — est en latin.
-\subsection[2) L’enseignement.]{2) L’enseignement.}
+\subsection[2° L’enseignement]{2° L’enseignement}
 
 \begin{listalpha}[itemsep=0pt,]
-\item[] \hspace{-1.5em}{\bfseries Il faut distinguer soigneusement différents types :}
+\item[]\listhead{Il faut distinguer soigneusement différents types :}
 \item L’instruction des grands personnages laïques, assez poussée. Comme l’on sait déjà, elle se fait par précepteurs.
 \item Les écoles des villages et des villes. Elles sont ecclésiastiques en général, annexes d’un monastère ou d’un chapitre. Dans les villes, elles se sont beaucoup développées au cours des XII\textsuperscript{e} et XIII\textsuperscript{e} siècles, sous l’impulsion des bourgeoisies, qui tantôt empiètent sur les droits reconnus aux autorités ecclésiastiques, tantôt cherchent à s’accorder avec celles-ci ; elles servent à la population marchande, sauf dans les grandes familles, où on a recours, semble-t-il, à des précepteurs privés. Il y en a également, dans certains bourgs de campagne, mais là elles sont, semble-t-il, surtout fréquentées par les enfants que l’on destine au clergé (et qui d’ailleurs n’y entrent pas toujours). Aller aux écoles et se faire prêtre, c’est tout un : le prouvent les textes relatifs aux serfs (Midi, Arras). J’ai pu suivre, de 1298 à 1306, des nominations de maîtres des écoles de grammaire de Montfort (l’Amaury) par l’abbé de Saint-Magloire. Du bienheureux Thomas de Biville, mort en 1257, son biographe nous dit qu’avant de recevoir les ordres, il exerça la métier de maître d’école \emph{« en beaucoup de lieux \footnote{ Voir D’IRSAY, {\itshape Histoire des Universités françaises et étrangères des origines à nos jours}, Paris, t. I, 1933. — ROSHDALL, {\itshape The Universities of Europe in the Middle Ages}, 3 vol. 1895, Abrégé, Cambridge.} »}.
 
