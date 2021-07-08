@@ -117,7 +117,9 @@ class HurlusBuild
       $authbib .= ' <a title="Bureautique (LibreOffice, MS.Word)" class="file docx" href="'.$dstpath.'.docx">[docx]</a> ';
       $authbib .= ' <a title="Amazon.kindle" class="file mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
       $authbib .= ' <a title="EPUB, pour liseuses et téléphones" class="file epub" href="'.$dstpath.'.epub">[epub]</a> ';
-      // add pdf links ?
+      foreach (glob($exportpath."*.tex") as $exportfile) {
+        $authbib .= ' <a title="LaTeX" class="file tex" href="'.$dstdir.basename($exportfile).'">[TeX]</a> ';
+      }
       foreach (glob($exportpath."*.pdf") as $exportfile) {
         if (strpos($exportfile, '_a5') !== false) {
           $authbib .= ' <a title="PDF à lire, A5 une colonne" class="file a5" href="'.$dstdir.basename($exportfile).'">[pdf a5]</a> ';
@@ -129,6 +131,7 @@ class HurlusBuild
           $authbib .= ' <a title="PDF à imprimer, A4 2 colonnes" class="file pdf" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
         }
       }
+
 
       $authbib .= ' <a href="'.$dstpath.'.html">' . $meta['title'].'</a>';
       $authbib .= "\n";
