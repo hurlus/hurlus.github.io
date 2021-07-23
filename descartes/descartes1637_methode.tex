@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -176,7 +176,7 @@
  (\hyperref[I]{\dotuline{I}}) Le chercheur raconte d’abord sa vie pour se présenter, sans façon, à la Montaigne ;\par
  (\hyperref[II]{\dotuline{II}}) il présente ensuite une Méthode originale qui s’annonce prometteuse ;\par
  (\hyperref[III]{\dotuline{III}}) de cette Méthode il commence par tirer une Morale, afin de fonder l’éthique du chercheur qui n’existait pas encore ;\par
- (\hyperref[IV]{\dotuline{IV}}) il en tire aussi une Métaphysique, nécessaire à l’époque pour que les résultats de la science ne fâchent l’Église de Rome ;\par
+ (\hyperref[IV]{\dotuline{IV}}) il en tire aussi une Métaphysique, nécessaire à l’époque pour que les résultats de la science ne fâchent pas l’Église de Rome ;\par
  (\hyperref[IV]{\dotuline{V}}) il présente ensuite quelques résultats scientifiques prometteurs de Physique et de Médecine, toujours grâce à sa Méthode ;\par
  (\hyperref[IV]{\dotuline{VI}}) et enfin, il demande de l’argent pour continuer ses expériences.\par
  Le \emph{Discours} introduisait aussi 3 essais scientifiques révolutionnaires pour l’époque (la Dioptrique, les Météores et la Géométrie) ; et par ailleurs, c’est le premier livre européen de sciences qui n’est pas écrit en latin.\par
@@ -201,7 +201,7 @@
  
 \astermono
 
- \noindent Depuis 1840 et le premier programme des classes de philosophie des lycées français par Victor Cousin, la conscience et le \emph{cogito} « je pense (donc je suis) », sont au fondement de la formation des citoyens français. Descartes a inspiré la grande qualité de la science française d’alors, fondé sur le matérialisme radical de l’animal-machine ; mais il a aussi conforté une classe dominante dans sa supériorité intellectuelle, fondée en raison jusqu’à un principe métaphysique ultime : un dieu rationnel validant l’existence de l’âme, du monde, et de leur accord dans les vérités de la science ; afin de \emph{nous rendre comme maîtres \& possesseurs de la Nature (\hyperref[VI2]{\dotuline{VI.2}})}.\par
+ \noindent Depuis 1840 et le premier programme des classes de philosophie des lycées français par Victor Cousin, la conscience et le \foreign{cogito} « je pense (donc je suis) », sont au fondement de la formation des citoyens français. Descartes a inspiré la grande qualité de la science française d’alors, fondé sur le matérialisme radical de l’animal-machine ; mais il a aussi conforté une classe dominante dans sa supériorité intellectuelle, fondée en raison jusqu’à un principe métaphysique ultime : un dieu rationnel validant l’existence de l’âme, du monde, et de leur accord dans les vérités de la science ; afin de \emph{nous rendre comme maîtres \& possesseurs de la Nature (\hyperref[VI2]{\dotuline{VI.2}})}.\par
  Avec la promotion de cette philosophie officielle, l’état français pensait conserver une religion rationnelle, qui ne nuise pas à la science et donc à l’industrie, sans perdre l’immortalité de l’âme et donc l’obéissance du peuple. Par ailleurs, ce système classique n’est pas historique, ce qui évite à l’état de rappeler son origine révolutionnaire, qui porte nécessairement la possibilité de son renversement, c’est-à-dire, que la Révolution puisse revenir. Enfin, le cartésianisme d’état a fondé la métaphysique de l’individualisme absolu, libre de ses opinions en droit, ce qui permet de l’attacher à ses ignorances en fait ; par exemple si le peuple a voté pour Napoléon III en 1870, alors l’Empereur est voulu par Dieu qui s’exprime à travers l’âme de tous les citoyens qui ont voté librement, mais pas éclairés par un débat collectif. \par
  \bigbreak
  \noindent Toutefois, l’homme Descartes porte aussi une sagesse profondément démocratique et universelle. Il accorde à tous le bon sens qui fait l’humanité, sans distinction sociale ou nationale. Il est fidèle en cela à la promesse catholique d’une âme égale pour tous devant Dieu ; contrairement à la prédestination protestante de l’époque, où plusieurs pouvaient s’estimer \emph{élus} (par Dieu).\par
@@ -213,7 +213,7 @@
  
 \astermono
 
- \noindent Le \emph{Discours de la Méthode} est donné ici dans une édition nouvelle, revue sur l’imprimé original de 1637\footnote{\href{https://gallica.bnf.fr/ark:/12148/btv1b86069594}{\dotuline{Gallica [https://gallica.bnf.fr/ark:/12148/btv1b86069594]}}}. L’orthographe est modernisée, inutile de surprendre l’œil et l’oreille par des conventions graphiques comme \emph{paroistre} « paraître » ou \emph{connoiſſance} « connaissance », qui ne signifient pas plus qu’une différence d’accent.\par
+ \noindent Le \emph{Discours de la Méthode} est donné ici dans une édition nouvelle, revue sur l’imprimé original de 1637\footnote{\href{https://gallica.bnf.fr/ark:/12148/btv1b86069594}{\dotuline{Gallica [https://gallica.bnf.fr/ark:/12148/btv1b86069594]}}}. L’orthographe est modernisée, inutile de surprendre l’œil et l’oreille par des conventions graphiques comme \foreign{paroistre} « paraître » ou \foreign{connoiſſance} « connaissance », qui ne signifient pas plus qu’une différence d’accent.\par
  
 \begin{quoteblock}
 \noindent Ceux qui ont le raisonnement le plus fort, \& qui digèrent le mieux leurs pensées, afin de les rendre claires \& intelligibles, peuvent toujours le mieux persuader ce qu’ils proposent, encore qu’ils ne parlassent que bas Breton (\hyperref[I9]{\dotuline{I.9}})\end{quoteblock}
@@ -333,12 +333,13 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
+\newcommand\abbr[1]{#1}
 \newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
-\newcommand\corr{}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
@@ -361,17 +362,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
   {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -881,7 +885,7 @@ Et que, par ce moyen, j’emprunterais tout le meilleur de l’Analyse Géométr
 \bigbreak
 \phantomsection
 \label{II12}\noindent \pn{12}Comme en effet j’ose dire, que l’exacte observation de ce peu de préceptes que j’avais choisis, me donna telle facilité à démêler toutes les questions auxquelles ces deux sciences s’étendent, qu’en deux ou trois mois que j’employai à les examiner, ayant commencé par les plus simples \& plus générales, \& chaque vérité que je trouvais étant une règle qui me servait après à en trouver d’autres, non seulement je vins à bout de plusieurs que j’avais jugées autrefois très difficiles, mais il me sembla aussi vers la fin que je pouvais déterminer, en celles même que j’ignorais, par quels moyens, \& jusques où, il était possible de les résoudre.\par
-En quoi je ne vous paraîtrai peut-être pas être fort vain, si vous considérez que n’y ayant qu’une vérité de chaque chose, quiconque la trouve en sait autant qu’on en peut savoir :\par
+\pn{-}En quoi je ne vous paraîtrai peut-être pas être fort vain, si vous considérez que n’y ayant qu’une vérité de chaque chose, quiconque la trouve en sait autant qu’on en peut savoir :\par
 Et que, par exemple un enfant instruit en l’Arithmétique ayant fait une addition suivant ses règles, se peut assurer d’avoir trouvé, touchant la somme qu’il examinait, tout ce que l’esprit humain saurait trouver.\par
 Car enfin la Méthode qui enseigne à suivre le vrai ordre, \& à dénombrer exactement toutes les circonstances de ce qu’on cherche, contient tout ce qui donne de la certitude aux règles d’Arithmétique.\par
 \bigbreak

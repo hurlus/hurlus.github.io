@@ -28,10 +28,10 @@
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
-    inner=10mm,
-    outer=10mm,
-    top=18mm,
-    bottom=18mm,
+    inner=12mm,
+    outer=12mm,
+    top=20mm,
+    bottom=15mm,
     marginparsep=0pt,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
@@ -46,20 +46,8 @@
     marginparsep=0pt,
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
-\else\ifcover
-  \documentclass[french,twocolumn]{book} % ,notitlepage
-  \usepackage[%
-    a4paper,
-    inner=10mm,
-    outer=10mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
-  ]{geometry}
-  \setlength{\columnsep}{20mm}
-  \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -70,7 +58,7 @@
   ]{geometry}
   \setlength{\columnsep}{20mm}
   \usepackage[fontsize=9.5pt]{scrextend}
-\fi\fi\fi
+\fi\fi
 
 %%%%%%%%%%%%%%
 % Alignments %
@@ -88,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -159,11 +147,12 @@
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % unavailable in Ubuntu 21-04
+% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
 % \usepackage{flushend} % bad for last notes, supposed flush end of columns
 % \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
 % \usepackage{helvet} % not for XeLaTeX
 % \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
+% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
 % \usepackage{sectsty} % \chapterfont OBSOLETE
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
@@ -281,18 +270,19 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
-\newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {#1};}
-\newcommand\corr{}
+\newcommand\abbr[1]{#1}
+\newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
   \let\oldLFH\LettrineFontHook
   % \renewcommand{\LettrineFontHook}{\color{rubric}\ttfamily}
-  \IfSubStr{Q}{#1}{
+  \IfSubStr{QJ’}{#1}{
     \lettrine[lines=4, lhang=0.2, loversize=-0.1, lraise=0.2]{\smash{#1}}{#2}
   }{\IfSubStr{É}{#1}{
     \lettrine[lines=4, lhang=0.2, loversize=-0, lraise=0]{\smash{#1}}{#2}
@@ -309,15 +299,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -325,10 +320,10 @@
 
 % commands, blocks
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\footnotesize\RaggedLeft{#1}\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\labelblock}[1]{\bigbreak{\color{rubric}\noindent\textbf{#1}\par}\bignobreak}
+\newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
 
@@ -345,7 +340,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -485,10 +480,9 @@
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
 \else
-  \setmainfont[
-    ItalicFont={Roboto Italic},
-    % BoldFont={Roboto},
-  ]{Roboto Light}
+\setmainfont[
+  ItalicFont={Roboto Italic},
+]{Roboto Light}
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -512,6 +506,7 @@
   {%
     \savenotes
     \setstretch{0.9}
+    \normalfont
     \begin{quotebar}
   }
   {%
@@ -520,9 +515,8 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{\color{rubric} #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
-\renewcommand{\headrule}{\color{rubric}\hrule}
+\renewcommand{\headrule}{{\color{rubric}\hrule}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -630,7 +624,7 @@
 \else
   \chapo
 \fi
-\elabstract
+{\it\elabstract}
 \bigskip
 \makeatletter\@starttoc{toc}\makeatother % toc without new page
 \bigskip

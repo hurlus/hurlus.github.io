@@ -47,7 +47,7 @@
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -309,12 +309,13 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
+\newcommand\abbr[1]{#1}
 \newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
-\newcommand\corr{}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
@@ -337,15 +338,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -373,7 +379,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -548,7 +554,6 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{ #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 
@@ -665,8 +670,8 @@
 
 \pagestyle{main} % after style
 
-  \renewcommand{\leftmark}{Première partie.}
-\section[Première partie.]{Première partie.}
+  \section[Première partie.]{Première partie.}\renewcommand{\leftmark}{Première partie.}
+
 \noindent \initial{L}{ORSQU'ON} parcourt les diverses contrées de l’Europe, on est frappé d’un spectacle très extraordinaire et en apparence inexplicable.\par
 
 \labelblock{Les pays qui paraissent les plus misérables sont ceux qui, en réalité, comptent le moins d’indigents, et chez les peuples dont vous admirez l’opulence, une partie de la population est obligée pour vivre d’avoir recours aux dons de l’autre.}
@@ -730,8 +735,8 @@ Les progrès de la civilisation n’exposent pas seulement les hommes à beaucou
 
 \noindent Si toutes ces réflexions sont justes, on concevra sans peine que plus les nations sont riches, plus le nombre de ceux qui ont recours à la charité publique doit se multiplier, puisque deux causes très puissantes tendent à ce résultat : chez ces nations, la classe la plus naturellement exposée aux besoins augmente sans cesse, et d’un autre côté, les besoins s’augmentent et se diversifient eux-mêmes à l’infini ; l’occasion de se trouver exposé à quelques-uns devient plus fréquente chaque jour.\par
 Ne nous livrons donc point à de dangereuses illusions, fixons sur l’avenir des sociétés modernes un regard calme et tranquille. Ne nous laissons pas enivrer par le spectacle de sa grandeur ; ne nous décourageons pas à la vue de ses misères. A mesure que le mouvement actuel de la civilisation se continuera, on verra croître les jouissances du plus grand nombre ; la société deviendra plus perfectionnée, plus savante ; l’existence sera plus aisée, plus douce, plus ornée, plus longue ; mais en même temps, sachons le prévoir, le nombre de ceux qui auront besoin de recourir à l’appui de leurs semblables pour recueillir une faible part de tous ces biens, le nombre de ceux-là s’accroîtra sans cesse. On pourra ralentir ce double mouvement ; les circonstances particulières dans lesquelles les différents peuples sont placés précipiteront ou suspendront son cours ; mais il n’est donné à personne de l’arrêter. Hâtons-nous donc de chercher les moyens d’atténuer les maux inévitables qu’il est déjà facile de prévoir.
-\renewcommand{\leftmark}{Seconde partie}
-\section[Seconde partie]{Seconde partie}
+\section[Seconde partie]{Seconde partie}\renewcommand{\leftmark}{Seconde partie}
+
 \noindent \initial{I}{l y a deux} espèces de bienfaisances : l’une, qui porte chaque individu à soulager, suivant ses moyens, les maux qui se trouvent à sa portée. Celle-là est aussi vieille que le monde ; elle a commencé avec les misères humaines ; le christianisme en a fait une vertu divine, et l’a appelée la charité.\par
 L'autre, moins instinctive, plus raisonnée, moins enthousiaste, et souvent plus puissante, porte la société elle-même à s’occuper des malheurs de ses membres et à veiller systématiquement au soulagement de leurs douleurs. Celle-ci est née du protestantisme et ne s’est développée que dans les sociétés modernes.\par
 La première est une vertu privée, elle échappe à l’action sociale ; la seconde est au contraire produite et régularisée par la société. C'est donc de celle-là qu’il faut spécialement nous occuper.\par
@@ -749,8 +754,9 @@ Une loi \footnote{ \noindent \emph{(Note de Tocqueville)} Voyez\par
 \item Les principaux résultats de l’enquête faite en 1833 sur l’état des pauvres, contenus dans le livre intitulé : \emph{Extracts from the infotmation received by Ris Majesty's commissioners as to the administration and operation of the Poor-laws} ;
 \item \emph{The report of the Poorlaws commissioners ;}
 \item Et enfin la loi de 1834 qui a été le résultat de tous ces travaux.
+\end{enumerate}
 
-\end{enumerate}} promulguée dans la quarante-troisième année du règne de cette princesse dispose que dans chaque paroisse des inspecteurs des pauvres seront nommés ; que ces inspecteurs auront le droit de taxer les habitants à l’effet de nourrir les indigents infirmes, et de fournir du travail aux autres. A mesure que le temps avançait dans sa marche, l’Angleterre était de plus en plus entraînée à adopter le principe de la charité légale. Le paupérisme croissait plus rapidement dans la Grande-Bretagne que partout ailleurs. Des causes générales et d’autres spéciales à ce pays produisaient ce triste résultat. Les Anglais ont devancé les autres nations de l’Europe dans la vie de la civilisation ; toutes les réflexions que j’ai faites précédemment leur sont donc particulièrement applicables, mais il en est d’autres qui ne se rapportent qu’à eux seuls.\par
+} promulguée dans la quarante-troisième année du règne de cette princesse dispose que dans chaque paroisse des inspecteurs des pauvres seront nommés ; que ces inspecteurs auront le droit de taxer les habitants à l’effet de nourrir les indigents infirmes, et de fournir du travail aux autres. A mesure que le temps avançait dans sa marche, l’Angleterre était de plus en plus entraînée à adopter le principe de la charité légale. Le paupérisme croissait plus rapidement dans la Grande-Bretagne que partout ailleurs. Des causes générales et d’autres spéciales à ce pays produisaient ce triste résultat. Les Anglais ont devancé les autres nations de l’Europe dans la vie de la civilisation ; toutes les réflexions que j’ai faites précédemment leur sont donc particulièrement applicables, mais il en est d’autres qui ne se rapportent qu’à eux seuls.\par
 \bigbreak
 \noindent La classe industrielle d’Angleterre ne pourvoit pas seulement aux besoins et aux jouissances du peuple anglais, mais d’une grande partie de l’humanité. Son bien-être ou ses misères dépendent donc non seulement de ce qui arrive dans la Grande-Bretagne, mais en quelque façon de tout ce qui se passe sous le soleil. Lorsqu’un habitant des Indes réduit sa dépense et resserre sa consommation, il y a un fabricant anglais qui souffre. L’Angleterre est donc le pays du monde où l’agriculteur est tout à la fois le plus puissamment attiré vers les travaux de l’industrie et s’y trouve le plus exposé aux vicissitudes de la fortune.\par
 Il arrive depuis un siècle, chez les Anglais, un événement qu’on peut considérer comme un phénomène, si l’on fait attention au spectacle offert par le reste du monde. Depuis cent ans, la propriété foncière se divise sans cesse dans les pays connus ; en Angleterre, elle s’agglomère sans cesse. Les terres de moyenne grandeur disparaissent dans les vastes domaines, la grande culture succède à la petite. Il y aurait sur ce sujet à donner des explications qui peut-être ne manqueraient pas de quelque intérêt, mais elles m’écarteraient de mon sujet : le fait me suffit, il est constant. Il en résulte que, tandis que l’agriculteur est sollicité par son intérêt de quitter la charrue et d’entrer dans les manufactures, il est, en quelque façon, poussé malgré lui à le faire par l’agglomération de la propriété foncière. Car, proportion gardée, il faut infiniment moins de travailleurs pour cultiver un grand domaine qu’un petit champ. La terre lui manque et l’industrie l’appelle. Ce double mouvement l’entraîne. Sur vingt-cinq millions d’habitants qui peuplent la Grande-Bretagne, il n’y en a plus que neuf millions qui s’occupent à cultiver le sol ; quatorze ou près des deux tiers suivent les chances périlleuses du commerce et de l’industrie \footnote{\emph{(Note de Tocqueville)} En France, la classe industrielle ne forme encore qu’un quart de la population. }. Le paupérisme a donc dû croître plus vite en Angleterre que dans des pays dont la civilisation eût été égale à celle des Anglais. L'Angleterre, ayant une fois admis le principe de la charité légale, n’a pu s’en départir. Ainsi la législation anglaise des pauvres ne présente-t-elle, depuis deux cents ans, qu’un long développement des lois d’Elizabeth. Près de deux siècles et demi se sont écoulés depuis que le principe de la charité égale a été pleinement admis chez nos voisins, et l’on peut juger maintenant les conséquences fatales qui ont découlé de l’adoption de ce principe. Examinons-les successivement.\par

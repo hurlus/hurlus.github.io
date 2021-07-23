@@ -47,7 +47,7 @@
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -162,8 +162,8 @@
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Les Bourla-Papey et la Révolution vaudoise }}
 \date{1903}
-\author{Mottaz, Eugène}
-\def\elbibl{Mottaz, Eugène. 1903. \emph{Les Bourla-Papey et la Révolution vaudoise}}
+\author{Eugène Mottaz}
+\def\elbibl{Eugène Mottaz. 1903. \emph{Les Bourla-Papey et la Révolution vaudoise}}
 \def\elabstract{%
  
 \labelblock{Préface hurlue}
@@ -293,12 +293,13 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
+\newcommand\abbr[1]{#1}
 \newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
-\newcommand\corr{}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
@@ -321,15 +322,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -357,7 +363,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -532,7 +538,6 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{ #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 
@@ -651,8 +656,8 @@
 
   
 \chapteropen
-\renewcommand{\leftmark}{Préface}
-\chapter[Préface]{Préface}
+\chapter[Préface]{Préface}\renewcommand{\leftmark}{Préface}
+
 
 \chaptercont
 \noindent Le nombre des ouvrages qui parlent de la Révolution vaudoise est déjà considérable : Verdeil, Juste Olivier et Seigneux nous fournissent sur l’émancipation de 1798 et sur la formation laborieuse du Canton de Vaud en 1802 et 1803 des renseignements nombreux et intéressants. Après eux, plusieurs écrivains ont encore Jeté sur divers points de ce sujet une lumière nouvelle et précieuse. En 1898 surtout, les journaux et les revues du canton et de l’étranger ont tenu le public au courant des événements qui s’étaient accomplis un siècle auparavant. Dernièrement, enfin, M. Charles Burnier nous a donné dans son remarquable ouvrage sur \emph{La Vie vaudoise et la Révolution}, un tableau philosophique, raisonné et intéressant, de cette époque importante pour nous.\par
@@ -665,8 +670,8 @@ Sachant que les notes très nombreuses sont un ennui pour beaucoup de lecteurs, 
 
 
 \chapteropen
-\renewcommand{\leftmark}{Introduction}
-\chapter[Introduction]{Introduction}
+\chapter[Introduction]{Introduction}\renewcommand{\leftmark}{Introduction}
+
 
 \chaptercont
 \noindent Les impôts proprement dits étaient peu nombreux sous l’ancien régime. Presque tous étaient indirects ; ils se composaient surtout des péages et de la régie du sel qui produisaient, à la veille de la Révolution, une somme de 160 000 francs dans le territoire actuel du Canton de Vaud. Quelques autres existaient encore, mais beaucoup moins importants. Le chiffre ci-dessus est fourni par Henri Monod, fonctionnaire lui-même de la régie des sels et, à ce titre-là, parfaitement qualifié pour connaître un peu la situation. La population des villes, celle des contrées montagneuses où l’élevage du bétail constituait l’occupation principale, ne versaient donc que fort peu de chose dans la caisse de l’État.\par
@@ -693,8 +698,8 @@ La Constitution de 1798 ne déterminait pas l’organisation intérieure des com
 
 
 \chapteropen
-\renewcommand{\leftmark}{I. Le Canton du Léman, de 1798 à 1802}
-\chapter[I. Le Canton du Léman, de 1798 à 1802]{I. Le Canton du Léman, de 1798 à 1802}
+\chapter[I. Le Canton du Léman, de 1798 à 1802]{I. Le Canton du Léman, de 1798 à 1802}\renewcommand{\leftmark}{I. Le Canton du Léman, de 1798 à 1802}
+
 
 \chaptercont
 \section[Premiers projets de rachat]{Premiers projets de rachat}
@@ -902,8 +907,8 @@ Ces considérations nécessaires montrent quel était l’état d’esprit des p
 
 
 \chapteropen
-\renewcommand{\leftmark}{II. Les Bourla-Papey}
-\chapter[II. Les Bourla-Papey]{II. Les Bourla-Papey}
+\chapter[II. Les Bourla-Papey]{II. Les Bourla-Papey}\renewcommand{\leftmark}{II. Les Bourla-Papey}
+
 
 \chaptercont
 \section[Le premier mai]{Le premier mai}
@@ -1863,8 +1868,8 @@ Si l’insurrection se répandit si peu dans la vallée de la Broie et dans les 
 
 
 \chapteropen
-\renewcommand{\leftmark}{III. Le Canton de Vaud}
-\chapter[III. Le Canton de Vaud]{III. Le Canton de Vaud}
+\chapter[III. Le Canton de Vaud]{III. Le Canton de Vaud}\renewcommand{\leftmark}{III. Le Canton de Vaud}
+
 
 \chaptercont
 \section[Vainqueurs ou vaincus ?]{Vainqueurs ou vaincus ?}
@@ -2257,8 +2262,7 @@ Depuis plus d’un an et demi, Monod vivait à Paris dans une retraite plus ou m
  \noindent « Cette décision a coûté au Gouvernement, lui disait-il, car, pendant quatre ans, vous avez travaillé avec un zèle infatigable et un dévouement entier au bien de votre pays ; vos vues ont été pures ; les moyens que vous avez mis en œuvre, dignes d’un homme vertueux ; votre conduite publique n’a jamais démenti votre caractère privé. Mais les circonstances critiques où se trouve la République obligeant le gouvernement à maintenir la tranquillité et l’ordre dans le Canton de Vaud avec le moins de forces militaires possible, votre remplacement par le citoyen Monod a paru promettre quelque avantage sous ce rapport. – Vous emportez l’estime, les vœux et les regrets du gouvernement ; vous emportez surtout le témoignage d’une conscience sans reproche, et vous trouverez en vous-même bien des sujets de vous féliciter d’être rendu aux douceurs, aux habitudes et au bonheur de la vie privée… »
  \end{quoteblock}
 
-\noindent Quoique Monod voulût bien, moyennant une amnistie en faveur de la plupart des coupables, accepter les pénibles et délicates fonctions de\par
-Préfet national, ce fut cependant sans enthousiasme qu’il rentra dans la carrière politique.\par
+\noindent Quoique Monod voulût bien, moyennant une amnistie en faveur de la plupart des coupables, accepter les pénibles et délicates fonctions de Préfet national, ce fut cependant sans enthousiasme qu’il rentra dans la carrière politique.\par
 
 \begin{quoteblock}
  \noindent « Sans parler, dit-il, des embarras, des peines et des soucis de toute espèce où je savais que je me serais replongé en acceptant, j’éprouvais alors une répugnance presqu’invincible à me charger d’emploi. Parmi les membres du gouvernement helvétique, j’en connaissais personnellement quelques-uns qui avaient toute mon estime, d’autres que je ne connaissais que de réputation l’avaient de même, quoique souvent leur conduite politique n’eùt pas été conforme à ma manière de voir. Mais il y en avait sous les ordres desquels j’aurais eu un grand éloignement à me trouver. Je n’hésite pas même à l’avouer, et pourquoi ne le dirais-je pas puisque je ne parle que de ce qui était public ? Tous les changements survenus dans le gouvernement helvétique, sa faiblesse, ses vacillations, l’avaient plongé dans un tel état de discrédit et de déconsidération, que je ne me sentais à ma place dans aucune de celles qu’il eût pu me confier \footnote{Monod : \emph{Mémoires} I 209.}. »

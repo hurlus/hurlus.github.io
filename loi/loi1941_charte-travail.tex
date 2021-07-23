@@ -47,7 +47,7 @@
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -270,12 +270,13 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
+\newcommand\abbr[1]{#1}
 \newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
-\newcommand\corr{}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
@@ -298,15 +299,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -334,7 +340,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -509,7 +515,6 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{ #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 
@@ -626,11 +631,11 @@
 
 \pagestyle{main} % after style
 
-  \renewcommand{\leftmark}{Rapport au maréchal de France, chef de l’État français}
-\section[Rapport au maréchal de France, chef de l’État français]{Rapport au maréchal de France, chef de l’État français}
+  \section[Rapport au maréchal de France, chef de l’État français]{Rapport au maréchal de France, chef de l’État français}\renewcommand{\leftmark}{Rapport au maréchal de France, chef de l’État français}
+
 \noindent L’élaboration d’une « Charte du travail », la détermination de rapports harmonieux et justes entre les patrons, les ouvriers, les techniciens, les artisans ont été, depuis quinze mois, l’une de vos plus constantes préoccupations.\par
 A tout instant – dans vos audiences, au sein des conseils de gouvernement, dans vos messages et dans vos discours – vous avez rappelé votre désir d’imprégner d’un esprit social et novateur les grandes règles de l’organisation française du travail.\par
-Le projet que nous avons l’honneur de vous soumettre est le résultat d’un travail considérable. Il s’appuie sur les vœux émis dans les cahiers nombreux que vous ont adressé, le 1\emph{er} mai dernier, les provinces françaises. Il tient compte de l’abondante documentation que vous avez recueillie et que vous avez bien voulu nous transmettre. Il s’inspire, enfin, largement des avis qui vous ont été soumis au cours des trois sessions du comité d’organisation professionnelle créé le 28 février dernier.\par
+Le projet que nous avons l’honneur de vous soumettre est le résultat d’un travail considérable. Il s’appuie sur les vœux émis dans les cahiers nombreux que vous ont adressé, le 1\textsuperscript{er} mai dernier, les provinces françaises. Il tient compte de l’abondante documentation que vous avez recueillie et que vous avez bien voulu nous transmettre. Il s’inspire, enfin, largement des avis qui vous ont été soumis au cours des trois sessions du comité d’organisation professionnelle créé le 28 février dernier.\par
 Ce comité a pleinement compris l’orientation qu’il convenait de donner au monde du travail. Il l’a montré, en soulignant, par une déclaration solennelle, sa volonté de rompre définitivement avec le vieux système de la lutte des classes.\par
 C’est dans cet esprit qu’il a travaillé. C’est dans cet esprit que nous avons rédigé le projet de charte.\par
 La charte précise les grandes règles qui régiront désormais les rapports des travailleurs, aussi bien dans l’exercice de leur métier que dans le développement de leur vie matérielle et morale. Elle s’adresse à l’industrie et au commerce, aux petites, aux moyennes et aux grandes entreprises.\par
@@ -661,13 +666,14 @@ Cet élément spirituel, c’est l’aspiration vers un ordre nouveau où seront
 \item le respect d’une hiérarchie fondée sur le travail, le talent et le mérite ;
 \item le développement progressif des réalisations sociales destinées à satisfaire les intérêts et les aspirations légitimes des travailleurs.
 \end{itemize}
+
 \noindent La paix sociale est le but suprême. Les institutions du passé ne peuvent être maintenues que dans la mesure où elles expriment le génie libre et divers de la nation. L’avenir est encore riche, chez nous, d’idées, d’efforts, de sacrifices. C’est vers cet avenir que nous nous tournons résolument, sûrs de l’assentiment des patrons, des ouvriers, des techniciens, des artisans, désormais convaincus que l’intérêt personnel ne trouvera sa sauvegarde que dans l’intérêt collectif.\par
 C’est dans cet esprit que nous avons l’honneur de vous soumettre cette charte, que le pays attend, que le monde du travail a longuement souhaitée et qui, par son ampleur comme par sa nouveauté, prendra logiquement sa place dans la série des textes constitutionnels de la France nouvelle.
-\renewcommand{\leftmark}{Titre I\emph{er.} \\
+\section[Titre Ier. Principes généraux]{Titre I\textsuperscript{er.} \\
+Principes généraux}\renewcommand{\leftmark}{Titre I\textsuperscript{er.} \\
 Principes généraux}
-\section[Titre Ier. Principes généraux]{Titre I\emph{er.} \\
-Principes généraux}
-\noindent Art. 1\emph{er} : Les activités professionnelles sont réparties entre un nombre déterminé de familles industrielles ou commerciales.\par
+
+\noindent Art. 1\textsuperscript{er} : Les activités professionnelles sont réparties entre un nombre déterminé de familles industrielles ou commerciales.\par
 Ces familles, et les professions qui les composent, sont organisées dans les conditions générales fixées par la présente loi en vue de gérer en commun les intérêts professionnels de leurs membres de toute catégories et d’apporter leur concours à l’économie nationale, selon les directions des pouvoirs publics.\par
 \bigbreak
 \noindent \labelchar{Art. 2.} Dans le cadre de cette organisation, toutes les personnes participant à une activité professionnelle jouissent de droits et assument des devoirs, des obligations et des responsabilités.\par
@@ -684,10 +690,10 @@ La fonction patronale impose le devoir de gérer l’entreprise pour le bien com
 \noindent \labelchar{Art. 4.} L’organisation professionnelle est appelée à connaître de tous les aspects sociaux et économiques de l’activité professionnelle. Toutefois, en raison des circonstances et sauf exceptions prévues à l’article 39, les questions d’ordre économiques resteront, jusqu’à ce qu’il en soit autrement décidé, dans les attributions des comités provisoires d’organisation créés en application de la loi du 26 août 1940.\par
 \bigbreak
 \noindent \labelchar{Art. 5.} Le lock-out et la grève sont et restent interdits.
-\renewcommand{\leftmark}{Titre II. \\
-Classification des industries}
 \section[Titre II. Classification des industries]{Titre II. \\
+Classification des industries}\renewcommand{\leftmark}{Titre II. \\
 Classification des industries}
+
 
 \labelblock{Commerces et professions}
 
@@ -702,6 +708,7 @@ Pour les questions d’ordre professionnel, chaque profession est rattachée à 
 \item les fonctionnaires définis par l’article 2 de la loi du 14 septembre 1941 portant statut général des fonctionnaires civils de l’État et des établissements publics de l’État ;
 \item les membres des ordres et le personnel des professions régis par des statuts, chartes et mesures législatives particulières, sous réserve que ces textes auront été publiés postérieurement au 15 juillet 1940.
 \end{itemize}
+
 \noindent Un règlement d’administration publique déterminera dans quelles conditions celles des dispositions de la présente loi qui ne sont pas incompatibles avec la loi du 14 septembre 1941, relative au droit d’association du personnel non-fonctionnaire des services publics exploités en régie, devront être appliquées à ce personnel.\par
 Les agents des services publics industriels autres que ceux visés par la loi précitée du 14 septembre 1941 sont soumis aux dispositions de la présente loi. Toutefois, un régime particulier pourra être établi pour certains d’entr’eux par des lois spéciales.\par
 \bigbreak
@@ -713,8 +720,9 @@ Les agents des services publics industriels autres que ceux visés par la loi pr
 \item le rattachement des professions aux familles professionnelles ;
 \item la correspondance entre les familles professionnelles et les comités provisoires d’organisation institués en application de la loi du 16 août 1940.
 \end{itemize}
-\renewcommand{\leftmark}{Titre III.}
-\section[Titre III.]{Titre III.}
+
+\section[Titre III.]{Titre III.}\renewcommand{\leftmark}{Titre III.}
+
 \subsection[Chapitre Ier. Les syndicats]{Chapitre Ier. \\
 Les syndicats}
 \noindent \labelchar{Art. 9.} Les membres des professions sont groupés en syndicats professionnels.\par
@@ -731,6 +739,7 @@ Sont considérés comme pouvant former une catégorie distincte :\par
 \item les agents de maîtrise ;
 \item les ingénieurs, cadres administratifs et commerciaux.
 \end{itemize}
+
 \noindent Les catégories similaires peuvent être fusionnées, notamment lorsque les effectifs de l’une d’elles sont insuffisantes pour constituer un organisme distinct.\par
 Est considéré comme appartenant à la catégorie des employeurs le personnel de direction ayant reçu délégation de la signature sociale d’un patron ou d’une société.\par
 Parmi les membres des sociétés coopératives, le président et le directeur général sont considérés comme appartenant à la catégorie des employeurs ; les autres membres entrent dans la catégorie ressortissant à leur fonction professionnelle.\par
@@ -742,6 +751,7 @@ Leur circonscription territoriale, qui reste néanmoins variable suivant les ré
 \item qu’un syndicat englobera en principe le personnel de plusieurs entreprises ;
 \item qu’il n’y aura pas nécessairement similitude entre les circonscriptions des syndicats des différentes catégories.
 \end{itemize}
+
 \bigbreak
 \noindent \labelchar{Art. 12.} Toutes les personnes, quels que soient leur âge et leur nationalité, exerçant une activité professionnelle, sont inscrites d’office au syndicat professionnel de leur catégorie, de leur circonscription et de leur profession, sous la responsabilité de ce syndicat, à moins qu’elles ne justifient de leur inscription dans l’u n des organismes prévus au chapitre II du titre IV.\par
 Tout membre d’un syndicat peut être exclu par décis on du comité social régional de la profession ou du groupe de professions, après avis du bureau du syndicat, soit pour violation grave ou répétée de la législation du travail ou des règlements corporatifs, soit pour activité contraire à l’intérêt général du pays, soit pour des motifs d’ordre public.\par
@@ -764,6 +774,7 @@ Une représentation répondant à leur importance dans la profession ou le group
 \item l’étude des questions professionnelles en vue de la présentation de suggestions corporatives ;
 \item la recherche éventuelle des solutions à appliquer aux problèmes intéressant leurs propres membres dans leur circonscription territoriale.
 \end{itemize}
+
 \noindent Elles excluent strictement toute activité politique ou confessionnelle.\par
 \bigbreak
 \noindent \labelchar{Art. 15.} Les syndicats professionnels peuvent, sans autorisation, acquérir à titre onéreux, posséder et administrer les locaux et biens mobiliers destinés à leur fonctionnement administratif et à la réunion de leurs membres.\par
@@ -795,11 +806,11 @@ Les membres des unions et fédérations doivent répondre aux conditions fixées
 Pour les fédérations, ces documents sont approuvés par le secrétaire d’État au Travail, après avis du ou des secrétaires d’État dont relève la famille ou la profession intéressée.\par
 \bigbreak
 \noindent \labelchar{Art. 22.} Les dispositions prévues à l’article 18 pour les syndicats sont applicables aux unions et fédérations professionnelles.
-\renewcommand{\leftmark}{Titre IV. \\
-Les comités sociaux et les corporations}
 \section[Titre IV. Les comités sociaux et les corporations]{Titre IV. \\
+Les comités sociaux et les corporations}\renewcommand{\leftmark}{Titre IV. \\
 Les comités sociaux et les corporations}
-\subsection[Chapitre Ier. Les comités sociaux d’entreprises]{Chapitre I\emph{er}. \\
+
+\subsection[Chapitre Ier. Les comités sociaux d’entreprises]{Chapitre I\textsuperscript{er}. \\
 Les comités sociaux d’entreprises}
 \noindent \labelchar{Art. 23.} La collaboration entre employeurs et salariés est obligatoirement organisée dans les établissements dont l’effectif est au moins égal à cent ouvriers ou employés, au sein de comités sociaux ou d’établissements » qui rassemblent le chef d’entreprise et des représentants de toutes les catégories du personnel.\par
 \bigbreak
@@ -811,6 +822,7 @@ Leurs attributions excluent toute immixtion dans la conduite et la gestion de l�
 \item de provoquer un échange d’informations mutuel sur toutes les questions intéressant la vie sociale du personnel et des familles ;
 \item de réaliser les mesures d’entraide sociale dans le cadre d’activité du comité social local correspondant.
 \end{itemize}
+
 \noindent Leur mode de fonctionnement est laissé à leur propre initiative.\par
 Ils sont placés sous l’autorité corporative et le contrôle du comité social local de la profession.\par
 \bigbreak
@@ -830,6 +842,7 @@ Les membres sont répartis en trois groupes égaux formés par :\par
 \item la catégorie « ouvriers » et « employés », dans une proportion correspondant à la prédominance industrielle ou commerciale de la famille ou de la profession considérée ;
 \item les autres catégories.
 \end{itemize}
+
 \noindent Le comité social désigne trois présidents constituant son bureau, choisis chacun dans l’un des groupes définis ci-dessus et présidant à tour de rôle par période de huit mois.\par
 \bigbreak
 \noindent \labelchar{Art. 29.} Les comités sociaux régionaux et nationaux sont formés, comme les comités locaux, sur le mode tripartite ; leur bureau est constitué et fonctionne dans les mêmes conditions que celles qui sont prévues pour les comités locaux.\par
@@ -855,6 +868,7 @@ Dans l’ordre professionnel, elles comportent notamment :\par
 \item l’élaboration des règlements relatifs à l’embauchage et au licenciement ;
 \item l’étude et l’application des mesures relatives à l’hygiène et à la sécurité au travail.
 \end{itemize}
+
 \noindent Les questions d’appointements, de salaires ou autres, intéressant particulièrement une catégorie, pourront être discutées paritairement entre les représentants de cette catégorie et celle des employeurs.\par
 \bigbreak
 \noindent \labelchar{Art. 32.} En outre, pour chacune des professions qui lui est organiquement rattachée dans les conditions prévues à l’article 6, le comité social étudie, met au point ou applique les dispositions relatives à la pratique et à la propriété du métier, à la qualification professionnelle et à la promotion ouvrière.\par
@@ -869,6 +883,7 @@ Les commissions chargées de traiter les questions qui font l’objet du présen
 \item l’aide familiale, sous les formes morale, matérielle et intellectuelle ;
 \item l’amélioration des conditions d’existence : habitations, jardins, sports, loisirs et distractions, arts, culture générale, etc.
 \end{itemize}
+
 \bigbreak
 \noindent Art.34 : Pour assurer le contrôle de l’application des lois et règlements professionnels, et de leurs décisions de toute nature, les comités sociaux font appel à des commissaires corporatifs assermentés.\par
 Ces commissaires sont habilités à contrôler les co nditions de travail dans tous les établissements relevant du comité social. Ils recueillent les doléances et suggestions des différentes catégories de membres.\par
@@ -929,6 +944,7 @@ Il pourra être organisé dans les mêmes conditions des unions de corporations 
 \item un représentant du secrétaire d’État au Travail ;
 \item un représentant du ou des secrétaires d’État dont relèvent les activités intéressées.
 \end{itemize}
+
 \noindent Les conditions de fonctionnement de la commission seront fixées par arrêté du vice-président du Conseil.
 \subsection[Chapitre IV. L’organisation interprofessionnelle]{Chapitre IV. \\
 L’organisation interprofessionnelle}
@@ -1011,10 +1027,10 @@ L’État participera éventuellement aux charges ci-dessus visées en vue d’a
 
 \noindent \labelchar{Art. 59.} Les questions de formation profession professionnelle : apprentissage, perfectionnement, reclassement et promotion ouvrière sont essentiellement d’ordre corporatif.\par
 Une loi fixera le rôle respectif des organismes professionnels et des pouvoirs publics dans cette matière, ainsi que les conditions dans lesquelles sera assurée la coordination entre ces organismes et les secrétariats d’État compétents.
-\renewcommand{\leftmark}{Titre V. \\
-La juridiction du travail}
 \section[Titre V. La juridiction du travail]{Titre V. \\
+La juridiction du travail}\renewcommand{\leftmark}{Titre V. \\
 La juridiction du travail}
+
 
 \labelblock{Principes généraux}
 
@@ -1026,6 +1042,7 @@ La juridiction du travail}
 \item portés devant les conseils de prud’hommes ou, à leur défaut, devant les justices de paix, s’il s’agit de différends individuels ;
 \item soumis à l’arbitrage ou portés devant les tribunaux du travail, s’il s’agit de différends collectifs.
 \end{itemize}
+
 \noindent Les tribunaux de travail peuvent, en outre, être saisis des infractions à la réglementation qui sera établie en application de la présente loi.\par
 
 \labelblock{L’arbitrage}
@@ -1040,14 +1057,15 @@ La juridiction du travail}
 \item de deux magistrats, dont l’un exerce les fonctions de président, désignés par ordonnance du premier président ;
 \item et de trois membres du comité social régional compétent, désignés comme il est prévu à l’article 28.
 \end{itemize}
+
 \noindent Les recours contre les décisions des tribunaux régionaux du travail sont portés devant le tribunal national du travail, qui statue en dernier ressort.\par
 Le tribunal national du travail est composé de trois magistrats, dont l’un exerce les fonctions de président, désignés par le garde des ceaux, S ministre secrétaire d’État à la Justice, et de quatre membres du comité social national compétent désignés par les secrétaires d’État au Travail et à la production industrielle.\par
 Des fonctionnaires du corps de l’inspection du travail, désignés par le secrétaire d’État au Travail, exerceront les fonctions de commissaire du Gouvernement auprès du tribunal national et des tribunaux régionaux.\par
 \bigbreak
 \noindent \labelchar{Art. 64.} Un règlement d’administration publique, établi par le secrétaire d’État au travail et par le garde des Sceaux, ministre secrétaire d’État à la justice, déterminera les conditions d’application des diverses dispositions du présent titre.
-\renewcommand{\leftmark}{Titre VI}
-\section[Titre VI]{Titre VI}
-\subsection[Chapitre Ier. Dispositions communes]{Chapitre I\emph{er}. \\
+\section[Titre VI]{Titre VI}\renewcommand{\leftmark}{Titre VI}
+
+\subsection[Chapitre Ier. Dispositions communes]{Chapitre I\textsuperscript{er}. \\
 Dispositions communes}
 \noindent \labelchar{Art. 65.} Dans l’intérêt de la profession, les membres des organismes professionnels institués par la présente loi, appartenant à une catégorie de salariés, bénéficient de toutes les facilités nécessaires à l’exercice de leur mandat.\par
 Des garanties de stabilité d’emploi sont prévues en leur faveur dans les règlements et statuts particuliers des professions.\par
@@ -1066,6 +1084,7 @@ Les sanctions corporatives comportent :\par
 \item l’exclusion des organismes professionnels ;
 \item l’exclusion temporaire de la profession.
 \end{itemize}
+
 \noindent Elles sont prononcées par le bureau de l’organisme compétent, dans les limites fixées par les barèmes établis par les comités nationaux.\par
 Les poursuites devant les tribunaux du travail sont intentées à la demande des organismes professionnels compétents.
 \subsection[Chapitre II. Dispositions transitoires]{Chapitre II. \\
@@ -1092,7 +1111,7 @@ Il recueillera les avis des comités sociaux nationaux des familles professionne
 \noindent \labelchar{Art. 75.} Toutes les opérations prévues par les deux articles précédents auront lieu sans droit de mutation et sans frais d’aucune sorte.\par
 Un règlement d’administration publique déterminera les conditions d’application des quatre articles précédents.\par
 \bigbreak
-\noindent \labelchar{Art. 76.} Les lois spéciales ayant pour objet, aux termes de l’article 7, d’établir un régime particulier pour les agents des services publics industriels autres que ceux visés par la loi du 14 septembre 1941 devront intervenir avant le 1\emph{er} mars 1942.\par
+\noindent \labelchar{Art. 76.} Les lois spéciales ayant pour objet, aux termes de l’article 7, d’établir un régime particulier pour les agents des services publics industriels autres que ceux visés par la loi du 14 septembre 1941 devront intervenir avant le 1\textsuperscript{er} mars 1942.\par
 Jusqu’à cette date les dispositions des articles 6 9 à 75 ne seront pas applicables en ce qui concerne lesdits agents.\par
 \bigbreak
 \noindent \labelchar{Art. 77.} Il sera institué, pour chaque famille professionnelle, une commission provisoire d’organisation chargée d’étudier et de proposer :\par
@@ -1102,6 +1121,7 @@ Jusqu’à cette date les dispositions des articles 6 9 à 75 ne seront pas app
 \item les conditions de regroupement, au sein des nouveaux organismes, des éléments appartenant aux syndicats, unions, fédérations appelés à fusionner en application de la présente loi ;
 \item la composition nominative des conseils d’administration des organismes corporatifs à mettre sur pied.
 \end{itemize}
+
 \noindent Des arrêtés du ministre d’État chargé de la coordination des institutions nouvelles et du secrétaire d’État intéressés, fixeront la composition des commissions provisoires d’organisation et les conditions de leur fonctionnement.\par
 \bigbreak
 \noindent \labelchar{Art. 78.} Une liaison sera établie entre les comités provisoires d’organisation, créés en application de la loi du 16 août 1940, et les comités sociaux institués par la présente loi, afin de réaliser l’harmonie et l’adaptation réciproque des mesures sociales et économiques.\par
@@ -1110,8 +1130,8 @@ Cette liaison sera assurée, d’une part par des délégués des comités d’o
 \noindent \labelchar{Art. 79.} Les conditions dans lesquelles la présente loi ou certaines de ses dispositions pourront éventuellement être rendues applicables à l’Algérie, aux colonies ou aux territoires placés sous mandat français seront fixées par décrets.\par
 \bigbreak
 \noindent \labelchar{Art. 80.} Sont abrogées toutes dispositions contraires au présent décret, qui sera publié au \emph{Journal officiel} et exécuté comme loi de l’État.
-\renewcommand{\leftmark}{Signatures}
-\section[Signatures]{Signatures}
+\section[Signatures]{Signatures}\renewcommand{\leftmark}{Signatures}
+
 \noindent \emph{Fait à Vichy, le 4 octobre 1941}\par
 Par le Maréchal de France,\par
 Chef de l’État français :\par

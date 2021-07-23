@@ -47,7 +47,7 @@
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -332,12 +332,13 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
+\newcommand\abbr[1]{#1}
 \newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
-\newcommand\corr{}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
@@ -360,15 +361,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -396,7 +402,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -571,7 +577,6 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{ #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 
@@ -690,8 +695,8 @@
 
   
 \chapteropen
-\renewcommand{\leftmark}{Première épître de Paul aux Thessaloniciens (50\textasciitilde51)}
-\chapter[Première épître de Paul aux Thessaloniciens (50\textasciitilde51)]{Première épître de Paul aux Thessaloniciens (50\textasciitilde51)}
+\chapter[Première épître de Paul aux Thessaloniciens (50\textasciitilde51)]{Première épître de Paul aux Thessaloniciens (50\textasciitilde51)}\renewcommand{\leftmark}{Première épître de Paul aux Thessaloniciens (50\textasciitilde51)}
+
 
 \chaptercont
 \section[1 Thess 1]{1 Thess 1}
@@ -730,8 +735,8 @@
 
 
 \chapteropen
-\renewcommand{\leftmark}{Seconde épître de Paul aux Thessaloniciens (51\textasciitilde52)}
-\chapter[Seconde épître de Paul aux Thessaloniciens (51\textasciitilde52)]{Seconde épître de Paul aux Thessaloniciens (51\textasciitilde52)}
+\chapter[Seconde épître de Paul aux Thessaloniciens (51\textasciitilde52)]{Seconde épître de Paul aux Thessaloniciens (51\textasciitilde52)}\renewcommand{\leftmark}{Seconde épître de Paul aux Thessaloniciens (51\textasciitilde52)}
+
 
 \chaptercont
 \section[2 Thess 1]{2 Thess 1}
@@ -756,8 +761,8 @@
 
 
 \chapteropen
-\renewcommand{\leftmark}{Épitre de Paul aux Galates (54\textasciitilde55)}
-\chapter[Épitre de Paul aux Galates (54\textasciitilde55)]{Épitre de Paul aux Galates (54\textasciitilde55)}
+\chapter[Épitre de Paul aux Galates (54\textasciitilde55)]{Épitre de Paul aux Galates (54\textasciitilde55)}\renewcommand{\leftmark}{Épitre de Paul aux Galates (54\textasciitilde55)}
+
 
 \chaptercont
 \section[Gal 1]{Gal 1}
@@ -809,8 +814,8 @@
 
 
 \chapteropen
-\renewcommand{\leftmark}{Épître de Paul aux Philippiens (56\textasciitilde63)}
-\chapter[Épître de Paul aux Philippiens (56\textasciitilde63)]{Épître de Paul aux Philippiens (56\textasciitilde63)}
+\chapter[Épître de Paul aux Philippiens (56\textasciitilde63)]{Épître de Paul aux Philippiens (56\textasciitilde63)}\renewcommand{\leftmark}{Épître de Paul aux Philippiens (56\textasciitilde63)}
+
 
 \chaptercont
 \section[Phil 1]{Phil 1}
@@ -856,8 +861,8 @@
 
 
 \chapteropen
-\renewcommand{\leftmark}{Épître de Paul à Philémon (55\textasciitilde63)}
-\chapter[Épître de Paul à Philémon (55\textasciitilde63)]{Épître de Paul à Philémon (55\textasciitilde63)}
+\chapter[Épître de Paul à Philémon (55\textasciitilde63)]{Épître de Paul à Philémon (55\textasciitilde63)}\renewcommand{\leftmark}{Épître de Paul à Philémon (55\textasciitilde63)}
+
 
 \chaptercont
 \section[Phil 1]{Phil 1}
@@ -870,8 +875,8 @@
 
 
 \chapteropen
-\renewcommand{\leftmark}{Première épître de Paul aux Corinthiens (56\textasciitilde57)}
-\chapter[Première épître de Paul aux Corinthiens (56\textasciitilde57)]{Première épître de Paul aux Corinthiens (56\textasciitilde57)}
+\chapter[Première épître de Paul aux Corinthiens (56\textasciitilde57)]{Première épître de Paul aux Corinthiens (56\textasciitilde57)}\renewcommand{\leftmark}{Première épître de Paul aux Corinthiens (56\textasciitilde57)}
+
 
 \chaptercont
 \section[1 Cor 1]{1 Cor 1}
@@ -1000,8 +1005,8 @@ si je n’ai point la charité, je ne suis que comme un airain sonnant, ou une c
 
 
 \chapteropen
-\renewcommand{\leftmark}{Seconde épître de Paul aux Corinthiens (\textasciitilde57)}
-\chapter[Seconde épître de Paul aux Corinthiens (\textasciitilde57)]{Seconde épître de Paul aux Corinthiens (\textasciitilde57)}
+\chapter[Seconde épître de Paul aux Corinthiens (\textasciitilde57)]{Seconde épître de Paul aux Corinthiens (\textasciitilde57)}\renewcommand{\leftmark}{Seconde épître de Paul aux Corinthiens (\textasciitilde57)}
+
 
 \chaptercont
 \section[2 Cor 1]{2 Cor 1}
@@ -1105,8 +1110,8 @@ je serai votre Père, et vous serez mes fils et mes filles, dit le Seigneur tout
 
 
 \chapteropen
-\renewcommand{\leftmark}{Épître de Paul aux Romains (57\textasciitilde58)}
-\chapter[Épître de Paul aux Romains (57\textasciitilde58)]{Épître de Paul aux Romains (57\textasciitilde58)}
+\chapter[Épître de Paul aux Romains (57\textasciitilde58)]{Épître de Paul aux Romains (57\textasciitilde58)}\renewcommand{\leftmark}{Épître de Paul aux Romains (57\textasciitilde58)}
+
 
 \chaptercont
 \section[Rom 1]{Rom 1}

@@ -47,7 +47,7 @@
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -271,12 +271,13 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
+\newcommand\abbr[1]{#1}
 \newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
-\newcommand\corr{}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
@@ -299,15 +300,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -335,7 +341,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -510,7 +516,6 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{ #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 
@@ -632,7 +637,7 @@
 
 \noindent Louis, par la grâce de Dieu, Roy de France \& de Navarre : À tous présents \& à venir : Salut. Comme nous devons également nos soins à tous les Peuples que la divine Providence a mis sous notre obéissance, Nous avons bien voulu faire examiner en notre présence les mémoires qui nous ont été envoyés par nos officiers de nos Îles de l’Amérique, par lesquels ayant été informé du besoin qu’ils ont de notre autorité \& de notre justice pour y maintenir la discipline de l’Église Catholique, Apostolique \& Romaine, \& pour y régler ce qui concerne l’État \& la qualité des Esclaves dans lesdites Îles ; \& désirant y pourvoir \& leur faire connaître qu’encore qu’ils habitent des climats infiniment éloignés de notre séjour ordinaire, nous leur sommes toujours présent non seulement par l’étendue de notre puissance, mais encore par la promptitude de notre application à les soutenir dans leurs nécessités. À ces causes de l’avis de notre Conseil \& de notre Certaine science, pleine puissance \& autorité Royale, nous avons dit, statué \& ordonné, disons, statuons et ordonnons, voulons \& nous plaît ce qui ensuit.\par
 \bigbreak
-\noindent \labelchar{\emph{Article} I.} Voulons \& entendons que l’Édit du feu Roi de glorieuse mémoire, notre très honoré Seigneur \& Père, du 23 avril 1615, soit exécuté dans nos Îles ; ce faisant, enjoignons à tous nos Officiers de chasser hors de nos Îles tous les Juifs qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien. Nous commandons d’en sortir dans trois mois à compter du jour de la publication des Présentes, à peine de confiscation de corps \& de biens.\par
+\noindent \labelchar{{\scshape Article} I.} Voulons \& entendons que l’Édit du feu Roi de glorieuse mémoire, notre très honoré Seigneur \& Père, du 23 avril 1615, soit exécuté dans nos Îles ; ce faisant, enjoignons à tous nos Officiers de chasser hors de nos Îles tous les Juifs qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien. Nous commandons d’en sortir dans trois mois à compter du jour de la publication des Présentes, à peine de confiscation de corps \& de biens.\par
 \labelchar{II.} Tous les Esclaves qui seront dans nos Îles seront baptisés \& instruits dans la Religion Catholique, Apostolique \& Romaine. Enjoignons aux Habitants qui achèteront des Nègres nouvellement arrivés d’en avertir les Gouverneur \& Intendant desdites Îles dans huitaine au plus tard, à peine d’amende arbitraire, lesquels donneront les ordres nécessaires pour les faire instruire \& baptiser dans le temps convenable.\par
 \labelchar{III.} Interdisons tout exercice Public d’autre Religion que la Catholique, Apostolique \& Romaine ; voulons que les contrevenants soient punis comme rebelles \& désobéissants à nos Commandements, Défendons toutes assemblées pour cet effet, lesquelles nous déclarons conventicules, illicites \& séditieuses, sujets à la même peine qui aura lieu, même contre les Maîtres qui les permettront \& souffriront à l’égard de leurs Esclaves.\par
 \labelchar{IV.} Ne seront préposés aucuns Commandeurs à la direction des Nègres, qui ne fassent profession de la Religion Catholique, Apostolique \& Romaine, à peine de confiscation desdits Nègres contre les Maîtres qui les auront préposés \& de punition arbitraire Contre les commandeurs qui auront accepté ladite direction.\par
@@ -692,8 +697,8 @@ LVI, Les esclaves qui auront été faits légataires universels par leurs Maîtr
 \labelchar{LVIII.} Commandons aux affranchis de porter un respect singulier à leurs anciens Maîtres, à leurs Veuves, \& à leurs Enfants, en sorte que l’injure qu’ils leur auront faite soit punie plus grièvement que si elle était faite à une autre personne : les déclarons toutefois francs \& quittes envers eux de toutes autres charges, services \& droits utiles que leurs anciens Maîtres voudraient prétendre, tant sur leurs personnes, que sur leurs biens \& successions en qualité de Patrons.\par
 \labelchar{LIX.} Octroyons aux affranchis les mêmes droits, privilèges \& immunités dont jouissent les personnes nées libres, voulons qu’ils méritent une liberté acquise, \& qu’elle produise en eux, tant pour leurs personnes que pour leurs biens, les mêmes effets que le bonheur de la liberté naturelle cause à nos autres sujets.\par
 \labelchar{LX.} Déclarons les confiscations \& les amendes, qui n’ont point de destination particulière par ces présentes nous appartenir, pour être payées à ceux qui sont préposés à la recette de nos revenus. Voulons néanmoins que distraction soit faite du tiers desdites confiscations \& amendes au profit de l’Hôpital établi dans l’Île où elles auront été adjugées.\par
-SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Souverain établi à la Martinique, Garde-Louppe, Saint-Christophe, que ces Présentes ils aient à les faire lire, publier \& enregistrer, \& le contenu en icelles, garder \& observer de point en point selon leur forme \& teneur, sans y contrevenir, ni permettre qu’il y soit contrevenu en quelque sorte \& manière que ce soit, nonobstant tous Édits, Déclarations, Arrêts \& Usages à ce contraires, auxquels nous avons dérogé \& dérogeons par ces dites Présentes. CAR tel est notre plaisir, \& afin que ce soit chose ferme et stable à toujours, nous y avons fait mettre notre Scel. \emph{Donné} à Versailles au mois de Mars 1685, \& de notre Règne le 42\emph{e}. Signé, \emph{Louis} ; \emph{Et plus bas.} Par le Roy, \emph{Colbert}. \emph{Visa}, \emph{Le Tellier} : Et scellé du Grand Sceau de Cire verte en lacs de soye verte \& rouge.\par
-\emph{Lu, publié \& enregistré le présent Édit, oui \& ce requérant le Procureur Général du Roy, pour être exécuté selon sa forme \& teneur, \& sera à la diligence dudit Procureur Général, envoyé copies d’icelui aux Sièges Ressortissant du Conseil, pour y être pareillement, lu, publié \& enregistré. Fait \& donné au Conseil Souverain de la Côte Saint Domingue, tenu au petit Gouave, le 6 Mai 1687.} Signé, \emph{Moriceau}.
+SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Souverain établi à la Martinique, Garde-Louppe, Saint-Christophe, que ces Présentes ils aient à les faire lire, publier \& enregistrer, \& le contenu en icelles, garder \& observer de point en point selon leur forme \& teneur, sans y contrevenir, ni permettre qu’il y soit contrevenu en quelque sorte \& manière que ce soit, nonobstant tous Édits, Déclarations, Arrêts \& Usages à ce contraires, auxquels nous avons dérogé \& dérogeons par ces dites Présentes. CAR tel est notre plaisir, \& afin que ce soit chose ferme et stable à toujours, nous y avons fait mettre notre Scel. {\scshape Donné} à Versailles au mois de Mars 1685, \& de notre Règne le 42\textsuperscript{e}. Signé, {\scshape Louis} ; \emph{Et plus bas.} Par le Roy, {\scshape Colbert}. \emph{Visa}, {\scshape Le Tellier} : Et scellé du Grand Sceau de Cire verte en lacs de soye verte \& rouge.\par
+\emph{Lu, publié \& enregistré le présent Édit, oui \& ce requérant le Procureur Général du Roy, pour être exécuté selon sa forme \& teneur, \& sera à la diligence dudit Procureur Général, envoyé copies d’icelui aux Sièges Ressortissant du Conseil, pour y être pareillement, lu, publié \& enregistré. Fait \& donné au Conseil Souverain de la Côte Saint Domingue, tenu au petit Gouave, le 6 Mai 1687.} Signé, {\scshape Moriceau}.
  
 
 
