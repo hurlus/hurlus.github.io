@@ -7,10 +7,16 @@ file_put_contents(dirname(__FILE__)."/README.md", HurlusBuild::readme());
 class HurlusBuild
 {
 
+  static $publicfiles;
+  static $privatefiles;
   public static function init()
   {
-
+    self::$publicfiles = glob(dirname(dirname(__FILE__))."/hurlus-tei/*.xml");
+    self::$privatefiles = glob(dirname(dirname(__FILE__))."/hurlus-private/*.xml");
+    // self::$srclist = array_merge([], ...array_values($arrays)); // remember
   }
+
+
 
   public static function export()
   {
@@ -18,8 +24,7 @@ class HurlusBuild
     include_once(dirname(dirname(__FILE__)).'/teinte/docx/docx.php');
     include_once(dirname(dirname(__FILE__)).'/teinte/epub/epub.php');
     $kindlegen = dirname(dirname(__FILE__))."/teinte/epub/kindlegen";
-    $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
-    foreach (glob($glob) as $srcfile) {
+    foreach (array_merge(self::$publicfiles, self::$privatefiles) as $srcfile) {
       $name = pathinfo($srcfile,  PATHINFO_FILENAME);
       if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
@@ -78,7 +83,6 @@ class HurlusBuild
   }
 
 
-
   public static function readme()
   {
     include_once(dirname(dirname(__FILE__)).'/teinte/teidoc.php');
@@ -86,13 +90,12 @@ class HurlusBuild
 # Auteurs / titres
 
 ";
-    $glob = dirname(dirname(__FILE__))."/hurlus-tei/*.xml";
     $authorLast = '';
     $i = 1;
 
     $fauth = null;
     $authbib = '';
-    foreach (glob($glob) as $srcfile) {
+    foreach (self::$publicfiles as $srcfile) {
       $name = pathinfo($srcfile,  PATHINFO_FILENAME);
       if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
