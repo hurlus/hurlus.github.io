@@ -102,6 +102,7 @@
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
 \usepackage{framed} % bordering correct with footnote hack
@@ -169,7 +170,7 @@
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
 \colorprovide{rubric}{red}
-\colorprovide{silver}{Gray}
+\colorprovide{silver}{lightgray}
 \@ifundefined{syms}{\newfontfamily\syms{DejaVu Sans}}{}
 \newif\ifdev
 \@ifundefined{elbibl}{% No meta defined, maybe dev mode
@@ -192,17 +193,6 @@
   Scale=MatchLowercase,
   Ligatures={TeX,Common},
 }
-
-\@ifundefined{\columnseprulecolor}{%
-    \patchcmd\@outputdblcol{% find
-      \normalcolor\vrule
-    }{% and replace by
-      \columnseprulecolor\vrule
-    }{% success
-    }{% failure
-      \@latex@warning{Patching \string\@outputdblcol\space failed}%
-    }
-}{}
 
 \hypersetup{
   % pdftex, % no effect
@@ -631,12 +621,8 @@
 
 \pagestyle{main} % after style
 
-  
-\chapteropen
-\chapter[Instructions pour une prise d’armes]{Instructions pour une prise d’armes}\renewcommand{\leftmark}{Instructions pour une prise d’armes}
+  \section[{Instructions pour une prise d’armes}]{Instructions pour une prise d’armes}\renewcommand{\leftmark}{Instructions pour une prise d’armes}
 
-
-\chaptercont
 \noindent Ce programme est purement militaire et laisse entièrement de côté la question politique et sociale, dont ce n’est point ici la place : il va sans dire d’ailleurs, que la révolution doit se faire au profit du travail contre la tyrannie du capital, et reconstituer la société sur la base de la justice.\par
 Une insurrection parisienne, d’après les vieux errements, n’a plus aujourd’hui aucune chance de succès.\par
 En 1830, le seul élan populaire a pu suffire à jeter bas un pouvoir surpris et terrifié par une prise d’armes, événement inouï, qui était à mille lieux de ses prévisions.\par
@@ -684,11 +670,8 @@ Deux compagnies forment une division commandée par un capitaine. Le bataillon p
 La rareté prévue de l’élément qui forme les cadres, oblige de supprimer dans chaque compagnie deux officiers, le capitaine et le sous-lieutenant, deux sous-officiers, le sergent-major et le fourrier, enfin les huit caporaux. L'état-major de la compagnie se trouve ainsi réduit de seize à cinq individus. Il est vrai qu’elle est moins nombreuse que dans l’armée, où elle compte 90 hommes sur pied de guerre. Proportion gardée, c’est une différence d’état-major de cinq à onze.\par
 Le chiffre de la compagnie est faible, afin de faciliter les manœuvres tant du peloton que du bataillon.\par
 Le capitaine, au lieu de commander un peloton comme dans la troupe, en commande deux, c’est-à-dire une division. Cependant les manœuvres par division n’auront presque jamais lieu. A peu près impraticables dans Paris, elles ne peuvent servir qu’à plier le bataillon en masse Par divisions, sur une place ou une grande voie. Mais il importe de donner un chef spécial à la division, soit qu’elle occupe une, deux ou quatre barricades. Dans le premier cas, la barricade est importante par le nombre de ses défenseurs. Dans les deux autres, il est essentiel de ne pas laisser dans une direction supérieure les deux ou quatre petits postes.
-\chapterclose
+\section[{Organisation du peloton}]{Organisation du peloton}\renewcommand{\leftmark}{Organisation du peloton}
 
-\section[[Détails pratiques]]{[Détails pratiques]}\renewcommand{\leftmark}{[Détails pratiques]}
-
-\subsection[Organisation du peloton]{Organisation du peloton}
 \noindent Le peloton se divise en deux sections, chacune de 28 soldats et de deux sous-officiers.\par
 La section se subdivise en deux demi-sections, chacune de 14 soldats et un sous-officier.\par
 Place des officiers et sous-officiers dans le peloton en bataille.\par
@@ -697,7 +680,8 @@ Le premier sergent derrière le lieutenant, au second rang.\par
 Le deuxième sergent, à la gauche de la section de droite, au premier rang.\par
 Le troisième sergent, derrière le deuxième, à la droite de la section de gauche, au second rang.\par
 Le quatrième sergent, à la gauche de la section de gauche et du peloton, au premier rang.
-\subsection[Des guides]{Des guides}
+\section[{Des guides}]{Des guides}\renewcommand{\leftmark}{Des guides}
+
 \noindent Le premier sergent est guide de droit du peloton et de la section de droite. Il est guide de droite et de gauche de la première demi-section de droite.\par
 Le deuxième sergent est guide de gauche de la section de droite. Il est guide de droite et de gauche de la seconde demi-section de droite. Il est porte-fanion du peloton.\par
 Le troisième sergent est guide de droite de la section de gauche. Il est guide de droite et de gauche de la première demi-section de gauche.\par
@@ -708,8 +692,9 @@ Placer les officiers et sous-officiers, quand le bataillon est en colonne, la dr
 \item En colonne, par pelotons, le lieutenant se tient à droite du peloton. Le premier, deuxième et quatrième sergents, au premier rang, le troisième au second rang, derrière le deuxième ;
 \item En colonne par sections, le lieutenant se tient à droite de la section de tête. Les quatre sergents à droite et à gauche de leurs sections respectives au premier rang ;
 \item En colonne par demi-sections le lieutenant se tient à la droite de la demi-section de tête. Les quatre sergents, étant guides de droite et de gauche de leurs demi-sections, sont tantôt à droite, tantôt à gauche, selon le commandement, toujours au premier rang.
+\end{enumerate}
 
-\end{enumerate}\noindent Les deux sergents qui se trouvent aux extrémités du bataillon en bataille, en sont guides de droite et de gauche et se tiennent au premier rang. Le lieutenant du peloton de droite, s’écarte à droite, pour faire place au guide.\par
+\noindent Les deux sergents qui se trouvent aux extrémités du bataillon en bataille, en sont guides de droite et de gauche et se tiennent au premier rang. Le lieutenant du peloton de droite, s’écarte à droite, pour faire place au guide.\par
 Place des capitaines, en bataille et en colonne :\par
 {\itshape Le bataillon étant en bataille, les capitaines se tiennent à quelques pas en arrière du centre de leurs divisions respectives. Le bataillon étant en colonne, chaque capitaine se tient sur le flanc gauche de sa division.}\par
 Le chef de bataillon n’a point de place fixe.\par
@@ -721,8 +706,9 @@ Place du porte-drapeau, en bataille et en colonne\par
 \item en colonne, par divisions, le porte-drapeau est au centre, à égale distance entre la seconde et la troisième divisions ;
 \item en colonne, par pelotons, le porte-drapeau est à gauche, dans l’alignement des guides, à égale distance entre le quatrième et le cinquième peloton ;
 \item en colonne par sections, ou par demi-sections, le porte-drapeau est au centre, à. égale distance entre le quatrième et le cinquième peloton.
+\end{enumerate}
 
-\end{enumerate}\noindent Le drapeau est rouge, \emph{- chaque compagnie a son fanion ou guidon de couleur particulière} :\par
+\noindent Le drapeau est rouge, \emph{- chaque compagnie a son fanion ou guidon de couleur particulière} :\par
 
 \begin{enumerate}[itemsep=0pt,]
 \item \emph{peloton-fanion rouge} ;
@@ -733,15 +719,17 @@ Place du porte-drapeau, en bataille et en colonne\par
 \item  \emph{peloton-fanion rose;} 
 \item  \emph{peloton-fanion orange;} 
 \item  \emph{peloton-fanion noir.} 
+\end{enumerate}
 
-\end{enumerate}\noindent Les officiers et sous-officiers porteront, comme insignes, un ruban de couleur du guidon de leur compagnie, les lieutenants au bras gauche, entre l’épaule et le coude, les sergents au poignet gauche. Le ruban de la 8e compagnie sera noir à double lisere rouge.\par
+\noindent Les officiers et sous-officiers porteront, comme insignes, un ruban de couleur du guidon de leur compagnie, les lieutenants au bras gauche, entre l’épaule et le coude, les sergents au poignet gauche. Le ruban de la 8e compagnie sera noir à double lisere rouge.\par
 Les capitaines porteront entre l’épaule et le coude un ruban de la couleur de chacune des deux compagnies formant leur division, au bras droit du peloton impair, au bras gauche celui du peloton pair. Le ruban noir du 4e capitaine aura double liseré rouge.\par
 Le chef de bataillon porte au bras gauche, entre l’épaule et le coude, un large ruban rouge, à frange pendante.\par
 Le numéro de chaque. bataillon sera inscrit au haut de la hampe du fanion de ses huit compagnies.\par
 Les diverses couleurs tant des fanions que des officiers et sous-officiers, ont pour but de faire reconnaître a première vue dans la mêlée les différentes compagnies et d’opérer un prompt ralliement.\par
 Chaque homme occupant deux pieds dans le rang, la demi-section a cinq mètres de front, la section dix, le peloton, vingt, la division, quarante, le bataillon, cent soixante.\par
 Il faut toujours manœuvrer avec 70 ou 75 centimètres de distance entre les deux rangs, afin que le second rang ne soit pas obligé d’emboîter le pas, chose très incommode pour des novices. Si on doit faire feu, le deuxième rang serre le premier, afin de passer les fusils entre les têtes des hommes du premier rang.
-\subsection[Des manœuvres]{Des manœuvres}
+\section[{Des manœuvres}]{Des manœuvres}\renewcommand{\leftmark}{Des manœuvres}
+
 \noindent Tous les officiers doivent connaître parfaitement l’école de peloton et l’école de bataillon. Pour savoir le moins, il est bon de savoir le plus. Néanmoins, il est évident qu’il n’y aura lieu d’employer qu’un petit nombre des mouvements décrits dans l’une et l’autre école. Il est donc essentiel d’étudier ceux-là de préférence. Ils ont surtout pour but de régulariser la formation en bataille.\par
 Voici les principaux\par
 
@@ -761,25 +749,29 @@ On rompra les sections, avant d’entrer dans une rue ayant moins de douze mètr
 Nota-bene.} - Cette formation en bataille étant la plus prompte, est la meilleure. Mais elle présente des difficultés. On ne peut former régulièrement la colonne à droite ou à gauche en bataille, que si les pelotons, ou les sections ou les demi-sections ont exactement conservé leurs distances, c’est-à-dire si la distance qui les sépare est égale à leur front. Si elle est plus grande, il reste des vides dans le bataillon formé en bataille. Si, au contraire, la distance est moindre que le front, les fractions du bataillon, en arrivant à l’alignement, se heurtent et s’entassent les unes sur les autres, faute de place ;
 \item La colonne étant en marche par pelotons, par sections ou par demi-sections, la former sur la droite ou sur la gauche en bataille. \\
 \emph{Nota-bene.} - Ce mouvement n’a pas les inconvénients du précédent, et devant l’ennemi, il a l’avantage d’ouvrir le feu dès le début de la formation. Mais, pour mettre simplement la colonne en bataille, il est d’une extrême lenteur.
+\end{enumerate}
 
-\end{enumerate}\noindent Le mouvement de flanc, par dédoublement, a le très grand avantage de former instantanément le bataillon en colonne, s’il est en bataille, ou en bataille, s’il est en colonne. Mais il a cet inconvénient qu’il est impossible de serrer la colonne. En outre, les deux mouvements: faire par le flanc, et faire front, sont difficiles pour des hommes qui n’ont jamais été exercés. Néanmoins il sera utile d’enseigner cette manœuvre au bataillon, aussitôt qu’il sera organisé. L'intelligence des ouvriers Parisiens leur en fera comprendre le mécanisme en quelques minutes.\par
+\noindent Le mouvement de flanc, par dédoublement, a le très grand avantage de former instantanément le bataillon en colonne, s’il est en bataille, ou en bataille, s’il est en colonne. Mais il a cet inconvénient qu’il est impossible de serrer la colonne. En outre, les deux mouvements: faire par le flanc, et faire front, sont difficiles pour des hommes qui n’ont jamais été exercés. Néanmoins il sera utile d’enseigner cette manœuvre au bataillon, aussitôt qu’il sera organisé. L'intelligence des ouvriers Parisiens leur en fera comprendre le mécanisme en quelques minutes.\par
 Lorsqu’un bataillon en marche doit faire tête de colonne à droite ou à gauche, pour entrer dans une rue latérale, il faut employer le mouvement « tournez à droite », ou « tournez à gauche », préférable à la conversion régulière qui est plus lente et plus difficile.\par
 Tous les changements de direction de la colonne doivent se faire par ce même mouvement « tournez à droite ou à gauche ».\par
 Le bataillon devra toujours marcher et manœuvrer au pas de route, c’est-à-dire les deux rangs à distance de 70 ou 75 centimètres, afin que le second rang ne soit pas obligé d’emboîter le pas, et marche en liberté.\par
 Tous les mouvements devront être exécutés avec rapidité, sans se piquer de précision ni d’élégance. La promptitude avant tout.\par
 Le port d’armes en sous-officier, le fusil dans la main droite, le bras allongé le long de la cuisse, la sous-garde tournée en avant.\par
 Il faudra faire appel aux hommes qui savent battre la caisse. Les tambours sont de première nécessité pour les commandements.
-\subsection[Manœuvres par divisions]{Manœuvres par divisions}
+\section[{Manœuvres par divisions}]{Manœuvres par divisions}\renewcommand{\leftmark}{Manœuvres par divisions}
+
 \noindent Les manœuvres par divisions ne peuvent être que fort rares dans Paris. Il importe néanmoins d’étudier les suivantes:\par
 
 \begin{enumerate}[itemsep=0pt,]
 \item Le bataillon étant en colonne par pelotons, serrés en masse, ou à demi-distance ou à distance entière, former les divisions ;
 \item Le bataillon étant en bataille, le ployer en colonne serrée par division sur l’une quelconque des quatre divisions, la droite ou la gauche en tête ;
 \item Le bataillon étant en colonne serrée par divisions, en marche ou de pied ferme, le déployer sur l’une quelconque des quatre divisions. La colonne par peloton.
+\end{enumerate}
 
-\end{enumerate}\noindent \emph{Esquisse de la marche à suivre dans une prise d’armes à Paris.}\par
+\noindent \emph{Esquisse de la marche à suivre dans une prise d’armes à Paris.}\par
 Les hommes qui prennent l’initiative du mouvement, ont choisi d’avance un commandant en chef et un certain nombre d’officiers, dont les fonctions commencent avec l’insurrection elle-même.
-\subsection[Manière d’organiser]{Manière d’organiser}
+\section[{Manière d’organiser}]{Manière d’organiser}\renewcommand{\leftmark}{Manière d’organiser}
+
 \noindent Aussitôt que des citoyens accourent, à la vue du soulèvement, les faire mettre en bataille sur deux rangs.\par
 Les engager au silence et au calme, leur adresser une brève allocution. Leur annoncer ensuite que tout citoyen marchant sous le drapeau de la République, recevra des vivres et cinq francs par jour, en indemnité de salaire, pendant la durée de la lutte.\par
 Inviter tous ceux qui ont servi dans l’armée ou fait partie de la garde nationale, à sortir des rangs et à se présenter sur le front de la ligne.\par
@@ -805,37 +797,47 @@ Des officiers d’état-major accompagnent la colonne afin de constituer avec ce
 L'organisation des nouveaux bataillons continuera ainsi sans înterruption, pendant la durée de la lutte. Toute colonne en marche ralliera les ouvriers rencontrés sur son chemin et les formera en compagnies et en bataillons d’après les procédés ci-dessus.\par
 Aussitôt que le nombre des bataillons dépassera neuf, ils pourront être réunis par régiments et par brigades.\par
 Dès le début de l’insurrection, des citoyens dévoués seront chargés de couper les fils télégraphiques et de détruire les communications du gouvernement avec la province.
-\subsection[Mesures insurrectionnelles]{Mesures insurrectionnelles}
+\section[{Mesures insurrectionnelles}]{Mesures insurrectionnelles}\renewcommand{\leftmark}{Mesures insurrectionnelles}
+
 \noindent Aussitôt que la chose sera possible, le commandant en chef établira des commissions d’armement, de vivres et de sûreté publique.
-\subsection[Commission d’armement]{Commission d’armement}
+\section[{Commission d’armement}]{Commission d’armement}\renewcommand{\leftmark}{Commission d’armement}
+
 \noindent La commission d’armement fera rechercher, soit dans les magasins et fabriques d’arquebuserie, soit chez les particuliers, toutes les armes disponibles, fusils de guerre et de chasse, pistolets, revolvers, sabres et épées, ainsi que les poudres entreposées chez les débitants ou réunies en dépôt, notamment chez les artificiers.\par
 Elle requerra le plomb en existence chez les plombiers, les moules à balles de tous calibres chez les quincailliers, fera fabriquer des mandrins par les tourneurs, des mesures à poudre, installera des ateliers où les femmes et les enfants seront employés moyennant salaire à la fonte des balles et à la confection des cartouches.\par
 Elle fera préparer des fanions, des drapeaux et des rubans pour insignes.\par
 Elle requerra chez les fabricants de produits chimiques, les matières qui entrent dans les diverses sortes de poudres notamment l’acide sulfurique et l’acide nitrique anhydres ou concentrés, éléments du fulmicoton. On mettra en réquisition pour ces travaux les élèves en pharmacie.
-\subsection[Commission des vivres]{Commission des vivres}
+\section[{Commission des vivres}]{Commission des vivres}\renewcommand{\leftmark}{Commission des vivres}
+
 \noindent La commission des vivres requerra chez les boulangers, bouchers et dans les entrepôts de liquides, le pain, la viande, les vins et liqueurs nécessaires à la consommation de l’armée Républicaine, Elle mettra en réquisition les traiteurs, restaurateurs et autres établissements de ce genre pour la préparation des vivres.\par
 Il y aura, par chaque bataillon, un commissaire des vivres chargé de veiller à la distribution et de faire connaître à la commission les besoins du bataillon.
-\subsection[Commision de sûreté publique]{Commision de sûreté publique}
+\section[{Commision de sûreté publique}]{Commision de sûreté publique}\renewcommand{\leftmark}{Commision de sûreté publique}
+
 \noindent La commission de sûreté publique a pour mission de, déjouer les trames de la police et les manœuvres des contre-révolutionnaires, de faire imprimer, distribuer et afficher les proclamations ou arrêtés du Commandant en chef, de surveiller les télégraphes, les chemins de fer, les établissements impériaux, en un mot, de dissoudre les moyens d’action de l’ennemi, d’organiser et d’assurer ceux de la République.\par
 Les fonds nécessaires pour le service de ces trois commissions et pour le paiement de l’indemnité quotidienne de cinq francs, allouée aux citoyens présents sous les drapeaux, seront prélevées sur les caisses publiques.\par
 Il sera délivré aux marchands et industriels, récépissé régulier des livraisons de marchandises quelconques par eux fournies, sur réquisition. Ces fournitures seront soldées par le gouvernement républicain.\par
 Les trois commissions rendront compte de leurs travaux, d’heure en heure au commandant en chef et exécuteront ses ordres.\par
 Il sera formé un service spécial pour les ambulances.
-\subsection[Des barricades]{Des barricades}
-\begin{figure}[htbp]
-\noindent\noindent\includegraphics[]{}Diagramme d’une barricade
-\caption{Diagramme d’une barricade}\end{figure}
+\section[{Des barricades}]{Des barricades}\renewcommand{\leftmark}{Des barricades}
+
 \noindent Aucun mouvement militaire ne devant avoir lieu que d’après l’ordre du commandant en chef, il ne sera élevé de barricades que sur les emplacements désignés par lui.\par
 Sous peine d’une prompte débâcle, les barricades ne peuvent plus être aujourd’hui une œuvre comme en 1830 et 1848, confuse et désordonnée. Elles doivent faire partie d’un plan d’opération, arrêté d’avance.\par
 Dans ce système, chaque retranchement est occupe par une garnison qu’on abandonne point à elle-même, qui reste en communication suivie avec les réserves et en reçoit constamment des renforts proportionnés aux dangers de l’attaque.\par
 Le tohu-bohu et l’éparpillement ne constituaient pas le seul vice des anciennes barricades. Leur construction n’était pas moins défectueuse.\par
 Amas informe de pavés, entremêlés de voitures sur le flanc, de poutres et de planches, ce mauvais barrage n’était pas un obstacle pour l’infanterie qui l’enlevait au pas de course. Quelques gros retranchements peut-être, faisaient exception. Encore pas un seul n’était à l’abri de l’escalade. Ils servaient eux-mêmes d’échelle.\par
 Arrêter les troupes, les contraindre à un siège, résister même assez longtemps au canon, telle est. la destination d’une barricade. Il faut donc la construire d’après ces données, pour qu’elle atteigne son triple but. Jusqu’ici, elle n’y a pas satisfait le moins du monde.
-\subsection[Croquis de barricade]{Croquis de barricade}
-\noindent « Profil de la barricade complète, rempart et contre-garde avec glacis. Le rempart et le mur interne de la contre-garde sont maçonnés en plâtre. »\par
-Dans l’état actuel de Paris, malgré l’invasion du macadam, le pavé reste toujours le véritable élément de la fortification passagère, à condition toutefois d’en faire un usage plus sérieux que par le passé. C'est une affaire de bon sens et de calcul.\par
+\section[{Croquis de barricade}]{Croquis de barricade}\renewcommand{\leftmark}{Croquis de barricade}
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth,]{blanqui1866_prise-armes/barricade.png}
+\caption{Profil de la barricade complète, rempart et contre-garde avec glacis. Le rempart et le mur interne de la contre-garde sont maçonnés en plâtre.}
+\end{figure}
+
+\noindent Dans l’état actuel de Paris, malgré l’invasion du macadam, le pavé reste toujours le véritable élément de la fortification passagère, à condition toutefois d’en faire un usage plus sérieux que par le passé. C'est une affaire de bon sens et de calcul.\par
 L'ancien pavé, qui tapisse encore la majeure partie de la voie publique est un cube de 25 centimètres de côté. On peut, dès lors, supputer par avance le nombre de ces blocs qui sera mis en œuvre pour bâtir un mur, dont les trois dimensions, longueur, largeur et hauteur sont déterminées.
-\subsection[Barricade régulière]{Barricade régulière}
+\section[{Barricade régulière}]{Barricade régulière}\renewcommand{\leftmark}{Barricade régulière}
+
 \noindent La barricade complète consiste dans un rempart et sa contre-garde ou couvre-face.\par
 Le rempart est en pavés maçonnés au plâtre, large d’un mètre, haut de trois, encastré par des extrémités dans les murs de façade des maisons.\par
 La contre-garde, placée à six mètres en avant du rempart se compose de deux parties attenantes l’une à l’autre, savoir : un mur interne de mêmes dimensions et constructions que le rempart, et un glacis en pavés secs amoncelés s’étendant sur une longueur de quatre mètres jusqu’à l’entrée de la rue.\par
@@ -877,9 +879,13 @@ Cette besogne terminée, on se met en communication avec les deux barricades lat
 Les ouvertures sont pratiquées au premier et au dernier étage, afin d’avoir deux routes; le travail se poursuit à la fois dans quatre directions.\par
 Tous les îlots ou pâtés de maisons appartenant aux rues barricadées, doivent être percés dans leur pourtour, de manière que les combattants puissent entrer et sortir par la rue parallèle de derrière, hors de la vue et de la portée de l’ennemi.\par
 Dans ce travail, la garnison de chaque barricade doit se rencontrer à mi-chemin, tant sur le front de défense que dans la rue de derrière avec les deux garnisons des deux barricades voisines, de droite et de gauche.\par
-\begin{figure}[htbp]
-\noindent\noindent\includegraphics[]{}Plan d’un phalanstère en grande échelle
-\caption{Plan d’un phalanstère en grande échelle}\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth,]{blanqui1866_prise-armes/phalanstere.png}
+\caption{Plan d’un phalanstère en grande échelle}
+\end{figure}
+
 \noindent Exemple de barricades sur un front de défense, reliées entre elles par le percement des maisons des îlots adjacents.\par
 Le boulevard Sébastopol étant supposé front de défense, on a pris sur ce front une étendue d’environ 140 mètres, qui comprend les débouchés de trois rues et un peu au-delà, savoir les rues Aubry-le-Boucher, de la Reynie, et des Lombards.\par
 Les trois rues sont fermées à leur issue sur le boulevard, par des barricades avec contre-gardes. Les dimensions et les distances sont rigoureusement exactes sur le plan.\par
@@ -904,7 +910,8 @@ Tout chef de barricade fera prendre chez les marchands les plus proches, les mat
 Les commandants de barricades ne retiendront pas auprès d’eux les recrues qui viendraient les rejoindre. Ils les adresseront à leur supérieur immédiat, les lieutenants au capitaine, les capitaines au chef de bataillon, afin que ces hommes soient dirigés sur la réserve où s’opèrent l’organisation des nouveaux corps.\par
 Cette règle est dictée par des motifs impérieux: 1° l’indemnité ne peut être allouée aux volontaires que sur constatation officielle de leur présence sous le drapeau, avec date précise; 2° le commandant en chef doit toujours connaître le chiffre exact des forces de chaque retranchement; 3° le bon ordre exige que l’effectif des compagnies et des bataillons demeure à peu près uniforme.\par
 Les commandants de barricade adresseront des rapports fréquents à leurs supérieurs qui les feront tenir au quartier général.
-\subsection[Défense des barricades]{Défense des barricades}
+\section[{Défense des barricades}]{Défense des barricades}\renewcommand{\leftmark}{Défense des barricades}
+
 \noindent En supposant que l’armée tienne pied et s’acharne à la lutte, il est aisé de pressentir sa méthode d’attaque contre les positions républicaines.\par
 D'abord, des détachements plus ou moins nombreux tirant aux fenêtres pendant leur marche, s’avanceront pour enlever une barricade. S'ils sont repoussés, et peut-être même sans avoir couru cette chance, ils perceront les maisons des îlots qui font face aux insurgés, et arriveront ainsi par l’intérieur sur le front de défense.\par
 Les deux parties n’étant plus alors séparées que par la largeur de la rue, les soldats dirigeront un feu violent sur les fenêtres en face, pour chasser les défenseurs. Il faut s’attendre aussi que la troupe, en cas de résistance un peu longue, amènera du canon à travers l’îlot quelle occupe.\par
@@ -914,16 +921,21 @@ Règle générale : il est inutile de riposter aux soldats qui fusillent des fe
 La garnison, dédaignant le feu des croisées, surveillera la rue pour empêcher l’ennemi de la traverser. Dès qu’il tentera le passage, il faut le fusiller à outrance, l’accabler de pierres et de pavés, du haut des maisons. En même temps, on se tiendra prêt à la fusiller, à l’arroser d’eau bouillante par le plancher du premier étage, s’il pénétrait dans le rez-de-chaussée, malgré le barricadement des portes et des fenêtres. Durant le combat, veiller avec soin à ce qu’il ne puisse attacher des pétards. Ne pas ménager les pavés, les bouteilles pleines d’eau, même les meubles, à défaut d’autres projectiles. Oter les volets en tôle des hauts étages, pour lancer les pierres, en évitant les balles d’en face.\par
 Quant au retranchement, il ne sera pas facile d’en avoir raison. Le boulet ne pourrait atteindre le rempart que par le tir à ricochet, et le faible intervalle de six mètres, qui le sépare de la contre-garde, rendrait ce tir inefficace.\par
 L'obus sera également impuissant. il viendra faire explosion en avant ou en arrière ou dans l’intervalle des deux ouvrages, et ses éclats écorcheront le plâtre des murailles, rien de plus. Car il ne trouvera là personne. La barricade sera défendue par les fenêtres.\par
-\begin{figure}[htbp]
-\noindent\noindent\includegraphics[]{}Plan du secteur envisagé
-\caption{Plan du secteur envisagé}\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth,]{blanqui1866_prise-armes/secteur.png}
+\caption{Plan du secteur envisagé}
+\end{figure}
+
 \noindent L'assaut serait très meurtrier pour les assaillants. Il faudrait essuyer la fusillade jusqu’au pied du glacis, et à partir de ce point, braver un péril plus redoutable encore, il ne serait possible de descendre du mur interne, puis de franchir le rempart qu’avec des échelles de huit pieds, bagage incommode, et sous une grêle de pavés et de balles.\par
 Si, en construisant la barricade, on a pu enfermer une ou deux portes cochères, dans l’intervalle de six mètres, entre le rempart et sa contregarde, des pelotons de faucheurs massés derrière les battants de la porte qui s’ouvrira tout à coup, se jetteront sur les soldats qui seraient descendus de la contre-garde et les mettront en pièces dans cette souricière car leurs baïonnettes ne seront pas de longueur contre leurs pertuisanes.\par
 S'il n’existe point de porte cochère, les faucheurs se masseront au rez-de-chaussée afin de s’élancer par les portes d’allées ainsi que par les fenêtres basses. Au préalable, le commandant aura fait cesser la pluie de balles et de pavés, ce que la troupe pourra prendre pour un signe de défaite, méprise qui lui deviendrait fatale.\par
 Si l’ennemi est rebuté par la longue résistance d’une ou de plusieurs barricades, il recourra peut-être à l’incendie des maisons par les obus. Eteindre le feu sera difficile. Si on n’y réussit pas, la retraite deviendra inévitable. Il faudra se replier de maison en maison sur une deuxième ligne de défense. Les troupes ne joueraient pas longtemps ce jeu-là. On ne fera pas de Paris une seconde Saragosse.\par
 La lutte des barricades fournira au commandant en chef l’occasion de prendre à son tour l’offensive et de jeter des colonnes d’attaque sur les flancs et les derrières des assaillants.\par
 Les blessés seront évacués sur les ambulances, désignées aux chefs de corps; les morts seront transportés aux hôpitaux.
-\subsection[Des mines]{Des mines}
+\section[{Des mines}]{Des mines}\renewcommand{\leftmark}{Des mines}
+
 \noindent Les troupes pourraient avoir recours à la mine pour forcer un front de défense trop tenace. C'est un moyen puissant, mais assez peu probable. L'ennemi n’en usera certainement pas au début. Ce moyen est long et dénote d’ailleurs une certaine timidité, qui ébranlerait l’esprit du soldat en lui montrant l’insurrection très redoutable.\par
 Cependant il se peut que la nécessité fasse passer par-dessus cet inconvénient. Dans ce cas, le système d’égouts prend une grande importance. Dans toutes les rues où il s’en trouve, ils deviendraient le point de départ des galeries de mines.\par
 L'ennemi a un plan détaillé des égouts de Paris. Ils sont de plusieurs dimensions. La carte des plus grands, dit égouts collecteurs, est connue de tout le monde. On la trouve dans le second volume de Paris-Guide. Mais ceux-là ne forment que le très petit nombre. La masse des canaux moyens et des rigoles demeure inconnue. Il serait utile de s’en enquérir auprès des ouvriers égoutiers.\par
@@ -933,7 +945,8 @@ Toute rue servant de défense peut être traversée par une galerie de mine, il 
 Des sentinelles le parcourront à pas de loup, posant l’oreille contre la paroi du côté des troupes, afin d’entendre le bruit de la sape et avertir aussitôt. Du reste, l’ennemi ne tenterait de pénétrer dans l’égout par la sape que s’il ne pouvait y arriver par la voie naturelle des embranchements, sa rencontre dans ses détours souterrains serait donc l’indice de ses projets de mine. Ces rencontres viendraient accroître les difficultés de l’opération et la rendre moins probable.\par
 Dans les rues sans égouts, s’il en existe, la galerie serait creusée directement, à partir d’une cave, pour traverser la rue jusqu’à la maison vis-à-vis. Ce travail serait plus difficile à découvrir et à surprendre que celui des égouts. Des sentinelles devront coller l’oreille au mur de la cave bordant la rue, afin d’écouter le bruit des mineurs. La garnison, prévenue, les attendrait à l’issue pour leur faire un mauvais parti.\par
 Somme toute, la guerre de mine est peu probable; celle d’égout l’est davantage.
-\subsection[Des habitants des maisons occupées]{Des habitants des maisons occupées}
+\section[{Des habitants des maisons occupées}]{Des habitants des maisons occupées}\renewcommand{\leftmark}{Des habitants des maisons occupées}
+
 \noindent Les habitants des maisons occupées par les républicains seront invités dans leur propre intérêt, à se retirer avec leur numéraire, leurs valeurs quelconques et leur argenterie, après avoir fermé tous les meubles. On leur rappellera, d’après l’exemple du 2 décembre, que les soldats de Bonaparte, en pénétrant dans toute maison d’où il est parti un coup de feu, égorgent sans distinction hommes et femmes, vieillards au lit et enfants à la mamelle.\par
 Si les vieillards, les femmes et les enfants se retirent, les hommes devront les suivre. On ne les laissera pas demeurer seuls au logis.\par
 Lorsqu’on aura percé les murs de toutes les maisons d’un îlot, on pourra faire retirer les familles qui habitent le front de défense, dans la partie de derrière de l’îlot.\par

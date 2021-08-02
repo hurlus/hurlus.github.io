@@ -30,7 +30,7 @@
     papersize={105mm, 297mm},
     inner=12mm,
     outer=12mm,
-    top=15mm,
+    top=20mm,
     bottom=15mm,
     marginparsep=0pt,
   ]{geometry}
@@ -47,7 +47,7 @@
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
-  \documentclass[twocolumn]{book}
+  \documentclass[twocolumn]{report}
   \usepackage[%
     a4paper,
     inner=15mm,
@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{902c20} % the tonic
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -102,6 +102,7 @@
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
 \usepackage{framed} % bordering correct with footnote hack
@@ -147,11 +148,12 @@
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % unavailable in Ubuntu 21-04
+% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
 % \usepackage{flushend} % bad for last notes, supposed flush end of columns
 % \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
 % \usepackage{helvet} % not for XeLaTeX
 % \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
+% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
 % \usepackage{sectsty} % \chapterfont OBSOLETE
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
@@ -162,14 +164,14 @@
 \title{\textbf{ La guerre des paysans en Allemagne }\\ \medskip
 \textit{ traduction 1977, Bottigelli }}
 \date{1850}
-\author{Engels, Friedrich}
-\def\elbibl{Engels, Friedrich. 1850. \emph{La guerre des paysans en Allemagne}}
+\author{Engels}
+\def\elbibl{Engels. 1850. \emph{La guerre des paysans en Allemagne}}
 \def\elsource{\href{https://www.marxists.org/francais/marx/works/1850/00/fe1850h.htm}{\dotuline{marxists.org}}\footnote{\href{https://www.marxists.org/francais/marx/works/1850/00/fe1850h.htm}{\url{https://www.marxists.org/francais/marx/works/1850/00/fe1850h.htm}}}}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
 \colorprovide{rubric}{red}
-\colorprovide{silver}{Gray}
+\colorprovide{silver}{lightgray}
 \@ifundefined{syms}{\newfontfamily\syms{DejaVu Sans}}{}
 \newif\ifdev
 \@ifundefined{elbibl}{% No meta defined, maybe dev mode
@@ -192,17 +194,6 @@
   Scale=MatchLowercase,
   Ligatures={TeX,Common},
 }
-
-\@ifundefined{\columnseprulecolor}{%
-    \patchcmd\@outputdblcol{% find
-      \normalcolor\vrule
-    }{% and replace by
-      \columnseprulecolor\vrule
-    }{% success
-    }{% failure
-      \@latex@warning{Patching \string\@outputdblcol\space failed}%
-    }
-}{}
 
 \hypersetup{
   % pdftex, % no effect
@@ -270,18 +261,19 @@
 
 % commands, inlines
 \newcommand{\anchor}[1]{\Hy@raisedlink{\hypertarget{#1}{}}} % link to top of an anchor (not baseline)
-\newcommand\abbr{}
-\newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {#1};}
-\newcommand\corr{}
+\newcommand\abbr[1]{#1}
+\newcommand{\autour}[1]{\tikz[baseline=(X.base)]\node [draw=rubric,thin,rectangle,inner sep=1.5pt, rounded corners=3pt] (X) {\color{rubric}#1};}
+\newcommand\corr[1]{#1}
 \newcommand{\ed}[1]{ {\color{silver}\sffamily\footnotesize (#1)} } % <milestone ed="1688"/>
-\newcommand\expan{}
-\newcommand\gap{}
+\newcommand\expan[1]{#1}
+\newcommand\foreign[1]{\emph{#1}}
+\newcommand\gap[1]{#1}
 \renewcommand{\LettrineFontHook}{\color{rubric}}
 \newcommand{\initial}[2]{\lettrine[lines=2, loversize=0.3, lhang=0.3]{#1}{#2}}
 \newcommand{\initialiv}[2]{%
   \let\oldLFH\LettrineFontHook
   % \renewcommand{\LettrineFontHook}{\color{rubric}\ttfamily}
-  \IfSubStr{Q}{#1}{
+  \IfSubStr{QJ’}{#1}{
     \lettrine[lines=4, lhang=0.2, loversize=-0.1, lraise=0.2]{\smash{#1}}{#2}
   }{\IfSubStr{É}{#1}{
     \lettrine[lines=4, lhang=0.2, loversize=-0, lraise=0]{\smash{#1}}{#2}
@@ -298,15 +290,20 @@
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
-\newcommand\name{}
-\newcommand\orig{}
-\newcommand\orgName{}
-\newcommand\persName{}
-\newcommand\placeName{}
-\newcommand{\pn}[1]{{\sffamily\textbf{#1.}} } % <p n="3"/>
+\newcommand\name[1]{#1}
+\newcommand\orig[1]{#1}
+\newcommand\orgName[1]{#1}
+\newcommand\persName[1]{#1}
+\newcommand\placeName[1]{#1}
+\newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
+  {\noindent{\bfseries\color{rubric}   ¶  }}
+  {{\footnotesize\autour{ #1}  }}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
-\newcommand\sic{}
+\newcommand\sic[1]{#1}
+\newcommand\surname[1]{\textsc{#1}}
+\newcommand\term[1]{\textbf{#1}}
+
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
 \def\bignobreak{\ifdim\lastskip<\bigskipamount
@@ -317,7 +314,7 @@
 \newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\labelblock}[1]{\bigbreak{\color{rubric}\noindent\textbf{#1}\par}\bignobreak}
+\newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
 
@@ -334,7 +331,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\fontlight\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -474,10 +471,9 @@
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
 \else
-  \setmainfont[
-    ItalicFont={Roboto Italic},
-    % BoldFont={Roboto},
-  ]{Roboto Light}
+\setmainfont[
+  ItalicFont={Roboto Italic},
+]{Roboto Light}
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -501,6 +497,7 @@
   {%
     \savenotes
     \setstretch{0.9}
+    \normalfont
     \begin{quotebar}
   }
   {%
@@ -509,9 +506,8 @@
   }
 
 
-\renewcommand{\pn}[1]{{\footnotesize\autour{\color{rubric} #1}}} % <p n="3"/>
 \renewcommand{\headrulewidth}{\arrayrulewidth}
-\renewcommand{\headrule}{\color{rubric}\hrule}
+\renewcommand{\headrule}{{\color{rubric}\hrule}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -619,7 +615,7 @@
 \else
   \chapo
 \fi
-\elabstract
+{\it\elabstract}
 \bigskip
 \makeatletter\@starttoc{toc}\makeatother % toc without new page
 \bigskip
@@ -628,11 +624,11 @@
 
   
 \chapteropen
-\renewcommand{\leftmark}{Note préliminaire (1870 puis 1874)}
-\chapter[Note préliminaire (1870 puis 1874)]{Note préliminaire (1870 puis 1874)}
+\chapter[{Note préliminaire (1870 puis 1874)}]{Note préliminaire (1870 puis 1874)}\renewcommand{\leftmark}{Note préliminaire (1870 puis 1874)}
+
 
 \chaptercont
-\section[1)]{1)}
+\section[{1)}]{1)}
 \noindent Le présent ouvrage a été écrit à Londres pendant l’été de 1850, sous l’impression directe de la contre-révolution qui venait à peine de s’achever ; il parut dans les numéros 5 et 6 de la \emph{Neue Rheinische Zeitung Politisch-ökonomische} Revue dirigée par Karl Marx, Hambourg 1850. Mes amis politiques en Allemagne désirent le réimprimer et j’acquiesce à leur demande, car il est, aujourd’hui encore, malheureusement d’actualité.\par
 Ce travail ne prétend pas fournir une documentation résultant d’une recherche personnelle ; au contraire, tous les matériaux relatifs aux soulèvements paysans et à Thomas Münzer ont été empruntés à Zimmermann. Son livre, quoique présentant ici et là des lacunes, reste encore le meilleur recueil des faits. Le vieux Zimmermann aimait d’ailleurs vivement son sujet. Ce même instinct révolutionnaire qui se manifeste partout ici en faveur de la classe opprimée fit de lui un des meilleurs représentants de l’extrême-gauche à Francfort. Depuis, il doit certes avoir un peu vieilli.\par
 Si par contre dans l’exposé de Zimmermann l’enchaînement interne fait défaut, s’il n’arrive pas à présenter les controverses religieuses et politiques de l’époque comme le reflet des luttes de classes contemporaines, s’il ne voit dans ces luttes que des oppresseurs et des opprimés, des méchants et des bons, et finalement le triomphe des méchants, si sa compréhension des rapports sociaux qui déterminèrent aussi bien l’explosion que l’issue de la lutte est tout à fait déficiente, la faute en est à l’époque où ce livre parut. On peut même dire que, pour son temps, ce livre est encore très réaliste et constitue une louable exception parmi les ouvrages des historiens idéalistes allemands.\par
@@ -670,7 +666,7 @@ Les petits paysans – car les gros font partie de la bourgeoisie – sont de di
 Ou bien ce sont des métayers. Dans ce cas existe en général la même situation qu’en Irlande. Le fermage est si élevé que lorsque la récolte est moyenne, le paysan avec sa famille peut tout juste subsister, et lorsqu’elle est mauvaise il meurt presque de faim, n’est pas en état de payer le fermage et devient de ce fait totalement dépendant de la faveur du propriétaire foncier. Pour ces sortes de gens la bourgeoisie ne fait quelque chose que lorsqu’elle y est contrainte. De qui peuvent-ils donc attendre leur salut si ce n’est des ouvriers ?\par
 Restent les paysans qui cultivent leur propre lopin de terre. Ceux-ci sont, le plus souvent, tellement grevés d’hypothèques qu’ils dépendent de l’usurier tout autant que le métayer du propriétaire foncier. À eux aussi il ne reste qu’un misérable salaire, et de plus tout à fait incertain, car il dépend de la bonne ou de la mauvaise récolte. Ce sont eux qui peuvent encore le moins attendre de la bourgeoisie, car ils sont précisément pressurés par les bourgeois, les capitalistes usuriers. Cependant ils sont le plus souvent très attachés à leur propriété, quoique eu réalité elle ne leur appartienne pas à eux, mais à l’usurier. On peut néanmoins les persuader qu’ils ne seront délivrés de l’usurier que lorsqu’un gouvernement dépendant du peuple transformera toutes les dettes hypothécaires en une dette unique due à l’État, et abaissera ainsi le taux de l’intérêt. Et cela, seule la classe ouvrière peut le réaliser.\par
 Partout où dominent la grande et la moyenne propriété, les journaliers agricoles constituent la classe la plus nombreuse dans les campagnes. C’est le cas dans toute l’Allemagne du Nord et de l’Est et c’est là que les ouvriers industriels de la ville trouvent leurs alliés naturels les plus nombreux. Tout comme le capitaliste s’oppose à l’ouvrier d’industrie, le propriétaire foncier ou le gros fermier s’oppose au journalier agricole. Les mêmes mesures qui aident l’un doivent aider l’autre aussi. Les ouvriers industriels ne peuvent s’affranchir qu’en transformant le capital des bourgeois, c’est-à-dire les matières premières, les machines et les outils, les vivres nécessaires à la production, en propriété de la société, c’est-à-dire en leur propriété utilisée par eux en commun. De même les ouvriers agricoles ne peuvent être délivrés de leur terrible misère que si, avant tout, le principal objet de leur travail, la terre, est arrachée à la propriété privée des gros paysans et des seigneurs féodaux plus gros encore, transformée en propriété sociale et cultivée pour leur compte collectif par des coopératives d’ouvriers agricoles. Et ici nous en arrivons à la célèbre résolution du Congrès ouvrier international de Bâle : la société a intérêt à transformer la propriété foncière en propriété collective, nationale. Cette résolution concernait surtout les pays où existe la grande propriété foncière et l’exploitation de vastes domaines, et sur ces grands domaines un seul maître et beaucoup de journaliers. Or cette situation prédomine toujours dans l’ensemble en Allemagne, et c’est pourquoi la résolution en question était particulièrement opportune pour ce pays après l’Angleterre. Le prolétariat des champs, les salariés agricoles constituent la classe où se recrutent, dans leur grande masse, les armées des souverains. C’est la classe qui, en vertu du suffrage universel, envoie maintenant an Parlement toute cette foule de féodaux et de hobereaux ; mais c’est aussi la classe qui est la plus proche des ouvriers industriels des villes, qui partage avec eux les mêmes conditions d’existence, qui est dans une misère plus profonde même que la leur. Cette classe est impuissante parce qu’elle est émiettée et dispersée ; mais le gouvernement et l’aristocratie en connaissent si bien la force cachée, qu’ils laissent à dessein dépérir les écoles afin qu’elle reste ignorante. La tâche la plus urgente et la première du mouvement ouvrier allemand est de rendre cette classe vivante et de l’entraîner dans le mouvement. Le jour où la masse des ouvriers agricoles aura compris ses propres intérêts, un gouvernement réactionnaire, féodal, bureaucratique ou bourgeois sera impossible en Allemagne.
-\section[2)]{2)}
+\section[{2)}]{2)}
 \noindent Les lignes qui précèdent ont été écrites il y a plus de quatre ans ; elles conservent aujourd’hui encore toute leur valeur. Ce qui était vrai après Sadowa et le partage de l’Allemagne se trouve confirmé après Sedan et la fondation du Saint-Empire allemand prussien. Si infimes sont les changements que peuvent imprimer à la direction du mouvement historique, les événements « ébranlant le monde » de ce qu’on appelle la grande politique !\par
 Ce que ces événements historiques peuvent par contre, c’est accélérer la rapidité de ce mouvement. Et, à cet égard les auteurs des « événements ébranlant le monde » ci-dessus ont eu involontairement des succès qu’ils n’ont certainement pas souhaités le moins du monde, mois auxquels, bon gré mal gré, ils sont obligés de se résigner.\par
 La guerre de 1866 avait déjà ébranlé la vieille Prusse dans ses fondements. Il en avait déjà coûté beaucoup de peine pour ramener à la vieille discipline, après 1848, les industriels rebelles – bourgeois aussi bien que prolétaires – des provinces occidentales ; cependant on y était arrivé, et de nouveau les intérêts des hobereaux des provinces orientales et ceux de l’armée prédominaient dans l’État. En 1866, presque toute l’Allemagne du Nord-Ouest devint prussienne. Abstraction faite du tort moral irréparable que la couronne prussienne de droit divin s’était fait en engloutissant trois autres couronnes de droit divin, le centre de gravité de la monarchie se déplaça alors considérablement vers l’Ouest. Les cinq millions de Rhénans et de Westphaliens furent renforcés tout d’abord directement par les 4 millions, puis, indirectement, par les 6 millions d’Allemands annexés par la Confédération de l’Allemagne du Nord. Et, en 1870, s’y ajoutèrent encore les 8 millions d’Allemands du Sud-Ouest, de sorte que désormais, dans le « nouvel empire », aux 14 millions et demi de vieux Prussiens (des six provinces à l’Est de l’Elbe parmi lesquels il y avait en outre 2 millions de Polonais), s’opposaient les 25 millions qui avaient depuis longtemps échappé au féodalisme prussien endurci des hobereaux. Ainsi ce sont justement les victoires de l’armée prussienne qui déplacèrent toute la base de l’édifice de l’État prussien ; la domination des hobereaux devint de plus en plus intolérable même au gouvernement. Mais, en même temps, le développement industriel extrêmement rapide avait remplacé la lutte entre hobereaux et bourgeois par la lutte entre bourgeois et ouvriers, de sorte qu’à l’intérieur aussi les bases sociales du vieil État ont subi un bouleversement total. La monarchie, qui se décomposait lentement depuis 1840, avait eu pour condition fondamentale d’existence la lutte entre l’aristocratie et la bourgeoisie, lutte dans laquelle elle maintenait l’équilibre ; à partir du moment où il importait de protéger, non plus l’aristocratie contre la pression de la bourgeoisie, mais toutes les classes possédantes contre la pression de la classe ouvrière, la vieille monarchie absolue dut passer entièrement à la forme d’État spécialement élaborée à cette fin : la monarchie bonapartiste. J’ai analysé ailleurs (La Question du logement, 2º fasc., pp. 26 et suiv.) ce passage de la Prusse au bonapartisme. Ce que je n’avais pas à faire ressortir là, mais qui est essentiel ici, c’est que ce passage fut le plus grand pas en avant que la Prusse eût fait depuis 1848, tant la Prusse était restée en arrière du développement moderne. C’était encore un État mi-féodal, tandis que le bonapartisme est, en tout cas, une forme moderne d’État qui suppose l’abolition du féodalisme. La Prusse doit donc se décider à en finir avec ses nombreux restes de féodalité, à sacrifier ses hobereaux comme tels. Naturellement, cela s’accomplit sous les formes les plus atténuées et selon le proverbe : « Qui va doucement, va sûrement ». Il en fut ainsi, par exemple, pour la fameuse organisation des cercles. On supprime les privilèges féodaux du hobereau individuel sur sa terre, mais c’est pour les rétablir comme privilèges de l’ensemble des grands propriétaires fonciers sur tout le cercle. La chose subsiste, seulement on la traduit du dialecte féodal dans l’idiome bourgeois. On transforme d’office le hobereau de type prussien endurci en quelque chose comme un \emph{squire} anglais ; et il n’a pas tellement eu besoin de regimber, car l’un est aussi sot que l’autre.\par
@@ -687,8 +683,8 @@ D’une part, en raison de leur position avantageuse, de l’autre, par suite de
 
 
 \chapteropen
-\renewcommand{\leftmark}{I. La situation économique et la structure sociale de l’Allemagne}
-\chapter[I. La situation économique et la structure sociale de l’Allemagne]{I. La situation économique et la structure sociale de l’Allemagne}
+\chapter[{I. La situation économique et la structure sociale de l’Allemagne}]{I. La situation économique et la structure sociale de l’Allemagne}\renewcommand{\leftmark}{I. La situation économique et la structure sociale de l’Allemagne}
+
 
 \chaptercont
 \noindent Le peuple allemand a, lui aussi, ses traditions révolutionnaires. Il fut un temps où l’Allemagne a produit des hommes qu’on peut comparer aux meilleurs révolutionnaires des autres pays, où le peuple allemand fit preuve d’une endurance et d’une énergie qui, dans une nation centralisée, eussent donné les résultats les plus grandioses, où les paysans et les plébéiens allemands caressèrent des idées et des projets devant lesquels leurs descendants frémissent assez souvent d’horreur aujourd’hui encore.\par
@@ -731,8 +727,8 @@ Ainsi au début du XVIᵉ siècle les différents ordres de l’Empire : prince
 
 
 \chapteropen
-\renewcommand{\leftmark}{II. Les grands groupements d’opposition et leurs idéologies. Luther et Münzer }
-\chapter[II. Les grands groupements d’opposition et leurs idéologies. Luther et Münzer]{II. Les grands groupements d’opposition et leurs idéologies. Luther et Münzer }
+\chapter[{II. Les grands groupements d’opposition et leurs idéologies. Luther et Münzer}]{II. Les grands groupements d’opposition et leurs idéologies. Luther et Münzer }\renewcommand{\leftmark}{II. Les grands groupements d’opposition et leurs idéologies. Luther et Münzer }
+
 
 \chaptercont
 \noindent Le groupement des ordres alors si multiples en unités plus importantes était déjà presque impossible à cause de la décentralisation et l’indépendance locale et provinciale, l’isolement commercial et industriel des différentes provinces entre elles, les communications difficiles. Ce groupement ne se constitue qu’avec la diffusion générale d’idées révolutionnaires, religieuses et politiques sous la Réforme. Les différents ordres qui adhèrent à ces idées ou les rejettent concentrent la nation, à vrai dire d’une façon tout à fait malaisée et approximative, en trois grands camps : le camp catholique ou réactionnaire, le camp luthérien bourgeois-réformateur et le camp révolutionnaire. Si dans ce grand morcellement de la nation on trouve peu de logique, si l’on rencontre parfois les mêmes éléments dans les deux premiers camps, cela s’explique par l’état de décomposition dans lequel se trouvaient, à cette époque, la plupart des ordres officiels hérités du moyen âge, et par la décentralisation qui, dans des régions différentes, poussait momentanément les mêmes ordres dans des directions opposées. Nous avons eu si souvent l’occasion, au cours de ces dernières années en Allemagne de constater des phénomènes analogues qu’un tel pêle-mêle apparent des ordres et des classes dans les conditions beaucoup plus complexes du XVIᵉ siècle ne saurait nous étonner.\par
@@ -827,8 +823,8 @@ Nous verrons à quel point le caractère et la conduite des deux chefs de partis
 
 
 \chapteropen
-\renewcommand{\leftmark}{III. Précurseurs de la guerre des paysans entre 1476 et 1517}
-\chapter[III. Précurseurs de la guerre des paysans entre 1476 et 1517]{III. Précurseurs de la guerre des paysans entre 1476 et 1517}
+\chapter[{III. Précurseurs de la guerre des paysans entre 1476 et 1517}]{III. Précurseurs de la guerre des paysans entre 1476 et 1517}\renewcommand{\leftmark}{III. Précurseurs de la guerre des paysans entre 1476 et 1517}
+
 
 \chaptercont
 \noindent Cinquante ans environ après la répression du mouvement hussite, se manifestèrent les premiers symptômes de l’esprit révolutionnaire qui germait chez les paysans allemands.\par
@@ -871,8 +867,8 @@ On comprend qu’après une série de défaites aussi décisives et après ces a
 
 
 \chapteropen
-\renewcommand{\leftmark}{IV. La révolte de la noblesse}
-\chapter[IV. La révolte de la noblesse]{IV. La révolte de la noblesse}
+\chapter[{IV. La révolte de la noblesse}]{IV. La révolte de la noblesse}\renewcommand{\leftmark}{IV. La révolte de la noblesse}
+
 
 \chaptercont
 \noindent À l’époque même où la quatrième conspiration du Bundschuh était réprimée dans la Forêt-Noire, Luther lança à Wittenberg le signal du mouvement qui devait entraîner dans son tourbillon tous les ordres et ébranler tout l’Empire. Les thèses de l’augustin de Thuringe firent l’effet de la foudre dans un baril de poudre. Elles donnèrent dès l’abord aux aspirations multiples et contradictoires des chevaliers comme des bourgeois, des paysans comme des plébéiens, des princes avides d’indépendance comme du bas clergé, des sectes mystiques clandestines comme de l’opposition littéraire des érudits et des satiristes burlesques une expression générale commune, autour de laquelle ils se groupèrent avec une rapidité surprenante. Cette alliance soudaine de tous les éléments d’opposition, si courte que fut sa durée, révéla brusquement la force immense du mouvement et le fit progresser d’autant plus rapidement.\par
@@ -890,8 +886,8 @@ On connaît le déroulement de la lutte elle-même. Sickingen, qui était déjà
 
 
 \chapteropen
-\renewcommand{\leftmark}{V. La guerre des paysans en Souabe et en Franconie}
-\chapter[V. La guerre des paysans en Souabe et en Franconie]{V. La guerre des paysans en Souabe et en Franconie}
+\chapter[{V. La guerre des paysans en Souabe et en Franconie}]{V. La guerre des paysans en Souabe et en Franconie}\renewcommand{\leftmark}{V. La guerre des paysans en Souabe et en Franconie}
+
 
 \chaptercont
 \noindent À partir du moment où la déclaration de guerre de Luther à la hiérarchie catholique mit en mouvement tous les éléments d’opposition en Allemagne, il ne se passa pas d’année sans que les paysans ne réapparaissent également avec leurs revendications. De 1518 à 1523, les insurrections paysannes locales se succédèrent dans la Forêt-Noire et dans la Haute-Souabe. À partir du printemps de 1524, ces insurrections prirent un caractère systématique. Au mois d’avril de cette année-là les paysans de l’abbaye de Marchthal refusèrent les corvées et prestations féodales. Au mois de mai les paysans de Saint-Blasien refusèrent de payer les taxes de servage. En juin, les paysans de Steinheim, près de Memmingen, déclarèrent ne plus vouloir payer ni dîmes ni autres taxes. En juillet et en août les paysans de Thurgovie se soulevèrent et furent ramenés au calme, soit grâce à l’intervention des Zurichois, soit par la brutalité du gouvernement fédéral, qui en fit exécuter un certain nombre. Enfin éclata dans le landgraviat de Stuhlingen une insurrection plus nette, qui peut être considérée comme le véritable \emph{début de la Guerre des paysans}.\par
@@ -956,8 +952,8 @@ Ainsi se termina la Guerre des paysans souabes et franconiens.
 
 
 \chapteropen
-\renewcommand{\leftmark}{VI. La guerre des paysans en Thuringe, en Alsace et en Autriche}
-\chapter[VI. La guerre des paysans en Thuringe, en Alsace et en Autriche]{VI. La guerre des paysans en Thuringe, en Alsace et en Autriche}
+\chapter[{VI. La guerre des paysans en Thuringe, en Alsace et en Autriche}]{VI. La guerre des paysans en Thuringe, en Alsace et en Autriche}\renewcommand{\leftmark}{VI. La guerre des paysans en Thuringe, en Alsace et en Autriche}
+
 
 \chaptercont
 \noindent Dès le début des premiers mouvements en Souabe, \emph{Thomas Münzer} était revenu en toute hâte en \emph{Thuringe} et s’était établi, fin février où début de mars, dans la ville libre de \emph{Mulhausen} où ses partisans étaient le plus nombreux. Il tenait dans ses mains les fils de tout le mouvement. Il savait quelle tempête générale était sur le point de se déchaîner sur l’Allemagne du Sud et avait pris sur lui de faire de la Thuringe le centre du mouvement pour l’Allemagne du Nord. Il trouva un terrain tout à fait fécond. La Thuringe elle-même, principal centre de la Réforme, était extrêmement agitée. La misère matérielle des paysans, ainsi que les doctrines révolutionnaires religieuses et politiques en circulation, avaient également préparé les contrées voisines : la Hesse, la Saxe et le Hartz à une insurrection générale. À Mulhausen en particulier, la grande masse de la petite bourgeoisie était gagnée aux idées extrêmes de Münzer et était impatiente de faire valoir sa supériorité numérique sur l’orgueilleux patriciat. Münzer lui-même se vit contraint, pour ne pas anticiper sur le moment opportun, de modérer l’ardeur de ses partisans. Mais son disciple Pfeifer, qui dirigeait le mouvement à Mulhausen, s’était déjà tellement compromis qu’il se trouvait dans l’impossibilité de retarder l’explosion, et c’est pourquoi, dès le 17 mars 1525, avant même le soulèvement général dans l’Allemagne du Sud, Mulhausen fit sa révolution. Le vieux Conseil patricien fut renversé et le gouvernement de la ville confié au nouveau « Conseil éternel », dont Münzer fut nommé président.\par
@@ -986,8 +982,8 @@ En avril 10000 soldats bavarois, sous le commandement de Georg von Frundsberg, m
 
 
 \chapteropen
-\renewcommand{\leftmark}{VII. Les conséquences de la guerre des paysans}
-\chapter[VII. Les conséquences de la guerre des paysans]{VII. Les conséquences de la guerre des paysans}
+\chapter[{VII. Les conséquences de la guerre des paysans}]{VII. Les conséquences de la guerre des paysans}\renewcommand{\leftmark}{VII. Les conséquences de la guerre des paysans}
+
 
 \chaptercont
 \noindent La retraite de Geismaier en territoire vénitien mit fin au dernier épilogue de la Guerre des paysans. Les paysans étaient retombés partout sous la dépendance de leurs maîtres ecclésiastiques, nobles ou patriciens. Les accords qui avaient été conclus ici et là avec eux furent rompus. Les anciennes charges furent aggravées par les rançons énormes qu’imposaient les vainqueurs aux vaincus. La plus grandiose tentative révolutionnaire du peuple allemand se termina par une défaite honteuse et une oppression momentanément redoublée. Mais avec le temps cependant, la situation de la paysannerie ne fut pas aggravée par l’écrasement de l’insurrection. Tout ce que la noblesse les princes et les prêtres pouvaient leur arracher bon an, mal an, ils le leur arrachaient déjà avant la guerre. Le paysan allemand de l’époque avait ceci de commun avec le prolétaire moderne que sa part des produits du travail se réduisit au minimum des moyens de subsistance nécessaires à son entretien et à la reproduction de la race paysanne. En moyenne, on ne pouvait pas leur prendre davantage. Certes, un grand nombre de paysans moyens assez aisés furent complètement ruinés, une foule de corvéables réduits au servage, des zones entières de terres communales furent confisquées, un grand nombre de paysans furent jetés, par suite de la destruction de leurs maisons et de la dévastation de leurs champs ainsi que du désordre général, dans le vagabondage ou dans la plèbe des villes. Mais les guerres et les dévastations étaient des phénomènes quotidiens à l’époque, et d’une façon générale, la situation de la classe paysanne était beaucoup trop misérable pour qu’on pût l’aggraver encore de façon durable par l’augmentation des impôts. Les guerres de religion, qui survinrent ensuite, et enfin la guerre de Trente ans, avec ses dévastations et ses dépopulations massives et répétées, frappèrent les paysans beaucoup plus durement que la Guerre des paysans. En particulier la guerre de Trente ans anéantit la plus grande partie des forces productives employées dans l’agriculture et ainsi elle jeta pour longtemps, et aussi par suite de la destruction simultanée d’un grand nombre de villes, les paysans, les plébéiens et les bourgeois ruinés dans la misère la plus effroyable, une vraie misère de paysans irlandais.\par

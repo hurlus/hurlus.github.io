@@ -102,6 +102,7 @@
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
 \usepackage{framed} % bordering correct with footnote hack
@@ -162,8 +163,8 @@
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Michel Kohlhaas }}
 \date{1810}
-\author{Kleist, Heinrich}
-\def\elbibl{Kleist, Heinrich. 1810. \emph{Michel Kohlhaas}}
+\author{Heinrich von Kleist}
+\def\elbibl{Heinrich von Kleist. 1810. \emph{Michel Kohlhaas}}
 \def\elabstract{%
  
 \labelblock{Préface d’un Hurlu.}
@@ -193,7 +194,7 @@
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
 \colorprovide{rubric}{red}
-\colorprovide{silver}{Gray}
+\colorprovide{silver}{lightgray}
 \@ifundefined{syms}{\newfontfamily\syms{DejaVu Sans}}{}
 \newif\ifdev
 \@ifundefined{elbibl}{% No meta defined, maybe dev mode
@@ -216,17 +217,6 @@
   Scale=MatchLowercase,
   Ligatures={TeX,Common},
 }
-
-\@ifundefined{\columnseprulecolor}{%
-    \patchcmd\@outputdblcol{% find
-      \normalcolor\vrule
-    }{% and replace by
-      \columnseprulecolor\vrule
-    }{% success
-    }{% failure
-      \@latex@warning{Patching \string\@outputdblcol\space failed}%
-    }
-}{}
 
 \hypersetup{
   % pdftex, % no effect
@@ -657,7 +647,7 @@
 
   
 \chapteropen
-\chapter[Chapitre premier]{Chapitre premier}\renewcommand{\leftmark}{Chapitre premier}
+\chapter[{Chapitre premier}]{Chapitre premier}\renewcommand{\leftmark}{Chapitre premier}
 
 
 \chaptercont
@@ -762,7 +752,7 @@ Michel l’appela sa courageuse femme, et passa ce jour et le suivant à se réj
 
 
 \chapteropen
-\chapter[Chapitre II]{Chapitre II}\renewcommand{\leftmark}{Chapitre II}
+\chapter[{Chapitre II}]{Chapitre II}\renewcommand{\leftmark}{Chapitre II}
 
 
 \chaptercont
@@ -818,7 +808,7 @@ Kohlhaas, l’embrassant avec beaucoup de joie, dit qu’il acceptait son offre,
 
 
 \chapteropen
-\chapter[Chapitre III]{Chapitre III}\renewcommand{\leftmark}{Chapitre III}
+\chapter[{Chapitre III}]{Chapitre III}\renewcommand{\leftmark}{Chapitre III}
 
 
 \chaptercont
@@ -885,7 +875,7 @@ Mais il serait impossible de décrire le trouble de toute la Saxe et principalem
 
 
 \chapteropen
-\chapter[Chapitre IV]{Chapitre IV}\renewcommand{\leftmark}{Chapitre IV}
+\chapter[{Chapitre IV}]{Chapitre IV}\renewcommand{\leftmark}{Chapitre IV}
 
 
 \chaptercont
@@ -947,7 +937,7 @@ Kohlhaas n’eut pas plutôt connaissance de cet édit, qu’il congédia ses ge
 
 
 \chapteropen
-\chapter[Chapitre V]{Chapitre V}\renewcommand{\leftmark}{Chapitre V}
+\chapter[{Chapitre V}]{Chapitre V}\renewcommand{\leftmark}{Chapitre V}
 
 
 \chaptercont
@@ -991,7 +981,7 @@ Le chambellan, encore aigri par les blessures qu’il avait reçues, se plaignit
 
 
 \chapteropen
-\chapter[Chapitre VI]{Chapitre VI}\renewcommand{\leftmark}{Chapitre VI}
+\chapter[{Chapitre VI}]{Chapitre VI}\renewcommand{\leftmark}{Chapitre VI}
 
 
 \chaptercont
@@ -1051,7 +1041,7 @@ Huit jours après, le maquignon partit de Dresde avec ses cinq enfants, escorté
 
 
 \chapteropen
-\chapter[Chapitre VII]{Chapitre VII}\renewcommand{\leftmark}{Chapitre VII}
+\chapter[{Chapitre VII}]{Chapitre VII}\renewcommand{\leftmark}{Chapitre VII}
 
 
 \chaptercont
@@ -1105,7 +1095,7 @@ Mais on apprit que le prince de Dessau était malade, et que son excellence n’
 
 
 \chapteropen
-\chapter[Chapitre VIII]{Chapitre VIII}\renewcommand{\leftmark}{Chapitre VIII}
+\chapter[{Chapitre VIII}]{Chapitre VIII}\renewcommand{\leftmark}{Chapitre VIII}
 
 
 \chaptercont
