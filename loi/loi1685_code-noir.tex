@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{0c71c3} % the tonic
+\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -95,6 +95,7 @@
 
 
 \usepackage{blindtext} % generate text for testing
+\usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
 \usepackage{DejaVuSans} % font for symbols
@@ -102,6 +103,7 @@
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
 \usepackage{framed} % bordering correct with footnote hack
@@ -165,12 +167,73 @@
 \date{1685}
 \author{}
 \def\elbibl{1685. \emph{Code noir}}
-\def\elsource{\href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\dotuline{Assemblée Nationale}}\footnote{\href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\url{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}}}}
+\def\elabstract{%
+ 
+\labelblock{Préface hurlue}
+
+ \noindent  Le \emph{code noir} (1685) est souvent invoqué comme totem, quoique pas toujours analysé. La loi s’écrivait alors dans la langue de Boileau, \emph{« ce que l'on conçoit bien s’énonce clairement »}, montrant distinctement et brutalement un ordre social catholique, oppressant avec la bonne conscience de la charité.\par
+ La première question abordée par ce texte n’est pas l’esclavage, mais la persécution des juifs, dès l’article I. Il serait bon de rappeler aux antisémites qui prétendent défendre la mémoire de l’esclavage : il n’y a pas de gagnants dans la course victimaire. Toute hiérarchie, même entre les victimes, produit des inférieurs et des opprimés.\par
+ 
+\begin{quoteblock}
+ \noindent Louis, par la grâce de Dieu, Roy de France\par
+ (I) enjoignons à tous nos Officiers de chasser hors de nos Îles tous les \textbf{Juifs} qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien
+ \end{quoteblock}
+
+ \noindent Dès l’article III, le code noir s’en prend ensuite aux protestants. En 1685, Louis XIV venait de révoquer l’\emph{Édit de tolérance} promulgué à Nantes par Henri IV en 1598, pour mettre fin aux guerres de religion. Les \emph{Isles Françoises de l’Amérique} sont l’occasion de commencer le nettoyage religieux, pour en faire un paradis catholique.\par
+ 
+\begin{quoteblock}
+ \noindent (III) Interdisons tout exercice Public d’autre Religion que la Catholique, Apostolique \& Romaine ; voulons que les contrevenants soient punis comme rebelles \& désobéissants à nos Commandements\par
+ (VIII) Déclarons nos Sujets qui ne sont pas de la Religion Catholique, Apostolique \& Romaine incapables de contracter à l’avenir aucuns \textbf{mariages} valables. Déclarons \textbf{bâtards} les enfants qui naîtront de telles conjonctions
+ \end{quoteblock}
+
+ \noindent Pour notre époque où deux tiers des enfants naissent entre concubins, on ne mesure pas que le monopole catholique de l’administration du mariage est un arrêt de mort sociale pour les autres confessions. Se marier sous la loi juive ou réformée, c’est n’avoir que des \emph{réputés} bâtards qui n’étaient pas seulement réprouvés, mais aussi qui ne pouvaient plus défendre leur droit à héritage, et donc risquaient d’être écartés de toute propriété. Le lois iniques savent agir discrètement et progressivement depuis des siècles.\par
+ Le pouvoir craignait alors la Réforme, car elle touchait le cœur de son mécanisme. La loi en garde la trace, cette religion ne dépendant ni du pape, ni du roi, était un rare moyen d’émancipation. On comprend déjà l’attachement profonds des noirs des États-Unis au culte protestant, une culture où ces déracinés d’Afrique ont pu se retrouver.\par
+ 
+\begin{quoteblock}
+ \noindent (III) Défendons toutes assemblées pour cet effet, lesquelles nous déclarons conventicules, illicites \& séditieuses\par
+ (XVI) Défendons pareillement aux esclaves appartenant à différents Maîtres, de s’attrouper, soit le jour ou la nuit, sous prétextes de \textbf{noces} ou autrement, soit chez l’un de leurs Maîtres ou ailleurs, \& encore moins dans les grands chemins ou lieux écartés, à peine de punition corporelle qui ne pourra être moindre que du fouet \& de la fleur de Lys ; \& encas de fréquentes récidives \& autres circonstances aggravantes, pourront être punis de mort : ce que nous laissons à l’arbitrage des Juges. Enjoignons à tous nos sujets de courir sus aux contrevenants, de les arrêter \& conduire en prison, bien qu’ils ne soient Officiers, \& qu’il n’y ait contre eux encore aucun décret.
+ \end{quoteblock}
+
+ \noindent La loi fait donc ici un appel explicite, à \emph{courir sus aux contrevenants}, à la délation et à la police privée, couvrant l’égoïsme de ces \emph{bons} citoyens qui en profitent pour dénoncer un concurrent commercial. Dès lors que le poison de la hiérarchie est inscrit dans la loi, il n’y a plus de limite au droit du plus fort, le roi ; et surtout à la déshumanisation des inférieurs.\par
+ Est-ce qu’il y a un progrès entre l’esclavage antique et l’esclavage moderne ? Comparer les conditions matérielles serait difficile, mais le statut juridique donne des indices. Pour Aristote comme pour Louis XIV, l’esclave est un \emph{bien meuble}, qui s’achète et se vend, comme du bétail. Mais, l’esclave chrétien a une âme, ce qui complique un peu l’aliénation, c’est un \emph{meuble instruit}. Observons.\par
+ 
+\begin{quoteblock}
+ \noindent (II) Tous les Esclaves qui seront dans nos Îles seront baptisés \& \textbf{instruits} dans la Religion Catholique, Apostolique \& Romaine.\par
+ (XLIV) Déclarons les esclaves être \textbf{meubles}\par
+ (XLVI) Dans les saisies des esclaves, seront observées les formalités prescrites par nos Ordonnances \& les Coutumes pour les saisies des choses mobiliaires […] aux exceptions suivantes.\par
+ (XLVII) Ne pourront être saisis \& vendus séparément, le Mari \& la Femme \& leurs enfants impubères, s’ils sont tous sous la puissance du même Maître
+ \end{quoteblock}
+
+ \noindent Un \emph{meuble instruit} n’a aucune propriété, même son corps, mais puisqu’il faut bien qu’il soit une âme, qui vivra après la mort, alors un roi très chrétien se doit d’administrer son droit au paradis. Le premier devoir de l’esclave ici-bas est de croître et se multiplier (pour le bien de son maître). Les îles françaises de 1685 organisent déjà ce que connaîtront les État-Unis après 1807 et la répression de la traite des esclaves par les anglais : une économie d’\emph{élevage}, et plus seulement de capture, car l’anglais domine déjà les mers. Le code noir organise la \emph{reproduction} des esclaves, selon une interprétation astucieuse du dogme sacré du mariage.\par
+ 
+\begin{quoteblock}
+ \noindent (X) Lesdites solennités […] pour les mariages, seront observées tant à l’égard des personnes libres que des esclaves, sans néanmoins que le \textbf{consentement} du père \& de la mère de l’esclave y soit nécessaire, mais celui du Maître seulement.\par
+ (XI) Défendons très expressément aux Curés de procéder aux mariages des esclaves, s’ils ne font apparoir du consentement de leurs Maîtres. Défendons aussi aux Maîtres d’user d’aucunes \textbf{contraintes} sur leurs esclaves pour les marier contre leur gré.
+ \end{quoteblock}
+
+ \noindent Esclaves et maîtres partagent le même mariage catholique avec consentement sacré entre époux. Comme pour les juifs et les réformés, les enfants nés hors ce mariage sanctifié par le curé sont réputés bâtards.\par
+ Les esclaves sont moins libres que des animaux sauvages, puisqu’ils ne peuvent pas enfanter sans l’autorisation de leur maître ; mais un peu plus que les animaux domestiques, puisque les maîtres ne peuvent pas les forcer à s’aimer, ni leur retirer leurs enfants (avant la puberté), contrairement aux veaux ou aux agneaux. La loi introduit un dernier mécanisme sexiste d’aliénation.\par
+ 
+\begin{quoteblock}
+ \noindent (XII) Les enfants qui naîtront des mariages entre esclaves seront esclaves \& appartiendront aux Maîtres des femmes esclaves \& non à ceux de leurs maris, si le mari \& la femme ont des Maîtres différents.\par
+ (XIII) Voulons que si le mari esclave a épousé une femme libre, les enfants, tant mâles que filles suivent la condition de leur mère, \& soient libres comme elle, nonobstant la servitude de leur père ; \& que si le père est libre \& la mère esclave, les enfants soient esclaves pareillement.
+ \end{quoteblock}
+
+ \noindent Les héritiers de l’esclavage aux États-Unis ont noté que la mère esclave avait un statut relativement plus élevé que les hommes de sa condition, contrairement aux maîtres qui dominaient leurs épouses. Ce raffinement de la loi permet de comprendre que la domination patriarcale s’effectue par le \emph{patrimoine}, par la propriété, qui permet d’enfanter en sécurité.\par
+ Empêché de propriété, l’esclave mâle ne peut pas protéger sa femme et ses enfants, il n’est que sa force de travail, tandis que son épouse a plus de valeur, puisqu’elle est potentiellement plusieurs forces de travail à naître. La propriété des enfants esclaves passe par la mère (jusqu’à son maître), mais pas par le père, réputé putatif et incertain, contrairement au libre, qui peut reconnaître ses enfants (et adopter).\par
+ \bigbreak
+ \noindent Ce voyage assez désagréable dans les idées claires et distinctes de la France d’alors devrait convaincre que l’esclavage est l’affaire de tous.\par
+ Un blanc bourgeois mâle n’a pas à demander pardon de ce qu’il n’a pas fait, et demander pardon à qui d’ailleurs ? Personne n’est maudit jusqu’à la quinzième génération, pas plus les coupables que les victimes. Déjà du temps de Louis XIV, la responsabilité était personnelle.\par
+ Par contre, un blanc, nous, tous, devons comprendre et digérer ce que cette culture française a fait, et peut refaire, avec cette langue assez subtile pour instituer légalement les injustice les plus odieuses.\par
+ \vfill\null
+ 
+}
+\def\elsource{ \href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\dotuline{Assemblée Nationale}}\footnote{\href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\url{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}}} }
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
 \colorprovide{rubric}{red}
-\colorprovide{silver}{Gray}
+\colorprovide{silver}{lightgray}
 \@ifundefined{syms}{\newfontfamily\syms{DejaVu Sans}}{}
 \newif\ifdev
 \@ifundefined{elbibl}{% No meta defined, maybe dev mode
@@ -193,17 +256,6 @@
   Scale=MatchLowercase,
   Ligatures={TeX,Common},
 }
-
-\@ifundefined{\columnseprulecolor}{%
-    \patchcmd\@outputdblcol{% find
-      \normalcolor\vrule
-    }{% and replace by
-      \columnseprulecolor\vrule
-    }{% success
-    }{% failure
-      \@latex@warning{Patching \string\@outputdblcol\space failed}%
-    }
-}{}
 
 \hypersetup{
   % pdftex, % no effect
@@ -435,6 +487,11 @@
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 
 
+%   see https://tex.stackexchange.com/a/34449/5049
+\def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
+\def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
+\def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
+
 % orphans and widows
 \clubpenalty=9996
 \widowpenalty=9999
@@ -598,10 +655,7 @@
   \bigskip
 }}
 
-
-\begin{document}
-\pagestyle{empty}
-\ifbooklet{
+\newcommand\cover{{%
   \thispagestyle{empty}
   \centering
   {\LARGE\bfseries{\elauthor}}\par
@@ -614,9 +668,22 @@
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
   {\Large LIVRE LIBRE À PRIX LIBRE, DEMANDEZ AU COMPTOIR\par}
-  \centerline{\small{hurlus.fr, tiré le \today}}\par
-  \newpage\null\thispagestyle{empty}\newpage
-  \addtocounter{page}{-2}
+  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+}}
+
+\begin{document}
+\pagestyle{empty}
+\ifbooklet{
+  \cover\newpage
+  \thispagestyle{empty}\hbox{}\newpage
+  \cover\newpage\noindent Les voyages de la brochure\par
+  \bigskip
+  \begin{tabularx}{\textwidth}{l|X|X}
+    \textbf{Date} & \textbf{Lieu}& \textbf{Nom/pseudo} \\ \hline
+    \rule{0pt}{25cm} &  &   \\
+  \end{tabularx}
+  \newpage
+  \addtocounter{page}{-4}
 }\fi
 
 \thispagestyle{empty}
@@ -704,7 +771,50 @@ SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Sou
 
 % at least one empty page at end (for booklet couv)
 \ifbooklet
-  \newpage\null\thispagestyle{empty}\newpage
+  \pagestyle{empty}
+  \clearpage
+  \ifnum\modulo{\value{page}}{4}=3 \hbox{}\newpage\hbox{}\newpage\fi
+  \ifnum\modulo{\value{page}}{4}=0 \hbox{}\newpage\hbox{}\newpage\fi
+
+
+  \hbox{}\newpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+  {\centering\color{rubric}\bfseries\noindent\large
+    Hurlus ? Qu’est-ce.\par
+    \bigskip
+  }
+  \noindent Des bouquinistes électroniques, pour du texte libre à prix libre,
+  \textit{cf.} \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
+  \bigskip
+  \noindent Cette brochure a été produite par des éditeurs bénévoles.
+  Elle n’est pas faîte pour être possédée, mais pour être lue (et donnée).
+  Que circule le texte !
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  pour suivre le voyage.
+  \par
+
+  Les textes sont choisis avec le souhait d’intéresser, de faire réfléchir,
+  sans le souci de plaire, vendre, ou militer pour une cause.
+  Peu importe d’être d’accord ou pas, lire ses ennemis forme aussi l’esprit.
+  \par
+
+  L’édition électronique est soigneuse, tant sur la technique
+  que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
+  Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
+  \par
+
+  Cet exemplaire en papier a été tiré sur une imprimante personnelle
+   ou une photocopieuse. Toute le monde peut le faire.
+  Il suffit de
+  télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
+  d’imprimer, et agrafer.\par
+
+  \bigskip
+
+  \noindent PS : Les hurlus furent aussi des rebelles protestants et casseurs de statues qui parcouraient le pays de Lille, suite à la révolte des gueux (1566).
+  L’insurrection s’est poursuivie vers Anvers avec les gueux de mer, rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
+  En Flandre francophone, restèrent des bandes de huguenots progressivement réprimés par la très catholique Espagne.
+  Lille se flatte d’avoir repoussé une attaque de hurlus (1582, Jeanne Maillote), Mouscron les fête chaque année en octobre.
 \fi
 
 \ifdev % autotext in dev mode

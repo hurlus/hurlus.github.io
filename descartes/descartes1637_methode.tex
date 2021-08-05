@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{0c71c3} % the tonic
+\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -102,6 +102,7 @@
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
 \usepackage{framed} % bordering correct with footnote hack
@@ -232,7 +233,7 @@
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
 \colorprovide{rubric}{red}
-\colorprovide{silver}{Gray}
+\colorprovide{silver}{lightgray}
 \@ifundefined{syms}{\newfontfamily\syms{DejaVu Sans}}{}
 \newif\ifdev
 \@ifundefined{elbibl}{% No meta defined, maybe dev mode
@@ -255,17 +256,6 @@
   Scale=MatchLowercase,
   Ligatures={TeX,Common},
 }
-
-\@ifundefined{\columnseprulecolor}{%
-    \patchcmd\@outputdblcol{% find
-      \normalcolor\vrule
-    }{% and replace by
-      \columnseprulecolor\vrule
-    }{% success
-    }{% failure
-      \@latex@warning{Patching \string\@outputdblcol\space failed}%
-    }
-}{}
 
 \hypersetup{
   % pdftex, % no effect
@@ -660,10 +650,7 @@
   \bigskip
 }}
 
-
-\begin{document}
-\pagestyle{empty}
-\ifbooklet{
+\newcommand\cover{{%
   \thispagestyle{empty}
   \centering
   {\LARGE\bfseries{\elauthor}}\par
@@ -676,9 +663,22 @@
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
   {\Large LIVRE LIBRE À PRIX LIBRE, DEMANDEZ AU COMPTOIR\par}
-  \centerline{\small{hurlus.fr, tiré le \today}}\par
-  \newpage\null\thispagestyle{empty}\newpage
-  \addtocounter{page}{-2}
+  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+}}
+
+\begin{document}
+\pagestyle{empty}
+\ifbooklet{
+  \cover\newpage
+  \thispagestyle{empty}\hbox{}\newpage
+  \cover\newpage\noindent Les voyages de la brochure\par
+  \bigskip
+  \begin{tabularx}{\textwidth}{l|X|X}
+    \textbf{Date} & \textbf{Lieu}& \textbf{Nom/pseudo} \\ \hline
+    \rule{0pt}{25cm} &  &   \\
+  \end{tabularx}
+  \newpage
+  \addtocounter{page}{-4}
 }\fi
 
 \thispagestyle{empty}
@@ -703,7 +703,7 @@ En la 5, l’ordre des questions de Physique qu’il a cherchées, \& particuli�
 Et en la dernière, quelles choses il croit être requises pour aller plus avant en la recherche de la Nature qu’il n’a été, \& quelles raisons l’ont fait écrire.
 
 \chapteropen
-\chapter[Première partie]{Première partie}\phantomsection
+\chapter[{Première partie}]{Première partie}\phantomsection
 \label{I}\renewcommand{\leftmark}{Première partie}
 
 
@@ -805,7 +805,7 @@ Mais après que j’eus employé quelques années à étudier ainsi dans le livr
 
 
 \chapteropen
-\chapter[Seconde partie]{Seconde partie}\phantomsection
+\chapter[{Seconde partie}]{Seconde partie}\phantomsection
 \label{II}\renewcommand{\leftmark}{Seconde partie}
 
 
@@ -898,7 +898,7 @@ Et que je n’eusse auparavant employé beaucoup de temps à m’y préparer, ta
 
 
 \chapteropen
-\chapter[Troisième partie]{Troisième partie}\phantomsection
+\chapter[{Troisième partie}]{Troisième partie}\phantomsection
 \label{III}\renewcommand{\leftmark}{Troisième partie}
 
 
@@ -972,7 +972,7 @@ Et il y a justement huit ans que ce désir me fit résoudre à m’éloigner de 
 
 
 \chapteropen
-\chapter[Quatrième partie]{Quatrième partie}\phantomsection
+\chapter[{Quatrième partie}]{Quatrième partie}\phantomsection
 \label{IV}\renewcommand{\leftmark}{Quatrième partie}
 
 
@@ -1068,7 +1068,7 @@ Et pour ce que nos raisonnements ne sont jamais si évidents ni si entiers penda
 
 
 \chapteropen
-\chapter[Cinquième partie]{Cinquième partie}\phantomsection
+\chapter[{Cinquième partie}]{Cinquième partie}\phantomsection
 \label{V}\renewcommand{\leftmark}{Cinquième partie}
 
 
@@ -1247,7 +1247,7 @@ Au lieu que lorsqu’on sait combien elles diffèrent, on comprend beaucoup mieu
 
 
 \chapteropen
-\chapter[Sixième partie]{Sixième partie}\renewcommand{\leftmark}{Sixième partie}
+\chapter[{Sixième partie}]{Sixième partie}\renewcommand{\leftmark}{Sixième partie}
 
 
 \begin{argument}\noindent Et en la dernière, quelles choses il croit être requises pour aller plus avant en la recherche de la Nature qu’il n’a été, \& quelles raisons l’ont fait écrire.
@@ -1406,7 +1406,46 @@ Et je me tiendrai toujours plus obligé à ceux, par la faveur desquels je jouir
 
 % at least one empty page at end (for booklet couv)
 \ifbooklet
-  \newpage\null\thispagestyle{empty}\newpage
+  \clearpage
+  \pagestyle{empty}
+  \hbox{}\newpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+  {\centering\color{rubric}\bfseries\noindent\large
+    Hurlus ? Qu’est-ce.\par
+    \bigskip
+  }
+  \noindent Des bouquinistes électroniques, pour du texte libre à prix libre,
+  \textit{cf.} \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
+  \bigskip
+  \noindent Cette brochure a été produite par des éditeurs bénévoles.
+  Elle n’est pas faîte pour être possédée, mais pour être lue (et donnée).
+  Que circule le texte !
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  pour suivre le voyage.
+  \par
+
+  Les textes sont choisis avec le souhait d’intéresser, de faire réfléchir,
+  sans le souci de plaire, vendre, ou militer pour une cause.
+  Peu importe d’être d’accord ou pas, lire ses ennemis forme aussi l’esprit.
+  \par
+
+  L’édition électronique est soigneuse, tant sur la technique
+  que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
+  Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
+  \par
+
+  Cet exemplaire en papier a été tiré sur une imprimante personnelle
+   ou une photocopieuse. Toute le monde peut le faire.
+  Il suffit de
+  télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
+  d’imprimer, et agrafer.\par
+
+  \bigskip
+
+  \noindent PS : Les hurlus furent aussi des rebelles protestants et casseurs de statues qui parcouraient le pays de Lille, suite à la révolte des gueux (1566).
+  L’insurrection s’est poursuivie vers Anvers avec les gueux de mer, rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
+  En Flandre francophone, restèrent des bandes de huguenots progressivement réprimés par la très catholique Espagne.
+  Lille se flatte d’avoir repoussé une attaque de hurlus (1582, Jeanne Maillote), Mouscron les fête chaque année en octobre.
 \fi
 
 \ifdev % autotext in dev mode

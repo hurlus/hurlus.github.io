@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{0c71c3} % the tonic
+\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -102,6 +102,7 @@
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
 \usepackage{framed} % bordering correct with footnote hack
@@ -162,14 +163,14 @@
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Note sur la suppression générale des partis politiques }}
 \date{1940}
-\author{Weil, Simone}
-\def\elbibl{Weil, Simone. 1940. \emph{Note sur la suppression générale des partis politiques}}
+\author{Simone Weil}
+\def\elbibl{Simone Weil. 1940. \emph{Note sur la suppression générale des partis politiques}}
 \def\elsource{\emph{Écrits de Londres}, p. 126 et s.}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
 \colorprovide{rubric}{red}
-\colorprovide{silver}{Gray}
+\colorprovide{silver}{lightgray}
 \@ifundefined{syms}{\newfontfamily\syms{DejaVu Sans}}{}
 \newif\ifdev
 \@ifundefined{elbibl}{% No meta defined, maybe dev mode
@@ -192,17 +193,6 @@
   Scale=MatchLowercase,
   Ligatures={TeX,Common},
 }
-
-\@ifundefined{\columnseprulecolor}{%
-    \patchcmd\@outputdblcol{% find
-      \normalcolor\vrule
-    }{% and replace by
-      \columnseprulecolor\vrule
-    }{% success
-    }{% failure
-      \@latex@warning{Patching \string\@outputdblcol\space failed}%
-    }
-}{}
 
 \hypersetup{
   % pdftex, % no effect
@@ -597,10 +587,7 @@
   \bigskip
 }}
 
-
-\begin{document}
-\pagestyle{empty}
-\ifbooklet{
+\newcommand\cover{{%
   \thispagestyle{empty}
   \centering
   {\LARGE\bfseries{\elauthor}}\par
@@ -613,9 +600,22 @@
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
   {\Large LIVRE LIBRE À PRIX LIBRE, DEMANDEZ AU COMPTOIR\par}
-  \centerline{\small{hurlus.fr, tiré le \today}}\par
-  \newpage\null\thispagestyle{empty}\newpage
-  \addtocounter{page}{-2}
+  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+}}
+
+\begin{document}
+\pagestyle{empty}
+\ifbooklet{
+  \cover\newpage
+  \thispagestyle{empty}\hbox{}\newpage
+  \cover\newpage\noindent Les voyages de la brochure\par
+  \bigskip
+  \begin{tabularx}{\textwidth}{l|X|X}
+    \textbf{Date} & \textbf{Lieu}& \textbf{Nom/pseudo} \\ \hline
+    \rule{0pt}{25cm} &  &   \\
+  \end{tabularx}
+  \newpage
+  \addtocounter{page}{-4}
 }\fi
 
 \thispagestyle{empty}
@@ -631,8 +631,7 @@
 
 \pagestyle{main} % after style
 
-  \chapter[Note sur la suppression générale des partis politiques]{Note sur la suppression générale des partis politiques}
-\noindent Le mot parti est pris ici dans la signification qu’il a sur le continent européen. Le même mot dans les pays anglo-saxons désigne une réalité tout autre. Elle a sa racine dans la tradition anglaise et n’est pas transplantable. Un siècle et demi d’expérience le montre assez. Il y a dans les partis anglo-saxons un élément de jeu, de sport, qui ne peut exister que dans une institution d’origine aristocratique ; tout est sérieux dans une institution qui, au départ, est plébéienne.\par
+  \noindent Le mot parti est pris ici dans la signification qu’il a sur le continent européen. Le même mot dans les pays anglo-saxons désigne une réalité tout autre. Elle a sa racine dans la tradition anglaise et n’est pas transplantable. Un siècle et demi d’expérience le montre assez. Il y a dans les partis anglo-saxons un élément de jeu, de sport, qui ne peut exister que dans une institution d’origine aristocratique ; tout est sérieux dans une institution qui, au départ, est plébéienne.\par
 L’idée de parti n’entrait pas dans la conception politique française de 1789, sinon comme mal à éviter. Mais il y eut le club des Jacobins. C’était d’abord seulement un lieu de libre discussion. Ce ne fut aucune espèce de mécanisme fatal qui le transforma. C’est uniquement la pression de la guerre et de la guillotine qui en fit un parti totalitaire.\par
 Les luttes des factions sous la Terreur furent gouvernées par la pensée si bien formulée par Tomski : « Un parti au pouvoir et tous les autres en prison. » Ainsi sur le continent d’Europe le totalitarisme est le péché originel des partis.\par
 C’est d’une part l’héritage de la Terreur, d’autre part l’influence de l’exemple anglais, qui installa les partis dans la vie publique européenne. Le fait qu’ils existent n’est nullement un motif de les conserver. Seul le bien est un motif légitime de conservation. Le mal des partis politiques saute aux yeux. Le problème à examiner, c’est s’il y a en eux un bien qui l’emporte sur le mal et rende ainsi leur existence désirable.\par
@@ -784,7 +783,45 @@ Il est douteux qu’on puisse remédier à cette lèpre, qui nous tue, sans comm
 
 % at least one empty page at end (for booklet couv)
 \ifbooklet
-  \newpage\null\thispagestyle{empty}\newpage
+  \clearpage
+  \pagestyle{empty}
+  \hbox{}\newpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+  {\centering\color{rubric}\bfseries\noindent\large
+    Hurlus ? Qu’est-ce.\par
+    \bigskip
+  }
+  \noindent Des bouquinistes électroniques, pour du texte libre à prix libre,
+  \textit{cf.} \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
+  \bigskip
+  \noindent Cette brochure a été produite par des éditeurs bénévoles.
+  Elle n’est pas faîte pour être possédée, mais pour être lue (et donnée).
+  Que circule le texte !
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  pour suivre le voyage.
+  \par
+
+  Les textes sont choisis avec le souhait d’intéresser, de faire réfléchir,
+  sans le souci de plaire, vendre, ou militer pour une cause.
+  Peu importe d’être d’accord ou pas, lire ses ennemis forme aussi l’esprit.
+  \par
+
+  L’édition électronique est soigneuse, tant sur la technique
+  que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
+  Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
+  \par
+
+  Cet exemplaire en papier a été tiré sur une imprimante personnelle
+   ou une photocopieuse. Toute le monde peut le faire.
+  Il suffit de
+  télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
+  d’imprimer, et agrafer.\par
+
+  \bigskip
+
+  \noindent PS : Les hurlus furent aussi des rebelles protestants et casseurs de statues qui parcouraient le pays de Lille après la révolte des gueux (1566). La guerre s’est poursuivie vers Anvers avec les gueux de mer, rare révolution dont naquit un pays toujours libre : les Pays-Bas.
+  En Flandre francophone, restèrenet des bandes de huguenots progressivement réprimés par la très catholique Espagne.
+  Lille se flatte d’avoir repoussé une attaque de hurlus (1582, Jeanne Maillote), Mouscron les fête chaque année en octobre.
 \fi
 
 \ifdev % autotext in dev mode

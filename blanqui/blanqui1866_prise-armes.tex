@@ -76,7 +76,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{0c71c3} % the tonic
+\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -587,10 +587,7 @@
   \bigskip
 }}
 
-
-\begin{document}
-\pagestyle{empty}
-\ifbooklet{
+\newcommand\cover{{%
   \thispagestyle{empty}
   \centering
   {\LARGE\bfseries{\elauthor}}\par
@@ -603,9 +600,22 @@
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
   {\Large LIVRE LIBRE À PRIX LIBRE, DEMANDEZ AU COMPTOIR\par}
-  \centerline{\small{hurlus.fr, tiré le \today}}\par
-  \newpage\null\thispagestyle{empty}\newpage
-  \addtocounter{page}{-2}
+  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+}}
+
+\begin{document}
+\pagestyle{empty}
+\ifbooklet{
+  \cover\newpage
+  \thispagestyle{empty}\hbox{}\newpage
+  \cover\newpage\noindent Les voyages de la brochure\par
+  \bigskip
+  \begin{tabularx}{\textwidth}{l|X|X}
+    \textbf{Date} & \textbf{Lieu}& \textbf{Nom/pseudo} \\ \hline
+    \rule{0pt}{25cm} &  &   \\
+  \end{tabularx}
+  \newpage
+  \addtocounter{page}{-4}
 }\fi
 
 \thispagestyle{empty}
@@ -957,7 +967,46 @@ Il faut encore le répéter: la condition \emph{sine qua non} de la victoire, c�
 
 % at least one empty page at end (for booklet couv)
 \ifbooklet
-  \newpage\null\thispagestyle{empty}\newpage
+  \clearpage
+  \pagestyle{empty}
+  \hbox{}\newpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+  {\centering\color{rubric}\bfseries\noindent\large
+    Hurlus ? Qu’est-ce.\par
+    \bigskip
+  }
+  \noindent Des bouquinistes électroniques, pour du texte libre à prix libre,
+  \textit{cf.} \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
+  \bigskip
+  \noindent Cette brochure a été produite par des éditeurs bénévoles.
+  Elle n’est pas faîte pour être possédée, mais pour être lue (et donnée).
+  Que circule le texte !
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  pour suivre le voyage.
+  \par
+
+  Les textes sont choisis avec le souhait d’intéresser, de faire réfléchir,
+  sans le souci de plaire, vendre, ou militer pour une cause.
+  Peu importe d’être d’accord ou pas, lire ses ennemis forme aussi l’esprit.
+  \par
+
+  L’édition électronique est soigneuse, tant sur la technique
+  que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
+  Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
+  \par
+
+  Cet exemplaire en papier a été tiré sur une imprimante personnelle
+   ou une photocopieuse. Toute le monde peut le faire.
+  Il suffit de
+  télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
+  d’imprimer, et agrafer.\par
+
+  \bigskip
+
+  \noindent PS : Les hurlus furent aussi des rebelles protestants et casseurs de statues qui parcouraient le pays de Lille, suite à la révolte des gueux (1566).
+  L’insurrection s’est poursuivie vers Anvers avec les gueux de mer, rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
+  En Flandre francophone, restèrent des bandes de huguenots progressivement réprimés par la très catholique Espagne.
+  Lille se flatte d’avoir repoussé une attaque de hurlus (1582, Jeanne Maillote), Mouscron les fête chaque année en octobre.
 \fi
 
 \ifdev % autotext in dev mode
