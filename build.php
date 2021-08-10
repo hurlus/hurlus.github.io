@@ -109,23 +109,23 @@ class HurlusBuild
         else $readme .= "\n## ".$meta['byline']."\n\n";
       }
       $bibl = '';
-      $bibl .= ' <a title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
-      $bibl .= ' <a title="HTML une page" class="mime html" href="'.$dstpath.'.html">[html]</a> ';
-      $bibl .= ' <a title="Bureautique (LibreOffice, MS.Word)" class="mime docx" href="'.$dstpath.'.docx">[docx]</a> ';
-      $bibl .= ' <a title="Amazon.kindle" class="mime mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
-      $bibl .= ' <a title="EPUB, pour liseuses et téléphones" class="mime epub" href="'.$dstpath.'.epub">[epub]</a> ';
+      $bibl .= ' <a target="_blank" title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
+      $bibl .= ' <a target="_blank" title="HTML une page" class="mime html" href="'.$dstpath.'.html">[html]</a> ';
+      $bibl .= ' <a target="_blank" title="Bureautique (LibreOffice, MS.Word)" class="mime docx" href="'.$dstpath.'.docx">[docx]</a> ';
+      $bibl .= ' <a target="_blank" title="Amazon.kindle" class="mime mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
+      $bibl .= ' <a target="_blank" title="EPUB, pour liseuses et téléphones" class="mime epub" href="'.$dstpath.'.epub">[epub]</a> ';
       foreach (glob($exportpath."*.tex") as $exportfile) {
-        $bibl .= ' <a title="LaTeX" class="mime tex" href="'.$dstdir.basename($exportfile).'">[TeX]</a> ';
+        $bibl .= ' <a target="_blank" title="LaTeX" class="mime tex" href="'.$dstdir.basename($exportfile).'">[TeX]</a> ';
       }
       foreach (glob($exportpath."*.pdf") as $exportfile) {
         if (strpos($exportfile, '_a5') !== false) {
-          $bibl .= ' <a title="PDF à lire, A5 une colonne" class="mime a5" href="'.$dstdir.basename($exportfile).'">[pdf a5]</a> ';
+          $bibl .= ' <a target="_blank" title="PDF à lire, A5 une colonne" class="mime a5" href="'.$dstdir.basename($exportfile).'">[pdf a5]</a> ';
         }
         else if (strpos($exportfile, '_brochure') !== false) {
-          $bibl .= ' <a title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="mime brochure" href="'.$dstdir.basename($exportfile).'">[brochure]</a> ';
+          $bibl .= ' <a target="_blank" title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="mime brochure" href="'.$dstdir.basename($exportfile).'">[brochure]</a> ';
         }
         else {
-          $bibl .= ' <a title="PDF à imprimer, A4 2 colonnes" class="mime pdf" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
+          $bibl .= ' <a target="_blank" title="PDF à imprimer, A4 2 colonnes" class="mime pdf" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
         }
       }
 
