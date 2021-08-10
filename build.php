@@ -131,7 +131,7 @@ class HurlusBuild
       }
 
 
-      $readme .= $bibl . ' <a href="'.$dstdir.'">' . $meta['title']."</a>\n";
+      $readme .= '* '.$bibl . ' <a href="'.$dstdir.'">' . $meta['title']."</a>\n";
       // write a welcome page for the book
       $fopen = fopen(dirname(__FILE__).'/'.$name.'/README.md', 'w');
       fwrite($fopen, '# '.$meta['byline']."\n");
