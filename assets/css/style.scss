@@ -33,12 +33,20 @@ a.home {
   color: transparent;
   text-shadow: none;
   vertical-align: middle;
-  width: 48px;
-  height: 48px;
-  background-size: 48px 48px;
+  width: 96px;
+  height: 96px;
+  background-size: 96px 96px;
   background-image: url(gueux_home.jpg);
+  margin-right: 12px;
 }
 
+/* titre de livre */
+blockquote h2 {
+  font-family: serif;
+  font-size: 32px;
+  font-weight: 100;
+  font-style: italic;
+}
 
 a.mime,
 b.mime {
