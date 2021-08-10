@@ -1,8 +1,8 @@
 # Hurlus, un catalogue bénévole
 
-> Des bouquinistes électroniques, pour du texte libre à participations libres <a href="#" onmouseover="if(this.ok)return; this.href=\'mai\'+\'lt\'+\'o:lire\'+\'\\u0040\'+\'hurlus.fr\'; this.ok=true">🖂</a>
+> Des bouquinistes électroniques, pour du texte libre à participations libres <a href="#" onmouseover="if(this.ok)return; this.href='mai'+'lt'+'o:lire'+'\u0040'+'hurlus.fr'; this.ok=true">🖂</a>
 
-Chacun de ces textes a été aimé, ou haï, en tous cas a soigné et parfois introduit d’une préface par une personne hurlue.
+Chacun de ces textes a été aimé, ou haï, en tous cas soigné et parfois introduit d’une préface par une personne hurlue.
 Elle s’y est intéressé parce qu’elle a pensé que ces pages étaient nécessaires,
 nécessaires à sa réflexion du moment, à l’actualité, voire à l’intelligence de notre présent.
 Ce catalogue n’obéit à aucun parti, ne milite pas pour une cause, sauf celle de réfléchir et de partager
