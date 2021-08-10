@@ -27,7 +27,9 @@ a:hover {
   background: transparent;
 }
 
-a.file {
+
+a.mime
+b.mime {
   color: transparent;
   text-shadow: none;
   display: inline-block;
@@ -38,38 +40,59 @@ a.file {
   margin-right: 4px;
 }
 
-a.tei {
+a.mime48
+b.mime48 {
+  color: transparent;
+  text-shadow: none;
+  display: inline-block;
+  vertical-align: middle;
+  width: 48px;
+  height: 48px;
+  background-size: 48px 48px;
+  margin-right: 4px;
+}
+
+a.tei,
+b.tei {
   background-image: url(icon_tei.svg);
 }
 
-a.html {
+a.html,
+b.html {
   background-image: url(icon_html.svg);
 }
 
-a.epub {
+a.epub,
+b.epub {
   background-image: url(icon_epub.svg);
 }
 
-a.mobi {
+a.mobi,
+b.mobi {
   background-image: url(icon_mobi.svg);
 }
 
-a.docx {
+a.docx,
+b.docx {
   background-image: url(icon_docx.svg);
 }
 
-a.pdf {
+a.pdf,
+b.pdf {
   background-image: url(icon_pdf.svg);
 }
 
-a.a5 {
+a.a5,
+b.a5 {
   background-image: url(icon_pdf-a5.svg);
 }
 
-a.brochure {
+a.brochure,
+b.brochure {
   background-image: url(icon_pdf-brochure.svg);
 }
 
-a.tex {
+a.tex,
+b.tex {
   background-image: url(icon_tex.svg);
 }
