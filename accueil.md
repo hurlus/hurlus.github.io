@@ -23,7 +23,7 @@ Chaque texte est diponible en plusieurs formats\
 <b title="HTML une page" class="mime48 html">[html]</b> HTML, texte à lire en une page\
 <b title="Bureautique (LibreOffice, MS.Word)" class="mime48 docx">[docx]</b> DOCX, texte modifiable\
 <b title="Amazon.kindle" class="mime48 mobi">[kindle]</b> MOBI, livre électronique au format propriétaire Kindle\
-<b title="LaTeX" class="mime48 tex">[TeX]</b> LaTeX, généré depuis TEI, produit les différents PDF
+<b title="LaTeX" class="mime48 tex">[TeX]</b> LaTeX, généré depuis TEI, produit les différents PDF\
 <b title="PDF à imprimer, A4 2 colonnes" class="mime48 pdf">[pdf]</b> PDF, A4 2 colonnes à imprimer\
 <b title="PDF à lire, A5 une colonne" class="mime48 pdf">[pdf]</b> PDF, A5 1 colonne à lire\
 <b title="PDF, brochure à agrafer, imposé pour imprimante recto/verso" class="mime48 brochure">[pdf]<b> PDF, brochure à agrafer, imposé pour imprimante recto/verso
