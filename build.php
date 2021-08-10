@@ -109,7 +109,6 @@ class HurlusBuild
         else $readme .= "\n## ".$meta['byline']."\n\n";
       }
       $bibl = '';
-      if ($meta['date']) $bibl .= $meta['date'].', ';
       $bibl .= ' <a title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
       $bibl .= ' <a title="HTML une page" class="mime html" href="'.$dstpath.'.html">[html]</a> ';
       $bibl .= ' <a title="Bureautique (LibreOffice, MS.Word)" class="mime docx" href="'.$dstpath.'.docx">[docx]</a> ';
@@ -131,13 +130,19 @@ class HurlusBuild
       }
 
 
-      $readme .= '* '.$bibl . ' <a href="'.$dstdir.'">' . $meta['title']."</a>\n";
       // write a welcome page for the book
       $fopen = fopen(dirname(__FILE__).'/'.$name.'/README.md', 'w');
-      fwrite($fopen, '# '.$meta['byline']."\n");
-      fwrite($fopen, '## '.$meta['title']."\n\n");
+      fwrite($fopen, '# '.$meta['byline']);
+      if ($meta['date']) fwrite($fopen, ', '.$meta['date']);
+      fwrite($fopen, "\n\n");
+      fwrite($fopen, '> ## '.$meta['title']."\n");
       fwrite($fopen, '> '.str_replace('mime', 'mime48', $bibl)."\n");
       fclose($fopen);
+
+      if ($meta['date']) $bibl = $meta['date'].', '.$bibl;
+      $readme .= '* '.$bibl . ' <a href="'.$dstdir.'">' . $meta['title']."</a>\n";
+
+
       $i++;
     }
 

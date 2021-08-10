@@ -27,12 +27,24 @@ a:hover {
   background: transparent;
 }
 
+a.home {
+  display: block;
+  float: left;
+  color: transparent;
+  text-shadow: none;
+  vertical-align: middle;
+  width: 48px;
+  height: 48px;
+  background-size: 48px 48px;
+  background-image: url(gueux_home.jpg);
+}
+
 
 a.mime,
 b.mime {
+  display: inline-block;
   color: transparent;
   text-shadow: none;
-  display: inline-block;
   vertical-align: middle;
   width: 24px;
   height: 24px;
