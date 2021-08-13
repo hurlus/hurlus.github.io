@@ -1,4 +1,0 @@
-# Weil, Simone, 1942
-
-> ## La condition ouvrière
->  <a target="_blank" title="Source XML/TEI" class="mime48 tei" href="https://hurlus.github.io/tei/weil-simone1942_condition-ouvriere.xml">[TEI]</a>  <a target="_blank" title="HTML une page" class="mime48 html" href="https://hurlus.github.io/weil-simone1942_condition-ouvriere/weil-simone1942_condition-ouvriere.html">[html]</a>  <a target="_blank" title="Bureautique (LibreOffice, MS.Word)" class="mime48 docx" href="https://hurlus.github.io/weil-simone1942_condition-ouvriere/weil-simone1942_condition-ouvriere.docx">[docx]</a>  <a target="_blank" title="Amazon.kindle" class="mime48 mobi" href="https://hurlus.github.io/weil-simone1942_condition-ouvriere/weil-simone1942_condition-ouvriere.mobi">[kindle]</a>  <a target="_blank" title="EPUB, pour liseuses et téléphones" class="mime48 epub" href="https://hurlus.github.io/weil-simone1942_condition-ouvriere/weil-simone1942_condition-ouvriere.epub">[epub]</a> 

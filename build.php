@@ -6,7 +6,8 @@ include_once($teinte.'docx/docx.php');
 include_once($teinte.'epub/epub.php');
 
 HurlusBuild::init();
-HurlusBuild::export();
+if (isset($_SERVER['argv'][1])) HurlusBuild::export($_SERVER['argv'][1], true);
+else HurlusBuild::loop();
 file_put_contents(dirname(__FILE__)."/README.md", HurlusBuild::readme());
 
 class HurlusBuild
@@ -21,63 +22,67 @@ class HurlusBuild
     // self::$srclist = array_merge([], ...array_values($arrays)); // remember
   }
 
-
-
-  public static function export()
+  public static function loop()
   {
-    $kindlegen = dirname(dirname(__FILE__))."/teinte/epub/kindlegen";
-    foreach (array_merge(self::$publicfiles, self::$privatefiles) as $srcfile) {
-      $name = pathinfo($srcfile, PATHINFO_FILENAME);
-      if ($name[0] == '_' || $name[0] == '.') continue;
-      preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
-      $author = $matches[1];
-      $dstdir = dirname(__FILE__).'/'.$name.'/';
-      Tools::mkdir($dstdir);
-      $dstpath = $dstdir.$name;
-
-      $done = false;
-
-      $dstepub = $dstpath.".epub";
-      if (!file_exists($dstepub) || filemtime($dstepub) < filemtime($srcfile)) {
-        $livre = new Epub($srcfile, STDERR);
-        $livre->export($dstepub);
-        $cmd = $kindlegen." ".$dstepub;
-        $output = '';
-        $last = exec($cmd, $output, $status);
-        // error ?
-        $dstmobi = $dstpath.".mobi";
-        if (!file_exists($dstmobi)) {
-          Tools::log(E_USER_ERROR, "\n".$status."\n".join("\n", $output)."\n".$last."\n");
-        }
-        $done = true;
-      }
-      $dstfile = $dstpath.".html";
-      if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
-        $done = true;
-        self::html($srcfile, $dstfile);
-        // test pdf for new file only
-        Hurlus::pdf($srcfile, $dstdir);
-      }
-      $dstfile = $dstpath.".docx";
-      if (!file_exists($dstfile) || filemtime($dstfile) < filemtime($srcfile)) {
-        $done = true;
-        Docx::export($srcfile, $dstfile);
-      }
-
-
-
-      if ($done) echo $dstpath, "\n";
+    foreach (array_merge(self::$publicfiles, self::$privatefiles) as $teifile) {
+      self::export($teifile);
     }
+  }
+
+
+  public static function export($teifile, $force=false)
+  {
+    $teifile = realpath($teifile);
+    $name = pathinfo($teifile, PATHINFO_FILENAME);
+    if ($name[0] == '_' || $name[0] == '.') return;
+    preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
+    $author = $matches[1];
+    $dstdir = dirname(__FILE__).'/'.$name.'/';
+    Tools::mkdir($dstdir);
+    $dstpath = $dstdir.$name;
+
+    $done = false;
+
+    $dstepub = $dstpath.".epub";
+    if ($force || !file_exists($dstepub) || filemtime($dstepub) < filemtime($teifile)) {
+      $livre = new Epub($teifile, STDERR);
+      $livre->export($dstepub);
+      $kindlegen = dirname(dirname(__FILE__))."/teinte/epub/kindlegen";
+      $cmd = $kindlegen." ".$dstepub;
+      $output = '';
+      $last = exec($cmd, $output, $status);
+      // error ?
+      $dstmobi = $dstpath.".mobi";
+      if (!file_exists($dstmobi)) {
+        Tools::log(E_USER_ERROR, "\n".$status."\n".join("\n", $output)."\n".$last."\n");
+      }
+      $done = true;
+    }
+    $dstfile = $dstpath.".html";
+    if ($force || !file_exists($dstfile) || filemtime($dstfile) < filemtime($teifile)) {
+      $done = true;
+      self::html($teifile, $dstfile);
+    }
+    $dstfile = $dstpath.".pdf";
+    if ($force || !file_exists($dstfile) || filemtime($dstfile) < filemtime($teifile)) {
+      Hurlus::pdf($teifile, $dstdir);
+    }
+    $dstfile = $dstpath.".docx";
+    if ($force || !file_exists($dstfile) || filemtime($dstfile) < filemtime($teifile)) {
+      $done = true;
+      Docx::export($teifile, $dstfile);
+    }
+    if ($done) echo $dstpath, "\n";
   }
 
   /**
    * Output html
    */
-  public function html($srcfile, $dstfile)
+  public function html($teifile, $dstfile)
   {
     $theme = 'https://oeuvres.github.io/teinte/'; // where to find web assets like css and jslog for html file
     $xsl = dirname(dirname(__FILE__)).'/teinte/tei2html.xsl';
-    $dom = Tools::dom($srcfile);
+    $dom = Tools::dom($teifile);
     $pars = array(
       'theme' => $theme,
     );
@@ -92,15 +97,15 @@ class HurlusBuild
     $authorLast = '';
     $i = 1;
 
-    foreach (self::$publicfiles as $srcfile) {
-      $name = pathinfo($srcfile,  PATHINFO_FILENAME);
+    foreach (self::$publicfiles as $teifile) {
+      $name = pathinfo($teifile,  PATHINFO_FILENAME);
       if ($name[0] == '_' || $name[0] == '.') continue;
       preg_match('@^(.*?)(_|\-\d|\d)@', $name, $matches);
       $author = $matches[1];
       $exportpath = dirname(__FILE__).'/'.$name.'/'.$name;
       $dstdir = 'https://hurlus.github.io/'.$name.'/';
       $dstpath = $dstdir.$name;
-      $teidoc = new Teidoc($srcfile);
+      $teidoc = new Teidoc($teifile);
       $meta = $teidoc->meta();
       // order titles by author in catalog
       if ($authorLast != $author) {
@@ -109,7 +114,7 @@ class HurlusBuild
         else $readme .= "\n## ".$meta['byline']."\n\n";
       }
       $bibl = '';
-      $bibl .= ' <a target="_blank" title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($srcfile).'">[TEI]</a> ';
+      $bibl .= ' <a target="_blank" title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($teifile).'">[TEI]</a> ';
       $bibl .= ' <a target="_blank" title="HTML une page" class="mime html" href="'.$dstpath.'.html">[html]</a> ';
       $bibl .= ' <a target="_blank" title="Bureautique (LibreOffice, MS.Word)" class="mime docx" href="'.$dstpath.'.docx">[docx]</a> ';
       $bibl .= ' <a target="_blank" title="Amazon.kindle" class="mime mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';

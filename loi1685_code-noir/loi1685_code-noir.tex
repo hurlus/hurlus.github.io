@@ -98,7 +98,6 @@
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -145,6 +144,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -157,6 +157,12 @@
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Code noir }\\ \medskip
@@ -172,7 +178,7 @@
  La première question abordée par ce texte n’est pas l’esclavage, mais la persécution des juifs, dès l’article I. Il serait bon de rappeler aux antisémites qui prétendent défendre la mémoire de l’esclavage : il n’y a pas de gagnants dans la course victimaire. Toute hiérarchie, même entre les victimes, produit des inférieurs et des opprimés.\par
  
 \begin{quoteblock}
- \noindent Louis, par la grâce de Dieu, Roy de France\par
+ Louis, par la grâce de Dieu, Roy de France\par
  (I) enjoignons à tous nos Officiers de chasser hors de nos Îles tous les \textbf{Juifs} qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien
  \end{quoteblock}
 
@@ -183,15 +189,15 @@
  (VIII) Déclarons nos Sujets qui ne sont pas de la Religion Catholique, Apostolique \& Romaine incapables de contracter à l’avenir aucuns \textbf{mariages} valables. Déclarons \textbf{bâtards} les enfants qui naîtront de telles conjonctions
  \end{quoteblock}
 
- \noindent Pour notre époque où deux tiers des enfants naissent entre concubins, on ne mesure pas que le monopole catholique de l’administration du mariage est un arrêt de mort sociale pour les autres confessions. Se marier sous la loi juive ou réformée, c’est n’avoir que des \emph{réputés} bâtards qui n’étaient pas seulement réprouvés, mais aussi qui ne pouvaient plus défendre leur droit à héritage, et donc risquaient d’être écartés de toute propriété. Le lois iniques savent agir discrètement et progressivement depuis des siècles.\par
- Le pouvoir craignait alors la Réforme, car elle touchait le cœur de son mécanisme. La loi en garde la trace, cette religion ne dépendant ni du pape, ni du roi, était un rare moyen d’émancipation. On comprend déjà l’attachement profonds des noirs des États-Unis au culte protestant, une culture où ces déracinés d’Afrique ont pu se retrouver.\par
+ \noindent Pour notre époque où deux tiers des enfants naissent entre concubins, on ne mesure pas que le monopole catholique de l’administration du mariage est un arrêt de mort sociale pour les autres confessions. Se marier sous la loi juive ou réformée, c’est n’avoir que des \emph{réputés} bâtards qui n’étaient pas seulement réprouvés, mais aussi qui ne pouvaient plus défendre leur droit à héritage, et donc risquaient d’être écartés de toute propriété. Le génie français n’est pas de terroriser les hérétiques en les brûlant mais de les araser discrètement, doucement et lentement, jusqu’à ce qu’ils ne soient plus qu’humiliation et cendres.\par
+ La Réforme menace le pouvoir, non seulement parmi les maîtres, mais surtout si elle se diffuse parmi les \emph{nègres} (ou \emph{esclave}, c’est synonyme dans ce texte).\par
  
 \begin{quoteblock}
  \noindent (III) Défendons toutes assemblées pour cet effet, lesquelles nous déclarons conventicules, illicites \& séditieuses\par
  (XVI) Défendons pareillement aux esclaves appartenant à différents Maîtres, de s’attrouper, soit le jour ou la nuit, sous prétextes de \textbf{noces} ou autrement, soit chez l’un de leurs Maîtres ou ailleurs, \& encore moins dans les grands chemins ou lieux écartés, à peine de punition corporelle qui ne pourra être moindre que du fouet \& de la fleur de Lys ; \& encas de fréquentes récidives \& autres circonstances aggravantes, pourront être punis de mort : ce que nous laissons à l’arbitrage des Juges. Enjoignons à tous nos sujets de courir sus aux contrevenants, de les arrêter \& conduire en prison, bien qu’ils ne soient Officiers, \& qu’il n’y ait contre eux encore aucun décret.
  \end{quoteblock}
 
- \noindent La loi fait donc ici un appel explicite, à \emph{courir sus aux contrevenants}, à la délation et à la police privée, couvrant l’égoïsme de ces \emph{bons} citoyens qui en profitent pour dénoncer un concurrent commercial. Dès lors que le poison de la hiérarchie est inscrit dans la loi, il n’y a plus de limite au droit du plus fort, le roi ; et surtout à la déshumanisation des inférieurs.\par
+ \noindent La loi garde la mémoire de rares moments de liberté que les esclaves pouvaient prendre sous prétexte de mariage ou de culte. La fleur de Lys est la peine subie par Milady dans \emph{les trois mousquetaires} (Dumas était de père mulâtre), marquée du signe du roi au fer rouge. Le texte fait un appel explicite, à \emph{courir sus aux contrevenants}, à la délation et à la police privée, couvrant l’égoïsme de ces \emph{bons} citoyens qui en profitent pour dénoncer un concurrent commercial.\par
  Est-ce qu’il y a un progrès entre l’esclavage antique et l’esclavage moderne ? Comparer les conditions matérielles serait difficile, mais le statut juridique donne des indices. Pour Aristote comme pour Louis XIV, l’esclave est un \emph{bien meuble}, qui s’achète et se vend, comme du bétail. Mais, l’esclave chrétien a une âme, ce qui complique un peu l’aliénation, c’est un \emph{meuble instruit}. Observons.\par
  
 \begin{quoteblock}
@@ -208,22 +214,23 @@
  (XI) Défendons très expressément aux Curés de procéder aux mariages des esclaves, s’ils ne font apparoir du consentement de leurs Maîtres. Défendons aussi aux Maîtres d’user d’aucunes \textbf{contraintes} sur leurs esclaves pour les marier contre leur gré.
  \end{quoteblock}
 
- \noindent Esclaves et maîtres partagent le même mariage catholique avec consentement sacré entre époux. Comme pour les juifs et les réformés, les enfants nés hors ce mariage sanctifié par le curé sont réputés bâtards.\par
- Les esclaves sont moins libres que des animaux sauvages, puisqu’ils ne peuvent pas enfanter sans l’autorisation de leur maître ; mais un peu plus que les animaux domestiques, puisque les maîtres ne peuvent pas les forcer à s’aimer, ni leur retirer leurs enfants (avant la puberté), contrairement aux veaux ou aux agneaux. La loi introduit un dernier mécanisme sexiste d’aliénation.\par
+ \noindent Esclaves et maîtres partagent le même mariage catholique avec consentement sacré entre époux. Les esclaves sont moins libres que des animaux sauvages, puisqu’ils ne peuvent pas enfanter sans l’autorisation de leur maître ; mais un peu plus que les animaux domestiques, puisque les maîtres ne peuvent pas les forcer à s’aimer, ni leur retirer leurs enfants (avant la puberté), contrairement aux veaux ou aux agneaux.\par
+ La loi introduit un dernier mécanisme sexiste d’aliénation.\par
  
 \begin{quoteblock}
  \noindent (XII) Les enfants qui naîtront des mariages entre esclaves seront esclaves \& appartiendront aux Maîtres des femmes esclaves \& non à ceux de leurs maris, si le mari \& la femme ont des Maîtres différents.\par
  (XIII) Voulons que si le mari esclave a épousé une femme libre, les enfants, tant mâles que filles suivent la condition de leur mère, \& soient libres comme elle, nonobstant la servitude de leur père ; \& que si le père est libre \& la mère esclave, les enfants soient esclaves pareillement.
  \end{quoteblock}
 
- \noindent Les héritiers de l’esclavage aux États-Unis ont noté que la mère esclave avait un statut relativement plus élevé que les hommes de sa condition, contrairement aux maîtres qui dominaient leurs épouses. Ce raffinement de la loi permet de comprendre que la domination patriarcale s’effectue par le \emph{patrimoine}, par la propriété, qui permet d’enfanter en sécurité.\par
+ \noindent Les héritiers de l’esclavage aux États-Unis ont noté que la mère esclave avait un statut relativement plus élevé que les hommes de sa condition, contrairement aux maîtres qui dominaient leurs épouses. Ce raffinement de la loi permet de comprendre que la domination patriarcale s’effectue par le \emph{patrimoine}, par la propriété, qui protège la mère et permet d’enfanter en sécurité.\par
  Empêché de propriété, l’esclave mâle ne peut pas protéger sa femme et ses enfants, il n’est que sa force de travail, tandis que son épouse a plus de valeur, puisqu’elle est potentiellement plusieurs forces de travail à naître. La propriété des enfants esclaves passe par la mère (jusqu’à son maître), mais pas par le père, réputé putatif et incertain, contrairement au libre, qui peut reconnaître ses enfants (et adopter).\par
  \bigbreak
  \noindent Ce voyage assez désagréable dans les idées claires et distinctes de la France d’alors devrait convaincre que l’esclavage est l’affaire de tous.\par
  Un blanc bourgeois mâle n’a pas à demander pardon de ce qu’il n’a pas fait, et demander pardon à qui d’ailleurs ? Personne n’est maudit jusqu’à la quinzième génération, pas plus les coupables que les victimes. Déjà du temps de Louis XIV, la responsabilité était personnelle.\par
- Par contre, un blanc, nous, tous, devons comprendre et digérer ce que cette culture française a fait, et peut refaire, avec cette langue assez subtile pour instituer légalement les injustice les plus odieuses.\par
+ Par contre, un blanc, nous, tous, devons comprendre et digérer ce que cette culture française a fait, et peut refaire, avec cette langue assez subtile pour instituer légalement l’injustice la plus odieuse. En chinois, la \emph{France} se dit \emph{Fàguó} \zh{法国 }« loi-pays ; la nation de la loi » (l’Allemagne est dîte \emph{Déguó} \zh{德国 }« morale-pays »). La langue chinoise a donc son concept de la France, la loi serait son essence. Elle y enfouit en tous cas ses plus belles intentions, et surtout comme ici, son ordure.\par
  \vfill\null
- 
+ \newpage
+
 }
 \def\elsource{ \href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\dotuline{Assemblée Nationale}}\footnote{\href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\url{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}}} }
 
@@ -248,11 +255,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -342,6 +344,8 @@
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -370,7 +374,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -395,6 +399,7 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -649,7 +654,7 @@
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
   \bigskip
 }}
@@ -666,7 +671,7 @@
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
 }}
 
@@ -783,17 +788,19 @@ SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Sou
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -814,20 +821,7 @@ SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Sou
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

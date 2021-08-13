@@ -165,7 +165,7 @@
 \def\elbibl{La Bruyère, Jean de. 1688–1696. \emph{Les Caractères\\
  ou \\
  les Mœurs de ce siècle}}
-\def\elsource{\href{https://fr.wikisource.org/wiki/Les_Caract%C3%A8res_(Garapon)}{\dotuline{wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Les_Caract%C3%A8res_(Garapon)}{\url{https://fr.wikisource.org/wiki/Les_Caract%C3%A8res_(Garapon)}}}}
+\def\elsource{\href{https://fr.wikisource.org/wiki/Les\_Caract\%C3\%A8res\_(Garapon)}{\dotuline{wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Les\_Caract\%C3\%A8res\_(Garapon)}{\url{https://fr.wikisource.org/wiki/Les\_Caract\%C3\%A8res\_(Garapon)}}}}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -310,7 +310,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -335,6 +335,7 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -589,7 +590,7 @@
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
   \bigskip
 }}
@@ -606,7 +607,7 @@
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
 }}
 
@@ -833,7 +834,7 @@ Si l’on jette quelque profondeur dans certains écrits, si l’on affecte une 
 \bigbreak
 \noindent \pn{4}\ed{1688}Quelle horrible peine a un homme qui est sans prôneurs et sans cabale, qui n’est engagé dans aucun corps, mais qui est seul, et qui n’a que beaucoup de mérite pour toute recommandation, de se faire jour à travers l’obscurité où il se trouve, et de venir au niveau d’un fat qui est en crédit !\par
 \bigbreak
-\noindent \pn{5}\ed{1688}Personne presque ne s’avise de lui-même du mérite d’un autre.\par
+\pn{5}\ed{1688}Personne presque ne s’avise de lui-même du mérite d’un autre.\par
 Les hommes sont trop occupés d’eux-mêmes pour avoir le loisir de pénétrer ou de discerner les autres ; de là vient qu’avec un grand mérite et une plus grande modestie l’on peut être longtemps ignoré.\par
 \bigbreak
 \noindent \pn{6}\ed{1688}Le génie et les grands talents manquent souvent, quelquefois aussi les seules occasions : tels peuvent être loués de ce qu’ils ont fait, et tels de ce qu’ils auraient fait.\par
@@ -1015,7 +1016,7 @@ On tire ce bien de la perfidie des femmes, qu’elle guérit de la jalousie.\par
 \bigbreak
 \noindent \pn{40}\ed{1690}Je voudrais qu’il me fût permis de crier de toute ma force à ces hommes saints qui ont été autrefois blessés des femmes : « Fuyez les femmes, ne les dirigez point, laissez à d’autres le soin de leur salut. »\par
 \bigbreak
-\noindent \pn{41}\ed{1688}C'est trop contre un mari d’être coquette et dévote ; une femme devrait opter.\par
+\pn{41}\ed{1688}C'est trop contre un mari d’être coquette et dévote ; une femme devrait opter.\par
 \bigbreak
 \noindent \pn{42}\ed{1691}J'ai différé à le dire, et j’en ai souffert ; mais enfin il m’échappe, et j’espère même que ma franchise sera utile à celles qui n’ayant pas assez d’un confesseur pour leur conduite, n’usent d’aucun discernement dans le choix de leurs directeurs. Je ne sors pas d’admiration et d’étonnement à la vue de certains personnages que je ne nomme point ; j’ouvre de fort grands yeux sur eux ; je les contemple : ils parlent, je prête l’oreille ; je m’informe, on me dit des faits, je les recueille ; et je ne comprends pas comment des gens en qui je crois voir toutes choses diamétralement opposées au bon esprit, au sens droit, à l’expérience des affaires du monde, à la connaissance de l’homme, à la science de la religion et des mœurs, présument que Dieu doive renouveler en nos jours la merveille de l’apostolat, et faire un miracle en leurs personnes, en les rendant capables, tout simples et petits esprits qu’ils sont, du ministère des âmes, celui de tous le plus délicat et le plus sublime ; et si au contraire ils se croient nés pour un emploi si relevé, si difficile, et accordé à si peu de personnes, et qu’ils se persuadent de ne faire en cela qu’exercer leurs talents naturels et suivre une vocation ordinaire, je le comprends encore moins.\par
 Je vois bien que le goût qu’il y a à devenir le dépositaire du secret des familles, à se rendre nécessaire pour les réconciliations, à procurer des commissions ou à placer des domestiques, à trouver toutes les portes ouvertes dans les maisons des grands, à manger souvent à de bonnes tables, à se promener en carrosse dans une grande ville, et à faire de délicieuses retraites à la campagne, à voir plusieurs personnes de nom et de distinction s’intéresser à sa vie et à sa santé, et à ménager pour les autres et pour soi-même tous les intérêts humains, je vois bien, encore une fois, que cela seul a fait imaginer le spécieux et irrépréhensible prétexte du soin des âmes, et semé dans le monde cette pépinière intarissable de directeurs.\par
@@ -1044,7 +1045,7 @@ Si la science et la sagesse se trouvent unies en un même sujet, je ne m’infor
 \bigbreak
 \noindent \pn{52}\ed{1688}Il est étonnant de voir dans le cœur de certaines femmes quelque chose de plus vif et de plus fort que l’amour pour les hommes, je veux dire l’ambition et le jeu : de telles femmes rendent les hommes chastes ; elles n’ont de leur sexe que les habits.\par
 \bigbreak
-\noindent \pn{53}\ed{1688}Les femmes sont extrêmes : elles sont meilleures ou pires que les hommes.\par
+\pn{53}\ed{1688}Les femmes sont extrêmes : elles sont meilleures ou pires que les hommes.\par
 \bigbreak
 \noindent \pn{54}\ed{1688}La plupart des femmes n’ont guère de principes ; elles se conduisent par le cœur, et dépendent pour leurs mœurs de ceux qu’elles aiment.\par
 \bigbreak
@@ -1081,7 +1082,7 @@ Les hommes sont cause que les femmes ne s’aiment point.\par
 \bigbreak
 \noindent \pn{70}\ed{1688}Un homme éclate contre une femme qui ne l’aime plus, et se console ; une femme fait moins de bruit quand elle est quittée, et demeure longtemps inconsolable.\par
 \bigbreak
-\noindent \pn{71}\ed{1688}Les femmes guérissent de leur paresse par la vanité ou par l’amour.\par
+\pn{71}\ed{1688}Les femmes guérissent de leur paresse par la vanité ou par l’amour.\par
 \ed{1689}La paresse au contraire dans les femmes vives est le présage de l’amour.\par
 \bigbreak
 \noindent \pn{72}\ed{1689}Il est fort sûr qu’une femme qui écrit avec emportement est emportée ; il est moins clair qu’elle soit touchée. Il semble qu’une passion vive et tendre est morne et silencieuse ; et que le plus pressant intérêt d’une femme qui n’est plus libre, celui qui l’agite davantage, est moins de persuader qu’elle aime, que de s’assurer si elle est aimée.\par
@@ -1100,9 +1101,9 @@ Les hommes sont cause que les femmes ne s’aiment point.\par
 \bigbreak
 \noindent \pn{79}\ed{1689}Les douleurs muettes et stupides sont hors d’usage : on pleure, on récite, on répète, on est si touchée de la mort de son mari, qu’on n’en oublie pas la moindre circonstance.\par
 \bigbreak
-\noindent \pn{80}\ed{1688}Ne pourrait-on point découvrir l’art de se faire aimer de sa femme ?\par
+\pn{80}\ed{1688}Ne pourrait-on point découvrir l’art de se faire aimer de sa femme ?\par
 \bigbreak
-\noindent \pn{81}\ed{1689}Une femme insensible est celle qui n’a pas encore vu celui qu’elle doit aimer.\par
+\pn{81}\ed{1689}Une femme insensible est celle qui n’a pas encore vu celui qu’elle doit aimer.\par
 Il y avait à Smyrne une très belle fille qu’on appelait Émire, et qui était moins connue dans toute la ville par sa beauté que par la sévérité de ses mœurs, et surtout par l’indifférence qu’elle conservait pour tous les hommes, qu’elle voyait, disait-elle, sans aucun péril, et sans d’autres dispositions que celles où elle se trouvait pour ses amies ou pour ses frères. Elle ne croyait pas la moindre partie de toutes les folies qu’on disait que l’amour avait fait faire dans tous les temps ; et celles qu’elle avait vues elle-même, elle ne les pouvait comprendre : elle ne connaissait que l’amitié. Une jeune et charmante personne, à qui elle devait cette expérience la lui avait rendue si douce qu’elle ne pensait qu’à la faire durer, et n’imaginait pas par quel autre sentiment elle pourrait jamais se refroidir sur celui de l’estime et de la confiance, dont elle était si contente. Elle ne parlait que d’Euphrosyne : c’était le nom de cette fidèle amie, et tout Smyrne ne parlait que d’elle et d’Euphrosyne leur amitié passait en proverbe. Émire avait deux frères qui étaient jeunes, d’une excellente beauté, et dont toutes les femmes de la ville étaient éprises ; et il est vrai qu’elle les aima toujours comme une sœur aime ses frères. Il y eut un prêtre de Jupiter, qui avait accès dans la maison de son père, à qui elle plut, qui osa le lui déclarer, et ne s’attira que du mépris. Un vieillard, qui, se confiant en sa naissance et en ses grands biens, avait eu la même audace, eut aussi la même aventure. Elle triomphait cependant ; et c’était jusqu’alors au milieu de ses frères, d’un prêtre et d’un vieillard, qu’elle se disait insensible. Il sembla que le ciel voulut l’exposer à de plus fortes épreuves, qui ne servirent néanmoins qu’à la rendre plus vaine, et qu’à l’affermir dans la réputation d’une fille que l’amour ne pouvait toucher. De trois amants que ses charmes lui acquirent successivement, et dont elle ne craignit pas de voir toute la passion, le premier, dans un transport amoureux, se perça le sein à ses pieds ; le second, plein de désespoir de n’être pas écouté, alla se faire tuer à la guerre de Crète et le troisième mourut de langueur et d’insomnie. Celui qui les devait venger n’avait pas encore paru. Ce vieillard qui avait été si malheureux dans ses amours s’en était guéri par des réflexions sur son âge et sur le caractère de la personne à qui il voulait plaire : il désira de continuer de la voir, et elle le souffrit. Il lui amena un jour son fils, qui était jeune, d’une physionomie agréable, et qui avait une taille fort noble. Elle le vit avec intérêt ; et comme il se tut beaucoup en la présence de son père, elle trouva qu’il n’avait pas assez d’esprit, et désira qu’il en eût eu davantage. Il la vit seul, parla assez, et avec esprit ; mais comme il la regarda peu, et qu’il parla encore moins d’elle et de sa beauté, elle fut surprise et comme indignée qu’un homme si bien fait et si spirituel ne fût pas galant. Elle s’entretint de lui avec son amie, qui voulut le voir. Il n’eut des yeux que pour Euphrosyne, il lui dit qu’elle était belle ; et Émire si indifférente, devenue jalouse, comprit que Ctésiphon était persuadé de ce qu’il disait, et que non seulement était galant, mais même qu’il était tendre. Elle se trouva depuis ce temps moins libre avec son amie. Elle désira de les voir ensemble une seconde fois pour être plus éclaircie ; et une seconde entrevue lui fit voir encore plus qu’elle ne craignait de voir, et changea ses soupçons en certitude. Elle s’éloigne d’Euphrosyne, ne lui connaît plus le mérite qui l’avait charmée, perd le goût de sa conversation ; elle ne l’aime plus ; et ce changement lui fait sentir que l’amour dans son cœur a pris la place de l’amitié. Ctésiphon et Euphrosyne se voient tous les jours, s’aiment, songent à s’épouser, s’épousent. La nouvelle s’en répand par toute la ville ; et l’on publie que deux personnes enfin ont eu cette joie si rare de se marier à ce qu’ils aimaient. Émire l’apprend, et s’en désespère. Elle ressent tout son amour : elle recherche Euphrosyne pour le seul plaisir de revoir Ctésiphon ; mais ce jeune mari est encore l’amant de sa femme, et trouve une maîtresse dans une nouvelle épouse ; il ne voit dans Émire que l’amie d’une personne qui lui est chère. Cette fille infortunée perd le sommeil, et ne veut plus manger : elle s’affaiblit ; son esprit s’égare ; elle prend son frère pour Ctésiphon, et elle lui parle comme à un amant ; elle se détrompe, rougit de son égarement ; elle retombe bientôt dans de plus grands, et n’en rougit plus ; elle ne les connaît plus. Alors elle craint les hommes ; mais trop tard : c’est sa folie. Elle a des intervalles où sa raison lui revient, et où elle gémit de la retrouver. La jeunesse de Smyrne, qui l’a vue si fière et si insensible, trouve que les Dieux l’ont trop punie.
 \chapterclose
 
@@ -1119,13 +1120,13 @@ Il y avait à Smyrne une très belle fille qu’on appelait Émire, et qui étai
 \bigbreak
 \noindent \pn{3}\ed{1688}L'amour naît brusquement, sans autre réflexion, par tempérament ou par faiblesse : un trait de beauté nous fixe, nous détermine. L'amitié au contraire se forme peu à peu, avec le temps, par la pratique, par un long commerce. Combien d’esprit, de bonté de cœur, d’attachement, de services et de complaisance dans les amis, pour faire en plusieurs années bien moins que ne fait quelquefois en un moment un beau visage ou une belle main !\par
 \bigbreak
-\noindent \pn{4}\ed{1689}Le temps, qui fortifie les amitiés, affaiblit l’amour.\par
+\pn{4}\ed{1689}Le temps, qui fortifie les amitiés, affaiblit l’amour.\par
 \bigbreak
 \noindent \pn{5}\ed{1689}Tant que l’amour dure, il subsiste de soi-même, et quelquefois par les choses qui semblent le devoir éteindre, par les caprices, par les rigueurs, par l’éloignement, par la jalousie. L'amitié au contraire a besoin de secours : elle périt faute de soins, de confiance et de complaisance.\par
 \bigbreak
-\noindent \pn{6}\ed{1689}Il est plus ordinaire de voir un amour extrême qu’une parfaite amitié.\par
+\pn{6}\ed{1689}Il est plus ordinaire de voir un amour extrême qu’une parfaite amitié.\par
 \bigbreak
-\noindent \pn{7}\ed{1689}L'amour et l’amitié s’excluent l’un l’autre.\par
+\pn{7}\ed{1689}L'amour et l’amitié s’excluent l’un l’autre.\par
 \bigbreak
 \noindent \pn{8}\ed{1689}Celui qui a eu l’expérience d’un grand amour néglige l’amitié ; et celui qui est épuisé sur l’amitié n’a encore rien fait pour l’amour.\par
 \bigbreak
@@ -1135,7 +1136,7 @@ Il y avait à Smyrne une très belle fille qu’on appelait Émire, et qui étai
 \bigbreak
 \noindent \pn{11}\ed{1689}L'on n’aime bien qu’une seule fois : c’est la première ; les amours qui suivent sont moins involontaires.\par
 \bigbreak
-\noindent \pn{12}\ed{1689}L'amour qui naît subitement est le plus long à guérir.\par
+\pn{12}\ed{1689}L'amour qui naît subitement est le plus long à guérir.\par
 \bigbreak
 \noindent \pn{13}\ed{1689}L'amour qui croît peu à peu et par degrés ressemble trop à l’amitié pour être une passion violente.\par
 \bigbreak
@@ -1159,11 +1160,11 @@ Il y avait à Smyrne une très belle fille qu’on appelait Émire, et qui étai
 \bigbreak
 \noindent \pn{23}\ed{1689}Être avec des gens qu’on aime, cela suffit ; rêver, leur parler, ne leur parler point, penser à eux, penser à des choses plus indifférentes, mais auprès d’eux, tout est égal.\par
 \bigbreak
-\noindent \pn{24}\ed{1689}Il n’y a pas si loin de la haine à l’amitié que de l’antipathie.\par
+\pn{24}\ed{1689}Il n’y a pas si loin de la haine à l’amitié que de l’antipathie.\par
 \bigbreak
 \noindent \pn{25}\ed{1689}Il semble qu’il est moins rare de passer de l’antipathie à l’amour qu’à l’amitié.\par
 \bigbreak
-\noindent \pn{26}\ed{1689}L'on confie son secret dans l’amitié ; mais il échappe dans l’amour.\par
+\pn{26}\ed{1689}L'on confie son secret dans l’amitié ; mais il échappe dans l’amour.\par
 L'on peut avoir la confiance de quelqu’un sans en avoir le cœur. Celui qui a le cœur n’a pas besoin de révélation ou de confiance ; tout lui est ouvert.\par
 \bigbreak
 \noindent \pn{27}\ed{1689}L'on ne voit dans l’amitié que les défauts qui peuvent nuire à nos amis. L'on ne voit en amour de défauts dans ce qu’on aime que ceux dont on souffre soi-même.\par
@@ -1177,9 +1178,9 @@ Celles qui ne nous ménagent sur rien, et ne nous épargnent nulles occasions de
 \bigbreak
 \noindent \pn{30}\ed{1689}Les froideurs et les relâchements dans l’amitié ont leurs causes. En amour, il n’y a guerre d’autre raison de ne s’aimer plus que de s’être trop aimés.\par
 \bigbreak
-\noindent \pn{31}\ed{1689}L'on n’est pas plus maître de toujours aimer qu’on l’a été de ne pas aimer.\par
+\pn{31}\ed{1689}L'on n’est pas plus maître de toujours aimer qu’on l’a été de ne pas aimer.\par
 \bigbreak
-\noindent \pn{32}\ed{1689}Les amours meurent par le dégoût, et l’oubli les enterre.\par
+\pn{32}\ed{1689}Les amours meurent par le dégoût, et l’oubli les enterre.\par
 \bigbreak
 \noindent \pn{33}\ed{1689}Le commencement et le déclin de l’amour se font sentir par l’embarras où l’on est de se trouver seuls.\par
 \bigbreak
@@ -1208,11 +1209,11 @@ Celui-là peut prendre, qui goûte un plaisir aussi délicat à recevoir que son
 \bigbreak
 \noindent \pn{44}\ed{1690}On a dit en latin qu’il coûte moins cher de haïr que d’aimer, ou si l’on veut, que l’amitié est plus à charge que la haine. Il est vrai qu’on est dispensé de donner à ses ennemis ; mais ne coûte-t-il rien de s’en venger ? Ou s’il est doux et naturel de faire du mal à ce que l’on hait, l’est-il moins de faire du bien à ce qu’on aime ? Ne serait-il pas dur et pénible de ne lui en point faire ?\par
 \bigbreak
-\noindent \pn{45}\ed{1688}Il y a du plaisir à rencontrer les yeux de celui à qui l’on vient de donner.\par
+\pn{45}\ed{1688}Il y a du plaisir à rencontrer les yeux de celui à qui l’on vient de donner.\par
 \bigbreak
 \noindent \pn{46}\ed{1690}Je ne sais si un bienfait qui tombe sur un ingrat, et ainsi sur un indigne, ne change pas de nom, et s’il méritait plus de reconnaissance.\par
 \bigbreak
-\noindent \pn{47}\ed{1692}La libéralité consiste moins à donner beaucoup qu’à donner à propos.\par
+\pn{47}\ed{1692}La libéralité consiste moins à donner beaucoup qu’à donner à propos.\par
 \bigbreak
 \noindent \pn{48}\ed{1690}S'il est vrai que la pitié ou la compassion soit un retour vers nous-mêmes qui nous met en la place des malheureux, pourquoi tirent-ils de nous si peu de soulagement dans leurs misères ?\par
 Il vaut mieux s’exposer à l’ingratitude que de manquer aux misérables.\par
@@ -1245,11 +1246,11 @@ Il vaut mieux s’exposer à l’ingratitude que de manquer aux misérables.\par
 \bigbreak
 \noindent \pn{62}\ed{1689}Les choses les plus souhaitées n’arrivent point ; ou si elles arrivent, ce n’est ni dans le temps ni dans les circonstances où elles auraient fait un extrême plaisir.\par
 \bigbreak
-\noindent \pn{63}\ed{1689}Il faut rire avant que d’être heureux, de peur de mourir sans avoir ri.\par
+\pn{63}\ed{1689}Il faut rire avant que d’être heureux, de peur de mourir sans avoir ri.\par
 \bigbreak
 \noindent \pn{64}\ed{1688}La vie est courte, si elle ne mérite ce nom que lorsqu’elle est agréable, puisque si l’on cousait ensemble toutes les heures que l’on passe avec ce qui plaît, l’on ferait à peine d’un grand nombre d’années une vie de quelques mois.\par
 \bigbreak
-\noindent \pn{65}\ed{1688}Qu'il est difficile d’être content de quelqu’un !\par
+\pn{65}\ed{1688}Qu'il est difficile d’être content de quelqu’un !\par
 \bigbreak
 \noindent \pn{66}\ed{1690}On ne pourrait se défendre de quelque joie à voir périr un méchant homme : l’on jouirait alors du fruit de sa haine, et l’on tirerait de lui tout ce qu’on en peut espérer, qui est le plaisir de sa perte. Sa mort enfin arrive, mais dans une conjoncture où nos intérêts ne nous permettent pas de nous en réjouir : il meurt trop tôt ou trop tard.\par
 \bigbreak
@@ -1261,7 +1262,7 @@ Il vaut mieux s’exposer à l’ingratitude que de manquer aux misérables.\par
 \bigbreak
 \noindent \pn{70}\ed{1692}C'est par faiblesse que l’on hait un ennemi, et que l’on songe à s’en venger ; et c’est par paresse que l’on s’apaise, et qu’on ne se venge point.\par
 \bigbreak
-\noindent \pn{71}\ed{1690}Il y a bien autant de paresse que de faiblesse à se laisser gouverner.\par
+\pn{71}\ed{1690}Il y a bien autant de paresse que de faiblesse à se laisser gouverner.\par
 \ed{1692}Il ne faut pas penser à gouverner un homme tout d’un coup, et sans autre préparation, dans une affaire importante et qui serait capitale à lui ou aux siens ; il sentirait d’abord l’empire et l’ascendant qu’on veut prendre sur son esprit, et il secouerait le joug par honte ou par caprice : il faut tenter auprès de lui les petites choses, et de là le progrès jusqu’aux plus grandes est immanquable. Tel ne pouvait au plus dans les commencements qu’entreprendre de le faire partir pour la campagne ou retourner à la ville, qui finit par lui dicter un testament où il réduit son fils à la légitime.\par
 \ed{1692}Pour gouverner quelqu’un longtemps et absolument, il faut avoir la main légère, et ne lui faire sentir que le moins qu’il se peut sa dépendance.\par
 \ed{1692}Tels se laissent gouverner jusqu’à un certain point, qui au delà sont intraitables et ne se gouvernent plus : on perd tout à coup la route de leur cœur et de leur esprit ; ni hauteur ni souplesse, ni force ni industrie ne les peuvent dompter : avec cette différence que quelques-uns sont ainsi faits par raison et avec fondement, et quelques autres par tempérament et par humeur.\par
@@ -1283,11 +1284,11 @@ Il vaut mieux s’exposer à l’ingratitude que de manquer aux misérables.\par
 \bigbreak
 \noindent \pn{77}\ed{1689}Rien ne coûte moins à la passion que de se mettre au-dessus de la raison : son grand triomphe est de l’emporter sur l’intérêt.\par
 \bigbreak
-\noindent \pn{78}\ed{1688}L'on est plus sociable et d’un meilleur commerce par le cœur que par l’esprit.\par
+\pn{78}\ed{1688}L'on est plus sociable et d’un meilleur commerce par le cœur que par l’esprit.\par
 \bigbreak
 \noindent \pn{79}\ed{1688}Il y a de certains grands sentiments, de certaines actions nobles et élevées, que nous devons moins à la force de notre esprit qu’à la bonté de notre naturel.\par
 \bigbreak
-\noindent \pn{80}\ed{1688}Il n’y a guère au monde un plus bel excès que celui de la reconnaissance.\par
+\pn{80}\ed{1688}Il n’y a guère au monde un plus bel excès que celui de la reconnaissance.\par
 \bigbreak
 \noindent \pn{81}\ed{1689}Il faut être bien dénué d’esprit, si l’amour, la malignité, la nécessité n’en font pas trouver.\par
 \bigbreak
@@ -1308,7 +1309,7 @@ Il me semble que l’on dépend des lieux pour l’esprit, l’humeur, la passio
 
 
 \chaptercont
-\noindent \pn{1}\ed{1688}Un caractère bien fade est celui de n’en avoir aucun.\par
+\pn{1}\ed{1688}Un caractère bien fade est celui de n’en avoir aucun.\par
 \bigbreak
 \noindent \pn{2}\ed{1688}C'est le rôle d’un sot d’être importun : un homme habile sent s’il convient ou s’il ennuie ; il sait disparaître le moment qui précède celui où il serait de trop quelque part.\par
 \bigbreak
@@ -1426,7 +1427,7 @@ Je suppose qu’il n’y ait que deux hommes sur la terre, qui la possèdent seu
 \bigbreak
 \noindent \pn{56}\ed{1689}Rire des gens d’esprit, c’est le privilège des sots : ils sont dans le monde ce que les fous sont à la cour, je veux dire sans conséquence.\par
 \bigbreak
-\noindent \pn{57}\ed{1688}La moquerie est souvent indigence d’esprit.\par
+\pn{57}\ed{1688}La moquerie est souvent indigence d’esprit.\par
 \bigbreak
 \noindent \pn{58}\ed{1688}Vous le croyez votre dupe : s’il feint de l’être, qui est plus dupe de lui ou de vous ?\par
 \bigbreak
@@ -1479,7 +1480,7 @@ Je suppose qu’il n’y ait que deux hommes sur la terre, qui la possèdent seu
 \bigbreak
 \noindent \pn{82}\ed{1690}Nicandre s’entretient avec Elise de la manière douce et complaisante dont il a vécu avec sa femme, depuis le jour qu’il en fit le choix jusques à sa mort ; il a déjà dit qu’il regrette qu’elle ne lui ait pas laissé des enfants, et il le répète ; il parle des maisons qu’il a à la ville, et bientôt d’une terre qu’il a à la campagne : il calcule le revenu qu’elle lui rapporte, il fait le plan des bâtiments, en décrit la situation, exagère la commodité des appartements, ainsi que la richesse et la propreté des meubles ; il assure qu’il aime la bonne chère, les équipages ; il se plaint que sa femme n’aimait point assez le jeu et la société. « Vous êtes si riche, lui disait l’un de ses amis, que n’achetez-vous cette charge ? pourquoi ne pas faire cette acquisition qui étendrait votre domaine ? On me croit, ajoute-t-il, plus de bien que je n’en possède. » Il n’oublie pas son extraction et ses alliances : Monsieur le Surintendant, qui est mon cousin ; Madame la Chancelière, qui est ma parente ; voilà son style. Il raconte un fait qui prouve le mécontentement qu’il doit avoir de ses plus proches, et de ceux même qui sont ses héritiers : « Ai-je tort ? dit-il à Elise ; ai-je grand sujet de leur vouloir du bien ? » et il l’en fait juge. Il insinue ensuite qu’il a une santé faible et languissante, et il parle de la cave où il doit être enterré. Il est insinuant, flatteur, officieux à l’égard de tous ceux qu’il trouve auprès de la personne à qui il aspire. Mais Elise n’a pas le courage d’être riche en l’épousant. On annonce, au moment qu’il parle, un cavalier, qui de sa seule présence démonte la batterie de l’homme de ville : il se lève déconcerté et chagrin, et va dire ailleurs qu’il veut se remarier.\par
 \bigbreak
-\noindent \pn{83}\ed{1688}Le sage quelquefois évite le monde, de peur d’être ennuyé.
+\pn{83}\ed{1688}Le sage quelquefois évite le monde, de peur d’être ennuyé.
 \chapterclose
 
 
@@ -1676,7 +1677,7 @@ Phédon a les yeux creux, le teint échauffé, le corps sec et le visage maigre�
 
 
 \chaptercont
-\noindent I\par
+I\par
 \ed{1688}L'on se donne à Paris, sans se parler, comme un rendez-vous public, mais fort exact, tous les soirs au Cours ou aux Tuileries, pour se regarder au visage et se désapprouver les uns les autres.\par
 \ed{1688}L'on ne peut se passer de ce même monde que l’on n’aime point, et dont l’on se moque.\par
 \ed{1692}L'on s’attend au passage réciproquement dans une promenade publique ; l’on y passe en revue l’un devant l’autre : carrosse, chevaux, livrées, armoiries, rien n’échappe aux yeux, tout est curieusement ou malignement observé ; et selon le plus ou le moins de l’équipage, ou l’on respecte les personnes, ou on les dédaigne.\par
@@ -1748,7 +1749,7 @@ Quelques-uns n’ont pas même le triste avantage de répandre leurs folies plus
 \bigbreak
 \noindent \pn{7}\ed{1688}L'on s’accoutume difficilement à une vie qui se passe dans une antichambre, dans des cours, ou sur l’escalier.\par
 \bigbreak
-\noindent \pn{8}\ed{1692}La cour ne rend pas content ; elle empêche qu’on ne le soit ailleurs.\par
+\pn{8}\ed{1692}La cour ne rend pas content ; elle empêche qu’on ne le soit ailleurs.\par
 \bigbreak
 \noindent \pn{9}\ed{1688}Il faut qu’un honnête homme ait tâté de la cour : il découvre en y entrant comme un nouveau monde qui lui était inconnu, où il voit régner également le vice et la politesse, et où tout lui est utile, le bon et le mauvais.\par
 \bigbreak
@@ -1850,7 +1851,7 @@ Il faut avouer néanmoins qu’il s’est trouvé des hommes qui refusaient plus
 \bigbreak
 \noindent \pn{54}\ed{1689}Un vieil auteur, et dont j’ose rapporter ici les propres termes, de peur d’en affaiblir le sens par ma traduction, dit que s’éloigner des petits, voire de ses pareils, et iceulx vilainer et dépriser ; s’accointer de grands et puissans en tous biens et chevances, et en cette leur cointise et privauté estre de tous ébats, gabs, mommeries, et vilaines besoignes ; estre eshonté, saffranier et sans point de vergogne ; endurer brocards et gausseries de tous chacuns, sans pour ce feindre de cheminer en avant, et à tout son entregent, engendre heur et fortune.\par
 \bigbreak
-\noindent \pn{55}\ed{1689}Jeunesse du prince, source des belles fortunes.\par
+\pn{55}\ed{1689}Jeunesse du prince, source des belles fortunes.\par
 \bigbreak
 \noindent \pn{56}\ed{1689}Timante, toujours le même, et sans rien perdre de ce mérite qui lui a attiré la première fois de la réputation et des récompenses, ne laissait pas de dégénérer dans l’esprit des courtisans : ils étaient las de l’estimer ; ils le saluaient froidement, ils ne lui souriaient plus, ils commençaient à ne le plus joindre, ils ne l’embrassaient plus, ils ne le tiraient plus à l’écart pour lui parler mystérieusement d’une chose indifférente, ils n’avaient plus rien à lui dire. Il lui fallait cette pension ou ce nouveau poste dont il vient d’être honoré pour faire revivre ses vertus à demi effacées de leur mémoire, et en rafraîchir l’idée : ils lui font comme dans les commencements, et encore mieux.\par
 \bigbreak
@@ -1941,7 +1942,7 @@ L'homme a bien peu de ressources dans soi-même, puisqu’il lui faut une disgr�
 \bigbreak
 \noindent \pn{96}\ed{1691}Straton est né sous deux étoiles : malheureux, heureux dans le même degré. Sa vie est un roman : non, il lui manque le vraisemblable. Il n’a point eu d’aventures ; il a eu de beaux songes, il en a eu de mauvais : que dis-je ? on ne rêve point comme il a vécu. Personne n’a tiré d’une destinée plus qu’il a fait ; l’extrême et le médiocre lui sont connus ; il a brillé, il a souffert, il a mené une vie commune : rien ne lui est échappé. Il s’est fait valoir par des vertus qu’il assurait fort sérieusement qui étaient en lui ; il a dit de soi : J'ai de l’esprit, j’ai du courage ; et tous ont dit après lui : Il a de l’esprit, il a du courage. Il a exercé dans l’une et l’autre fortune le génie du courtisan, qui a dit de lui plus de bien peut-être et plus de mal qu’il n’y en avait. Le joli, l’aimable, le rare, le merveilleux, l’héroïque ont été employés à son éloge ; et tout le contraire a servi depuis pour le ravaler : caractère équivoque, mêlé, enveloppé ; une énigme, une question presque indécise.\par
 \bigbreak
-\noindent \pn{97}\ed{1690}La faveur met l’homme au-dessus de ses égaux ; et sa chute, au-dessous.\par
+\pn{97}\ed{1690}La faveur met l’homme au-dessus de ses égaux ; et sa chute, au-dessous.\par
 \bigbreak
 \noindent \pn{98}\ed{1688}Celui qui un beau jour sait renoncer fermement ou à un grand nom, ou à une grande autorité, ou à une grande fortune, se délivre en un moment de bien des peines, de bien des veilles, et quelquefois de bien des crimes.\par
 \bigbreak
@@ -1977,7 +1978,7 @@ Il ne laisse pas d’y avoir comme un charme attaché à chacune des différente
 \bigbreak
 \noindent \pn{8}\ed{1689}« Je ne sais, dites-vous avec un air froid et dédaigneux, Philante a du mérite, de l’esprit, de l’agrément, de l’exactitude sur son devoir, de la fidélité et de l’attachement pour son maître, et il en est médiocrement considéré ; il ne plaît pas, il n’est pas goûté. »— Expliquez-vous : est-ce Philanthe, ou le grand qu’il sert, que vous condamnez ?\par
 \bigbreak
-\noindent \pn{9}\ed{1691}Il est souvent plus utile de quitter les grands que de s’en plaindre.\par
+\pn{9}\ed{1691}Il est souvent plus utile de quitter les grands que de s’en plaindre.\par
 \bigbreak
 \noindent \pn{10}\ed{1688}Qui peut dire pourquoi quelques-uns ont le gros lot, ou quelques autres la faveur des grands ?\par
 \bigbreak
@@ -2116,7 +2117,7 @@ Mais, à ma gauche, Basilide met tout d’un coup sur pied une armée de trois c
 \noindent \pn{12}\ed{1689}Il faut que le capital d’une affaire qui assemble dans une ville les plénipotentiaires ou les agents des couronnes et des républiques, soit d’une longue et extraordinaire discussion, si elle leur coûte plus de temps, je ne dis pas que les seuls préliminaires, mais que le simple règlement des rangs, des préséances et des autres cérémonies.\par
 Le ministre ou le plénipotentiaire est un caméléon, est un Protée. Semblable quelquefois à un joueur habile, il ne montre ni humeur ni complexion, soit pour ne point donner lieu aux conjectures ou se laisser pénétrer, soit pour ne rien laisse échapper de son secret par passion ou par faiblesse. Quelquefois aussi il sait feindre le caractère le plus conforme aux vues qu’il a et aux besoins où il se trouve, et paraître tel qu’il a intérêt que les autres croient qu’il est en effet. Ainsi dans une grande puissance, ou dans une grande faiblesse qu’il veut dissimuler, il est ferme et inflexible, pour ôter l’envie de beaucoup obtenir ; ou il est facile, pour fournir aux autres les occasions de lui demander, et se donner la même licence. Une autre fois, ou il est profond et dissimulé, pour cacher une vérité en l’annonçant, parce qu’il lui importe qu’il l’ait dite, et qu’elle ne soit pas crue ; ou il est franc et ouvert, afin que lorsqu’il dissimule ce qui ne doit pas être su, l’on croie néanmoins qu’on n’ignore rien de ce que l’on veut savoir, et que l’on se persuade qu’il a tout dit. De même, ou il est vif et grand parleur, pour faire parler les autres, pour empêcher qu’on ne lui parle de ce qu’il ne veut pas ou de ce qu’il ne doit pas savoir, pour dire plusieurs choses indifférentes qui se modifient ou qui se détruisent les unes les autres, qui confondent dans les esprits la crainte et la confiance, pour se défendre d’une ouverture qui lui est échappée par une autre qu’il aura faite ; ou il est froid et taciturne, pour jeter les autres dans l’engagement de parler, pour écouter longtemps, pour être écouté quand il parle, pour parler avec ascendant et avec poids, pour faire des promesses ou des menaces qui portent un grand coup et qui ébranlent. Il s’ouvre et parle le premier pour, en découvrant les oppositions, les contradictions, les brigues et les cabales des ministres étrangers sur les propositions qu’il aura avancées, prendre ses mesures et avoir la réplique ; et dans une autre rencontre, il parle le dernier, pour ne point parler en vain, pour être précis, pour connaître parfaitement les choses sur quoi il est permis de faire fond pour lui ou pour ses alliés, pour savoir ce qu’il doit demander et ce qu’il peut obtenir. Il sait parler en termes clairs et formels ; il sait encore mieux parler ambigument, d’une manière enveloppée, user de tours ou de mots équivoques, qu’il peut faire valoir ou diminuer dans les occasions, et selon ses intérêts. Il demande peu quand il ne veut pas donner beaucoup ; il demande beaucoup pour avoir peu, et l’avoir plus sûrement. Il exige d’abord de petites choses, qu’il prétend ensuite lui devoir être comptées pour rien, et qui ne l’excluent pas d’en demander une plus grande ; et il évite au contraire de commencer par obtenir un point important, s’il l’empêche d’en gagner plusieurs autres de moindre conséquence, mais qui tous ensemble l’emportent sur le premier. Il demande trop, pour être refusé, mais dans le dessein de se faire un droit ou une bienséance de refuser lui-même ce qu’il sait bien qu’il lui sera demandé, et qu’il ne veut pas octroyer : aussi soigneux alors d’exagérer l’énormité de la demande, et de faire convenir, s’il se peut, des raisons qu’il a de n’y pas entendre, que d’affaiblir celles qu’on prétend avoir de ne lui pas accorder ce qu’il sollicite avec instance ; également appliqué à faire sonner haut et à grossir dans l’idée des autres le peu qu’il offre, et à mépriser ouvertement le peu que l’on consent de lui donner. Il fait de fausses offres, mais extraordinaires, qui donnent de la défiance, et obligent de rejeter ce que l’on accepterait inutilement ; qui lui sont cependant une occasion de faire des demandes exorbitantes, et mettent dans leur tort ceux qui les lui refusent. Il accorde plus qu’on ne lui demande, pour avoir encore plus qu’il ne doit donner. Il se fait longtemps prier, presser, importuner sur une chose médiocre, pour éteindre les espérances et ôter la pensée d’exiger de lui rien de plus fort ; ou s’il se laisse fléchir jusques à l’abandonner, c’est toujours avec des conditions qui lui font partager le gain et les avantages avec ceux qui reçoivent. Il prend directement ou indirectement l’intérêt d’un allié, s’il y trouve son utilité et l’avancement de ses prétentions. Il ne parle que de paix, que d’alliances, que de tranquillité publique, que d’intérêt public ; et en effet il ne songe qu’aux siens, c’est-à-dire à ceux de son maître ou de sa république. Tantôt il réunit quelques-uns qui étaient contraires les uns aux autres, et tantôt il divise quelques autres qui étaient unis. Il intimide les forts et les puissants, il encourage les faibles. Il unit d’abord d’intérêt plusieurs faibles contre un plus puissant, pour rendre la balance égale ; il se joint ensuite aux premiers pour la faire pencher, et il leur vend cher sa protection et son alliance. Il sait intéresser ceux avec qui il traite ; et par un adroit manège, par de fins et de subtils détours, il leur fait sentir leurs avantages particuliers, les biens et les honneurs qu’ils peuvent espérer par une certaine facilité, qui ne choque point leur commission ni les intentions de leurs maîtres. Il ne veut pas aussi être cru imprenable par cet endroit ; il laisse voir en lui quelque peu de sensibilité pour sa fortune : il s’attire par là des propositions qui lui découvrent les vues des autres les plus secrètes, leurs desseins les plus profonds et leur dernière ressource ; et il en profite. Si quelquefois il est lésé dans quelques chefs qui ont enfin été réglés, il crie haut ; si c’est le contraire ; il crie plus haut, et jette ceux qui perdent sur la justification et la défensive. Il a son fait digéré par la cour, toutes ses démarches sont mesurées, les moindres avances qu’il fait lui sont prescrites ; et il agit néanmoins, dans les points difficiles et dans les articles contestés, comme s’il se relâchait de lui-même sur-le-champ, et comme par un esprit d’accommodement ; il ose même promettre à l’assemblée qu’il fera goûter la proposition, et qu’il n’en sera pas désavoué. Il fait courir un bruit faux des choses seulement dont il est chargé, muni d’ailleurs de pouvoirs particuliers, qu’il ne découvre jamais qu’à l’extrémité, et dans les moments où il lui serait pernicieux de ne les pas mettre en usage. Il tend surtout par ses intrigues au solide et à l’essentiel, toujours prêt de leur sacrifier les minuties et les points d’honneur imaginaires. Il a du flegme, il s’arme de courage et de patience, il ne se lasse point, il fatigue les autres, et les pousse jusqu’au découragement. Il se précautionne et s’endurcit contre les lenteurs et les remises, contre les reproches, les soupçons, les défiances, contre les difficultés et les obstacles, persuadé que le temps seul et les conjonctures amènent les choses et conduisent les esprits au point où on les souhaite. Il va jusques à feindre un intérêt secret à la rupture de la négociation, lorsqu’il désire le plus ardemment qu’elle soit continuée ; et si au contraire il a des ordres précis de faire les derniers efforts pour la rompre, il croit devoir, pour y réussir, en presser la continuation et la fin. S'il survient un grand événement, il se raidit ou il se relâche selon qu’il lui est utile ou préjudiciable ; et si par une grande prudence il sait le prévoir, il presse et il temporise selon que l’État pour qui il travaille en doit craindre ou espérer ; et il règle sur ses besoins ses conditions. Il prend conseil du temps, du lieu, des occasions, de sa puissance ou de sa faiblesse, du génie des nations avec qui il traite, du tempérament et du caractère des personnes avec qui il négocie. Toutes ses vues, toutes ses maximes, tous les raffinements de sa politique tendent à une seule fin, qui est de n’être point trompé, et de tromper les autres.\par
 \bigbreak
-\noindent \pn{13}\ed{1688}Le caractère des Français demande du sérieux dans le souverain.\par
+\pn{13}\ed{1688}Le caractère des Français demande du sérieux dans le souverain.\par
 \bigbreak
 \noindent \pn{14}\ed{1688}L'un des malheurs du prince est d’être souvent trop plein de son secret, par le péril qu’il y a à le répandre : son bonheur est de rencontrer une personne sûre qui l’en décharge.\par
 \bigbreak
@@ -2124,7 +2125,7 @@ Le ministre ou le plénipotentiaire est un caméléon, est un Protée. Semblable
 \bigbreak
 \noindent \pn{16}\ed{1688}Le plaisir d’un roi qui mérite de l’être est de l’être moins quelquefois, de sortir du théâtre, de quitter le bas de saye et les brodequins, et de jouer avec une personne de confiance un rôle plus familier.\par
 \bigbreak
-\noindent \pn{17}\ed{1688}Rien ne fait plus d’honneur au prince que la modestie de son favori.\par
+\pn{17}\ed{1688}Rien ne fait plus d’honneur au prince que la modestie de son favori.\par
 \bigbreak
 \noindent \pn{18}\ed{1688}Le favori n’a point de suite ; il est sans engagement et sans liaisons ; il peut être entouré de parents et de créatures, mais il n’y tient pas ; il est détaché de tout, et comme isolé.\par
 \bigbreak
@@ -2194,7 +2195,7 @@ Ce qu’on appelle humeur est une chose trop négligée parmi les hommes : ils 
 \bigbreak
 \noindent \pn{12}\ed{1694}Sachez précisément ce que vous pouvez attendre des hommes en général, et de chacun d’eux en particulier, et jetez-vous ensuite dans le commerce du monde.\par
 \bigbreak
-\noindent \pn{13}\ed{1689}Si la pauvreté est la mère des crimes, le défaut d’esprit en est le père.\par
+\pn{13}\ed{1689}Si la pauvreté est la mère des crimes, le défaut d’esprit en est le père.\par
 \bigbreak
 \noindent \pn{14}\ed{1688}Il est difficile qu’un fort malhonnête homme ait assez d’esprit : un génie qui est droit et perçant conduit enfin à la règle, à la probité, à la vertu. Il manque du sens et de la pénétration à celui qui s’opiniâtre dans le mauvais comme dans le faux : l’on cherche en vain à le corriger par des traits de satire qui le désignent aux autres, et où il ne se reconnaît pas lui-même ; ce sont des injures dites à un sourd. Il serait désirable pour le plaisir des honnêtes gens et pour la vengeance publique, qu’un coquin ne le fût pas au point d’être privé de tout sentiment.\par
 \bigbreak
@@ -2253,7 +2254,7 @@ Ce qu’on appelle humeur est une chose trop négligée parmi les hommes : ils 
 \bigbreak
 \noindent \pn{39}\ed{1688}Pensons que, comme nous soupirons présentement pour la florissante jeunesse qui n’est plus et ne reviendra point, la caducité suivra, qui nous fera regretter l’âge viril où nous sommes encore, et que nous n’estimons pas assez.\par
 \bigbreak
-\noindent \pn{40}\ed{1688}L'on craint la vieillesse, que l’on n’est pas sûr de pouvoir atteindre.\par
+\pn{40}\ed{1688}L'on craint la vieillesse, que l’on n’est pas sûr de pouvoir atteindre.\par
 \bigbreak
 \noindent \pn{41}\ed{1690}L'on espère de vieillir, et l’on craint la vieillesse ; c’est-à-dire l’on aime la vie, et l’on fuit la mort.\par
 \bigbreak
@@ -2344,7 +2345,7 @@ C'est une chose monstrueuse que le goût et la facilité qui est en nous de rail
 \bigbreak
 \noindent \pn{81}\ed{1688}Une grande âme est au-dessus de l’injure, de l’injustice, de la douleur, de la moquerie ; et elle serait invulnérable si elle ne souffrait par la compassion.\par
 \bigbreak
-\noindent \pn{82}\ed{1689}Il y a une espèce de honte d’être heureux à la vue de certaines misères.\par
+\pn{82}\ed{1689}Il y a une espèce de honte d’être heureux à la vue de certaines misères.\par
 \bigbreak
 \noindent \pn{83}\ed{1689}On est prompt à connaître ses plus petits avantages, et lent à pénétrer ses défauts. On n’ignore point qu’on a de beaux sourcils, les ongles bien faits ; on sait à peine que l’on est borgne ; on ne sait point du tout que l’on manque d’esprit.\par
 Argyre tire son gant pour montrer une belle main, et elle ne néglige pas de découvrir un petit soulier qui suppose qu’elle a le pied petit ; elle rit des choses plaisantes ou sérieuses pour faire voir de belles dents ; si elle montre son oreille, c’est qu’elle l’a bien faite ; et si elle ne danse jamais, c’est qu’elle est peu contente de sa taille, qu’elle a épaisse. Elle entend tous ses intérêts, à l’exception d’un seul : elle parle toujours, et n’a point d’esprit.\par
@@ -2412,7 +2413,7 @@ Frontin, neveu d’Aurèle, après vingt années d’une probité connue, et d�
 \bigbreak
 \noindent \pn{110}\ed{1689}La mollesse et la volupté naissent avec l’homme, et ne finissent qu’avec lui ; ni les heureux ni les tristes événements ne l’en peuvent séparer ; c’est pour lui ou le fruit de la bonne fortune, ou un dédommagement de la mauvaise.\par
 \bigbreak
-\noindent \pn{111}\ed{1688}C'est une grande difformité dans la nature qu’un vieillard amoureux.\par
+\pn{111}\ed{1688}C'est une grande difformité dans la nature qu’un vieillard amoureux.\par
 \bigbreak
 \noindent \pn{112}\ed{1688}Peu de gens se souviennent d’avoir été jeunes, et combien il leur était difficile d’être chastes et tempérants. La première chose qui arrive aux hommes après avoir renoncé aux plaisirs, ou par bienséance, ou par lassitude, ou par régime, c’est de les condamner dans les autres. Il entre dans cette conduite une sorte d’attachement pour les choses mêmes que l’on vient de quitter ; l’on aimerait qu’un bien qui n’est plus pour nous ne fût plus aussi pour le reste du monde : c’est un sentiment de jalousie.\par
 \bigbreak
@@ -2527,7 +2528,7 @@ Le sot est automate, il est machine, il est ressort ; le poids l’emporte, le 
 \bigbreak
 \noindent \pn{5}\ed{1688}Il n’y a rien de plus bas, et qui convienne mieux au peuple, que de parler en des termes magnifiques de ceux mêmes dont l’on pensait très modestement avant leur élévation.\par
 \bigbreak
-\noindent \pn{6}\ed{1688}La faveur des princes n’exclut pas le mérite, et ne le suppose pas aussi.\par
+\pn{6}\ed{1688}La faveur des princes n’exclut pas le mérite, et ne le suppose pas aussi.\par
 \bigbreak
 \noindent \pn{7}\ed{1688}Il est étonnant qu’avec tout l’orgueil dont nous sommes gonflés, et la haute opinion que nous avons de nous-mêmes et de la bonté de notre jugement, nous négligions de nous en servir pour prononcer sur le mérite des autres. La vogue, la faveur populaire, celle du Prince, nous entraînent comme un torrent : nous louons ce qui est loué, bien plus que ce qui est louable.\par
 \bigbreak
@@ -2578,7 +2579,7 @@ Tous les étrangers ne sont pas barbares, et tous nos compatriotes ne sont pas c
 \bigbreak
 \noindent \pn{27}\ed{1689}Il ne faut pas juger des hommes comme d’un tableau ou d’une figure, sur une seule et première vue : il y a un intérieur et un cœur qu’il faut approfondir. Le voile de la modestie couvre le mérite, et le masque de l’hypocrisie cache la malignité. Il n’y a qu’un très petit nombre de connaisseurs qui discerne, et qui soit en droit de prononcer ; ce n’est que peu à peu, et forcés même par le temps et les occasions, que la vertu parfaite et le vice consommé viennent enfin à se déclarer.\par
 \bigbreak
-\noindent \pn{28}\ed{1694}Fragment\par
+\pn{28}\ed{1694}Fragment\par
 ...Il disait que l’esprit dans cette belle personne était un diamant bien mis en œuvre, et continuant de parler d’elle : « C'est, ajoutait-il, comme une nuance de raison et d’agrément qui occupe les yeux et le cœur de ceux qui lui parlent ; on ne sait si on l’aime ou si on l’admire ; il y a en elle de quoi faire une parfaite amie, il y a aussi de quoi vous mener plus loin que l’amitié. Trop jeune et trop fleurie pour ne pas plaire, mais trop modeste pour songer à plaire, elle ne tient compte aux hommes que de leur mérite, et ne croit avoir que des amis. Pleine de vivacités et capable de sentiments, elle surprend et elle intéresse ; et sans rien ignorer de ce qui peut entrer de plus délicat et de plus fin dans les conversations, elle a encore ces saillies heureuses qui entre autres plaisirs qu’elles font, dispensent toujours de la réplique. Elle vous parle comme celle qui n’est pas savante, qui doute et qui cherche à s’éclaircir ; et elle vous écoute comme celle qui sait beaucoup, qui connaît le prix de ce que vous lui dites, et auprès de qui vous ne perdez rien de ce qui vous échappe. Loin de s’appliquer à vous contredire avec esprit, et d’imiter Elvire, qui aime mieux passer pour une femme vive que marquer du bon sens et de la justesse, elle s’approprie vos sentiments, elle les croit siens, elle les étend, elle les embellit : vous êtes content de vous d’avoir pensé si bien, et d’avoir mieux dit encore que vous n’aviez cru. Elle est toujours au-dessus de la vanité, soit qu’elle parle, soit qu’elle écrive : elle oublie les traits où il faut des raisons ; elle a déjà compris que la simplicité est éloquente. S'il s’agit de servir quelqu’un et de vous jeter dans les mêmes intérêts, laissant à Elvire les jolis discours et les belles-lettres, qu’elle met à tous usages, Arthénice n’emploie auprès de vous que la sincérité, l’ardeur, l’empressement et la persuasion. Ce qui domine en elle, c’est le plaisir de la lecture, avec le goût des personnes de nom et de réputation, moins pour en être connue que pour les connaître. On peut la louer d’avance de toute la sagesse qu’elle aura un jour, et de tout le mérite qu’elle se prépare par les années, puisque avec une bonne conduite elle a de meilleures intentions, des principes sûrs, utiles à celles qui sont comme elle exposées aux soins et à la flatterie ; et qu’étant assez particulière sans pourtant être farouche, ayant même un peu de penchant pour la retraite, il ne lui saurait peut-être manquer que les occasions, ou ce qu’on appelle un grand théâtre, pour y faire briller toutes ses vertus. »\par
 \bigbreak
 \noindent \pn{29}. \ed{1690}Une belle femme est aimable dans son naturel ; elle ne perd rien à être négligée, et sans autre parure que celle qu’elle tire de sa beauté et de sa jeunesse. Une grâce naïve éclate sur son visage, anime ses moindres actions : il y aurait moins de péril à la voir avec tout l’attirail de l’ajustement et de la mode. De même un homme de bien est respectable par lui-même, et indépendamment de tous les dehors dont il voudrait s’aider pour rendre sa personne plus grave et sa vertu plus spécieuse. Un air réformé, une modestie outrée, la singularité de l’habit, une ample calotte n’ajoutent rien à la probité, ne relèvent pas le mérite ; ils le fardent, et font peut-être qu’il est moins pur et moins ingénu.\par
@@ -2613,9 +2614,9 @@ Tous les étrangers ne sont pas barbares, et tous nos compatriotes ne sont pas c
 \noindent \pn{43}\ed{1688}Rien ne nous venge mieux des mauvais jugements que les hommes font de notre esprit, de nos mœurs et de nos manières, que l’indignité et le mauvais caractère de ceux qu’ils approuvent.\par
 Du même fonds dont on néglige un homme de mérite, l’on sait encore admirer un sot.\par
 \bigbreak
-\noindent \pn{44}\ed{1688}Un sot est celui qui n’a pas même ce qu’il faut d’esprit pour être fat.\par
+\pn{44}\ed{1688}Un sot est celui qui n’a pas même ce qu’il faut d’esprit pour être fat.\par
 \bigbreak
-\noindent \pn{45}\ed{1688}Un fat est celui que les sots croient un homme de mérite.\par
+\pn{45}\ed{1688}Un fat est celui que les sots croient un homme de mérite.\par
 \bigbreak
 \noindent \pn{46}\ed{1689}L'impertinent est un fat outré. Le fat lasse, ennuie, dégoûte, rebute ; l’impertinent rebute, aigrit, irrite, offense : il commence où l’autre finit.\par
 Le fat est entre l’impertinent et le sot : il est composé de l’un et de l’autre.\par
@@ -2632,9 +2633,9 @@ Le fat est entre l’impertinent et le sot : il est composé de l’un et de l�
 \bigbreak
 \noindent \pn{50}\ed{1694}La même chose souvent est, dans la bouche d’un homme d’esprit, une naïveté ou un bon mot, et dans celle d’un sot, une sottise.\par
 \bigbreak
-\noindent \pn{51}\ed{1689}Si le fat pouvait craindre de mal parler, il sortirait de son caractère.\par
+\pn{51}\ed{1689}Si le fat pouvait craindre de mal parler, il sortirait de son caractère.\par
 \bigbreak
-\noindent \pn{52}\ed{1689}L'une des marques de la médiocrité de l’esprit est de toujours conter.\par
+\pn{52}\ed{1689}L'une des marques de la médiocrité de l’esprit est de toujours conter.\par
 \bigbreak
 \noindent \pn{53}\ed{1689}Le sot est embarrassé de sa personne ; le fat a l’air libre et assuré ; l’impertinent passe à l’effronterie : le mérite a de la pudeur.\par
 \bigbreak
@@ -2649,7 +2650,7 @@ L'honnête homme est celui qui ne vole pas sur les grands chemins, et qui ne tue
 On connaît assez qu’un homme de bien est honnête homme ; mais il est plaisant d’imaginer que tout honnête homme n’est pas homme de bien.\par
 L'homme de bien est celui qui n’est ni un saint ni un dévot, et qui s’est borné à n’avoir que de la vertu.\par
 \bigbreak
-\noindent \pn{56}\ed{1689}Talent, goût, esprit, bon sens, choses différentes, non incompatibles.\par
+\pn{56}\ed{1689}Talent, goût, esprit, bon sens, choses différentes, non incompatibles.\par
 \ed{1689}Entre le bon sens et le bon goût il y a la différence de la cause à son effet.\par
 \ed{1691}Entre esprit et talent il y a la proportion du tout à sa partie.\par
 \ed{1691}Appellerai-je homme d’esprit celui qui, borné et renfermé dans quelque art, ou même dans une certaine science qu’il exerce dans une grande perfection, ne montre hors de là ni jugement, ni mémoire, ni vivacité, ni mœurs, ni conduite ; qui ne m’entend pas, qui ne pense point, qui s’énonce mal ; un musicien par exemple, qui après m’avoir comme enchanté par ses accords, semble s’être remis avec son luth dans un même étui, ou n’être plus sans cet instrument qu’une machine démontée, à qui il manque quelque chose, et dont il n’est pas permis de rien attendre ?\par
@@ -2725,13 +2726,13 @@ Ceux-là font bien, ou font ce qu’ils doivent, qui font ce qu’ils doivent. C
 \bigbreak
 \noindent \pn{86}\ed{1689}Il n’y a que de l’avantage pour celui qui parle peu : la présomption est qu’il a de l’esprit ; et s’il est vrai qu’il n’en manque pas, la présomption est qu’il l’a excellent.\par
 \bigbreak
-\noindent \pn{87}\ed{1690}Ne songer qu’à soi et au présent, source d’erreur dans la politique.\par
+\pn{87}\ed{1690}Ne songer qu’à soi et au présent, source d’erreur dans la politique.\par
 \bigbreak
 \noindent \pn{88}\ed{1689}Le plus grand malheur, après celui d’être convaincu d’un crime, est souvent d’avoir eu à s’en justifier. Tels arrêts nous déchargent et nous renvoient absous, qui sont infirmés par la voix du peuple.\par
 \bigbreak
 \noindent \pn{89}\ed{1688}Un homme est fidèle à de certaines pratiques de religion, on le voit s’en acquitter avec exactitude : personne ne le loue ni ne le désapprouve ; on n’y pense pas. Tel autre y revient après les avoir négligées dix années entières : on se récrie, on l’exalte ; cela est libre : moi, je le blâme d’un si long oubli de ses devoirs, et je le trouve heureux d’y être rentré.\par
 \bigbreak
-\noindent \pn{90}\ed{1689}Le flatteur n’a pas assez bonne opinion de soi ni des autres.\par
+\pn{90}\ed{1689}Le flatteur n’a pas assez bonne opinion de soi ni des autres.\par
 \bigbreak
 \noindent \pn{91}\ed{1689}Tels sont oubliés dans la distribution des grâces, et font dire d’eux : Pourquoi les oublier ? qui, si l’on s’en était souvenu, auraient fait dire : Pourquoi s’en souvenir ? D'où vient cette contrariété ? Est-ce du caractère de ces personnes, ou de l’incertitude de nos jugements, ou même de tous les deux ?\par
 \bigbreak
@@ -2879,7 +2880,7 @@ Nos pères nous ont transmis, avec la connaissance de leurs personnes, celle de 
 \bigbreak
 \noindent \pn{28}\ed{1694}C'est une pratique ancienne dans les cours de donner des pensions et de distribuer des grâces à un musicien, à un maître de danse, à un farceur, à un joueur de flûte, à un flatteur, à un complaisant : ils ont un mérite fixe et des talents sûrs et connus qui amusent les grands et qui les délassent de leur grandeur ; on sait que Favier est beau danseur, et que Lorenzani fait de beaux motets. Qui sait au contraire si l’homme dévot a de la vertu ? Il n’y a rien pour lui sur la cassette ni à l’épargne, et avec raison : c’est un métier aisé à contrefaire, qui, s’il était récompensé, exposerait le Prince à mettre en honneur la dissimulation et la fourberie, et à payer pension à l’hypocrite.\par
 \bigbreak
-\noindent \pn{29}\ed{1688}L'on espère que la dévotion de la cour ne laissera pas d’inspirer la résidence.\par
+\pn{29}\ed{1688}L'on espère que la dévotion de la cour ne laissera pas d’inspirer la résidence.\par
 \bigbreak
 \noindent \pn{30}\ed{1689}Je ne doute point que la vraie dévotion ne soit la source du repos ; elle fait supporter la vie et rend la mort douce : on n’en tire pas tant de l’hypocrisie.\par
 \bigbreak
@@ -3135,7 +3136,7 @@ De cettuy preux.
 \bigbreak
 \noindent \pn{23}\ed{1692}Tel tout d’un coup, et sans y avoir pensé la veille, prend du papier, une plume, dit en soi-même : « Je vais faire un livre », sans autre talent pour écrire que le besoin qu’il a de cinquante pistoles. Je lui crie inutilement : « Prenez une scie, Dioscore, sciez, ou bien tournez, ou faites une jante de roue ; vous aurez votre salaire. » Il n’a point fait l’apprentissage de tous ces métiers. « Copiez donc, transcrivez, soyez au plus correcteur d’imprimerie, n’écrivez point. » Il veut écrire et faire imprimer ; et parce qu’on n’envoie pas à l’imprimeur un cahier blanc, il le barbouille de ce qui lui plaît : il écrirait volontiers que la Seine coule à Paris, qu’il y a sept jours dans la semaine, ou que le temps est à la pluie ; et comme ce discours n’est ni contre la religion ni contre l’État, et qu’il ne fera point d’autre désordre dans le public que de lui gâter le goût et l’accoutumer aux choses fades et insipides, il passe à l’examen, il est imprimé, et à la honte du siècle, comme pour l’humiliation des bons auteurs, réimprimé. De même un homme dit en son cœur : « Je prêcherai », et il prêche ; le voilà en chaire, sans autre talent ni vocation que le besoin d’un bénéfice.\par
 \bigbreak
-\noindent \pn{24}\ed{1688}Un clerc mondain ou irréligieux, s’il monte en chaire, est déclamateur.\par
+\pn{24}\ed{1688}Un clerc mondain ou irréligieux, s’il monte en chaire, est déclamateur.\par
 Il y a au contraire des hommes saints, et dont le seul caractère est efficace pour la persuasion : ils paraissent, et tout un peuple qui doit les écouter est déjà ému et comme persuadé par leur présence ; le discours qu’ils vont prononcer fera le reste.\par
 \bigbreak
 \noindent \pn{25}\ed{1689}L'. de Meaux et le P. Bourdaloue me rappellent Démosthène et Cicéron. Tous deux, maîtres dans l’éloquence de la chaire, ont eu le destin des grands modèles : l’un a fait de mauvais censeurs, l’autre de mauvais copistes.\par
@@ -3306,17 +3307,19 @@ Les extrémités sont vicieuses, et partent de l’homme : toute compensation e
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -3337,20 +3340,7 @@ Les extrémités sont vicieuses, et partent de l’homme : toute compensation e
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

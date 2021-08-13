@@ -163,7 +163,7 @@
 \date{1895}
 \author{Émile Durkheim}
 \def\elbibl{Émile Durkheim. 1895. \emph{Les règles de la méthode sociologique}}
-\def\elsource{Émile Durkheim, \emph{{\itshape Les Règles de la méthode sociologique}}, Paris, Alcan, 1895. \href{http://gallica.bnf.fr/ark:/12148/bpt6k1055050.r=durkheim+r%C3%A8gles+de+la+m%C3%A9thode.langFR}{\dotuline{Source Gallica}}\footnote{\href{http://gallica.bnf.fr/ark:/12148/bpt6k1055050.r=durkheim+r%C3%A8gles+de+la+m%C3%A9thode.langFR}{\url{http://gallica.bnf.fr/ark:/12148/bpt6k1055050.r=durkheim+r%C3%A8gles+de+la+m%C3%A9thode.langFR}}}.}
+\def\elsource{Émile Durkheim, \emph{{\itshape Les Règles de la méthode sociologique}}, Paris, Alcan, 1895. \href{http://gallica.bnf.fr/ark:/12148/bpt6k1055050.r=durkheim+r\%C3\%A8gles+de+la+m\%C3\%A9thode.langFR}{\dotuline{Source Gallica}}\footnote{\href{http://gallica.bnf.fr/ark:/12148/bpt6k1055050.r=durkheim+r\%C3\%A8gles+de+la+m\%C3\%A9thode.langFR}{\url{http://gallica.bnf.fr/ark:/12148/bpt6k1055050.r=durkheim+r\%C3\%A8gles+de+la+m\%C3\%A9thode.langFR}}}.}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -308,7 +308,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -333,6 +333,7 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -945,7 +946,7 @@ Au cours de ces comparaisons étendues, se commet souvent une erreur qui en faus
 
 
 \chaptercont
-\noindent En résumé, les caractères de cette méthode sont les suivants.\par
+En résumé, les caractères de cette méthode sont les suivants.\par
 D’abord, elle est indépendante de toute philosophie. Parce que la sociologie est née des grandes doctrines philosophiques, elle a gardé l’habitude de s’appuyer sur quelque système dont elle se trouve ainsi solidaire. C’est ainsi qu’elle a été successivement positiviste, évolutionniste, spiritualiste, alors qu’elle doit se contenter d’être la sociologie tout court. Même nous hésiterions à la qualifier de naturaliste à moins qu’on ne veuille seulement indiquer par là qu’elle considère les faits sociaux comme explicables naturellement, et, dans ce cas, l’épithète est assez inutile, puisqu’elle signifie simplement que le sociologue fait œuvre de science et n’est pas un mystique. Mais nous repoussons le mot, si on lui donne un sens doctrinal sur l’essence des choses sociales, si, par exemple, on entend dire qu’elles sont réductibles aux autres forces cosmiques. La sociologie n’a pas à prendre de parti entre les grandes hypothèses qui divisent les métaphysiciens. Elle n’a pas plus à affirmer la liberté que le déterminisme. Tout ce qu’elle demande qu’on lui accorde, c’est que le principe de causalité s’applique aux phénomènes sociaux. Encore ce principe est-il posé par elle, non comme une nécessité rationnelle, mais seulement comme un postulat empirique, produit d’une induction légitime. Puisque la loi de causalité a été vérifiée dans les autres règnes de la nature, que, progressivement, elle a étendu son empire du monde physico-chimique au monde biologique, de celui-ci au monde psychologique, on est en droit d’admettre qu’elle est également vraie du monde social ; et il est possible d’ajouter aujourd’hui que les recherches entreprises sur la base de ce postulat tendent à le confirmer. Mais la question de savoir si la nature du lien causal exclut toute contingence n’est pas tranchée pour cela.\par
 Au reste, la philosophie elle-même a tout intérêt à cette émancipation de la sociologie. Car, tant que le sociologue n’a pas suffisamment dépouillé le philosophe, il ne considère les choses sociales que par leur côté le plus général, celui par où elles ressemblent le plus aux autres choses de l’univers. Or, si la sociologie ainsi conçue peut servir à illustrer de faits curieux une philosophie, elle ne saurait l’enrichir de vues nouvelles, puisqu’elle ne signale rien de nouveau dans l’objet qu’elle étudie. Mais en réalité, si les faits fondamentaux des autres règnes se retrouvent dans le règne social, c’est sous des formes spéciales qui en font mieux comprendre la nature parce qu’elles en sont l’expression la plus haute. Seulement, pour les apercevoir sous cet aspect, il faut sortir des généralités et entrer dans le détail des faits. C’est ainsi que la sociologie, à mesure qu’elle se spécialisera, fournira des matériaux plus originaux à la réflexion philosophique. Déjà ce qui précède a pu faire entrevoir comment des notions essentielles, telles que celles d’espèce, d’organe, de fonction, de santé et de maladie, de cause et de fin s’y présentent sous des jours tout nouveaux. D’ailleurs, n’est-ce pas la sociologie qui est destinée à mettre dans tout son relief une idée qui pourrait bien être la base non pas seulement d’une psychologie, mais de toute une philosophie, l’idée d’association ?\par
 Vis-à-vis des doctrines pratiques, notre méthode permet et commande la même indépendance. La sociologie ainsi entendue ne sera ni individualiste, ni communiste, ni socialiste, au sens qu’on donne vulgairement à ces mots. Par principe, elle ignorera ces théories auxquelles elle ne saurait reconnaître de valeur scientifique, puisqu’elles tendent directement, non à exprimer les faits, mais à les réformer. Du moins, si elle s’y intéresse, c’est dans la mesure où elle y voit des faits sociaux qui peuvent l’aider à comprendre la réalité sociale en manifestant les besoins qui travaillent la société. Ce n’est pas, toutefois, qu’elle doive se désintéresser des questions pratiques. On a pu voir, au contraire, que notre préoccupation constante était de l’orienter de manière à ce qu’elle puisse aboutir pratiquement. Elle rencontre nécessairement ces problèmes au terme de ses recherches. Mais, par cela même qu’ils ne se présentent à elle qu’à ce moment, que, par suite, ils se dégagent des faits et non des passions, on peut prévoir qu’ils doivent se poser pour le sociologue dans de tout autres termes que pour la foule, et que les solutions, d’ailleurs partielles, qu’il y peut apporter ne sauraient coïncider exactement avec aucune de celles auxquelles s’arrêtent les partis. Mais le rôle de la sociologie à ce point de vue doit justement consister à nous affranchir de tous les partis, non pas tant en opposant une doctrine aux doctrines, qu’en faisant contracter aux esprits, en face de ces questions, une attitude spéciale que la science peut seule donner par le contact direct des choses. Seule, en effet, elle peut apprendre à traiter avec respect, mais sans fétichisme, les institutions historiques quelles qu’elles soient, en nous faisant sentir ce qu’elles ont, à la fois, de nécessaire et de provisoire, leur force de résistance et leur infinie variabilité.\par
@@ -975,17 +976,19 @@ Cet ensemble de règles paraîtra peut-être inutilement compliqué, si on le co
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -1009,17 +1012,4 @@ Cet ensemble de règles paraîtra peut-être inutilement compliqué, si on le co
   Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

@@ -163,7 +163,7 @@
 \date{1773}
 \author{Diderot, Denis}
 \def\elbibl{Diderot, Denis. 1773. \emph{Le neveu de Rameau}}
-\def\elsource{\href{https://fr.wikisource.org/wiki/Le_Neveu_de_Rameau_(nouvelle_%C3%A9dition_par_Charles_Asselineau)}{\dotuline{Wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Le_Neveu_de_Rameau_(nouvelle_%C3%A9dition_par_Charles_Asselineau)}{\url{https://fr.wikisource.org/wiki/Le_Neveu_de_Rameau_(nouvelle_%C3%A9dition_par_Charles_Asselineau)}}}}
+\def\elsource{\href{https://fr.wikisource.org/wiki/Le\_Neveu\_de\_Rameau\_(nouvelle\_\%C3\%A9dition\_par\_Charles\_Asselineau)}{\dotuline{Wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Le\_Neveu\_de\_Rameau\_(nouvelle\_\%C3\%A9dition\_par\_Charles\_Asselineau)}{\url{https://fr.wikisource.org/wiki/Le\_Neveu\_de\_Rameau\_(nouvelle\_\%C3\%A9dition\_par\_Charles\_Asselineau)}}}}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -308,7 +308,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -333,6 +333,7 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -587,7 +588,7 @@
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
   \bigskip
 }}
@@ -604,7 +605,7 @@
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
 }}
 
@@ -637,9 +638,14 @@
 \pagestyle{main} % after style
 
   \chapter[{Le neveu de Rameau}]{Le neveu de Rameau}
-\noindent Vertumnis, quotquot sunt, natus iniquis\par
+
+\begin{epigraph}
+Vertumnis, quotquot sunt, natus iniquis\par
 
 \bibl{(Horat., Lib. II, Satyr. VII)}
+
+\end{epigraph}
+
 \noindent Qu’il fasse beau, qu’il fasse laid, c’est mon habitude d’aller sur les cinq heures du soir me promener au Palais-Royal. C’est moi qu’on voit, toujours seul, rêvant sur le banc d’Argenson. Je m’entretiens avec moi-même de politique, d’amour, de goût ou de philosophie. J’abandonne mon esprit à tout son libertinage. Je le laisse maître de suivre la première idée sage ou folle qui se présente, comme on voit dans l’allée de Foy nos jeunes dissolus marcher sur les pas d’une courtisane à l’air éventé, au visage riant, à l’œil vif, au nez retroussé, quitter celle-ci pour une autre, les attaquant toutes et ne s’attachant à aucune. Mes pensées, ce sont mes catins. Si le temps est trop froid, ou trop pluvieux, je me réfugie au café de la Régence ; là je m’amuse à voir jouer aux échecs. Paris est l’endroit du monde, et le café de la Régence est l’endroit de Paris où l’on joue le mieux à ce jeu. C’est chez Rey que font assaut Legal le profond, Philidor le subtil, le solide Mayot, qu’on voit les coups les plus surprenants, et qu’on entend les plus mauvais propos ; car si l’on peut être homme d’esprit et grand joueur d’échecs, comme Legal ; on peut être aussi un grand joueur d’échecs, et un sot, comme Foubert et Mayot. Un après-dîner, j’étais là, regardant beaucoup, parlant peu, et écoutant le moins que je pouvais ; lorsque je fus abordé par un des plus bizarres personnages de ce pays où Dieu n’en a pas laissé manquer. C’est un composé de hauteur et de bassesse, de bon sens et de déraison. Il faut que les notions de l’honnête et du déshonnête soient bien étrangement brouillées dans sa tête ; car il montre ce que la nature lui a donné de bonnes qualités, sans ostentation, et ce qu’il en a reçu de mauvaises, sans pudeur. Au reste il est doué d’une organisation forte, d’une chaleur d’imagination singulière, et d’une vigueur de poumons peu commune. Si vous le rencontrez jamais et que son originalité ne vous arrête pas ; ou vous mettrez vos doigts dans vos oreilles, ou vous vous enfuirez. Dieux, quels terribles poumons. Rien ne dissemble plus de lui que lui-même. Quelquefois, il est maigre et hâve, comme un malade au dernier degré de la consomption ; on compterait ses dents à travers ses joues. On dirait qu’il a passé plusieurs jours sans manger, ou qu’il sort de la Trappe. Le mois suivant, il est gras et replet, comme s’il n’avait pas quitté la table d’un financier, ou qu’il eût été renfermé dans un couvent de Bernardins. Aujourd’hui, en linge sale, en culotte déchirée, couvert de lambeaux, presque sans souliers, il va la tête basse, il se dérobe, on serait tenté de l’appeler, pour lui donner l’aumône. Demain, poudré, chaussé, frisé, bien vêtu, il marche la tête haute, il se montre et vous le prendriez au peu près pour un honnête homme. Il vit au jour la journée. Triste ou gai, selon les circonstances. Son premier soin, le matin, quand il est levé, est de savoir où il dînera ; après dîner, il pense où il ira souper. La nuit amène aussi son inquiétude. Ou il regagne, à pied, un petit grenier qu’il habite, à moins que l’hôtesse ennuyée d’attendre son loyer, ne lui en ait redemandé la clef ; ou il se rabat dans une taverne du faubourg où il attend le jour, entre un morceau de pain et un pot de bière. Quand il n’a pas six sols dans sa poche, ce qui lui arrive quelquefois, il a recours soit à un fiacre de ses amis, soit au cocher d’un grand seigneur qui lui donne un lit sur de la paille, à côté de ses chevaux. Le matin, il a encore une partie de son matelas dans ses cheveux. Si la saison est douce, il arpente toute la nuit, le Cours ou les Champs-Élysées. Il reparaît avec le jour, à la ville, habillé de la veille pour le lendemain, et du lendemain quelquefois pour le reste de la semaine. Je n’estime pas ces originaux-là. D’autres en font leurs connaissances familières, même leurs amis. Ils m’arrêtent une fois l’an, quand je les rencontre, parce que leur caractère tranche avec celui des autres, et qu’ils rompent cette fastidieuse uniformité que notre éducation, nos conventions de société, nos bienséances d’usage ont introduite. S’il en paraît un dans une compagnie, c’est un grain de levain qui fermente et qui restitue à chacun une portion de son individualité naturelle. Il secoue, il agite ; il fait approuver ou blâmer ; il fait sortir la vérité ; il fait connaître les gens de bien ; il démasque les coquins ; c’est alors que l’homme de bon sens écoute, et démêle son monde.\par
 Je connaissais celui-ci de longue main. Il fréquentait dans une maison dont son talent lui avait ouvert la porte. Il y avait une fille unique. Il jurait au père et à la mère qu’il épouserait leur fille. Ceux-ci haussaient les épaules, lui riaient au nez, lui disaient qu’il était fou, et je vis le moment que la chose était faite. Il m’empruntait quelques écus que je lui donnais. Il s’était introduit, je ne sais comment, dans quelques maisons honnêtes, où il avait son couvert, mais à la condition qu’il ne parlerait pas, sans en avoir obtenu la permission. Il se taisait, et mangeait de rage. Il était excellent à voir dans cette contrainte. S’il lui prenait envie de manquer au traité, et qu’il ouvrît la bouche ; au premier mot, tous les convives s’écriaient, ô Rameau ! Alors la fureur étincelait dans ses yeux, et il se remettait à manger avec plus de rage. Vous étiez curieux de savoir le nom de l’homme, et vous le savez. C’est le neveu de ce musicien célèbre qui nous a délivrés du plain-chant de Lulli que nous psalmodiions depuis plus de cent ans ; qui a tant écrit de visions inintelligibles et de vérités apocalyptiques sur la théorie de la musique, où ni lui ni personne n’entendit jamais rien, et de qui nous avons un certain nombre d’opéras où il y a de l’harmonie, des bouts de chants, des idées décousues, du fracas, des vols, des triomphes, des lances, des gloires, des murmures, des victoires à perte d’haleine ; des airs de danse qui dureront éternellement, et qui, après avoir enterré le Florentin sera enterré par les virtuoses italiens, ce qu’il pressentait et le rendait sombre, triste, hargneux ; car personne n’a autant d’humeur, pas même une jolie femme qui se lève avec un bouton sur le nez, qu’un auteur menacé de survivre à sa réputation : témoins Marivaux et Crébillon le fils.\par
 Il m’aborde… Ah, ah, vous voilà, M. le philosophe ; et que faites-vous ici parmi ce tas de fainéants ? Est-ce que vous perdez aussi votre temps à pousser le bois ? C’est ainsi qu’on appelle par mépris jouer aux échecs ou aux dames.\par
@@ -1186,17 +1192,19 @@ Mais il est cinq heures et demie. J’entends la cloche qui sonne les vêpres de
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -1217,20 +1225,7 @@ Mais il est cinq heures et demie. J’entends la cloche qui sonne les vêpres de
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}
