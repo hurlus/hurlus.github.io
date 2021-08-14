@@ -98,7 +98,6 @@
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -145,6 +144,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -157,13 +157,19 @@
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Le rêve de Debs }}
 \date{1909}
 \author{London, Jack}
 \def\elbibl{London, Jack. 1909. \emph{Le rêve de Debs}}
-\def\elsource{\href{https://fr.wikisource.org/wiki/Le_Rêve_de_Debs}{\dotuline{Wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Le_Rêve_de_Debs}{\url{https://fr.wikisource.org/wiki/Le_Rêve_de_Debs}}}}
+\def\elsource{\href{https://fr.wikisource.org/wiki/Le\_Rêve\_de\_Debs}{\dotuline{Wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Le\_Rêve\_de\_Debs}{\url{https://fr.wikisource.org/wiki/Le\_Rêve\_de\_Debs}}}}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -186,11 +192,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -280,6 +281,8 @@
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -308,7 +311,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -333,6 +336,7 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -806,17 +810,19 @@ Il faut faire quelque chose.
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -840,17 +846,4 @@ Il faut faire quelque chose.
   Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

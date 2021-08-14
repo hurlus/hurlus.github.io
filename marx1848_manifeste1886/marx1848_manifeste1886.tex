@@ -98,7 +98,6 @@
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -145,6 +144,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -157,6 +157,12 @@
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Le manifeste du parti communiste }\\ \medskip
@@ -192,11 +198,11 @@ Avec notes et préfaces de Friedrich Engels}
 \noindent « En France, les communistes se rallient au parti démocrate-socialiste contre les bourgeoisies radicales [=PS] et conservatrices [=droite], tout en se réservant le droit de critiquer les phrases et les illusions léguées par la tradition révolutionnaire. » (\hyperref[par76]{\dotuline{76}})\end{quoteblock}
 
  \bigbreak
- \noindent  Le \emph{Manifeste} est ici donné dans la \href{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Lafargue}{\dotuline{première traduction en français de 1886, par Laura Marx-Lafargue}}\footnote{\href{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Lafargue}{\url{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Lafargue}}} (1845, 1911), fille de Karl Marx et mariée à Paul Lafargue (1880, \emph{Le Droit à la paresse}). Y ont été reportées les innovations de Andler (\href{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Andler}{\dotuline{traduction 1901}}\footnote{\href{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Andler}{\url{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Andler}}}) : une numéroration commode, les préfaces à d’autres éditions, ainsi que les notes de Engels. Quelques intertitres ont été insérés, pour aider à se reprérer dans un texte désormais historique, où chaque ligne compte, comme la loi, ou bien \emph{la Bible}. 
- 
-\clearpage
+ \noindent  Le \emph{Manifeste} est ici donné dans la \href{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Lafargue}{\dotuline{première traduction en français de 1886, par Laura Marx-Lafargue}}\footnote{\href{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Lafargue}{\url{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Lafargue}}} (1845–1911), fille de Karl Marx et mariée à Paul Lafargue (1880, \emph{Le Droit à la paresse}). Y ont été reportées les innovations de Andler (\href{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Andler}{\dotuline{traduction 1901}}\footnote{\href{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Andler}{\url{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Andler}}}) : une numéroration commode, les préfaces à d’autres éditions, ainsi que les notes de Engels. Quelques intertitres ont été insérés, pour aider à se repérer dans un texte désormais historique, où chaque ligne compte, comme la loi, ou bien \emph{la Bible}. 
+ \newpage
+
 }
-\def\elsource{ \href{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Lafargue}{\dotuline{Wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Lafargue}{\url{https://fr.wikisource.org/wiki/Manifeste_du_parti_communiste/Lafargue}}} }
+\def\elsource{ \href{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Lafargue}{\dotuline{Wikisource}}\footnote{\href{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Lafargue}{\url{https://fr.wikisource.org/wiki/Manifeste\_du\_parti\_communiste/Lafargue}}} }
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -219,11 +225,6 @@ Avec notes et préfaces de Friedrich Engels}
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -313,6 +314,8 @@ Avec notes et préfaces de Friedrich Engels}
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -341,7 +344,7 @@ Avec notes et préfaces de Friedrich Engels}
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -366,6 +369,7 @@ Avec notes et préfaces de Friedrich Engels}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -611,7 +615,7 @@ Avec notes et préfaces de Friedrich Engels}
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
+  \centering\parindent0pt % no vskip ()
   {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
   \smallskip
   {\large\eldate}\par
@@ -620,7 +624,7 @@ Avec notes et préfaces de Friedrich Engels}
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
   \bigskip
 }}
@@ -637,7 +641,7 @@ Avec notes et préfaces de Friedrich Engels}
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
 }}
 
@@ -1043,7 +1047,8 @@ Les Owenistes en Angleterre, les Fouriéristes en France réagissent, là contre
 \noindent \initialiv{D\kern-0.08em{’}}{après} ce que nous avons dit plus haut (voir Section II), la position des communistes vis-à-vis des partis ouvriers déjà constitués, s’explique d’elle-même, et, partant, leur position vis-à-vis des Chartistes en Angleterre et des réformateurs agraires dans l’Amérique du Nord.\par
 Ils combattent pour les intérêts et les buts immédiats de la classe ouvrière, mais dans le mouvement du présent, ils défendent et représentent en même temps l’avenir du mouvement.\par
 \bigbreak
-\noindent \pn{76}En France, les communistes se rallient au parti démocrate-socialiste contre les bourgeoisies radicales et conservatrices, tout en se réservant le droit de critiquer les phrases et les illusions léguées par la tradition révolutionnaire.\par
+\phantomsection
+\label{par76}\noindent \pn{76}En France, les communistes se rallient au parti démocrate-socialiste contre les bourgeoisies radicales et conservatrices, tout en se réservant le droit de critiquer les phrases et les illusions léguées par la tradition révolutionnaire.\par
 En Suisse ils appuient les radicaux, sans méconnaître que ce parti se compose d’éléments contradictoires, moitié de démocrates socialistes \footnote{ \noindent (Engels, 1888, ed. anglaise) Ce parti était alors représenté au Parlement par Ledru-Rollin, dans la littérature par Louis Blanc et dans la presse quotidienne par La Réforme. Ils désignaient par démocratique-socialiste, nom qu’ils inventèrent, la fraction du parti démocratique ou républicain, qui était plus ou moins nuancée de socialisme.\par
  (Engels, 1890, ed. allemande) Ce qu’on appelait alors en France le Parti démocrate-socialiste était représenté en politique par Ledru-Rollin et dans la littérature par Louis Blanc ; il était donc à cent lieues de la social-démocratie allemande d’aujourd’hui.
 }, dans l’acception française du mot, moitié de bourgeois radicaux.\par
@@ -1181,17 +1186,19 @@ Londres, 1er février 1893}
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -1212,20 +1219,7 @@ Londres, 1er février 1893}
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

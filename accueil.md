@@ -1,4 +1,4 @@
-# Hurlus, un catalogue bénévole
+# Hurlus, éditions de bonne volonté
 
 > Des bouquinistes électroniques, pour du texte libre à participations libres <a href="#" onmouseover="if(this.ok)return; this.href='mai'+'lt'+'o:lire'+'\u0040'+'hurlus.fr'; this.ok=true">🖂</a>
 
@@ -28,7 +28,11 @@ Chaque texte est diponible en plusieurs formats\
 <b title="PDF à lire, A5 une colonne" class="mime48 pdf">[pdf]</b> PDF, A5 1 colonne pour écran\
 <b title="PDF, brochure à agrafer, imposé pour imprimante recto/verso" class="mime48 brochure">[pdf]</b> PDF, brochure à agrafer pour imprimante recto/verso
 
+# Catalogue
+
 <!--catalog-->
+
+# Hurlus ? que’est-ce :
 
 <b>PS :</b> Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
 Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.

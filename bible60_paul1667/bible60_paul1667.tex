@@ -98,7 +98,6 @@
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -145,6 +144,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -157,13 +157,19 @@
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Lettres }\\ \medskip
+\title{\textbf{ Lettres de Paul apôtre (\emph{Th}, \emph{Ga}, \emph{Ph}, \emph{Phm}, \emph{Co}, \emph{Ro}) }\\ \medskip
 \textit{ traduction Sacy, 1667 }}
 \date{50–60}
 \author{Paul de Tarse}
-\def\elbibl{Paul de Tarse. 50–60. \emph{Lettres}}
+\def\elbibl{Paul de Tarse. 50–60. \emph{Lettres de Paul apôtre (\emph{Th}, \emph{Ga}, \emph{Ph}, \emph{Phm}, \emph{Co}, \emph{Ro})}}
 \def\elabstract{%
  
 \labelblock{Préface hurlue}
@@ -185,46 +191,39 @@
   Il y a un congrès (Jérusalem, 50), une scission (Antioche, 50), trois campagnes missionnaires (45\textasciitilde49, 50\textasciitilde52, 53\textasciitilde58), une arrestation (Jérusalem, \textasciitilde60), et un procès (Rome, \textasciitilde60). L’exactitude des péripéties importe moins que la manière dont elles sont vécues. Paul hésite souvent entre le cosmique et le trivial. \par
  
 \begin{quoteblock}
- \noindent Je connais un homme en Jésus-Christ \emph{[lui-même]}, qui fut ravi il y a quatorze ans (si ce fut avec son corps, ou sans son corps, je ne sais, Dieu le sait), qui fut ravi, dis-je, jusqu’au troisième ciel \emph{[…]} il y entendit des paroles ineffables, qu’il n’est pas permis à un homme de rapporter. Je pourrais me glorifier en parlant d’un tel homme ; mais pour moi, je ne veux me glorifier que dans mes faiblesses et dans mes afflictions.\par
+ \noindent Je connais un homme en Jésus-Christ \emph{[lui-même]}, qui fut ravi il y a quatorze ans (si ce fut avec son corps, ou sans son corps, je ne sais, Dieu le sait), qui fut ravi, dis-je, jusqu’au troisième ciel \emph{[…]} il y entendit des paroles ineffables, qu’il n’est pas permis à un homme de rapporter. Je pourrais me glorifier en parlant d’un tel homme ; mais pour moi, je ne veux me glorifier que dans mes faiblesses et dans mes afflictions. (2 Co 12.2-5)\par
  
-\bibl{(2 Co 12.2-5)}
+\bibl{}
  \end{quoteblock}
 
- \noindent Il se vexe quand on le prend pour un fou.\par
+ Il se vexe quand on le prend pour un fou.\par
  
 \begin{quoteblock}
- \noindent Je vous le dis encore une fois (que personne ne me juge fou ; ou au moins souffrez-moi comme fou, et permettez-moi de me glorifier un peu)\par
- 
-\bibl{(2 Co 11.16)}
+ \noindent Je vous le dis encore une fois : « que personne ne me juge fou ; ou au moins souffrez-moi comme fou, et permettez-moi de me glorifier un peu » (2 Co 11.16)
  \end{quoteblock}
 
- \noindent Il se vante.\par
+ Il se vante.\par
  
 \begin{quoteblock}
- \noindent J’ai été battu de verges par trois fois, j’ai été lapidé une fois, j’ai fait naufrage trois fois, j’ai passé un jour et une nuit au fond de la mer […]\par
- 
-\bibl{(2 Co 11.25)}
+ \noindent J’ai été battu de verges par trois fois, j’ai été lapidé une fois, j’ai fait naufrage trois fois, j’ai passé un jour et une nuit au fond de la mer […] (2 Co 11.25)
  \end{quoteblock}
 
- \noindent Et il se justifie régulièrement de ne pas coûter.\par
+ \noindent Et il insiste régulièrement pour se justifier de ne rien coûter, il ne prêche par intérêt matériel.\par
  
 \begin{quoteblock}
- \noindent Et lorsque je demeurais parmi vous, et que j’étais dans la nécessité, je n’ai été a charge à personne\par
- 
-\bibl{(2 Cor 11.9)}
+ \noindent Et lorsque je demeurais parmi vous, et que j’étais dans la nécessité, je n’ai été a charge à personne (2 Cor 11.9)
  \end{quoteblock}
 
  \noindent Il n’est pas exactement mythomane, une part de ce qu’il rapporte est corroboré, mais il a dû voir Dieu d’un peu trop près, son bon sens a mal supporté. Il soigne sa vanité en entraînant les autres dans ses délires, notamment la glossolalie — la prière en langues — oubliée des catholiques mais très pratiquée par les évangélistes.\par
  
 \begin{quoteblock}
- \noindent Si toute une Église étant assemblée en un lieu, tous parlent diverses langues, et que des infidèles, ou des hommes qui ne savent que leur propre langue, entrent dans cette assemblée, ne diront-ils pas que vous êtes des insensés ?\par
- 
-\bibl{(1 Co 14.23)}
+ \noindent Si toute une Église étant assemblée en un lieu, tous parlent diverses langues, et que des infidèles, ou des hommes qui ne savent que leur propre langue, entrent dans cette assemblée, ne diront-ils pas que vous êtes des insensés ? (1 Co 14.23)
  \end{quoteblock}
 
- \noindent  Ce texte concentre plusieurs paradoxes de la religion chrétienne, humiliation des grands sous Dieu et devant les humbles, ou consolation des humbles par une grandeur imaginaire, remise au jour où Dieu reviendra. Paul est un type à connaître, le moule n’est pas cassé, il en circule encore. 
- 
-\clearpage
+ \noindent  Il est étrange de lire dans ce texte comment les idées de peu de monde, et même les lubies d’un seul personnage, ont pu prendre corps et constituer une religion. La force de l’impulsion initiale de ce texte est toujours présente dans les sociétés qui s’en sont réclamées, même chez les incroyants. Le trait le plus marquant du complexe chrétien est sans doute politique. \par
+  Par la peur de la mort, la religion humilie les grands sous Dieu et devant les humbles ; et elle console des humbles par une grandeur imaginaire, remise au jour où Dieu reviendra. Nous ne craignons plus Dieu ou autres fictions, mais nous mourrons encore, et nos grands sont devenus fous, ils pensent trouver le secret de leur immortalité (il n’y en aura pas pour tout le monde). Ils refusent de s’incliner devant une divinité qui nous dépasse, et qui pourtant n’est pas infinie, notre pauvre planète qui souffre. 
+ \newpage
+
 }
 
 % Default metas
@@ -248,11 +247,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -342,6 +336,8 @@
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -370,7 +366,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -395,6 +391,7 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -649,7 +646,7 @@
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
   \bigskip
 }}
@@ -666,7 +663,7 @@
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
 }}
 
@@ -870,7 +867,7 @@
 
 
 \chaptercont
-\section[{Phil 1}]{Phil 1}
+\section[{Phm 1}]{Phm 1}
 \noindent \initialiv{P}{AUL}, prisonnier de Jésus-Christ ; et Timothée, son frère : à notre cher Philémon, notre coopérateur ;  \milestone{2}  à notre très-chère sœur Appie ; à Archippe, le compagnon de nos combats, et a l’Église qui est en votre maison.  \milestone{3}  Que Dieu, notre Père, et Jésus-Christ notre Seigneur, vous donnent la grâce et la paix !\par
   \milestone{4}  Me souvenant sans cesse de vous dans mes prières, je rends grâces à mon Dieu,  \milestone{5}  apprenant quelle est votre foi envers le Seigneur Jésus, et votre charité envers tous les saints ;  \milestone{6}  et de quelle sorte la libéralité qui naît de votre foi, éclate aux yeux de tout le monde, se faisant connaître par tant de bonnes œuvres qui se pratiquent dans votre maison pour l’amour de Jésus-Christ.  \milestone{7}  Car votre charité, mon cher frère, nous a comblés de joie et de consolation, voyant que les cœurs des saints ont reçu tant de soulagement de votre bonté.\par
   \milestone{8}  C’est pourquoi, encore que je puisse prendre en Jésus-Christ une entière liberté de vous ordonner une chose qui est de votre devoir ;  \milestone{9}  néanmoins l’amour que j’ai pour vous, fait que j’aime mieux vous supplier, quoique je sois tel que je suis à votre égard, c’est-à-dire, quoique je sois Paul, et déjà vieux, et de plus maintenant prisonnier de Jésus-Christ.  \milestone{10}  Or la prière que je vous fais est pour mon fils Onésime, que j’ai engendré dans mes liens ;  \milestone{11}  qui vous a été autrefois inutile, mais qui vous sera maintenant très - utile, aussi bien qu’à moi.  \milestone{12}  Je vous le renvoie, et je vous prie de le recevoir comme mes entrailles.  \milestone{13}  J’avais pensé de le retenir auprès de moi, afin qu’il me rendît quelque service en votre place, dans les chaînes que je porte pour l’Évangile ;  \milestone{14}  mais je n’ai rien voulu faire sans votre avis, désirant que le bien que je vous propose n’ait rien de forcé, mais soit entièrement volontaire.  \milestone{15}  Car peut-être qu’il n’a été séparé de vous pour un temps, qu’afin que vous le recouvriez pour jamais,  \milestone{16}  non plus comme un simple esclave, mais comme celui qui d’esclave est devenu l’un de nos frères bien-aimés, qui m’est très-cher à moi en particulier, et qui doit vous l’être encore beaucoup plus, étant à vous et selon le monde, et selon le Seigneur.\par
@@ -944,7 +941,7 @@
 \bigbreak
 \noindent   \milestone{23}  Tout m’est permis ; mais tout n’édifie pas.  \milestone{24}  Que personne ne cherche sa propre satisfaction, mais le bien des autres.  \milestone{25}  Mangez de tout ce qui se vend à la boucherie, sans vous enquérir d’où il vient, par un scrupule de conscience :  \milestone{26}  car la terre est au Seigneur, avec tout ce qu’elle contient.  \milestone{27}  Si un infidèle vous prie à manger chez lui, et que vous vouliez y aller, mangez de tout ce qu’on vous servira, sans vous enquérir d’où il vient, par un scrupule de conscience.  \milestone{28}  Si quelqu’un vous dit, Ceci a été immolé aux idoles ; n’en mangez pas à cause de celui qui vous a donné cet avis, et aussi de peur de blesser, je ne dis pas, votre conscience, mais celle d’un autre.  \milestone{29}  Car pourquoi m’exposerais-je à faire condamner, par la conscience d’un autre, cette liberté que j’ai de manger de tout ?  \milestone{30}  Si je prends avec action de grâces ce que je mange, pourquoi donnerai-je sujet à un autre de parler mal de moi, pour une chose dont je rends grâces à Dieu !  \milestone{31}  Soit donc que vous mangiez, ou que vous buviez, et quelque chose que vous fassiez, faites tout pour la gloire de Dieu.  \milestone{32}  Ne donnez pas occasion de scandale ni aux Juifs ni aux gentils, ni à l’Église de Dieu :  \milestone{33}  comme je tâche moi-même de plaire à tous en toutes choses, ne cherchant point ce qui m’est avantageux en particulier, mais ce qui est avantageux a plusieurs pour être sauvés.
 \section[{1 Cor 11}]{1 Cor 11}
-\noindent \initial{S}{OYEZ} mes imitateurs, comme je le suis moi-même de Jésus-Christ.\par
+\initial{S}{OYEZ} mes imitateurs, comme je le suis moi-même de Jésus-Christ.\par
 \bigbreak
 \noindent   \milestone{2}  Je vous loue, mes frères, de ce que vous vous souvenez de moi en toutes choses, et que vous gardez les traditions et les règles que je vous ai données.  \milestone{3}  Mais je désire que vous sachiez que Jésus-Christ est le chef et la tête de tout homme, que l’homme est le chef de la femme, et que Dieu est le chef de Jésus-Christ.  \milestone{4}  Tout homme qui prie, ou qui prophétise, ayant la tête couverte, déshonore sa tête.  \milestone{5}  Mais toute femme qui prie, ou qui prophétise, n’ayant point la tête couverte d’un voile, déshonore sa tête : car c’est comme si elle était rasée.  \milestone{6}  Si une femme ne se voile point la tête, elle devrait donc avoir aussi les cheveux coupés. Mais s’il est honteux à une femme d’avoir les cheveux coupés, ou d’être rasée, qu’elle se voile la tête.  \milestone{7}  Pour ce qui est de l’homme, il ne doit point se couvrir la tête, parce qu’il est l’image et la gloire de Dieu ; au lieu que la femme est la gloire de l’homme.  \milestone{8}  Car l’homme n’a point été tiré de la femme, mais la femme a été tirée de l’homme ;  \milestone{9}  et l’homme n’a point été créé pour la femme, mais la femme pour l’homme.  \milestone{10}  C’est pourquoi la femme doit porter sur sa tête, à cause des anges, la marque de la puissance que l’homme a sur elle.\par
   \milestone{11}  Toutefois ni l’homme n’est point sans la femme, ni la femme sans l’homme, en notre Seigneur.  \milestone{12}  Car comme la femme au commencement a été tirée de l’homme, aussi l’homme maintenant naît de la femme, et tout vient de Dieu.  \milestone{13}  Jugez vous-mêmes s’il est bienséant à une femme de prier Dieu sans avoir un voile sur la tête.  \milestone{14}  La nature même ne vous enseigne-t-elle pas, qu’il serait honteux à un homme de laisser toujours croître ses cheveux ;  \milestone{15}  et qu’il est au contraire honorable à une femme de les laisser toujours croître, parce qu’ils lui ont été donnés comme un voile qui doit la couvrir ?  \milestone{16}  Si après cela quelqu’un aime à contester, il nous suffit de répondre, que ce n’est point là notre coutume, ni celle de l’Église de Dieu.\par
@@ -1271,17 +1268,19 @@ je serai votre Père, et vous serez mes fils et mes filles, dit le Seigneur tout
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -1302,20 +1301,7 @@ je serai votre Père, et vous serez mes fils et mes filles, dit le Seigneur tout
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

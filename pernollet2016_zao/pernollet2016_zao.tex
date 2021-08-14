@@ -98,7 +98,6 @@
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -145,6 +144,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -157,6 +157,12 @@
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Zao }}
@@ -165,10 +171,13 @@
 \def\elbibl{Richard Pernollet. 2016. \emph{Zao}}
 \def\elabstract{%
  
+\labelblock{Avertissement de l’édition}
+
+ \noindent L’auteur étant bien vivant, ce texte est protégé par le droit d’auteur. Il a exprimé l’intention que l’“œuvre“ de son esprit (ce sont les termes de la loi, pas du tout les siens) soit librement communicable et partageable, mais sans profit commercial, en gardant le nom de l’auteur, et sans modification. Le choix de cette \href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}{\dotuline{license CC BY-NC-ND}}\footnote{\href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}{\url{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}}} n’est pas seulement l’effet d’opinions politiques, elle est aussi conséquente avec son esthétique. Son texte a été longtemps mûri, puis jeté tout d’un trait, il témoigne d’un moment, signé, daté, et localisé : \emph{Lille, octobre 2016}. Ce texte est un morceau de temps libre qui ne peut plus être modifié ; de son temps à lui et personne d’autre ; son temps, il ne le vend pas, il le partage.\par
+ 
 \labelblock{Chapeau de l’auteur}
 
- \noindent Encore une histoire de fin du monde, des enfants survivent dans un bois au milieu de cabanes. Ils se rendent compte soudain que leur maître Zao a disparu. Un des grands est désigné pour aller le chercher au lac, mais il se fait surprendre par la nuit. En fait, tout le monde le pressent, Zao avait annoncé qu’un jour il disparaîtrait.\par
- Nous continuons ici à explorer la technique de l’ellipse, du raccourci, poser quelques images, trouver le ton, faire tourner les voix des personnages, le scénario se fait dans les « blancs ». C’est un jeu. Certains diront que la poésie peut être un jeu, peut-être, ce que nous constatons tous c’est qu’elle permet souvent d’entrer dans des pensées ou des images terribles. Le court ici c’est mieux que le long, c’est comme une esquisse, un trait jeté si on veut dire geste du peintre sans vouloir paraître prétentieux. En tout cas, un jour ça sort et on a l’impression d’avoir résolu un problème de géométrie.
+ \noindent Encore une histoire de fin du monde, des enfants survivent dans un bois au milieu de cabanes. Ils se rendent compte soudain que leur maître Zao a disparu. Un des grands est désigné pour aller le chercher au lac, mais il se fait surprendre par la nuit. En fait, tout le monde le pressent, Zao avait annoncé qu’un jour il disparaîtrait.
  \vfill
 
 }
@@ -195,11 +204,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -289,6 +293,8 @@
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -588,7 +594,7 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
+  \centering\parindent0pt % no vskip ()
   {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
   \smallskip
   {\large\eldate}\par
@@ -711,7 +717,7 @@ Zao disait aussi qu’il nous voyait grandir et qu’un jour, il faudra nous y f
 Zao, quand il est là, rigole.\par
 Il en profite pour nous rappeler qu’il faut nous laver le zizi, les fesses, les pieds, les mains, le visage et tout le haut du corps le soir avant d’aller se coucher. Puis il s’en va. Il est comme ça Zao. Il n’est pas toujours là. Pas toujours avec nous. Peut-être les filles n’ont pas tort, il est réellement parti, Zao, et c’est peut-être aussi ce que je ne veux pas voir. C’est tout. Zao est vieux et s’il est parti, c’est fou.\par
 \bigbreak
-En fait on a tous pensé la même chose en même temps.\par
+\noindent En fait on a tous pensé la même chose en même temps.\par
 L’effet Zao, a dit Yasmine.\par
 Elle, elle est vraiment trop belle. Vraiment.\par
 Zao, je m’excuse, je m’endors, je suis dans l’herbe, je ne vois plus le lac, j’ai pas envie de chercher, je me suis mis à l’écart, je suis tes enseignements, Zao, sur la plage vous avez l’humidité qui remonte, c’est pas bon de coucher sur la plage, à quelques mètres au-dessus vous avez des herbes sèches, faites-en un lit et couchez-vous dessus. Vaut mieux mettre des fois une couverture par terre, ça isole. \emph{Mais dans les herbes, hé hé, il y a aussi les moustiques et c’est là où ça se complique.} Et PANG ! j’en tape un. La vache !\par
@@ -730,7 +736,7 @@ Ses grands yeux tout bleus, son visage tout maigre et sans dents.\par
 On te cherche partout, je dis, au camp, Zao.\par
 Pourquoi ça vous inquiète ? Je vous ai dit qu’un jour je partirai, je suis parti. Je voyage en ce moment sur mon point de non-retour.\par
 \bigbreak
-J’hésite un instant.\par
+\noindent J’hésite un instant.\par
 J’hésite à dire à Zao quand même tu déconnes et je dis quand même Zao tu déconnes ! Il me sourit.\par
 Ça a l’air de ne lui faire ni chaud ni froid.\par
 Il est enveloppé dans une couverture orange et sur son crâne tanné deux ou trois mèches de ses cheveux blancs flottent.\par
@@ -767,7 +773,7 @@ Et maintenant je sens que nous allons te perdre, Zao.\par
 Hé, OÙ ES-TU ZAO ?\par
 Je fais presque un demi-tour de lac, je retrouve la trace.\par
 \bigbreak
-Si c’est lui, il a marché dans l’eau.
+\noindent Si c’est lui, il a marché dans l’eau.
 \section[{— 9 –}]{— 9 –}\renewcommand{\leftmark}{— 9 –}
 
 \noindent Je ne suis pas arrivé à pied par la Chine comme disent vos parents, ils enjolivent les choses, je suis allé deux fois en Chine, et j’y suis allé en avion, c’est très loin. Par contre, c’est vrai, j’ai traversé beaucoup de frontières à pied. Je me moque des frontières. Des fois j’avais pas de visa. Je me démerdais. Si tu vas au devant des gens, en général tout s’arrange. Si vous allez au devant des gens, Brisbur, et toi aussi Nath, Émeline ou Yasmine, Jamel Karis ou Lol, les autres vous en sauront gré, ils vous accueilleront. On n’est pas obligé d’être partout en guerre, d’ailleurs la grande majorité des gens dans le monde ne la veulent pas, la guerre. J’ai beaucoup appris en regardant les autres faire. Au départ, c’est forcé, on ne parle pas la langue, mais au bout de quelques jours on sait trente mots et on commence à communiquer. Ce que je sais des plantes, des racines, comment survivre, je l’ai appris des autres, auprès de gens qu’on a souvent bombardés. Quand ton pays est en guerre depuis si longtemps et que toi-même tu es né dans la guerre, tu ne sais même pas si elle va cesser, boum boum, c’est toujours dans des terres lointaines. Et pourtant, vous ne me croirez pas, il y a dix ans je ne savais pas planter un haricot. Ou une tomate. Ou un poireau. C’est incroyable je me suis dit qu’un intello ne sache rien faire de ses dix doigts. J’ai eu des amis en route qui sont partis manuels et sont devenus des gros cerveaux. Voilà, ce que je vous ai appris c’est vivre, j’y suis finalement pour pas grand-chose, maintenant vous vivez. Vous n’avez plus besoin de moi.\par
@@ -783,17 +789,17 @@ Si c’est lui, il a marché dans l’eau.
 \noindent Je retrouve la trace, elle s’enfonce dans les roseaux, c’est un passage où sont passées plusieurs personnes, c’est peut-être nous, il y a plusieurs personnes qui sont passées par là, je suis, et je débouche sur le sentier. Il est à l’ombre, avec les arbres au-dessus qui font voûte. Ce qui fait qu’il est presque comme il était avant, comme il a été pendant longtemps, quand des chars à bœufs devaient passer par là, nous a dit Zao, pour tirer les arbres de la forêt. Il fait presque entièrement le tour du lac. Parfois on le perd quand il manque des arbres. Au milieu, on débouche sur la cascade, le déversoir du lac. J’entends de loin son jet à mesure que j’approche. J’y suis. La cascade tombe depuis un mur de ciment vertigineux. Parfois on voit des chèvres venir s’accrocher là-dessus pour venir brouter les pouces d’herbes.\par
 Et là-dessus il y a mon Zao pendu !\par
 \bigbreak
-MERDE Zao !\par
+\noindent MERDE Zao !\par
 Il s’est pendu !\par
 Il pend à une branche au-dessus de cet abîme avec la tête presque à l’équerre et sa couverture orange qui lui fait comme un poncho. Les oiseaux lui ont déjà piqué les yeux. Ses bras, ses joues, ses jambes portent la marque de coups de becs. Depuis quand il est là ? Je ne réfléchis pas, je monte, grimpe dans l’arbre, avise la branche, me glisse dessus, sous moi je vois le bouillonnement des eaux. J’essaye d’attraper la corde mais dès que je la touche celle-ci balance et d’un seul coup le corps lâche, il se détache et plonge, laissant la tête fixée au nœud (\emph{MERDE} !), et en bas le corps fait plouf en disparaissant dans les remous.
 \section[{— 12 –}]{— 12 –}\renewcommand{\leftmark}{— 12 –}
 
-J’AI RAMENÉ LA TÊTE À ZAO AU CAMP !\par
+\noindent J’AI RAMENÉ LA TÊTE À ZAO AU CAMP !\par
 \bigbreak
 \noindent Je suis parti avec elle sous le bras et j’ai ramené sa tête au camp. J’ai mis du temps à la détacher, je vous assure, c’était très serré et, n’osant trop la regarder car elle était toute marron, j’ai pensé à son corps. Le courant devait l’emporter. Et je me suis dit, si ça se trouve, avec la rivière, dans dix minutes il est au camp. Comment vont-ils l’exposer sans sa tête coupée ? Et dans mon for intérieur, je ruminais les enseignements de Zao, vous savez je préfère que ce soit les filles qui assurent la direction du camp, ça sera mieux, je vous promets, et en même temps je me disais : est-ce que je le leur dirai ?\par
 J’étais triste.\par
 \bigbreak
-JE RAMENAIS LA TÊTE DE ZAO AU CAMP !\par
+\noindent JE RAMENAIS LA TÊTE DE ZAO AU CAMP !\par
 
 \dateline{Lille, octobre 2016}
  
@@ -850,17 +856,4 @@ JE RAMENAIS LA TÊTE DE ZAO AU CAMP !\par
   Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}
