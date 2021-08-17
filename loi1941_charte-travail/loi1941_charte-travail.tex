@@ -67,7 +67,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{1pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -98,8 +98,8 @@
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
+\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -112,7 +112,7 @@
 \usepackage{lipsum} % generate text for testing
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -145,6 +145,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -157,9 +158,16 @@
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ État français, loi du 4 octobre 1941, dite Charte du Travail }}
+\title{\textbf{ État français, loi du 4 octobre 1941, dite Charte du Travail }\par
+}
 \date{1941}
 \author{Lois}
 \def\elbibl{Lois. 1941. \emph{État français, loi du 4 octobre 1941, dite Charte du Travail}}
@@ -186,11 +194,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -280,6 +283,8 @@
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -293,7 +298,8 @@
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
+
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
@@ -308,7 +314,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -333,6 +339,11 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
+ % epigraph pack
+\setlength{\epigraphrule}{0pt}
+\setlength{\epigraphwidth}{0.8\textwidth}
+% \renewcommand{\epigraphflush}{center} ? dont work
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -367,8 +378,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -491,7 +500,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{2pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -525,7 +534,7 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
+  [display]{}{}{}{}
   [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
@@ -578,34 +587,34 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
+  \centering\parindent0pt % no vskip ()
+  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
   \smallskip
-  {\large\eldate}\par
+  {\large\eldate\par}
   \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  {\Large\eltitle}
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
   \centering
-  {\LARGE\bfseries{\elauthor}}\par
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
   \bigskip
-  {\Large\eldate}\par
+  {\Large\eldate\par}
   \bigskip
   \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  {\LARGE \eltitle}
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -636,7 +645,9 @@
 
 \pagestyle{main} % after style
 
-  \section[{Rapport au maréchal de France, chef de l’État français}]{Rapport au maréchal de France, chef de l’État français}\renewcommand{\leftmark}{Rapport au maréchal de France, chef de l’État français}
+  
+\section[{Rapport au maréchal de France, chef de l’État français}]{Rapport au maréchal de France, chef de l’État français}
+\renewcommand{\leftmark}{Rapport au maréchal de France, chef de l’État français}
 
 \noindent L’élaboration d’une « Charte du travail », la détermination de rapports harmonieux et justes entre les patrons, les ouvriers, les techniciens, les artisans ont été, depuis quinze mois, l’une de vos plus constantes préoccupations.\par
 A tout instant – dans vos audiences, au sein des conseils de gouvernement, dans vos messages et dans vos discours – vous avez rappelé votre désir d’imprégner d’un esprit social et novateur les grandes règles de l’organisation française du travail.\par
@@ -674,11 +685,13 @@ Cet élément spirituel, c’est l’aspiration vers un ordre nouveau où seront
 
 \noindent La paix sociale est le but suprême. Les institutions du passé ne peuvent être maintenues que dans la mesure où elles expriment le génie libre et divers de la nation. L’avenir est encore riche, chez nous, d’idées, d’efforts, de sacrifices. C’est vers cet avenir que nous nous tournons résolument, sûrs de l’assentiment des patrons, des ouvriers, des techniciens, des artisans, désormais convaincus que l’intérêt personnel ne trouvera sa sauvegarde que dans l’intérêt collectif.\par
 C’est dans cet esprit que nous avons l’honneur de vous soumettre cette charte, que le pays attend, que le monde du travail a longuement souhaitée et qui, par son ampleur comme par sa nouveauté, prendra logiquement sa place dans la série des textes constitutionnels de la France nouvelle.
+
 \section[{Titre Ier. Principes généraux}]{Titre I\textsuperscript{er.} \\
-Principes généraux}\renewcommand{\leftmark}{Titre I\textsuperscript{er.} \\
+Principes généraux}
+\renewcommand{\leftmark}{Titre I\textsuperscript{er.} \\
 Principes généraux}
 
-\noindent Art. 1\textsuperscript{er} : Les activités professionnelles sont réparties entre un nombre déterminé de familles industrielles ou commerciales.\par
+\noindent \labelchar{Art. 1\textsuperscript{er}} : Les activités professionnelles sont réparties entre un nombre déterminé de familles industrielles ou commerciales.\par
 Ces familles, et les professions qui les composent, sont organisées dans les conditions générales fixées par la présente loi en vue de gérer en commun les intérêts professionnels de leurs membres de toute catégories et d’apporter leur concours à l’économie nationale, selon les directions des pouvoirs publics.\par
 \bigbreak
 \noindent \labelchar{Art. 2.} Dans le cadre de cette organisation, toutes les personnes participant à une activité professionnelle jouissent de droits et assument des devoirs, des obligations et des responsabilités.\par
@@ -695,8 +708,10 @@ La fonction patronale impose le devoir de gérer l’entreprise pour le bien com
 \noindent \labelchar{Art. 4.} L’organisation professionnelle est appelée à connaître de tous les aspects sociaux et économiques de l’activité professionnelle. Toutefois, en raison des circonstances et sauf exceptions prévues à l’article 39, les questions d’ordre économiques resteront, jusqu’à ce qu’il en soit autrement décidé, dans les attributions des comités provisoires d’organisation créés en application de la loi du 26 août 1940.\par
 \bigbreak
 \noindent \labelchar{Art. 5.} Le lock-out et la grève sont et restent interdits.
+
 \section[{Titre II. Classification des industries}]{Titre II. \\
-Classification des industries}\renewcommand{\leftmark}{Titre II. \\
+Classification des industries}
+\renewcommand{\leftmark}{Titre II. \\
 Classification des industries}
 
 
@@ -726,11 +741,15 @@ Les agents des services publics industriels autres que ceux visés par la loi pr
 \item la correspondance entre les familles professionnelles et les comités provisoires d’organisation institués en application de la loi du 16 août 1940.
 \end{itemize}
 
-\section[{Titre III.}]{Titre III.}\renewcommand{\leftmark}{Titre III.}
+
+\section[{Titre III.}]{Titre III.}
+\renewcommand{\leftmark}{Titre III.}
+
 
 \subsection[{Chapitre Ier. Les syndicats}]{Chapitre Ier. \\
 Les syndicats}
-\noindent \labelchar{Art. 9.} Les membres des professions sont groupés en syndicats professionnels.\par
+
+\labelchar{Art. 9.} Les membres des professions sont groupés en syndicats professionnels.\par
 Dans une même circonscription, pour une même profession, industrie ou famille professionnelle, et une même catégorie de membres, il sera formé un syndicat professionnel unique.\par
 Les conditions dans lesquelles seront formés les nouveaux syndicats uniques en partant des organismes existants seront fixées par décrets.\par
 \bigbreak
@@ -794,8 +813,10 @@ Le renouvellement des conseils et bureaux s’opèrent toujours par fraction.\pa
 Le conseil d’administration délibère à la majoritédes membres présents. Les votes ont lieu au scrutin secret.\par
 \bigbreak
 \noindent \labelchar{Art. 18.} Les dépenses de fonctionnement des organismes professionnels sont couvertes par une contribution du comité social correspondant et par une cotisation des membres participants.
+
 \subsection[{Chapitre II. Les unions et les fédérations}]{Chapitre II. \\
 Les unions et les fédérations}
+
 \noindent \labelchar{Art. 19.} Il est institué par profession ou groupe de professions, et par catégorie distincte, des unions et des fédérations professionnelles.\par
 Les unions rassemblent, sur le plan régional, des représentants des conseils des syndicats professionnels.\par
 Les fédérations rassemblent, sur le plan national, des représentants des unions régionales.\par
@@ -811,12 +832,16 @@ Les membres des unions et fédérations doivent répondre aux conditions fixées
 Pour les fédérations, ces documents sont approuvés par le secrétaire d’État au Travail, après avis du ou des secrétaires d’État dont relève la famille ou la profession intéressée.\par
 \bigbreak
 \noindent \labelchar{Art. 22.} Les dispositions prévues à l’article 18 pour les syndicats sont applicables aux unions et fédérations professionnelles.
+
 \section[{Titre IV. Les comités sociaux et les corporations}]{Titre IV. \\
-Les comités sociaux et les corporations}\renewcommand{\leftmark}{Titre IV. \\
 Les comités sociaux et les corporations}
+\renewcommand{\leftmark}{Titre IV. \\
+Les comités sociaux et les corporations}
+
 
 \subsection[{Chapitre Ier. Les comités sociaux d’entreprises}]{Chapitre I\textsuperscript{er}. \\
 Les comités sociaux d’entreprises}
+
 \noindent \labelchar{Art. 23.} La collaboration entre employeurs et salariés est obligatoirement organisée dans les établissements dont l’effectif est au moins égal à cent ouvriers ou employés, au sein de comités sociaux ou d’établissements » qui rassemblent le chef d’entreprise et des représentants de toutes les catégories du personnel.\par
 \bigbreak
 \noindent \labelchar{Art. 24.} Les comités sociaux d’établissements réalisent au premier degré la collaboration sociale et professionnelle entre la direction et le personnel.\par
@@ -835,8 +860,10 @@ Ils sont placés sous l’autorité corporative et le contrôle du comité socia
 \bigbreak
 \noindent \labelchar{Art. 26.} Les premiers comités sociaux d’établissements seront constitués par les représentants des différentes catégories de personnel de l’établissement en accord avec le chef de l’établissement.\par
 Le comité social local donne son agrément à la composition du comité social d’établissement ; il arbitre les litiges qui peuvent naître à l’occasion de sa constitution.
+
 \subsection[{Chapitre II. Les comités sociaux par famille professionnelle ou profession}]{Chapitre II. \\
 Les comités sociaux par famille professionnelle ou profession}
+
 \noindent \labelchar{Art. 27.} Il est créé dans chaque famille professionnelle ou profession et à chacun des échelons local, régional et national, un organisme corporatif à compétence sociale et professionnelle qui prend respectivement le titre de comité social local, régional et national.\par
 \bigbreak
 \noindent \labelchar{Art. 28.} Le comité social local comprend douze membres au moins et vingt-quatre au plus, pris dans les bureaux des syndicats professionnels existants, pour la famille ou la profession, dans la circonscription.\par
@@ -926,8 +953,10 @@ Il assure et contrôle l’orientation sociale des établissements dans lesquels
 \noindent \labelchar{Art. 37.} Les pouvoirs publics sont représentés, dans chaque comité social national, par un\par
 commissaire du Gouvernement désigné par arrêté du secrétaire d’État au Travail et après avis du secrétaire d’État dont relève la profession ou la famille professionnelle intéressée.\par
 D’autre part, les membres des bureaux des comités sociaux sont accrédités, pour assurer les relations officielles nécessaires à l’activité de leur organisme, auprès des représentants des pouvoirs publics dans leur circonscription.
+
 \subsection[{Chapitre III. Associations professionnelles mixtes et corporations}]{Chapitre III. \\
 Associations professionnelles mixtes et corporations}
+
 \noindent \labelchar{Art. 38.} Dans les professions qui ont déjà réalisé ou qui se proposent d’instituer des organisations professionnelles de caractère mixte, ces organisations seront maintenues ou créées sous réserve de l’agrément des pouvoirs publics. Leurs membres ne peuvent faire partie des syndicats professionnels ou groupement syndicaux.\par
 Après la publication de la présente loi, ne pourront être créés que les organismes résultant de l’accord de la moitié des membres de haquec catégorie de la profession ou d’une décision des syndicats intéressés.\par
 Les groupements mixtes sont assimilés aux comités ociaux et en tiennent lieu dans les entreprises où ils réunissent la moitié des effectifs.\par
@@ -951,8 +980,10 @@ Il pourra être organisé dans les mêmes conditions des unions de corporations 
 \end{itemize}
 
 \noindent Les conditions de fonctionnement de la commission seront fixées par arrêté du vice-président du Conseil.
+
 \subsection[{Chapitre IV. L’organisation interprofessionnelle}]{Chapitre IV. \\
 L’organisation interprofessionnelle}
+
 \noindent \labelchar{Art. 41.} Les questions interprofessionnelles sont exclusivement traitées par les bureaux des comités sociaux de famille professionnelle existant à un même échelon, soit au cours des réunions occasionnelles de la totalité ou d’une partie de ces bureaux, soit d’une manière régulière par la réunion de ces bureaux constitués en comité social interprofessionnel.\par
 Il est formé un comité social interprofessionnel dans chaque région, réunissant les bureaux des comités sociaux régionaux ; il siège au chef-lieu de la région, soit dans la maison commune de l’une des familles professionnelles, soit dans la maison des corporations.\par
 Les comités sociaux interprofessionnels locaux seront créés progressivement par arrêtés du secrétaire d’État au Travail, pris sur proposition des comités interprofessionnels régionaux, après avis du ou des secrétaires d’État dont relève la famille ou la profession intéressée.\par
@@ -962,8 +993,10 @@ Les comités sociaux interprofessionnels locaux seront créés progressivement p
 \noindent \labelchar{Art. 43.} Les comités sociaux interprofessionnels réalisent la liaison entre les comités de famille professionnelle et sont compétents dans la limite générale des attributions des comités sociaux, pour les questions communes aux différentes familles.\par
 Ils peuvent être consultés par les pouvoirs publics sur les questions générales, professionnelles ou sociales et notamment la détermination du coût de la vie et les problèmes d’utilisation de la main d’œuvre.\par
 Des attributions particulières pourront être confiées à certains comités sociaux interprofessionnels, par arrêtés du secrétaire d’État au Travail pris après avis des secrétaires d’État intéressés.
+
 \subsection[{Chapitre V. Dispositions communes aux organismes à caractères corporatifs}]{Chapitre V. \\
 Dispositions communes aux organismes à caractères corporatifs}
+
 \noindent \labelchar{Art. 44.} Dans chaque famille professionnelle ou profession, les dépenses nécessitées par le fonctionnement administratif des différents organismes sont couvertes par une contribution professionnelle imposée aux membres de toutes catégories.\par
 Les ressources ainsi obtenues sont réparties entre les comités sociaux de chaque échelon, à charge par ces comités de reverser aux organismes qui leur sont rattachés les fonds ou compléments de fonds nécessaires à leur fonctionnement.\par
 La répartition d’ensemble des recettes et des dépenses corporatives, qui permet de fixer le montant des contributions et de partager les ressources entre les différents organismes, est assurée par le comité social national qui soumet son budget général annuel à l’approbation du secrétaire d’État au travail.\par
@@ -1003,8 +1036,10 @@ L’acquisition d’une maison commune par un comité social, que ce soit à tit
 Sa gestion est assurée par une commission tripartite particulière, composée de membres pris parmi les plus anciens dans le comité social ou les comités sociaux intéressés.\par
 \bigbreak
 \noindent \labelchar{Art. 53.} Différentes familles professionnelles peuvent utiliser, pour installer leur maison commune, des locaux situés dans un même immeuble. Les comités sociaux interprofessionnels peuvent utiliser une maison commune particulière, qui devient la maison des corporations.
+
 \subsection[{Chapitre VI. Les attributions corporatives générales}]{Chapitre VI. \\
 Les attributions corporatives générales}
+
 
 \labelblock{Les salaires}
 
@@ -1032,8 +1067,10 @@ L’État participera éventuellement aux charges ci-dessus visées en vue d’a
 
 \noindent \labelchar{Art. 59.} Les questions de formation profession professionnelle : apprentissage, perfectionnement, reclassement et promotion ouvrière sont essentiellement d’ordre corporatif.\par
 Une loi fixera le rôle respectif des organismes professionnels et des pouvoirs publics dans cette matière, ainsi que les conditions dans lesquelles sera assurée la coordination entre ces organismes et les secrétariats d’État compétents.
+
 \section[{Titre V. La juridiction du travail}]{Titre V. \\
-La juridiction du travail}\renewcommand{\leftmark}{Titre V. \\
+La juridiction du travail}
+\renewcommand{\leftmark}{Titre V. \\
 La juridiction du travail}
 
 
@@ -1068,10 +1105,14 @@ Le tribunal national du travail est composé de trois magistrats, dont l’un ex
 Des fonctionnaires du corps de l’inspection du travail, désignés par le secrétaire d’État au Travail, exerceront les fonctions de commissaire du Gouvernement auprès du tribunal national et des tribunaux régionaux.\par
 \bigbreak
 \noindent \labelchar{Art. 64.} Un règlement d’administration publique, établi par le secrétaire d’État au travail et par le garde des Sceaux, ministre secrétaire d’État à la justice, déterminera les conditions d’application des diverses dispositions du présent titre.
-\section[{Titre VI}]{Titre VI}\renewcommand{\leftmark}{Titre VI}
+
+\section[{Titre VI}]{Titre VI}
+\renewcommand{\leftmark}{Titre VI}
+
 
 \subsection[{Chapitre Ier. Dispositions communes}]{Chapitre I\textsuperscript{er}. \\
 Dispositions communes}
+
 \noindent \labelchar{Art. 65.} Dans l’intérêt de la profession, les membres des organismes professionnels institués par la présente loi, appartenant à une catégorie de salariés, bénéficient de toutes les facilités nécessaires à l’exercice de leur mandat.\par
 Des garanties de stabilité d’emploi sont prévues en leur faveur dans les règlements et statuts particuliers des professions.\par
 \bigbreak
@@ -1092,8 +1133,10 @@ Les sanctions corporatives comportent :\par
 
 \noindent Elles sont prononcées par le bureau de l’organisme compétent, dans les limites fixées par les barèmes établis par les comités nationaux.\par
 Les poursuites devant les tribunaux du travail sont intentées à la demande des organismes professionnels compétents.
+
 \subsection[{Chapitre II. Dispositions transitoires}]{Chapitre II. \\
 Dispositions transitoires}
+
 \noindent \labelchar{Art. 69.} L’application de la présente loi sera entreprise dès l’achèvement des travaux des commissions prévus à l’article 77 et sera poursuivie progressivement, au fur et à mesure de la publication des textes législatifs et réglementaires complémentaires.\par
 Dans le cadre général des lois, décrets et règlements relatifs à l’organisation professionnelle, les familles professionnelles, professions ou groupes de professions, établiront les règlements particuliers qui définiront leur propre organisation.\par
 \bigbreak
@@ -1135,9 +1178,11 @@ Cette liaison sera assurée, d’une part par des délégués des comités d’o
 \noindent \labelchar{Art. 79.} Les conditions dans lesquelles la présente loi ou certaines de ses dispositions pourront éventuellement être rendues applicables à l’Algérie, aux colonies ou aux territoires placés sous mandat français seront fixées par décrets.\par
 \bigbreak
 \noindent \labelchar{Art. 80.} Sont abrogées toutes dispositions contraires au présent décret, qui sera publié au \emph{Journal officiel} et exécuté comme loi de l’État.
-\section[{Signatures}]{Signatures}\renewcommand{\leftmark}{Signatures}
 
-\noindent \emph{Fait à Vichy, le 4 octobre 1941}\par
+\section[{Signatures}]{Signatures}
+\renewcommand{\leftmark}{Signatures}
+
+\emph{Fait à Vichy, le 4 octobre 1941}\par
 Par le Maréchal de France,\par
 Chef de l’État français :\par
 PHILIPPE PETAIN\par
@@ -1179,17 +1224,19 @@ Le secrétaire d’État à la vice-présidence du Conseil : BENOIST-MECHIN
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -1210,20 +1257,7 @@ Le secrétaire d’État à la vice-présidence du Conseil : BENOIST-MECHIN
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}
