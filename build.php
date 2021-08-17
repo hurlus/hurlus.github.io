@@ -14,11 +14,12 @@ class HurlusBuild
 {
 
   static $publicfiles;
-  static $privatefiles;
+  static $privatefiles = array();
   public static function init()
   {
     self::$publicfiles = glob(dirname(dirname(__FILE__))."/hurlus-tei/*.xml");
-    self::$privatefiles = glob(dirname(dirname(__FILE__))."/hurlus-private/*.xml");
+    // TODO, send private else where
+    // self::$privatefiles = glob(dirname(dirname(__FILE__))."/hurlus-private/*.xml");
     // self::$srclist = array_merge([], ...array_values($arrays)); // remember
   }
 
