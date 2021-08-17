@@ -112,7 +112,7 @@
 \usepackage{lipsum} % generate text for testing
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -166,7 +166,8 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ La religion du capital }}
+\title{\textbf{ La religion du capital }\par
+}
 \date{1887}
 \author{Paul Lafargue}
 \def\elbibl{Paul Lafargue. 1887. \emph{La religion du capital}}
@@ -377,8 +378,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -535,7 +534,7 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
+  [display]{}{}{}{}
   [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
@@ -589,33 +588,33 @@
 \newcommand\chapo{{%
   \vspace*{-3em}
   \centering\parindent0pt % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
+  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
   \smallskip
-  {\large\eldate}\par
+  {\large\eldate\par}
   \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  {\Large\eltitle}
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
   \centering
-  {\LARGE\bfseries{\elauthor}}\par
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
   \bigskip
-  {\Large\eldate}\par
+  {\Large\eldate\par}
   \bigskip
   \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  {\LARGE \eltitle}
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -648,7 +647,9 @@
 
   
 \chapteropen
-\chapter[{I. Le congrès de Londres}]{I. Le congrès de Londres}\renewcommand{\leftmark}{I. Le congrès de Londres}
+
+\chapter[{I. Le congrès de Londres}]{I. Le congrès de Londres}
+\renewcommand{\leftmark}{I. Le congrès de Londres}
 
 
 \chaptercont
@@ -684,7 +685,9 @@ Le Congrès de Londres, qui marquera dans l’histoire autant que les grands con
 
 
 \chapteropen
-\chapter[{II. Le catéchisme des travailleurs}]{II. Le catéchisme des travailleurs}\renewcommand{\leftmark}{II. Le catéchisme des travailleurs}
+
+\chapter[{II. Le catéchisme des travailleurs}]{II. Le catéchisme des travailleurs}
+\renewcommand{\leftmark}{II. Le catéchisme des travailleurs}
 
 
 \chaptercont
@@ -761,7 +764,9 @@ R. — Oui, une bien grande. Après la mort, le Capital me laissera m’asseoi
 
 
 \chapteropen
-\chapter[{III. Le sermon de la courtisane}]{III. Le sermon de la courtisane}\renewcommand{\leftmark}{III. Le sermon de la courtisane}
+
+\chapter[{III. Le sermon de la courtisane}]{III. Le sermon de la courtisane}
+\renewcommand{\leftmark}{III. Le sermon de la courtisane}
 
 
 \chaptercont
@@ -824,7 +829,9 @@ C'est la grâce que je vous souhaite Amen !
 
 
 \chapteropen
-\chapter[{IV. L'Ecclésiaste ou le livre du capitaliste}]{IV. L'Ecclésiaste ou le livre du capitaliste}\renewcommand{\leftmark}{IV. L'Ecclésiaste ou le livre du capitaliste}
+
+\chapter[{IV. L'Ecclésiaste ou le livre du capitaliste}]{IV. L'Ecclésiaste ou le livre du capitaliste}
+\renewcommand{\leftmark}{IV. L'Ecclésiaste ou le livre du capitaliste}
 
 
 \chaptercont
@@ -841,7 +848,9 @@ C'est la grâce que je vous souhaite Amen !
 
 
 \signed{Signé : Jay Gould}
+
 \section[{A. — Nature du Dieu-Capital.}]{A. — Nature du Dieu-Capital.}
+
 1. — Médite les paroles du Capital, ton Dieu.\par
 2. — Je suis le Dieu mangeur d’hommes ; je m’attable dans les ateliers et je consomme les salariés. Je transsubstantie en capital divin la vie chétive du travailleur. Je suis l’infini mystère : ma substance éternelle n’est que périssable chair ; ma toute-puissance que faiblesse humaine. La force inerte du Capital est la force du salarié.\par
 3. — Principe des principes : par moi débute toute production, à moi aboutit tout échange.\par
@@ -859,7 +868,9 @@ C'est la grâce que je vous souhaite Amen !
 15. — Sans la grâce du Capital, la science égare l’homme dans les sentiers de la folie ; le travail et la vertu le précipitent dans l’abîme de la misère.\par
 16. — Ni la science, ni la vertu, ni le travail ne satisfont l’esprit de l’homme ; c’est moi, le Capital, qui nourris la meute affamée de ses appétits et de ses passions.\par
 17. — Je me donne et je me reprends selon mon bon plaisir et je ne rends pas de compte. Je suis l’Omnipotent qui commande aux choses qui vivent et aux choses qui sont mortes.
+
 \section[{B. — Élu du Capital}]{B. — Élu du Capital}
+
 1. — L'homme, cet infecte amas de matière, vient au monde nu comme un ver, et, enfermé dans une boîte, comme un pantin, il va pourrir sous terre et sa pourriture engraisse l’herbe des champs.\par
 2. — Et pourtant, c’est ce sac d’ordures et de puanteur que je choisis pour me représenter, moi le Capital, moi la chose la plus sublime qui existe sous le soleil.\par
 3. — Les huîtres et les escargots ont une valeur par les qualités de leur nature brute ; le capitaliste ne compte que parce que je le choisis pour mon élu ; il ne vaut que par le Capital qu’il représente.\par
@@ -876,7 +887,9 @@ C'est la grâce que je vous souhaite Amen !
 14. — Le capitaliste prend sur terre ce qui lui plaît ; il est le maître. S'il est blasé des femmes, il réveillera ses sens avec des vierges-enfants.\par
 15. — Le capitaliste est la loi. Les législateurs rédigent les Codes selon sa convenance, et les philosophes accommodent la morale selon ses mœurs. Ses actions sont justes et bonnes. Tout acte qui lèse ses intérêts est crime et sera puni.\par
 16. — Je garde pour les élus un bonheur unique, ignoré des salariés. — Faire des profits est la joie suprême. — Si l’élu qui encaisse des bénéfices perd sa femme, sa mère, ses enfants, son chien et son honneur, il se résigne. Ne plus réaliser des profits est le malheur irréparable, dont jamais le capitaliste ne se console.
+
 \section[{C. — Devoirs du capitaliste.}]{C. — Devoirs du capitaliste.}
+
 1. — Beaucoup sont appelés, et peu sont élus ; tous les jours, je réduis le nombre de mes élus.\par
 2. — Je me donne aux capitalistes et je me partage entre eux ; chaque élu reçoit en dépôt une parcelle du Capital unique ; et il n’en conserve la jouissance que s’il l’accroît, que s’il lui fait faire des petits. Le Capital se retire des mains de celui qui ne remplit pas sa loi.\par
 3. — J'ai choisi le capitaliste pour extraire de la plus-value ; accumuler les profits est sa mission.\par
@@ -913,7 +926,9 @@ C'est la grâce que je vous souhaite Amen !
 34. — L'oppression du capitaliste suit le salarié comme son ombre jusque dans son taudis, car il ne doit pas se corrompre l’esprit par des lectures et des discours socialistes, ni se fatiguer le corps par des amusements. Il doit rentrer chez lui en sortant de l’atelier, manger et se coucher, afin d’apporter le lendemain à son maître un corps frais et dispos et un esprit résigné.\par
 35. — Le capitaliste ne reconnaît au salarié aucun droit, pas même le droit à l’esclavage, qui est le droit au travail.\par
 36. — Il dépouille le salarié de son intelligence et de son habileté de main et les transporte aux machines qui ne se révoltent pas.
+
 \section[{D. — Maximes de la sagesse divine}]{D. — Maximes de la sagesse divine}
+
 1. — Le matelot est assailli par la tempête ; le mineur vit entre le grisou et les éboulements, l’ouvrier se meut au milieu des roues et des courroies de la machine de\par
 fer ; la mutilation et la mort se dressent devant le salarié qui travaille : le capitaliste qui ne travaille pas est à l’abri de tout danger.\par
 2. — Le travail éreinte, tue et n’enrichit pas : on amasse de la fortune, non pas en travaillant, mais en faisant travailler les autres.\par
@@ -953,7 +968,9 @@ fer ; la mutilation et la mort se dressent devant le salarié qui travaille : 
 36. — Tant qu’il demeure parmi les hommes qu’éclaire et que réchauffe le soleil, le capitaliste doit jouir, car on ne vit pas deux fois la même heure et on n’échappe pas à la méchante et à la vilaine vieillesse qui saisit l’homme par la tête et le pousse dans le tombeau.\par
 37. — Au sépulcre où tu vas, tes vertus ne t’accompagneront pas ; tu ne trouveras que des vers.\par
 38. — Hors un ventre plein et digérant gaillardement et des sens robustes et satisfaits, il n’y a que vanité et rongement d’esprit.
+
 \section[{E. — Ultima Verba.}]{E. — Ultima Verba.}
+
 1. — Je suis le Capital, le roi du monde.\par
 2. — Je marche escorté du mensonge, de l’envie, de l’avarice, de la chicane et du meurtre. J'apporte la division dans la famille et la guerre dans la cité. Je sème, partout où je passe, la haine, le désespoir, la misère et les maladies.\par
 3. — Je suis le Dieu implacable. Je me plais au milieu des discordes et des souffrances. Je torture les salariés et je n’épargne pas les capitalistes mes élus.\par
@@ -964,10 +981,7 @@ fer ; la mutilation et la mort se dressent devant le salarié qui travaille : 
 8. — Les capitalistes sont mes instruments. Je me sers d’eux comme d’un fouet aux mille lanières pour flageller le stupide troupeau des salariés. J'élève mes élus au premier rang de la société et je les méprise.\par
 9. — Je suis le Dieu qui conduit les hommes et confond leur raison.\par
 10. — Le poète des temps antiques a prédit l’ère du Capitalisme ; il a dit : « Maintenant les maux sont mêlés de bien ; mais un jour, il n’y aura plus ni liens de famille, ni justice, ni vertu. Aïdos et Némésis remonteront au ciel et le mal sera sans remède » \footnote{Cette prédiction des temps capitalistes, plus véridique que celle des prophètes annonçant la venue de jésus, se trouve dans les Travaux \emph{et les Jours} d’Hésiode.}. Les temps annoncés sont arrivés : ainsi que les monstres voraces des mers et les bêtes féroces des bois, les hommes s’entre-dévorent sauvagement.\par
-11. — Je ris de la sagesse humaine.\par
-« Travaille, et la disette te fuira ; travaille, et tes greniers s’empliront de provisions », disait la sagesse antique.\par
-J'ai dit :\par
-« Travaille, et la gêne et la misère seront tes fidèles compagnes ; travaille, et tu videras ta maison au Mont-de-piété. »\par
+11. — Je ris de la sagesse humaine. \emph{« Travaille, et la disette te fuira ; travaille, et tes greniers s’empliront de provisions »}, disait la sagesse antique. J'ai dit : \emph{« Travaille, et la gêne et la misère seront tes fidèles compagnes ; travaille, et tu videras ta maison au Mont-de-piété. »}\par
 12. — Je suis le Dieu qui bouleverse les Empires : je courbe sous mon joug égalitaire les superbes ; je broie l’insolente et égoïste individualité humaine ; je façonne l’imbécile humanité pour l’égalité. J'accouple et j’attelle les salariés et les capitalistes à l’élaboration du moule communiste de la future société.\par
 13. — Les hommes ont chassé des cieux Brahma, Jupiter, Jéhovah, jésus, Allah, je me suicide.\par
 14. — Lorsque le Communisme sera la loi de la société, le règne du Capital, le Dieu qui incarne les générations du passé et du présent, sera fini. Le Capital ne dominera plus le monde : il obéira au travailleur, qu’il hait. L'homme ne s’agenouillera plus devant l’œuvre de ses mains et de son cerveau ; il se redressera sur ses pieds et debout il regardera la nature, en maître.\par
@@ -976,11 +990,15 @@ J'ai dit :\par
 
 
 \chapteropen
-\chapter[{V. Prières capitalistes}]{V. Prières capitalistes}\renewcommand{\leftmark}{V. Prières capitalistes}
+
+\chapter[{V. Prières capitalistes}]{V. Prières capitalistes}
+\renewcommand{\leftmark}{V. Prières capitalistes}
 
 
 \chaptercont
+
 \section[{A. — Oraison dominicale.}]{A. — Oraison dominicale.}
+
 \noindent Capital, notre père, qui êtes de ce monde, Dieu tout-puissant, qui changez le cours des fleuves et percez les montagnes, qui séparez les continents et unissez les nations ; créateur des marchandises et source de vie, qui commandez aux rois et aux sujets, aux patrons et aux salariés, que votre règne s’établisse sur toute la terre.\par
 Donnez-nous beaucoup d’acheteurs prenant nos marchandises, les mauvaises et aussi les bonnes ;\par
 Donnez-nous des travailleurs misérables acceptant sans révolte tous les travaux et se contentant du plus vil salaire ;\par
@@ -993,7 +1011,9 @@ Accordez-nous des rentes perpétuelles.\par
 \noindent {\itshape Amen.}
 \end{center}
 
+
 \section[{B. — Credo.}]{B. — Credo.}
+
 Je crois au Capital qui gouverne la matière et l’esprit ;\par
 Je crois au Profit, son fils très légitime, et au Crédit, le Saint-Esprit, qui procède de lui et est adoré conjointement ;\par
 Je crois à l’Or et à l’Argent, qui, torturés dans l’Hôtel de la Monnaie, fondus au creuset et frappés au balancier, reparaissent au monde Monnaie légale, et qui, trouvés trop pesants, après avoir circulé sur la terre entière, descendent dans les caves de la Banque pour ressusciter Papier-monnaie ; je crois à la Rente cinq pour cent, au quatre et au trois pour cent également et à la Cote authentique des valeurs ; je crois au Grand-Livre de la Dette publique, qui garantit le Capital des risques du commerce, de l’industrie et de l’usure ; je crois à la Propriété individuelle, fruit du travail des autres, et à sa durée jusqu’à la fin des siècles ; je crois à l’Éternité du Salariat qui débarrasse le travailleur des soucis de la propriété ; je crois à la Prolongation de la journée de travail et à la Réduction des salaires et aussi à la Falsification des produits ; je crois au dogme sacré : ACHETER BON MARCHÉ ET VENDRE CHER ; et pareillement je crois aux principes éternels de notre très sainte église, l’Économie politique officielle.\par
@@ -1002,7 +1022,9 @@ Je crois à l’Or et à l’Argent, qui, torturés dans l’Hôtel de la Monnai
 \noindent {\itshape Amen.}
 \end{center}
 
+
 \section[{C. — Salutations. (Ave Miseria.)}]{C. — Salutations. (Ave Miseria.)}
+
 \noindent Salut, Misère, qui écrasez et qui domptez le travailleur, qui déchirez ses entrailles par la faim, tourmenteuse infatigable, qui le condamnez à vendre sa liberté et sa vie pour une bouchée de pain ; qui brisez l’esprit de révolte, qui infligez au producteur, à sa femme et à ses enfants les travaux forcés des bagnes capitalistes, salut, Misère, pleine de grâces.\par
 Vierge sainte, qui engendrez le Profit capitaliste, déesse redoutable qui nous livrez la classe avilie des salariés, soyez bénie.\par
 Mère tendre et féconde de Surtravail, génératrice de rentes, veillez sur nous et les nôtres.\par
@@ -1011,7 +1033,9 @@ Mère tendre et féconde de Surtravail, génératrice de rentes, veillez sur nou
 \noindent {\itshape Amen.}
 \end{center}
 
+
 \section[{D. — Adoration de l’or.}]{D. — Adoration de l’or.}
+
 Or, marchandise miraculeuse, qui porte en toi les autres marchandises ;\par
 Or, marchandise primigène, en qui se convertit toute marchandise ;\par
 Dieu qui sait tout mesurer,\par
@@ -1085,7 +1109,9 @@ Oh ! viens à nous, Or séduisant, espérance suprême, commencement et fin de 
 
 
 \chapteropen
-\chapter[{VI. Lamentations de Job Rothschild, le capitaliste}]{VI. Lamentations de Job Rothschild, le capitaliste}\renewcommand{\leftmark}{VI. Lamentations de Job Rothschild, le capitaliste}
+
+\chapter[{VI. Lamentations de Job Rothschild, le capitaliste}]{VI. Lamentations de Job Rothschild, le capitaliste}
+\renewcommand{\leftmark}{VI. Lamentations de Job Rothschild, le capitaliste}
 
 
 \chaptercont
