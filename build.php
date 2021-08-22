@@ -112,7 +112,7 @@ class HurlusBuild
       if ($authorLast != $author) {
         $authorLast = $author;
         if ($author == 'bible') $readme .= "\n## ". 'Bible'."\n\n";
-        else $readme .= "\n## ".$meta['byline']."\n\n";
+        else $readme .= "\n## ".$meta['author1']."\n\n";
       }
       $bibl = '';
       $bibl .= ' <a target="_blank" title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($teifile).'">[TEI]</a> ';
@@ -138,11 +138,18 @@ class HurlusBuild
 
       // write a welcome page for the book
       $fopen = fopen(dirname(__FILE__).'/'.$name.'/README.md', 'w');
-      fwrite($fopen, '# '.$meta['byline']);
-      if ($meta['date']) fwrite($fopen, ', '.$meta['date']);
+      fwrite($fopen, '# ');
+      if ($meta['byline']) fwrite($fopen, $meta['byline']);
+      if ($meta['date']) fwrite($fopen, ' ('.$meta['date'].') ');
+      fwrite($fopen, ' <em>'.$meta['title'].'</em> ');
       fwrite($fopen, "\n\n");
-      fwrite($fopen, '> ## '.$meta['title']."\n");
+      // fwrite($fopen, '> ## '.$meta['title']."\n");
       fwrite($fopen, '> '.str_replace('mime', 'mime48', $bibl)."\n");
+
+      // get abstract
+      $xsl = dirname(dirname(__FILE__)).'/teinte/xsl/abstract.xsl';
+      fwrite($fopen, Tools::transformDoc($teidoc->dom(), $xsl));
+
       fclose($fopen);
 
       if ($meta['date']) $bibl = $meta['date'].', '.$bibl;

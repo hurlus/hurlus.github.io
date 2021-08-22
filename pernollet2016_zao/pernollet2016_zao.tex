@@ -67,7 +67,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -93,12 +93,13 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
 \usepackage{enumitem} % <list>
+\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -109,9 +110,12 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{poetry} % <l>, bad for theater
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -129,13 +133,12 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
+
 
 % TOTEST
 % \usepackage{hypcap} % links in caption ?
@@ -156,6 +159,7 @@
 % \usepackage{sectsty} % \chapterfont OBSOLETE
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
+% \usepackage{verse} % not enough control on indent, poetry is better
 
 \defaultfontfeatures{
   % Mapping=tex-text, % no effect seen
@@ -165,7 +169,8 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Zao }}
+\title{\textbf{ Zao }\par
+}
 \date{2016}
 \author{Richard Pernollet}
 \def\elbibl{Richard Pernollet. 2016. \emph{Zao}}
@@ -182,6 +187,17 @@
 
 }
 \def\elsource{ \href{https://labarresymbolique.files.wordpress.com/2016/10/zao-octobre-20161.pdf}{\dotuline{LaBarreSymbolique}}\footnote{\href{https://labarresymbolique.files.wordpress.com/2016/10/zao-octobre-20161.pdf}{\url{https://labarresymbolique.files.wordpress.com/2016/10/zao-octobre-20161.pdf}}} }
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Richard Pernollet\par}\bigskip
+  {\Large 2016\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Zao}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -228,6 +244,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -287,7 +311,7 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
@@ -305,10 +329,14 @@
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\centering #1\par\nopagebreak}} % supposed bottom
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
@@ -348,7 +376,11 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
-\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
+% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
+ % epigraph pack
+\setlength{\epigraphrule}{0pt}
+\setlength{\epigraphwidth}{0.8\textwidth}
+% \renewcommand{\epigraphflush}{center} ? dont work
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -383,8 +415,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -417,14 +447,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -432,20 +470,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -456,7 +491,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -464,6 +499,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -507,7 +545,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -541,7 +579,7 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
+  [display]{}{}{}{}
   [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
@@ -595,33 +633,24 @@
 \newcommand\chapo{{%
   \vspace*{-3em}
   \centering\parindent0pt % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
-  \smallskip
-  {\large\eldate}\par
-  \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  \eltitlepage
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\bfseries{\elauthor}}\par
-  \bigskip
-  {\Large\eldate}\par
-  \bigskip
-  \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -651,8 +680,11 @@
 \bigskip
 
 \pagestyle{main} % after style
-
-  \section[{— 1 –}]{— 1 –}\renewcommand{\leftmark}{— 1 –}
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
+  
+\section[{— 1 –}]{— 1 –}
+\renewcommand{\leftmark}{— 1 –}
 
 \noindent Ce soir je cours après ZAO et ne le trouve pas, non, ce soir je courais dans la lande après ZAO et ne le trouvais pas, non, comment qu’on dit déjà ? \emph{Hé, demande à Zao, demande à Zao} !\par
 — ZAO ! — MAIS OÙ ES-TU BON SANG ?\par
@@ -665,7 +697,9 @@ Devant moi les herbes se couchent.\par
 Passe une brise légère.\par
 Laquelle poursuit sa vague dans le champ tout gris.\par
 — JE COURS APRÈS ZAO !
-\section[{— 2 –}]{— 2 –}\renewcommand{\leftmark}{— 2 –}
+
+\section[{— 2 –}]{— 2 –}
+\renewcommand{\leftmark}{— 2 –}
 
 \noindent C’est ce matin en fin de matinée que Yasmine et Émeline nous ont trouvés. Nous étions sous un arbre à glander, à fumer.\par
 Elles sont arrivées affolées. Selon elles, Zao avait disparu.\par
@@ -683,7 +717,9 @@ Yasmine : oui, il a toujours dit que quand il se sentirait vieux il irait dans 
 — Hé, j’ai dit, hé, les gars, coulosse, je vais d’abord attendre qu’il fasse un peu moins chaud.\par
 — Il faut une demi-heure pour aller au lac en courant.\par
 — Oui et deux heures à pied, c’est bon, je vais pas courir, OK, je vais juste attendre un peu qu’il fasse un peu moins chaud !
-\section[{— 3 –}]{— 3 –}\renewcommand{\leftmark}{— 3 –}
+
+\section[{— 3 –}]{— 3 –}
+\renewcommand{\leftmark}{— 3 –}
 
 \noindent L’histoire de Zao, c’est l’histoire d’un vieux, il est arrivé un jour dans la cité et nous on l’a toujours connu vieux. Il avait une couverture marron sur le dos, marchait pieds nus, un bâton à la main. Nous, les gosses, on l’a pris pour un mendiant. Mais, par la suite, on s’est vite rendu compte qu’il visitait nos parents. Ils blablataient ensemble dans le salon comme s’ils se connaissaient depuis longtemps. Il racontait ses voyages.\par
 Non, il n’était pas allé à pied jusqu’en Chine, mais il y était allé par d’autres moyens. Il avait vécu dans des tas de contrées. Il disait que les gens lui avaient appris à vivre dans les bois.\par
@@ -694,7 +730,9 @@ Donc Zao !\par
 Zao chez nous.\par
 Zao, il revenait, il devenait comme un grand tonton, il avait beau s’habiller avec des habits normaux et des chaussures, il restait toujours aussi maigre et nous rappelait le personnage d’un clown flottant dans ses vêtements, Il parlait d’une voix douce, assez lent, avec beaucoup de gestes, prenant le temps de finir ses phrases, et nos parents l’écoutaient. Bref, au bout de quelque temps, Zao a commencé à nous emmener le week-end dans les bois. La première fois, on a construit des cabanes. On a voulu revenir le week-end suivant. Puis, de fil en aiguille, on a démonté les cabanes et on est allé plus loin, de plus en plus loin. Un jour, nos parents nous ont dit au-revoir en nous saluant de la main au bas des immeubles. On ne les a jamais revus. Quelques-uns d’entre nous sont retournés en ville. Ils racontent qu’elle est détruite. Il ne reste rien. Les immeubles sont noirs. Comme bombardés. Ils ont trouvé des caves remplies de bouffe. Des fois, ils vont en chercher. Mais Zao nous a appris à faire du feu, à trouver des baies, des légumes sauvages, à chercher du miel dans les arbres, à manger les bonnes racines. Quant à Zao, on le sait, il s’en va des fois longtemps. C’est ce qu’il dit :\par
 {\itshape Il faut apprendre à vous débrouiller !}
-\section[{— 4 –}]{— 4 –}\renewcommand{\leftmark}{— 4 –}
+
+\section[{— 4 –}]{— 4 –}
+\renewcommand{\leftmark}{— 4 –}
 
 \noindent Zao, t’es con, c’est pas le moment de nous quitter ! Je suis au lac et je ne peux rien voir. La lune se reflète dans l’eau, autour les arbres sont noirs. C’est noir. J’entrevois tout juste les rochers.\par
 Je lève les yeux au ciel et je me couche, wouf !\par
@@ -707,7 +745,9 @@ Pour le reste, c’est vrai qu’on sait tout faire. Depuis qu’on est avec Zao
 Zao a dit que l’année prochaine, peut-être, si ça se trouve, il n’y aura plus besoin d’aller en ville chercher des provisions.\par
 Zao disait aussi qu’il nous voyait grandir et qu’un jour, il faudra nous y faire, il disparaîtrait. Le jour où il se sentirait trop vieux, il partirait, il partirait de lui-même au royaume des morts sans laisser de traces. Nous n’aurons pas besoin de le chercher, mais si nous le trouvons, il dit qu’il faudra laisser son corps dehors.\par
 « \emph{Vous le laissez exposé aux vautours, comme les Indiens} ! »
-\section[{— 5 –}]{— 5 –}\renewcommand{\leftmark}{— 5 –}
+
+\section[{— 5 –}]{— 5 –}
+\renewcommand{\leftmark}{— 5 –}
 
 {\itshape ZAO, OÙ ES-TU ?}\par
 {\itshape ZAO, TU ME FAIS CHIER !}\par
@@ -724,7 +764,9 @@ Zao, je m’excuse, je m’endors, je suis dans l’herbe, je ne vois plus le la
 \bigbreak
 Zao, j’ai sommeil, où es-tu passé, Zao ?\par
 Es-tu vraiment au lac ?
-\section[{— 6 –}]{— 6 –}\renewcommand{\leftmark}{— 6 –}
+
+\section[{— 6 –}]{— 6 –}
+\renewcommand{\leftmark}{— 6 –}
 
 \noindent Je me réveille avec le soleil dans le pif, la plage est paisible, déserte. L’eau du lac est rose et bleue, tranquille. Et je vois Zao, assis là-bas sur le rocher où on a l’habitude de plonger.\par
 Je dévale la pente et je crie ZAO !\par
@@ -744,7 +786,9 @@ Il est enveloppé dans une couverture orange et sur son crâne tanné deux ou tr
 J’acquiesce.\par
 Je regarde le lac aussi.\par
 Les rives en face sont remplies de roseaux. Des oiseaux passent. Deux pies noires et blanches se suivent. Du côté de la plage un héron avance en levant la patte. Le ciel est bleu clair. Des canards s’approchent du rocher.
-\section[{— 7 –}]{— 7 –}\renewcommand{\leftmark}{— 7 –}
+
+\section[{— 7 –}]{— 7 –}
+\renewcommand{\leftmark}{— 7 –}
 
 \noindent {\itshape Les moustiques, ils peuvent avoir des dards gros comme mon pouce, je vous jure, des fois, et ils foncent sur vous, bzz bzz, et pic et pic, et vous, vous vous en sortez avec des boutons gros comme mon poing, hein, et vous viendrez tous pleurer dans mes bras, ah yayaille, ça pique, Zao !}\par
 \bigbreak
@@ -756,7 +800,9 @@ Je ne sais quoi dire. Zao parle longtemps.\par
 Et soudain je crie Ah !\par
 J’ai le soleil en pleine poire, je regarde la plage et je crie Zao et il n’y a naturellement plus de Zao. Je cligne des yeux et je le revois de nouveau au bout du rocher regarder le lac. Et moi je me recouche, je suis fatigué, je vois Zao qui me tourne le dos et j’avance un coude à l’ombre d’un arbre et je pose ma tête sur ma main. \emph{— ZAO ! — je vois un peintre chinois qui dessine d’un trait la vague grise que j’ai vue cette nuit.}\par
 Il peint.
-\section[{— 8 –}]{— 8 –}\renewcommand{\leftmark}{— 8 –}
+
+\section[{— 8 –}]{— 8 –}
+\renewcommand{\leftmark}{— 8 –}
 
 \noindent Quand je fus enfin dans le bon tempo et que, mes songes s’étant dissipés, je me suis levé, je suis descendu sur la plage et j’ai regardé le rocher. Il n’y avait pas plus de Zao que de couilles en barre.\par
 J’avais rêvé, c’est tout. Je m’étais endormi.\par
@@ -774,17 +820,23 @@ Hé, OÙ ES-TU ZAO ?\par
 Je fais presque un demi-tour de lac, je retrouve la trace.\par
 \bigbreak
 \noindent Si c’est lui, il a marché dans l’eau.
-\section[{— 9 –}]{— 9 –}\renewcommand{\leftmark}{— 9 –}
+
+\section[{— 9 –}]{— 9 –}
+\renewcommand{\leftmark}{— 9 –}
 
 \noindent Je ne suis pas arrivé à pied par la Chine comme disent vos parents, ils enjolivent les choses, je suis allé deux fois en Chine, et j’y suis allé en avion, c’est très loin. Par contre, c’est vrai, j’ai traversé beaucoup de frontières à pied. Je me moque des frontières. Des fois j’avais pas de visa. Je me démerdais. Si tu vas au devant des gens, en général tout s’arrange. Si vous allez au devant des gens, Brisbur, et toi aussi Nath, Émeline ou Yasmine, Jamel Karis ou Lol, les autres vous en sauront gré, ils vous accueilleront. On n’est pas obligé d’être partout en guerre, d’ailleurs la grande majorité des gens dans le monde ne la veulent pas, la guerre. J’ai beaucoup appris en regardant les autres faire. Au départ, c’est forcé, on ne parle pas la langue, mais au bout de quelques jours on sait trente mots et on commence à communiquer. Ce que je sais des plantes, des racines, comment survivre, je l’ai appris des autres, auprès de gens qu’on a souvent bombardés. Quand ton pays est en guerre depuis si longtemps et que toi-même tu es né dans la guerre, tu ne sais même pas si elle va cesser, boum boum, c’est toujours dans des terres lointaines. Et pourtant, vous ne me croirez pas, il y a dix ans je ne savais pas planter un haricot. Ou une tomate. Ou un poireau. C’est incroyable je me suis dit qu’un intello ne sache rien faire de ses dix doigts. J’ai eu des amis en route qui sont partis manuels et sont devenus des gros cerveaux. Voilà, ce que je vous ai appris c’est vivre, j’y suis finalement pour pas grand-chose, maintenant vous vivez. Vous n’avez plus besoin de moi.\par
 — Mais Zao, tu dis des conneries !\par
 — Mais non, Brisbur, sache qu’un sage ne dit jamais de conneries. Enfin pour lui c’est jamais des conneries. Méfie-toi du regard des autres ! N’hésite pas !\par
 — Merci Zao !\par
 — Y a pas à dire merci, en plus, si tu penses que c’est des conneries, t’as pas à dire merci !
-\section[{— 10 –}]{— 10 –}\renewcommand{\leftmark}{— 10 –}
+
+\section[{— 10 –}]{— 10 –}
+\renewcommand{\leftmark}{— 10 –}
 
 \noindent MON FRÈRE ! Écoute-moi bien, mon frère, je vais t’emmener dans la forêt, nous allons y rester sept jours, je vais te dire là-bas comment il faut s’y prendre avec une femme, la famille, les autres, la Terre, oui, surtout la Terre, et quand tu chasseras un chevreuil, tu le ramèneras sur ton dos. Tu t’apercevras que c’est lourd, tu n’en chasseras qu’un. Les animaux ne tuent jamais plus d’un animal à la fois. Comme les lionnes. Elles, elles se mettent à deux pour chasser. L’homme des débuts mangeait ce que laissaient les fauves ou les loups derrière eux, mais tous n’étaient pas forcément des charognards, on a retrouvé dans le monde des tribus presque entièrement végétariennes. Toi aussi rogne tes os. Dans ton cerveau il y a le bas qui est ton cerveau reptilien. C’est lui qui t’apporte la mémoire de millions d’années. C’était bien avant l’homme. Quand les os sont secs, l’os ça met du temps à disparaître, mais à la fin il finit quand même en poussière. Nous sommes dans un état mou. L’eau c’est notre corps. Sans eau nous mourons. La leçon de cette histoire c’est que si nous tuons beaucoup trop d’êtres vivants, nous finirons certainement encore plus vite à l’état d’os.
-\section[{— 11 –}]{— 11 –}\renewcommand{\leftmark}{— 11 –}
+
+\section[{— 11 –}]{— 11 –}
+\renewcommand{\leftmark}{— 11 –}
 
 \noindent Je retrouve la trace, elle s’enfonce dans les roseaux, c’est un passage où sont passées plusieurs personnes, c’est peut-être nous, il y a plusieurs personnes qui sont passées par là, je suis, et je débouche sur le sentier. Il est à l’ombre, avec les arbres au-dessus qui font voûte. Ce qui fait qu’il est presque comme il était avant, comme il a été pendant longtemps, quand des chars à bœufs devaient passer par là, nous a dit Zao, pour tirer les arbres de la forêt. Il fait presque entièrement le tour du lac. Parfois on le perd quand il manque des arbres. Au milieu, on débouche sur la cascade, le déversoir du lac. J’entends de loin son jet à mesure que j’approche. J’y suis. La cascade tombe depuis un mur de ciment vertigineux. Parfois on voit des chèvres venir s’accrocher là-dessus pour venir brouter les pouces d’herbes.\par
 Et là-dessus il y a mon Zao pendu !\par
@@ -792,7 +844,9 @@ Et là-dessus il y a mon Zao pendu !\par
 \noindent MERDE Zao !\par
 Il s’est pendu !\par
 Il pend à une branche au-dessus de cet abîme avec la tête presque à l’équerre et sa couverture orange qui lui fait comme un poncho. Les oiseaux lui ont déjà piqué les yeux. Ses bras, ses joues, ses jambes portent la marque de coups de becs. Depuis quand il est là ? Je ne réfléchis pas, je monte, grimpe dans l’arbre, avise la branche, me glisse dessus, sous moi je vois le bouillonnement des eaux. J’essaye d’attraper la corde mais dès que je la touche celle-ci balance et d’un seul coup le corps lâche, il se détache et plonge, laissant la tête fixée au nœud (\emph{MERDE} !), et en bas le corps fait plouf en disparaissant dans les remous.
-\section[{— 12 –}]{— 12 –}\renewcommand{\leftmark}{— 12 –}
+
+\section[{— 12 –}]{— 12 –}
+\renewcommand{\leftmark}{— 12 –}
 
 \noindent J’AI RAMENÉ LA TÊTE À ZAO AU CAMP !\par
 \bigbreak

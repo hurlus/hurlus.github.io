@@ -1,4 +1,12 @@
-# Pernollet, Richard, 2016
+# Richard Pernollet (2016)  <em>Zao</em> 
 
-> ## Zao
 >  <a target="_blank" title="Source XML/TEI" class="mime48 tei" href="https://hurlus.github.io/tei/pernollet2016_zao.xml">[TEI]</a>  <a target="_blank" title="HTML une page" class="mime48 html" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao.html">[html]</a>  <a target="_blank" title="Bureautique (LibreOffice, MS.Word)" class="mime48 docx" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao.docx">[docx]</a>  <a target="_blank" title="Amazon.kindle" class="mime48 mobi" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao.mobi">[kindle]</a>  <a target="_blank" title="EPUB, pour liseuses et téléphones" class="mime48 epub" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao.epub">[epub]</a>  <a target="_blank" title="LaTeX" class="mime48 tex" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao.tex">[TeX]</a>  <a target="_blank" title="PDF à imprimer, A4 2 colonnes" class="mime48 pdf" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao.pdf">[pdf]</a>  <a target="_blank" title="PDF à lire, A5 une colonne" class="mime48 a5" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao_a5.pdf">[pdf a5]</a>  <a target="_blank" title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="mime48 brochure" href="https://hurlus.github.io/pernollet2016_zao/pernollet2016_zao_brochure.pdf">[brochure]</a> 
+
+
+
+<article xmlns="http://www.w3.org/1999/xhtml">
+  <p class="label">Avertissement de l’édition</p>
+  <p class="p noindent">L’auteur étant bien vivant, ce texte est protégé par le droit d’auteur. Il a exprimé l’intention que l’“œuvre“ de son esprit (ce sont les termes de la loi, pas du tout les siens) soit librement communicable et partageable, mais sans profit commercial, en gardant le nom de l’auteur, et sans modification. Le choix de cette <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr">license CC BY-NC-ND</a> n’est pas seulement l’effet d’opinions politiques, elle est aussi conséquente avec son esthétique. Son texte a été longtemps mûri, puis jeté tout d’un trait, il témoigne d’un moment, signé, daté, et localisé : <em>Lille, octobre 2016</em>. Ce texte est un morceau de temps libre qui ne peut plus être modifié ; de son temps à lui et personne d’autre ; son temps, il ne le vend pas, il le partage.</p>
+  <p class="label">Chapeau de l’auteur</p>
+  <p class="p noindent">Encore une histoire de fin du monde, des enfants survivent dans un bois au milieu de cabanes. Ils se rendent compte soudain que leur maître Zao a disparu. Un des grands est désigné pour aller le chercher au lac, mais il se fait surprendre par la nuit. En fait, tout le monde le pressent, Zao avait annoncé qu’un jour il disparaîtrait.</p>
+</article>
