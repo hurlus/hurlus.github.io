@@ -67,7 +67,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{1pt} % 1pt allow better vertical justification
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -93,7 +93,7 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
@@ -110,8 +110,11 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par
 \usepackage{pdftexcmds} % needed for tests expressions
+\usepackage{poetry} % <l>, bad for theater
 \usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
@@ -130,13 +133,12 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
+
 
 % TOTEST
 % \usepackage{hypcap} % links in caption ?
@@ -157,6 +159,7 @@
 % \usepackage{sectsty} % \chapterfont OBSOLETE
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
+% \usepackage{verse} % not enough control on indent, poetry is better
 
 \defaultfontfeatures{
   % Mapping=tex-text, % no effect seen
@@ -168,12 +171,24 @@
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Race et Histoire }\par
 \medskip
-\textit{ l’édition UNESCO }\par
+\textit{ l’édition Unesco }\par
 }
 \date{1952}
 \author{Lévi-Strauss}
 \def\elbibl{Lévi-Strauss. 1952. \emph{Race et Histoire}}
 \def\elsource{ \href{https://unesdoc.unesco.org/ark:/48223/pf0000005546}{\dotuline{Unesco}}\footnote{\href{https://unesdoc.unesco.org/ark:/48223/pf0000005546}{\url{https://unesdoc.unesco.org/ark:/48223/pf0000005546}}} }
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Lévi-Strauss\par}\bigskip
+  {\Large 1952\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Race et Histoire}\par
+\bigskip\emph{l’édition Unesco}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -220,6 +235,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -279,7 +302,7 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
@@ -301,6 +324,8 @@
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\centering #1\par\nopagebreak}} % supposed bottom
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 
 
 % environments for blocks (some may become commands)
@@ -412,14 +437,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -427,20 +460,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -451,7 +481,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -459,6 +489,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -502,7 +535,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{2pt} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -590,11 +623,7 @@
 \newcommand\chapo{{%
   \vspace*{-3em}
   \centering\parindent0pt % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
-  \smallskip
-  {\large\eldate\par}
-  \bigskip
-  {\Large\eltitle}
+  \eltitlepage
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
@@ -605,13 +634,8 @@
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
-  \bigskip
-  {\Large\eldate\par}
-  \bigskip
-  \bigskip
-  {\LARGE \eltitle}
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
@@ -646,13 +670,14 @@
 \bigskip
 
 \pagestyle{main} % after style
-
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
   
 \section[{Race et culture}]{Race et culture}
 \renewcommand{\leftmark}{Race et culture}
 
 \noindent Parler de contribution des races humaines à la civilisation mondiale pourrait avoir de quoi surprendre, dans une collection de brochures destinées à lutter contre le préjugé raciste. Il serait vain d’avoir consacré tant de talent et tant d’efforts à montrer que rien, dans l’état actuel de la science, ne permet d’affirmer la supériorité ou l’infériorité intellectuelle d’une race par rapport à une autre, si c’était seulement pour restituer subrepticement sa consistance à la notion de race, en paraissant démontrer que les grands groupes ethniques qui composent l’humanité ont apporté, \emph{en tant que tels}, des contributions spécifiques au patrimoine commun.\par
-Mais rien n’est plus éloigné de notre dessein qu’une telle entreprise qui aboutirait seulement à formuler la doctrine raciste à l’envers. Quand on cherche à caractériser les races biologiques par des propriétés psychologiques particulières, on s’écarte autant de la vérité scientifique en les définissant de façon positive que négative. Il ne faut pas oublier que Gobineau, dont l’histoire a fait le père des théories racistes, ne concevait pourtant pas l’« inégalité des races humaines » de manière quantitative, mais qualitative : pour lui, les grandes races primitives qui formaient l’humanité à ses débuts – blanche, jaune, noire – n’étaient pas tellement inégales en valeur absolue que diverses dans leurs aptitudes particulières. La tare de la dégénérescence s’attachait pour lui au phénomène du métissage plutôt qu’à la position de chaque race dans une échelle de valeurs commune à toutes ; elle était donc destinée à frapper l’humanité tout entière, condamnée, sans distinction de race, à un métissage de plus en plus poussé. Mais le péché originel de l’anthropologie consiste dans la confusion entre la notion purement biologique de race (à supposer, d’ailleurs, que, même sur ce terrain limité, cette notion puisse prétendre à l’objectivité, ce que la génétique moderne conteste) et les productions sociologiques et psychologiques des cultures humaines. IL a suffi à Gobineau de l’avoir commis pour se trouver enfermé dans le cercle infernal qui conduit d’une erreur intellectuelle n’excluant pas la bonne foi à la légitimation involontaire de toutes les tentatives de descrimi – nation et d’exploitation.\par
+Mais rien n’est plus éloigné de notre dessein qu’une telle entreprise qui aboutirait seulement à formuler la doctrine raciste à l’envers. Quand on cherche à caractériser les races biologiques par des propriétés psychologiques particulières, on s’écarte autant de la vérité scientifique en les définissant de façon positive que négative. Il ne faut pas oublier que Gobineau, dont l’histoire a fait le père des théories racistes, ne concevait pourtant pas l’« inégalité des races humaines » de manière quantitative, mais qualitative : pour lui, les grandes races primitives qui formaient l’humanité à ses débuts – blanche, jaune, noire – n’étaient pas tellement inégales en valeur absolue que diverses dans leurs aptitudes particulières. La tare de la dégénérescence s’attachait pour lui au phénomène du métissage plutôt qu’à la position de chaque race dans une échelle de valeurs commune à toutes ; elle était donc destinée à frapper l’humanité tout entière, condamnée, sans distinction de race, à un métissage de plus en plus poussé. Mais le péché originel de l’anthropologie consiste dans la confusion entre la notion purement biologique de race (à supposer, d’ailleurs, que, même sur ce terrain limité, cette notion puisse prétendre à l’objectivité, ce que la génétique moderne conteste) et les productions sociologiques et psychologiques des cultures humaines. Il a suffi à Gobineau de l’avoir commis pour se trouver enfermé dans le cercle infernal qui conduit d’une erreur intellectuelle n’excluant pas la bonne foi à la légitimation involontaire de toutes les tentatives de descrimi – nation et d’exploitation.\par
 Aussi, quand nous parlons, en cette étude, de contribution des races humaines à la civilisation, ne voulons-nous pas dire que les apports culturels de l’Asie ou de l’Europe, de l’Afrique ou de l’Amérique tirent une quelconque originalité du fait que ces continents sont, en gros, peuplés par des habitants de souches raciales différentes. Si cette originalité existe – et la chose n’est pas douteuse – elle tient à des circonstances géographiques, historiques et sociologiques, non à des aptitudes distinctes liées à la constitution anatomique ou physiologique des noirs, des jaunes ou des blancs. Mais il nous est apparu que, dans la mesure même où cette série de brochures s’est efforcée de faire droit à ce point de vue négatif, elle risquait, en même temps, de reléguer au second plan un aspect également très important de la vie de l’humanité : à savoir que celle-ci ne se développe pas sous le régime d’une uniforme monotonie, mais à travers des modes extraordinairement diversifiés de sociétés et de civilisations ; cette diversité intellectuelle, esthétique, sociologique n’est unie par aucune relation de cause à effet à celle qui existe, sur le plan biologique, entre certains aspects observables des groupements humains : elle lui est seulement parallèle sur un autre terrain. Mais, en même temps, elle s’en distingue par deux caractères importants. D’abord elle se situe dans un autre ordre de grandeur. Il y a beaucoup plus de cultures humaines que de races humaines, puisque les unes se comptent par milliers et les autres par unités : deux cultures élaborées par des hommes appartenant à la même race peuvent différer autant, ou davantage, que deux cultures relevant de groupes racialement éloignés. En second lieu, à l’inverse de la diversité entre les races, qui présente pour principal intérêt celui de leur origine historique et de leur distribution dans l’espace, la diversité entre les cultures pose de nombreux problèmes, car on peut se demander si elle constitue pour l’humanité un avantage ou un inconvénient, question d’ensemble qui se subdivise, bien entendu, en beaucoup d’autres.\par
 Enfin et surtout on doit se demander en quoi consiste cette diversité, au risque de voir les préjugés racistes, à peine déracinés de leur base biologique, se reformer sur un nouveau terrain. Car il serait vain d’avoir obtenu de l’homme de la rue qu’il renonce à attribuer une signification intellectuelle ou morale au fait d’avoir la peau noire ou blanche, le cheveu lisse ou crépu, pour rester silencieux devant une autre question à laquelle l’expérience prouve qu’il se raccroche immédiatement : s’il n’existe pas d’aptitudes raciales innées, comment expliquer que la civilisation développée par l’homme blanc ait fait les immenses progrès que l’on sait, tandis que celles des peuples de couleur sont restées en arrière, les unes à mi-chemin, les autres frappées d’un retard qui se chiffre par milliers ou dizaines de milliers d’années ? On ne saurait donc prétendre avoir résolu par la négative le problème de l’inégalité des \emph{races} humaines, si l’on ne se penche pas aussi sur celui de l’inégalité – ou de la diversité – des \emph{cultures} humaines qui, en fait sinon en droit, lui est, dans l’esprit public, étroitement lié.
 
@@ -675,14 +700,14 @@ Sans doute les grands systèmes philosophiques et religieux de l’humanité –
 Les grandes déclarations des droits de l’homme ont, elles aussi, cette force et cette faiblesse d’énoncer un idéal trop souvent oublieux du fait que l’homme ne réalise pas sa nature dans une humanité abstraite, mais dans des cultures traditionnelles où les changements les plus révolutionnaires laissent subsister des pans entiers, et s’expliquent eux-mêmes en fonction d’une situation strictement définie dans le temps et dans l’espace. Pris entre la double tentation de condamner des expériences qui le heurtent affectivement, et de nier des différences qu’il ne comprend pas intellectuellement, l’homme moderne s’est livré à cent spéculations philosophiques et sociologiques pour établir de vains compromis entre ces pôles contradictoires, et rendre compte de la diversité des cultures tout en cherchant à supprimer ce qu’elle conserve pour lui de scandaleux et de choquant.\par
 Mais, si différentes et parfois si bizarres qu’elles puissent être, toutes ces spéculations se ramènent en fait à une seule recette, que le terme de \emph{faux évolutionnisme} est sans doute le mieux apte à caractériser. En quoi consiste-t-elle ? Très exactement, il s’agit d’une tentative pour supprimer la diversité des cultures tout en feignant de la reconnaître pleinement. Car, si l’on traite les différents états où se trouvent les sociétés humaines, tant anciennes que lointaines, comme des \emph{stades} ou des \emph{étapes} d’un développement unique qui, partant du même point, doit les faire converger vers le même but, on voit bien que la diversité n’est plus qu’apparente. L’humanité devient une et identique à elle-même ; seulement, cette unité et cette identité ne peuvent se réaliser que progressivement et la variété des cultures illustre les moments d’un processus qui dissimule une réalité plus profonde ou en retarde la manifestation.\par
 Cette définition peut paraître sommaire quand on a présent à l’esprit les immenses conquêtes du darwinisme. Mais celui-ci n’est pas en cause, car l’évolutionnisme biologique et le pseudoévolutionnisme que nous avons ici en vue sont deux doctrines très différentes. La première est née comme une vaste hypothèse de travail, fondée sur des observations où la part laissée à l’interprétation est fort petite. Ainsi, les différents types constituant la généalogie du cheval peuvent être rangés dans une série évolutive pour deux raisons : la première est qu’il faut un cheval pour engendrer un cheval ; la seconde, que des couches de terrain superposées, donc historiquement de plus en plus anciennes, contiennent des squelettes qui varient de façon graduelle depuis la forme la plus récente jusqu’à la plus archaïque. Il devient ainsi hautement probable que \emph{Hipparion} soit l’ancêtre réel de \emph{Equus caballus.} Le même raisonnement s’applique sans doute à l’espèce humaine et à ses races. Mais quand on passe des faits biologiques aux faits de culture, les choses se compliquent singulièrement. On peut recueillir dans le sol des objets matériels, et constater que, selon la profondeur des couches géologiques, la forme ou la technique de fabrication d’un certain type d’objet varie progressivement. Et pourtant une hache ne donne pas physiquement naissance à une hache, à la façon d’un animal. Dire, dans ce dernier cas, qu’une hache a évolué à partir d’une autre constitue donc une formule métaphorique et approximative, dépourvue de la rigueur scientifique qui s’attache à l’expression similaire appliquée aux phénomènes biologiques. Ce qui est vrai d’objets matériels dont la présence physique est attestée dans le sol, pour des époques déterminables, l’est plus encore pour les institutions, les croyances, les goûts, dont le passé nous est généralement inconnu. La notion d’évolution biologique correspond à une hypothèse dotée d’un des plus hauts coefficients de probabilité qui puissent se rencontrer dans le domaine des sciences naturelles ; tandis que la notion d’évolution sociale ou culturelle n’apporte, tout au plus, qu’un procédé séduisant, mais dangereusement commode, de présentation des faits.\par
-D’ailleurs, cette différence, trop souvent négligée, entre le vrai et le faux évolutionnisme s’explique par leurs dates d’apparition respectives. Sans doute, l’évolutionnisme sociologique devait recevoir une impulsion vigoureuse de la part de l’évolutionnisme biologique ; mais il lui est antérieur dans les faits. Sans remonter jusqu’aux conceptions antiques, reprises par Pascal, assimilant l’humanité à un être vivant qui passe par les stades successifs de l’enfance, de l’adolescence et de la maturité, c’est au XVIII\textsuperscript{e} siècle qu’on voit fleurir les schémas fondamentaux qui seront, par la suite, l’objet de tant de manipulations : les « spirales » de Vico, ces « trois âges » annonçant les « trois états » de Comte, 1’ « escalier » de Condorcet. Les deux fondateurs de l’évolutionnisme social, Spencer et Tylor, élaborent et publient leur doctrine avant \emph{L’origine des espèces} ou sans avoir lu cet ouvrage. Antérieur à l’évolutionnisme biologique, théorie scientifique, l’évolutionnisme social n’est, trop souvent, que le maquillage faussement scientifique d’un vieux problème philosophique dont il n’est nullement certain que l’observation et l’induction puissent un jour fournir la clef.
+D’ailleurs, cette différence, trop souvent négligée, entre le vrai et le faux évolutionnisme s’explique par leurs dates d’apparition respectives. Sans doute, l’évolutionnisme sociologique devait recevoir une impulsion vigoureuse de la part de l’évolutionnisme biologique ; mais il lui est antérieur dans les faits. Sans remonter jusqu’aux conceptions antiques, reprises par Pascal, assimilant l’humanité à un être vivant qui passe par les stades successifs de l’enfance, de l’adolescence et de la maturité, c’est au XVIII\textsuperscript{e} siècle qu’on voit fleurir les schémas fondamentaux qui seront, par la suite, l’objet de tant de manipulations : les « spirales » de Vico, ces « trois âges » annonçant les « trois états » de Comte, l’« escalier » de Condorcet. Les deux fondateurs de l’évolutionnisme social, Spencer et Tylor, élaborent et publient leur doctrine avant \emph{L’origine des espèces} ou sans avoir lu cet ouvrage. Antérieur à l’évolutionnisme biologique, théorie scientifique, l’évolutionnisme social n’est, trop souvent, que le maquillage faussement scientifique d’un vieux problème philosophique dont il n’est nullement certain que l’observation et l’induction puissent un jour fournir la clef.
 
 \section[{Cultures archaïques et cultures primitives}]{Cultures archaïques et cultures primitives}
 \renewcommand{\leftmark}{Cultures archaïques et cultures primitives}
 
 \noindent Nous avons suggéré que chaque société peut, de son propre point de vue, répartir les cultures en trois catégories : celles qui sont ses contemporaines, mais se trouvent situées en un autre lieu du globe ; celles qui se sont manifestées approximativement dans le même espace, mais l’ont précédée dans le temps ; celles, enfin, qui ont existé à la fois dans un temps antérieur au sien et dans un espace différent de celui où elle se place.\par
 On a vu que ces trois groupes sont très inégalement connaissables. Dans le cas du dernier, et quand il s’agit de cultures sans écriture, sans architecture et à techniques rudimentaires (comme c’est le cas pour la moitié de la terre habitée et pour 90 à 99 \%, selon les régions, du laps de temps écoulé depuis le début de la civilisation), on peut dire que nous ne pouvons rien en savoir et que tout ce qu’on essaie de se représenter à leur sujet se réduit à des hypothèses gratuites.\par
-Par contre, il est extrêmement tentant de chercher à établir, entre les cultures du premier groupe, des relations équivalant à un ordre de succession dans le temps. Comment des sociétés contemporaines, restées ignorantes de l’électricité et de la machine à vapeur, n’évoqueraient-elles pas la phase correspondante du développement de la civilisation occidentale ? Comment ne pas comparer les tribus indigènes, sans écriture et sans métallurgie, mais traçant des figures sur les parois rocheuses et fabriquant des outils de pierre, avec les formes archaïques de cette même civilisation, dont les vestiges trouvés dans les grottes de France et d’Espagne attestent la similarité ? C’est là surtout que le faux évolutionnisme s’est donné libre cours. Et pourtant ce jeu séduisant, auquel nous nous abandonnons presque irrésistiblement chaque fois que nous en avons l’occasion (le voyageur occidental ne se complaît-il pas à retrouver le « moyen âge » en Orient, le « siècle de Louis XIV » dans le Pékin d’avant la première guerre mondiale, 1’ « âge de la pierre » parmi les indigènes d’Australie ou de Nouvelle – Guinée ?), est extraordinairement pernicieux. Des civilisations disparues, nous ne connaissons que certains aspects, et ceux-ci sont d’autant moins nombreux que la civilisation considérée est plus ancienne, puisque les aspects connus sont ceux-là seuls qui ont pu survivre aux destructions du temps. Le procédé consiste donc à prendre la partie pour le tout, à conclure, du fait que \emph{certains} aspects de deux civilisations (l’une actuelle, l’autre disparue) offrent des ressemblances, à l’analogie de \emph{tous} les aspects. Or non seulement cette façon de raisonner est logiquement insoutenable, mais dans bon nombre de cas elle est démentie par les faits.\par
+Par contre, il est extrêmement tentant de chercher à établir, entre les cultures du premier groupe, des relations équivalant à un ordre de succession dans le temps. Comment des sociétés contemporaines, restées ignorantes de l’électricité et de la machine à vapeur, n’évoqueraient-elles pas la phase correspondante du développement de la civilisation occidentale ? Comment ne pas comparer les tribus indigènes, sans écriture et sans métallurgie, mais traçant des figures sur les parois rocheuses et fabriquant des outils de pierre, avec les formes archaïques de cette même civilisation, dont les vestiges trouvés dans les grottes de France et d’Espagne attestent la similarité ? C’est là surtout que le faux évolutionnisme s’est donné libre cours. Et pourtant ce jeu séduisant, auquel nous nous abandonnons presque irrésistiblement chaque fois que nous en avons l’occasion (le voyageur occidental ne se complaît-il pas à retrouver le « moyen âge » en Orient, le « siècle de Louis XIV » dans le Pékin d’avant la première guerre mondiale, l’« âge de la pierre » parmi les indigènes d’Australie ou de Nouvelle – Guinée ?), est extraordinairement pernicieux. Des civilisations disparues, nous ne connaissons que certains aspects, et ceux-ci sont d’autant moins nombreux que la civilisation considérée est plus ancienne, puisque les aspects connus sont ceux-là seuls qui ont pu survivre aux destructions du temps. Le procédé consiste donc à prendre la partie pour le tout, à conclure, du fait que \emph{certains} aspects de deux civilisations (l’une actuelle, l’autre disparue) offrent des ressemblances, à l’analogie de \emph{tous} les aspects. Or non seulement cette façon de raisonner est logiquement insoutenable, mais dans bon nombre de cas elle est démentie par les faits.\par
 Jusqu’à une époque relativement récente, les Tasmaniens, les Patagons possédaient des instruments de pierre taillée, et certaines tribus australiennes et américaines en fabriquent encore. Mais l’étude de ces instruments nous aide fort peu à comprendre l’usage des outils de l’époque paléolithique. Comment se servait-on des fameux « coups-de-poing » dont l’utilisation devait pourtant être si précise que leur forme et leur technique de fabrication sont restées standardisées de façon rigide pendant cent ou deux cent mille années, et sur un territoire s’étendant de l’Angleterre à l’Afrique du Sud, de la France à la Chine ? À quoi servaient les extraordinaires pièces levalloisiennes, triangulaires et aplaties, qu’on trouve par centaines dans les gisements et dont aucune hypothèse ne parvient à rendre compte ? Qu’étaient les prétendus « bâtons de commandement » en os de renne ? Quelle pouvait être la technologie des cultures tardenoisiennes qui ont abandonné derrière elles un nombre incroyable de minuscules morceaux de pierre taillée, aux formes géométriques infiniment diversifiées, mais fort peu d’outils à l’échelle de la main humaine ? Toutes ces incertitudes montrent qu’entre les sociétés paléolithiques et certaines sociétés indigènes contemporaines existe sans doute une ressemblance : elles se sont servies d’un outillage de pierre taillée. Mais, même sur le plan de la technologie, il est difficile d’aller plus loin : la mise en œuvre du matériau, les types d’instruments, donc leur destination, étaient différentes et les uns nous apprennent peu sur les autres à ce sujet. Comment donc pourraient-ils nous instruire sur le langage, les institutions sociales ou les croyances religieuses ?\par
 Une des interprétations les plus populaires, parmi celles qu’inspire l’évolutionnisme culturel, traite les peintures rupestres que nous ont laissées les sociétés du paléolithique moyen comme des figurations magiques liées à des rites de chasse. La marche du raisonnement est la suivante : les populations primitives actuelles ont des rites de chasse, qui nous apparaissent souvent dépourvus de valeur utilitaire ; les peintures rupestres préhistoriques, tant par leur nombre que par leur situation au plus profond des grottes, nous semblent sans valeur utilitaire ; leurs auteurs étaient des chasseurs : donc elles servaient à des rites de chasse. Il suffit d’énoncer cette argumentation implicite pour en apprécier l’inconséquence. De reste, c’est surtout parmi les non-spécialistes qu’elle a cours, car les ethnographes, qui ont, eux, l’expérience de ces populations primitives si volontiers mises a à toutes les sauces » par un cannibalisme pseudo – scientifique peu respectueux de l’intégrité des cultures humaines, sont d’accord pour dire que rien, dans les faits observés, ne permet de formuler une hypothèse quelconque sur les documents en question. Et puisque nous parlons ici des peintures rupestres, nous soulignerons qu’à l’exception des peintures rupestres sud-africaines (que certains considèrent comme l’œuvre d’indigènes récents), les arts « primitifs » sont aussi éloignés de l’art magdalénien et aurignacien que de l’art européen contemporain. Car ces arts se caractérisent par un très haut degré de stylisation allant jusqu’aux plus extrêmes déformations, tandis que l’art préhistorique offre un saisissant réalisme. On pourrait être tenté de voir dans ce dernier trait l’origine de l’art européen ; mais cela même serait inexact, puisque, sur le même territoire, l’art paléolithique a été suivi par d’autres formes qui n’avaient pas le même caractère ; la continuité de l’emplacement géographique ne change rien au fait que, sur le même sol, se sont succédé des populations différentes, ignorantes ou insouciantes de l’œuvre de leurs devanciers et apportant chacune avec elle des croyances, des techniques et des styles opposés.\par
 Par l’état de ses civilisations, l’Amérique précolombienne, à la veille de la découverte, évoque la période néolithique européenne. Mais cette assimilation ne résiste pas davantage à l’examen : en Europe, l’agriculture et la domestication des animaux vont de pair, tandis qu’en Amérique un développement exceptionnellement poussé de la première s’accompagne d’une presque complète ignorance (ou, en tout cas, d’une extrême limitation) de la seconde. En Amérique, l’outillage lithique se perpétue dans une économie agricole qui, en Europe, est associée au début de la métallurgie.\par
@@ -789,7 +814,7 @@ La nécessité de préserver la diversité des cultures dans un monde menacé pa
 \biblitem{\surname{Leroi-Gourhan}, A. \emph{L’homme et la matière.} Paris, 1943.}
 \biblitem{\surname{Linton}, R. \emph{The study of mon.} New York, 1936.}
 \biblitem{\surname{Morazé}, Ch. \emph{Essai sur la civilisation d’Occident}, 1.1. Paris, 1949.}
-\biblitem{\surname{Pirenne}, J. \emph{Les grands courants de l’histoire universelle}, t. I. Paris, 1947.}
+\biblitem{\surname{Pirenne}, J. \emph{Les grands courants de l’histoire universelle}, t. I. Paris, 1947.}
 \biblitem{\surname{Pittard}, E. \emph{Les races et l’histoire.} Paris, 1922.}
 \biblitem{\surname{Spengler}, O. \emph{Le déclin de l’Occident.} Paris, 1948.}
 \biblitem{\surname{Toynbee}, A. J. \emph{A study of history.} Londres, 1948.}

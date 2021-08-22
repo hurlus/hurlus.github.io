@@ -67,7 +67,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -93,13 +93,13 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
+\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -110,9 +110,12 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{poetry} % <l>, bad for theater
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -130,13 +133,12 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
+
 
 % TOTEST
 % \usepackage{hypcap} % links in caption ?
@@ -145,6 +147,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -156,13 +159,35 @@
 % \usepackage{sectsty} % \chapterfont OBSOLETE
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
+% \usepackage{verse} % not enough control on indent, poetry is better
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{}
-\date{}
-\author{}
-\def\elbibl{\emph{}}
+\title{\textbf{ Le fanatisme }\par
+\medskip
+\textit{ tragédie }\par
+}
+\date{1742}
+\author{Voltaire}
+\def\elbibl{Voltaire. 1742. \emph{Le fanatisme}}
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Voltaire\par}\bigskip
+  {\Large 1742\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Le fanatisme}\par
+\bigskip\emph{tragédie}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -185,11 +210,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -214,6 +234,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -273,12 +301,14 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -289,10 +319,14 @@
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\centering #1\par\nopagebreak}} % supposed bottom
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
@@ -307,7 +341,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -332,6 +366,11 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
+ % epigraph pack
+\setlength{\epigraphrule}{0pt}
+\setlength{\epigraphwidth}{0.8\textwidth}
+% \renewcommand{\epigraphflush}{center} ? dont work
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -366,8 +405,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -400,14 +437,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -415,20 +460,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -439,7 +481,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -447,6 +489,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -490,7 +535,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -524,7 +569,7 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
+  [display]{}{}{}{}
   [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
@@ -577,34 +622,25 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
-  \smallskip
-  {\large\eldate}\par
-  \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  \centering\parindent0pt % no vskip ()
+  \eltitlepage
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\bfseries{\elauthor}}\par
-  \bigskip
-  {\Large\eldate}\par
-  \bigskip
-  \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -634,8 +670,2564 @@
 \bigskip
 
 \pagestyle{main} % after style
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
+  \frontmatter 
+\section[{AVIS DE L’ÉDITEUR}]{AVIS DE L’ÉDITEUR}
+\renewcommand{\leftmark}{AVIS DE L’ÉDITEUR}
+
+\noindent J’ai cru rendre service aux auteurs des Belles-Lettres de publier une tragédie du Fanatisme, si défigurée en France par deux éditions subreptices. Je sais très certainement qu’elle fut composée par l’auteur en 1736 [sic] ; et que dès lors il en envoya une copie au Prince Royal, depuis Roi de Prusse, qui cultivait les Lettres avec des succès surprenant, et qui en fait encore son délassement principal.\par
+J’étais à Lille en 1741, quand Monsieur de Voltaire vint passer quelques jours ; il y avait le meilleure troupe d’acteurs qui ait jamais été en Province. Elle représenta cet ouvrage d’une manière qui satisfit beaucoup une très nombreuse assemblée ; le gouverneur de la Province et l’intendant y assistèrent plusieurs fois. On trouva que cette pièce était d’un goût si nouveau, et ce sujet si délicat parut traité avec tant de sagesse, que plusieurs prélats voulurent en voir une représentation par les mêmes acteurs dans une maison particulière. Ils en jugèrent comme le public.\par
+L’auteur fut encore assez heureux pour faire parvenir son manuscrit entre les mains d’un des premiers hommes de l’Europe et de l’Église, qui soutient le poids des affaires avec fermeté, et qui juge des ouvrages d’esprit avec un goût très sûr dans un âge où les hommes parviennent rarement, et où l’on conserve encore plus rarement son esprit et sa délicatesse. Il dit que la pièce était écrite avec toute la circonspection convenable, et qu’on ne pouvait éviter plus sagement les écueils du sujet ; mais que pour ce qui regarde la poésie, il y avait encore des choses à corriger. Je sais en effet que l’auteur les a retouchées avec beaucoup de soin. Ce fut aussi le sentiment d’un homme qui tient le même rang, et qui n’ pas moins de lumières.\par
+Enfin, l’ouvrage approuvé d’ailleurs selon toutes les formes ordinaires, fut représenté à Paris le 9 août 1742. Il y avait une loge entière remplie des premiers magistrats de cette ville, des ministres même y furent présents. Ils pensèrent tous comme les hommes éclairés que j’ai déjà cités.\par
+Il se trouva à cette premiàre représentation quelques personnes qui ne furent pas de ce sentiment unanime. Soit que, dans la rapidité de la représentation, ils n’eussent pas suivi assez le fil de l’ouvrage, soit qu’ils fussent peu accoutumés au théâtre, ils furent blessés que Mahomet ordonnât un meurtre, et se servit de sa religion pour encourager à l’assassinat un jeune homme qu’il fait l’instrument de son crime. Ces personnes, frappés de cette atrocité, ne firent pas assez réflexion qu’elle est donnée dans la pièce comme le plus horrible de tous les crimes, et que même il est moralement impossible qu’il puisse être donnée autrement. en un mot, il ne virent qu’un côté ; ce qui est le manière la plus ordinaire de se tromper. Ils avaient raison assurément d’être scandalisés, en ne considérant que ce côté qui les révoltait. Un peu plus d’attention les auraient aisément ramenés. Mais, dans la première chaleur de leur zèle, ils dirent que la pièce était un ouvrage très dangereux, fait pour former des Ravaillacs et es Jacques Cléments.\par
+On est bien surpris d’un tel jugement, et ces messieurs l’on désavoué sans doute. Ce serait dire qu’Hermione enseigne à assassiner un roi, qu’Électre apprend à tuer sa mère, que Cléopâtre et Médée montrent à tuer leurs enfants ; ce serait dire qu’Harpagon forme des avares, le Joueur des joueurs, Tartufe des hypocrites. L’injustice même contre Mahomet serait bien plus grande que contre toutes les pièces ; car le crime du faux prophète y est mis dans un jour beaucoup plus odieux, que ne l’est aucun des vices et des dérèglements que toutes ces pièces représentent. C’est précisément contre les Ravaillacs, et les Jacques Cléments que le pièce est composée ; ce qui a fait dire à un homme de beaucoup d’esprit, que si Mahomet avait été écrit d’Henri III et de Henri IV, cet ouvrage leur aurait sauvé la vie. Est-il possible qu’on ait pu faire un tel reproche à l’auteur de la Henriade ? Lui Qui a élevé sa voix si souvent dans ce poème et ailleurs, je ne dis pas seulement contre de tels attentats, mis contre toutes les maximes qui peuvent y coNduire.\par
+J’avoue que plus j’ai lu les ouvrages de cet écrivain, plus je les ai trouvés caractérisés par l’amour du bine public ; il inspire partout l’horreur contre les emportements de la rébellion, de la persécution et du fanatisme. Y a-t-il un bon citoyen qui n’adopte toutes les maximes de la Henriade ? Ce poème ne fait-il pas aimer la véritable vertu ?\par
+Mahomet me paraît écrit dans le même esprit, et je suis persuadé que ses plus grands ennemis en conviendront.\par
+Il vit bientôt qu’il se formait contre lui un cabale dangereuse ; les plus ardents avaient parlé à des hommes en place, qui ne pouvant voir la représentation de la pièce devaient les en croire. l’illustre Molière, la gloire de le rance, s’est trouvé autrefois à peu près dans le même cas, lorsqu’on joua Tartufe ; il eut recours directement à Louis Le Grand, dont il était connu et aimé. L’autorité de ce monarque dissipa bientôt les interprétations sinistres qu’on donnait au Tartufe. Mais les temps sont différents ; la protection qu’on accorde à des arts tout nouveaux, ne peut pas être toujours la même, après que ces arts ont été longtemps cultivés. D’ailleurs tel Ariste n’est pas à porter d’obtenir ce qu’un autre à eu aisément. Il eût fallu des mouvements, des discussions, un nouvel examen. L’Auteur jugea plus à propos de retirer sa pièce lui-même, après la troisième représentation, attendant que le temps adoucit quelques esprits prévenus ; ce qui ne peut manquer d’arriver dans une nation aussi spirituelle et aussi éclairée que la française. On mit dans les nouvelles publiques que la tragédie de Mahomet avait été défendue par le gouvernement. Je puis assurer qu’il n’y a rien de plus faux. Non seulement il n’y a pas eu le moindre ordre donné à ce sujet ; mais il s’en faut beaucoup que les premières têtes de l’État, qui virent la représentation, aient varié un moment sur la sagesse qui règne dans cet ouvrage.\par
+Quelques personnes ayant transcrit à la hâte plusieurs scènes aux représentations, et ayant eu un ou deux rôles des acteurs, en ont fabriqué les éditions qu’on été faites clandestinement. Il est aisé de voir à quel point elle diffèrent du véritable ouvrage, que je tiens de la main d’un homme irréprochable, ainsi que les autres pièces que je donne dans l’édition présente. La plus curieuse, à mon gré, est la lettre que l’auteur écrivit à sa Majesté la Roi de Prusse, lorsqu’il repassa par la Hollande, après être allé rendre ses respects à ce monarque. C’est dans de telles lettres, qui ne sont pas d’abord destinées à être publiques, qu’on voit les sentiments des hommes. Celle que j’ai eue encore d’un ami de feu Mr. de Sgravesande est de ce genre. J’espère qu’elle fera aux véritables philosophes le même plaisir qu’elle m’a fait.\par
+
+\dateline{À Amsterdam le 18 novembre 1742.}
 
 
+\signed{P.D.L.M.}
+
+\section[{[Dédicace]}]{[Dédicace]}
+\renewcommand{\leftmark}{[Dédicace]}
+
+
+\salute{À VOTRE MAJESTÉ, le ROI DE PRUSSE, etc, etc, etc.}
+
+\salute{SIRE,}
+\noindent Je ressemble à présent aux pèlerins de la Mecque, qui tournent leurs yeux vers cette ville, après l’avoir quittée : je tourne les miens vers votre Cour. Mon coeur pénétré des bontés de VOTRE MAJESTÉ, ne connaît que la douleur de ne pouvoir vivre auprès d’Elle. Je prends la liberté de lui envoyer une nouvelle copie de cette tragédie de Mahomet de Mahomet, dont Elle a bien voulu, il y a déjà longtemps, voir les premières esquisses. C’est un tribut que je paye à l’Amateur des Arts, au Juge éclairé, surtout au philosophe, beaucoup plus au souverain.\par
+VOTRE MAJESTÉ sait quel esprit m’animait en composant cet ouvrage. L’Amour du genre humain et l’horreur du fanatisme, deux vertus qui sont faites pour être toujours auprès de votre trône, ont conduits ma plume. J’ai toujours pensé que la tragédie ne doit pas être un simple spectacle, qui touche le coeur sans le corriger. Qu’importe au genre humain les passions et les malheurs d’une héros de l’Antiquité, s’ils ne servent pas à nous instruire ? On avoue que la comédie du Tartufe, ce chef-d’oeuvre qu’aucune nation n’a égalé, a fait beaucoup de bien aux hommes en montrant l’hypocrisie dans toute sa laideur. Ne peut-on pas essayer d’attaquer dans une tragédie cette espèce d’imposture qui met en oeuvre à la fois l’hypocrisie des uns et la fureur des autres ? Ne peut-on remonter jusqu’à ces anciens scélérats, fondateurs illustres de la superstition et du fanatisme, qui les premiers ont pris le couteau sur l’Autel, pour faire des victimes de ceux qui se refusaient d’être leurs disciples.\par
+Ceux qui diront que les temps de ces crimes sont passés, qu’on ne verra plus de Barcochebas, de Mahomets, de Jeans de Leyde etc que les flammes des guerres de Religion sont éteintes, font, ce me semble, trop d’honneur à la nature humaine. Le même poison subsiste encore, quoique moins développé : cette peste, qui semble étouffée, reproduit de temps en temps des germes capables d’infecter le Terre. N’a-t-on pas vu de nos jours les prophètes de Cévennes tuer au nom de Dieu ceux de leur secte qui n’étaient pas soumis ?\par
+L’action que j’ai peinte est atroce, et je ne sais si l’horreur a été plus loin sur aucun théâtre. C’est un jeune homme né avec de la vertu, qui, séduit pas son fanatisme, assassine un vieillard qui l’aime, et qui dans l’idée de servir Dieu, se rend coupable, sans le savoir, d’un parricide ; c’est un imposteur qui ordonne ce meurtre, et qui promet à l’assassin un inceste qui récompense.\par
+J’avoue que c’est mettre l’horreur sur le théâtre ; et VOTRE MAJESTÉ est bien persuadée, qu’il ne faut pas que la tragédie consiste uniquement dans une déclaration d’amour, une jalousie et un mariage.\par
+Nos historiens même nous apprennent des actions plus atroces que celle que j’ai inventée. Séïde ne sait pas du moins que celui qu’il assassine est son père ; et quand il a porté le coup, il éprouve un repentir aussi grand que son crime. Mais Mézeray rapporte, qu’à Melun un père tua son fils de sa main pour sa religion, et n’en eut aucun repentir.\par
+On connaît l’aventure des deux frères Diaz, dont l"un était à Rome, et l’autre en Allemagne, dans les commencements des troubles excités par Luther. Barthélémi Diaz, apprenant à Rome que son frère donnait dans les opinions de Luther à Francfort, part de Rome dans le dessein de l’assassiner, arrive et l’assassine. J’ai lu dans Herrera, auteur espagnol, que ce Barthélémi Diaz risquait beaucoup par cette action ; mais que rien n’ébranle un homme d’honneur quand le probité le conduit.\par
+Herrera, dans une religion toute sainte et toute ennemie de la cruauté, dans une religion qui enseigne à souffrir et non à se venger, était donc persuadé que la probité peut conduire à l’assassinat et au parricide ? Et on ne l’élèvera pas de tous côtés contre ces maximes infernales ?\par
+Ce sont ces maximes qui mirent le poignard à la main de ce monstre qui priva la France de Henri le Grand : voilà ce qui plaça le portait de Jacques Clément sur l’Autel, et son nom parmi les Bienheureux ; c’est ce qui coûta la vie à Guillaume Prince d’Orange, fondateur de la liberté et de la grandeur des Hollandais. D’abord Salcède le blessa au front d’un coup de pistolet ; et Strada raconte que Salcède (ce sont ses propres mots) n’osa entreprendre cette action, qu’après avoir purifié son âme par la confession aux pieds d’un Dominicain, et l’avoir fortifiée par le Pain Céleste. Herrera dit quelque chose de plus insensé et de plus atroce.\par
+Estando firme con el exemplo de nuestro Salvador Jesu Christo y de su Sanctos.\par
+Barthalzar Girard, qui ôta enfin la vie à ce grand homme, en usa de même qu’avec Salcède.\par
+Je remarque que tous ceux qui ont commis de bonne foi de pareils crimes, étaient des jeunes gens comme Séide. Balthazar Girard avait environ vingt années. Quatre espagnols, qui avaient fait avec lui serment de tuer le Prince, étaient de même âge. Le Monstre de Henri III, n’avait que vingt trois ans. Poltrot, qui assassina le Duc de Guise, en avait vingt-cinq ; c’est le temps de la séduction et de la fureur.\par
+J’ai été presque témoin en Angleterre de ce que peut sur une imagination jeune et faible la force du fanatisme. Un enfant de seize ans, nommé Shepherd, se chargea d’assassisner le roi George I, votre aïeul maternel. Quelle était le cause qui le portait à cette frénésie ? C’était uniquement que Shepard n’était pas de la même religion que le Roi. On eut pitié de sa jeunesse, on lui offrit la grâce, on le sollicita longtemps au repentir ; il persista toujours à dire, qu’il valait mieux obéir à Dieu qu’aux hommes ; et que s’il était libre, le premier usage qu’il ferait de la liberté, serait de tuer son Prince. Ainsi on fut obligé de l’envoyer au supplice, comme un monstre qu’on désespérait d’apprivoiser.\par
+J’ose dire, que quiconque a un peu vécu avec les hommes, a pu voir quelque fois combine aisément on est prêt à sacrifier la Nature à la Superstition. Que de pères ont détesté et déshérité leurs enfants ! Que de Frères ont poursuivi leurs frères par ce funeste principe ! J’en ai vu des exemples dans plus d’une famille.\par
+Si la superstition ne se signale pas toujours par ces excès qui sont comptés dans l’histoire des crimes, elle fait dans la société tous les petits maux innombrables et journaliers qu’elle peut faire. Elle désunit les amis ; elle divise les parents ; elle persécute le sage qui n’est qu’homme de bien par la main du fou qui est enthousiaste. Elle ne donne pas toujours de la ciguë à Socrate, mais elle bannit Descartes d’un ville qui devait être l’asile de la liberté ; elle donne à Julie un qui faisait le prophète, assez de crédit pour réduire à la pauvreté les savants et le philosophe Bayle. Elle bannit, elle arrache à une florissante jeunesse qui court à ses leçons le successeur du grand Leibniz, et il faut pour le rétablir que le Ciel fasse naître un roi-philosophe ; vrai miracle qu’il fait bien rarement. en vain la raison humaine se perfectionne par la philosophie, qui fait tant de progrès en Europe ; en vain, vous surtout, Grand-Prince, vous efforcez-cous de pratiquer et d’inspirer cette philosophie si humaine ; on voit dans ce même siècle où la raison élève de son trône d’un côté, le plus absurde fanatisme dresser contre ses autels de l’autre.\par
+On pourra me reprocher, que, donnant trop dans mon zèle, je fais commettre dans cette pièce un crime à Mahomet, dont en effet il ne fut point coupable.\par
+Monsieur le Comte de Boulainvilliers écrivit, il y a quelques années, la vie de ce prophète. Il essaya de le faire passer pour un grand homme, que la providence avait choisi pour punir les chrétiens, et pour changer la face d’une partie du monde.\par
+Monsieur Sale, qui nous a donné une excellente version de l’Alcorant en anglais,, veut faire regarder Mahomet comme un numa et comme un Thésée. J’avoue qu’il faudrait le respecter, si né prince légitime, ou appelé au gouvernement par le suffrage des siens, il avaient donné des lois paisibles comme Numa, ou défendu des compatriotes, comme on le dit de Thésée. Mais qu’un marchand de chameaux excite un sédition dans sa bourgade ; qu’associé à quelques malheureux Coracites, il leur persuade qu’il s’entretient avec l’ange Gabriel ; qu’il se vente d’avoir été ravi au ciel, et d’y avoir reçu une partie de ce livre intelligible, qui fait frémir le sens commun à chaque page ; que pour faire respecter ce livre il porte dans sa patrie le fer et la flamme ; qu’il égorge les pères, qu’il ravisse les filles ; qu’il donne aux vaincus le choix de sa religion ou de la mort ; c’est assurément ce que nul homme ne peut excuser, à moins qu’il ne soit né Turc, et que la superstition n’étouffe en lui toute lumière naturelle.\par
+Je sais que Mahomet n’a pas tramé précisément l’espèce de trahison qui fait le sujet de cette tragédie. L’Histoire dit seulement qu’il enleva la femme de Séide, l’un de ses disciples, et qu’il persécuta Abusofian, que je nomme Zopire ; mais quiconque fait la guerre à son pays, et ose la faire au nom de Dieu, n’est-il pas capable de tout? Je n’ai pas prétendu mettre seulement une action vraie sur la scène, mais des moeurs vraies, faire penser les hommes comme ils pensent dans les circonstances où ils se trouvent , et représenter enfin ce que la fourberie peut inventer de plus atroce, et ce que le Fanatisme peut exécuter de plus horrible. Mahomet n’est ici autre chose que Tartufe les armes à la main.\par
+Je me croirai bien récompensé de mon travail, si quelqu’une de ces âmes faibles, toujours prêtes à recevoir les impressions ’une fureur étrangère qui n’est pas au fond de leur coeur, peut s’affermir contre ces funestes séductions par la lecture de cet ouvrage ; si après avoir eu en horreur le malheureuse obéissance de Séide, elle sit dit à elle-même, pourquoi obéirais-je à des aveugles qui me drient : Haïssez, persécutez, perdez celui qui est assez téméraire pour n’être pas de notre avis sur des choses mêmes indifférentes que nous n’entendons pas ?\par
+ue ne puis-je servir à déraciner de tels sentiments chez es hommes ! L’esprit d’indulgence ferait des frères, celui d’intolérance peut former des monstres.\par
+C’est ainsi que pense VOTRE MAJESTÉ. Ce serait pour moi la plus grande des consolations de vivre auprès de ce Roi-Philosophe. Mon attachement est égal à mes regrets ; et si d’autres devoirs m’entraînent, ils n’effaceront jamais de mon coeur les sentiments que je dois à ce prince, qui pense et qui parle ne homme qui fuit cette fausse gravité sous laquelle se cachent la petitesse et l’ignorance, que se communique avec liberté, parce qu’il ne craint point d’être pénétré ; qui veut toujours s’instruire, et qui peut instruire les plus éclairés.\par
+Je serai toute ma vie avec le plus profond respect et le plus vive reconnaissance, SIRE, de VOTRE MAJESTÉ, le très humble et très obéissant serviteur.\par
+
+\dateline{À Rotterdam, ce 20 de janvier 1742.}
+
+
+\signed{VOLTAIRE.}
+
+\section[{LETTRE de l’AUTEUR à Mr. DE S***}]{LETTRE de l’AUTEUR à Mr. DE S***}
+\renewcommand{\leftmark}{LETTRE de l’AUTEUR à Mr. DE S***}
+
+\noindent Je vous remercie, Monsieur, de la figure que vous avez bien voulu m’envoyer de la Machine donc vous vous servez pour fixer l’image du Soleil. J’en ferai faire une sur votre dessein, et je serai délivré d’un grand embarras ; car moi qui suis fort maladroit, j’ai toutes les peines du monde dans ma chambre obscure avec mes miroirs. À mesure que le soleil avance, les couleurs s’en vont, et ressemblent aux affaires de ce monde, qui ne ne sont pas un moment de suite dans la même situation. J’appelle votre machine STA SOL. Depuis Josué, personne avant vous n’avait arrêté le soleil.\par
+J’ai reçu dans le même paquet l’ouvrage que je vous avait demandé, dans lequel mon adversaire, et celui de tous les philosophes, emploie environ trois cents pages au sujet de quelques Pensées de Pascal que j’avais examinées dans moins d’une feuille.\par
+Je suis toujours pour ce que j’ai dit. Le défaut de la plupart des livres est d’être trop longs. Si on avait la raison pour foi, on ferait court ; mais peu de raison et beaucoup d’injures ont fait les trois cents pages.\par
+J’ai toujours su que Pascal n’avait jeté ses idée sur le papier, que pour les revoir et en rejeter une partie. Le critique n’en veut rien croire. Il soutient que Pascal aimait toutes ses idées, et qu’il n’en fut retranché aucune ; mais s’il savait que les éditeurs eux-mêmes en supprimèrent le moitié, il serait bine surpris.\par
+Il n’a qu’à voir celles que le père de Mollets a recouvrées depuis quelques années, écrites de la main de Pascal même ; il en sera plus surpris encore. Elles sont imprimées dans Recueil sur la littérature. En voici quelques unes.\par
+ "Selon les lumières naturelles, s’il y a un Dieu, il n’a ni parties ni bornes, il n’a aucun rapport à nous. Nous sommes donc incapables de connaître, ni ce qu’il est, ni s’il est." Croyez-vous en bonne foi, Monsieur, que Pascal eût conservé ce "s’il est" ? Apparemment que le père Hardouin avait eu cette pensée, quand il mit Pascal dans sa ridicule liste des athées modernes.\par
+"Je ne me sentirais pas assez de force pour trouver dans la nature de quoi convaincre des athées."\par
+Mais CLarck, Locke, Wolf, et tant d’autres ont eu cette force, et assurément Pascal l’aurait due. \par
+"Toutes les fois qu’une proposition est inconcevable, il ne faut pas la nier, mais examiner le contraire ; et s’il est manifestement faux, on peut affirmer le contraire, tout incompréhensible qu’il est."\par
+Pascal avait oublié le Géométrie, quand il faisait cet étrange raisonnement. Deux carrés font un cubes, deux cubes font un carrés : voilà deux propositions contraires, toutes deux également absurdes, etc.\par
+Voilà qui est bien anti-mathématique. Il y a autant de fautes que de mots. Assurément de telles idées n’étaient pas faites pour être employées. Mon critique changement un peu d’avis, s’il va à votre école. Il verra qu’il s’en faut bine qu’on doive croire aveuglément tout ce que Pascal a dit.\par
+Il croyait toujours pendant la dernière année de sa vie vois un abîme à côté de sa chaise. Faudrait-il pour cela que nous en imaginassions autant ? Pour moi, je vois aussi un abîme, mais c’est dans les choses qu’il a cru expliquer.\par
+Vous trouvez que les Mélanges de Leibnitz, que la mélancolie égara sur le fin la raison de Pascal ; il le dit même un peu durement. Il n’est pas étonnant, après tout, qu’un homme d’un tempérament délicat, d’une imagination triste, comme Pascal, soit, à force de mauvais régime, parvenu à déranger les organes de son cerveau. Cette maladie n’est ni plus surprenante, ni plus humiliante, que la fièvre ou la migraine. Si le grand Pascal a été attaqué, c’est Samson qui perd sa force.\par
+Je ne sais de quelle maladie est affligée la docteur qui argumente su amèrement contre moi ; mais il perd le change en tout, et principalement sur l’état de la question. \par
+La fond de mes petites remarques surs les "Pensées de Pascal", c’est qu’il faut croire sans doue au péché originel, puisque la Foi l’ordonne ; et qu’il faut croire d’autant plus, que la Raison est absolument impuissante à nous montrer que la Nature Humaine est déchue. La Révélation saule peut nous l’apprendre. Platon s’y était jadis cassé le nez. Comment pouvait-il savoir que les hommes avaient été autrefois plus beaux, plus grands, plus forts, plus heureux : qu’ils avaient eu de belles ailes, et qu’ils avaient fait des enfants sans femmes ?\par
+Tous ceux qui se sont servie de la Physique pour prouver la décadence du de petit globe de notre Monde, n’ont pas eu meilleure fortune que Platon. Voyez-vous ces vilaines montagnes, disaient-ils , les mers qui entrent dans les terres, ces lacs sans issue ? Ce sont les débris qu’un globe maudit. Mais quand on y regarde de plus près, on a vu que les montagnes étaient nécessaires pour nous donner des rivières et des mines, et que ce sont les perfections d’un monde béni.\par
+De même mon censeur assure que notre vie est fort raccourci en comparaison de celle des corbeaux et des cerfs ; il a entendu dire à sa nourrice que les cerfs vient trois cent ans, et les corbeaux nef cents. La nourrice d’Hésiode lui avait fait aussi apparemment le même conte. Mais mon docteur n’a qu’à interroger quelque chasseur, il saura que les cerfs ne vont jamais à vingt ans. Il a beau faire, l’homme est de tous les animaux celui à qui Dieu accorde plus longue vie ; et quand mon critique me montrera un corbeau qui aura cent deux ans, comme Mr. de St. Aulaire et Madame de Chanclos, il me fera plaisir. \par
+C’est une étrange rage que celle de quelques messieurs, qui veulent absolument que nous soyons misérables. Je n’aime point un charlatan qui veut me faire accroire que je suis malade, pour me vendre des pilules. Garde ta drogue, mon ami, et laisse-moi ma santé. Mais pourquoi me dis-tu des injures ? Parce que je me porte bien, et que je ne veux pas de ton orviétan.\par
+Cet homme m’en dit de très grossières, selon la louable coutume des gens pour qui les rieurs ne sont pas. Il a été déterrer dans je ne sais quel journal, je ne sais quelles lettres sur la nature de l’âme, que je n’ai jamais écrites,, et qu’un libraire a toujours mises sous mon nom à bon compte, aussi bien que beaucoup d’autres choses que je ne lis point.\par
+Mais puisque cet homme les lit, il devait voir qu’il est évident que ces lettres sur la nature de l’âme ne sont point de moi et qu’il y a des pages entières copiées mot à mot de ce que j’ai écrit autrefois sur Locke. Il est clair qu’elles sont de quelqu’un qui m’a volé ; mais je ne vole point ainsi, quelque pauvre que je puisse être.\par
+Mon docteur se tue à prouver que l’âme est spirituelle. Je veux croire que la sienne l’est, mais en vérité ses raisonnements ne [le] sont fort peu. \par
+Il veut donner des soufflets à Locke sur ma jour, parce que Locke a dit que Dieu était assez puissant pour faire penser un élément de la matière. Plus je relis ce Locke, et plus je voudrais que ces messieurs l’étudiassent. Il me semble qu’il a fait comme Auguste, qui donna un édit de coërcendo intra fines imeprio. Locke a référé l’empire de la science pour l’affermir. Qu’est-ce que l’âme ? Je n’en sais rien. Voilà Joseph Leibniz, qui a découvert que la matière est un assemblage de monades. Soit. Je ne le comprends pas lui non plus. Eh bien, mon âme sera une monade ; ne me voilà-t-il pas bine instruit ? Je vais vous prouver que vous êtes immortel, me dit mon docteur. Mais vraiment il me fera plaisir ; j’ai tout aussi grande envie que lui d’être immortel, je n’ai fait la Henriade que pour cela. Mais mon homme se croit bine plus sûr de l’immortalité par ses arguments, que moi par ma Henriade : \par
+Vanitas vanitatum, et metaphysica vanitas !\par
+Nous sommes faits pour compter, mesurer, peser, voilà ce qu’a fait Newton, voilà ce que vous faites avec Monsieur Muschembroeck. Mais pou les premiers nous n’en savons pas plus qu’Epistémon et maître d’Editue.\par
+Les philosophes qui font des systèmes sur la secrète construction de l’univers, font comme nos voyageurs qui vont à Constantinople, et qui parlent du sérail ; ils n’en n’ont vu que les dehors, et ils prétendent savoir ce que fait le sultan et ses favorites. Adieu, Monsieur, si quelqu’un voit un peu, c’est vous ; mais que je tiens mon censeur aveugle. J’ai l’honneur de l’être aussi ; mais je suis un quinze-vingt de Paris, et lui un aveugle de province. Je ne suis pas assez aveugle pourtant pour ne pas voir tout votre mérite, et vous savez combien mon coeur est sensible à votre amitié. Je suis etc.\par
+
+\dateline{À Ciray, le 1er juin 1741.}
+
+\bigbreak
+{\centering PERSONNAGES\par}\nopagebreak\bigskip\nopagebreak
+\castItem{\textbf{MAHOMET}.}
+
+\castItem{\textbf{ZOPIRE}, Scheich ou Scherif de la Mecque.}
+
+\castItem{\textbf{OMAR}, Lieutenant de Mahomet.}
+
+\castItem{\textbf{SÉIDE}, esclave de Mahomet.}
+
+\castItem{\textbf{PALMIRE}, esclave de Mahomet.}
+
+\castItem{\textbf{PHANOR}, Sénateur de La Mecque.}
+
+\castItem{\textbf{TROUPE DE MÉCQUOIS}.}
+
+\castItem{\textbf{TROUPE DE MUSULMANS}.}
+\bigbreak
+
+{\centering\it La scène est à la Mecque.\par}\nobreakpage\bigskip\nobreakpage
+
+\mainmatter
+
+
+\chapteropen
+
+\chapter[{ACTE I}]{ACTE I}
+\renewcommand{\leftmark}{ACTE I}\phantomsection
+\label{I}
+
+
+\chaptercont
+
+\section[{SCÈNE I.}]{SCÈNE I.}\phantomsection
+\label{I01}
+
+{\centering\it ZOPIRE, PHANOR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}.}
+\spl{Qui ? Moi, baisser les yeux devant ses faux prodiges !}
+\spl{Moi, de ce fanatique encenser les prestiges !}
+\spl{L’honorer dans la Mecque après l’avoir banni !}
+\spl{Non. Que des justes dieux Zopire soit puni}
+\spl{Si tu vois cette main, jusqu’ici libre et pure,}
+\spl{Caresser la révolte et flatter l’imposture !}
+
+\speaker{\surname{Phanor}.}
+\spl{Nous chérissons en vous ce zèle paternel}
+\spl{Du chef auguste et saint du sénat d’Ismaël ;}
+\spl{Mais ce zèle est funeste ; et tant de résistance,}
+\spl{Sans lasser Mahomet, irrite sa vengeance.}
+\spl{Contre ses attentats vous pouviez autrefois}
+\spl{Lever impunément le fer sacré des lois,}
+\spl{Et des embrasements d’une guerre immortelle}
+\spl{Étouffer sous vos pieds la première étincelle.}
+\spl{Mahomet citoyen ne parut à vos yeux}
+\spl{Qu’un novateur obscur, un vil séditieux :}
+\spl{Aujourd’hui, c’est un prince ; il triomphe, il domine ;}
+\spl{Imposteur à la Mecque, et prophète à Médine,}
+\spl{Il sait faire adorer à trente nations}
+\spl{Tous ces mêmes forfaits qu’ici nous détestons.}
+\spl{Que dis-je ? En ces murs même une troupe égarée,}
+\spl{Des poisons de l’erreur avec zèle enivrée,}
+\spl{De ses miracles faux soutient l’illusion,}
+\spl{Répand le fanatisme et la sédition,}
+\spl{Appelle son armée, et croit qu’un dieu terrible}
+\spl{L’inspire, le conduit, et le rend invincible.}
+\spl{Tous nos vrais citoyens avec vous sont unis ;}
+\spl{Mais les meilleurs conseils sont-ils toujours suivis ?}
+\spl{L’amour des nouveautés, le faux zèle, la crainte,}
+\spl{De la Mecque alarmée ont désolé l’enceinte ;}
+\spl{Et ce peuple, en tout temps chargé de vos bienfaits,}
+\spl{Crie encore à son père, et demande la paix.}
+
+\speaker{\surname{Zopire}.}
+\spl{La paix avec ce traître ! Ah ! Peuple sans courage,}
+\spl{N’en attendez jamais qu’un horrible esclavage :}
+\spl{Allez, portez en pompe, et servez à genoux}
+\spl{L’idole dont le poids va vous écraser tous.}
+\spl{Moi, je garde à ce fourbe une haine éternelle ;}
+\spl{De mon coeur ulcéré la plaie est trop cruelle :}
+\spl{Lui-même a contre moi trop de ressentiments.}
+\spl{Le cruel fit périr ma femme et mes enfants :}
+\spl{Et moi, jusqu’en son camp j’ai porté le carnage ;}
+\spl{La mort de son fils même honora mon courage.}
+\spl{Les flambeaux de la haine entre nous allumés}
+\spl{Jamais des mains du temps ne seront consumés.}
+
+\speaker{\surname{Phanor}.}
+\spl{Ne les éteignez point, mais cachez-en la flamme ;}
+\spl{Immolez au public les douleurs de votre âme.}
+\spl{Quand vous verrez ces lieux par ses mains ravagés,}
+\spl{Vos malheureux enfants seront-ils mieux vengés ?}
+\spl{Vous avez tout perdu, fils, frère, épouse, fille ;}
+\spl{Ne perdez point l’état : c’est là votre famille.}
+
+\speaker{\surname{Zopire}.}
+\spl{On ne perd les états que par timidité.}
+
+\speaker{\surname{Phanor}.}
+\spl{On périt quelquefois par trop de fermeté.}
+
+\speaker{\surname{Zopire}.}
+\spl{Périssons, s’il le faut.}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Périssons, s’il le faut. }Ah ! Quel triste courage,}
+\spl{Quand vous touchez au port, vous expose au naufrage ?}
+\spl{Le ciel, vous le voyez, a remis en vos mains}
+\spl{De quoi fléchir encor ce tyran des humains.}
+\spl{Cette jeune Palmire en ses camps élevée,}
+\spl{Dans vos derniers combats par vous-même enlevée,}
+\spl{Semble un ange de paix descendu parmi nous,}
+\spl{Qui peut de Mahomet apaiser le courroux.}
+\spl{Déjà par ses hérauts il l’a redemandée.}
+
+\speaker{\surname{Zopire}.}
+\spl{Tu veux qu’à ce barbare elle soit accordée ?}
+\spl{Tu veux que d’un si cher et si noble trésor}
+\spl{Ses criminelles mains s’enrichissent encor ?}
+\spl{Quoi ! Lorsqu’il nous apporte et la fraude et la guerre,}
+\spl{Lorsque son bras enchaîne et ravage la terre,}
+\spl{Les plus tendres appas brigueront sa faveur,}
+\spl{Et la beauté sera le prix de la fureur !}
+\spl{Ce n’est pas qu’à mon âge, aux bornes de ma vie,}
+\spl{Je porte à Mahomet une honteuse envie ;}
+\spl{Ce coeur triste et flétri, que les ans ont glacé,}
+\spl{Ne peut sentir les feux d’un désir insensé.}
+\spl{Mais soit qu’en tous les temps un objet né pour plaire}
+\spl{Arrache de nos voeux l’hommage involontaire ;}
+\spl{Soit que, privé d’enfants, je cherche à dissiper}
+\spl{Cette nuit de douleurs qui vient m’envelopper ;}
+\spl{Je ne sais quel penchant pour cette infortunée}
+\spl{Remplit le vide affreux de mon âme étonnée.}
+\spl{Soit faiblesse ou raison, je ne puis sans horreur}
+\spl{La voir aux mains d’un monstre, artisan de l’erreur.}
+\spl{Je voudrais qu’à mes voeux heureusement docile,}
+\spl{Elle-même en secret pût chérir cet asile ;}
+\spl{Je voudrais que son coeur, sensible à mes bienfaits,}
+\spl{Détestât Mahomet autant que je le hais.}
+\spl{Elle veut me parler sous ces sacrés portiques,}
+\spl{Non loin de cet autel de nos dieux domestiques ;}
+\spl{Elle vient, et son front, siège de la candeur,}
+\spl{Annonce en rougissant les vertus de son coeur.}
+
+\section[{SCÈNE II.}]{SCÈNE II.}\phantomsection
+\label{I02}
+
+{\centering\it ZOPIRE, PALMIRE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}.}
+\spl{Jeune et charmant objet dont le sort de la guerre,}
+\spl{Propice à ma vieillesse, honora cette terre,}
+\spl{Vous n’êtes point tombée en de barbares mains ;}
+\spl{Tout respecte avec moi vos malheureux destins,}
+\spl{Votre âge, vos beautés, votre aimable innocence.}
+\spl{Parlez ; et s’il me reste encor quelque puissance,}
+\spl{De vos justes désirs si je remplis les voeux,}
+\spl{Ces derniers de mes jours seront des jours heureux.}
+
+\speaker{\surname{Palmire}.}
+\spl{Seigneur, depuis deux mois sous vos lois prisonnière,}
+\spl{Je dus à mes destins pardonner ma misère ;}
+\spl{Vos généreuses mains s’empressent d’effacer}
+\spl{Les larmes que le ciel me condamne à verser.}
+\spl{Par vous, par vos bienfaits, à parler enhardie,}
+\spl{C’est de vous que j’attends le bonheur de ma vie.}
+\spl{Aux voeux de Mahomet j’ose ajouter les miens :}
+\spl{Il vous a demandé de briser mes liens ;}
+\spl{Puissiez-vous l’écouter ! Et puissé-je lui dire}
+\spl{Qu’après le ciel et lui je dois tout à Zopire !}
+
+\speaker{\surname{Zopire}.}
+\spl{Ainsi de Mahomet vous regrettez les fers,}
+\spl{Ce tumulte des camps, ces horreurs des déserts,}
+\spl{Cette patrie errante, au trouble abandonnée ?}
+
+\speaker{\surname{Palmire}.}
+\spl{La patrie est aux lieux où l’âme est enchaînée.}
+\spl{Mahomet a formé mes premiers sentiments,}
+\spl{Et ses femmes en paix guidaient mes faibles ans :}
+\spl{Leur demeure est un temple où ces femmes sacrées}
+\spl{Lèvent au ciel des mains de leur maître adorées.}
+\spl{Le jour de mon malheur, hélas ! Fut le seul jour}
+\spl{Où le sort des combats a troublé leur séjour :}
+\spl{Seigneur, ayez pitié d’une âme déchirée,}
+\spl{Toujours présente aux lieux dont je suis séparée.}
+
+\speaker{\surname{Zopire}.}
+\spl{J’entends : vous espérez partager quelque jour}
+\spl{De ce maître orgueilleux et la main et l’amour.}
+
+\speaker{\surname{Palmire}.}
+\spl{Seigneur, je le révère, et mon âme tremblante}
+\spl{Croit voir dans Mahomet un dieu qui m’épouvante.}
+\spl{Non, d’un si grand hymen mon coeur n’est point flatté ;}
+\spl{Tant d’éclat convient mal à tant d’obscurité.}
+
+\speaker{\surname{Zopire}.}
+\spl{Ah ! Qui que vous soyez, il n’est point né peut-être}
+\spl{Pour être votre époux, encor moins votre maître ;}
+\spl{Et vous semblez d’un sang fait pour donner des lois}
+\spl{À l’arabe insolent qui marche égal aux rois.}
+
+\speaker{\surname{Palmire}.}
+\spl{Nous ne connaissons point l’orgueil de la naissance ;}
+\spl{Sans parents, sans patrie, esclaves dès l’enfance,}
+\spl{Dans notre égalité nous chérissons nos fers ;}
+\spl{Tout nous est étranger, hors le dieu que je sers.}
+
+\speaker{\surname{Zopire}.}
+\spl{Tout vous est étranger ! Cet état peut-il plaire ?}
+\spl{Quoi ! Vous servez un maître, et n’avez point de père ?}
+\spl{Dans mon triste palais, seul et privé d’enfants,}
+\spl{J’aurais pu voir en vous l’appui de mes vieux ans ;}
+\spl{Le soin de vous former des destins plus propices}
+\spl{Eût adouci des miens les longues injustices.}
+\spl{Mais non, vous abhorrez ma patrie et ma loi.}
+
+\speaker{\surname{Palmire}.}
+\spl{Comment puis-je être à vous ? Je ne suis point à moi.}
+\spl{Vous aurez mes regrets, votre bonté m’est chère ;}
+\spl{Mais enfin Mahomet m’a tenu lieu de père.}
+
+\speaker{\surname{Zopire}.}
+\spl{Quel père ! Justes dieux ! Lui ? Ce monstre imposteur !}
+
+\speaker{\surname{Palmire}.}
+\spl{Ah ! Quels noms inouïs lui donnez-vous, seigneur !}
+\spl{Lui, dans qui tant d’états adorent leur prophète !}
+\spl{Lui, l’envoyé du ciel, et son seul interprète !}
+
+\speaker{\surname{Zopire}.}
+\spl{Étrange aveuglement des malheureux mortels !}
+\spl{Tout m’abandonne ici pour dresser des autels}
+\spl{À ce coupable heureux qu’épargna ma justice,}
+\spl{Et qui courut au trône, échappé du supplice.}
+
+\speaker{\surname{Palmire}.}
+\spl{Vous me faites frémir, seigneur ; et, de mes jours,}
+\spl{Je n’avais entendu ces horribles discours.}
+\spl{Mon penchant, je l’avoue, et ma reconnaissance,}
+\spl{Vous donnaient sur mon coeur une juste puissance ;}
+\spl{Vos blasphèmes affreux contre mon protecteur}
+\spl{À ce penchant si doux font succéder l’horreur.}
+
+\speaker{\surname{Zopire}.}
+\spl{Ô superstition ! Tes rigueurs inflexibles}
+\spl{Privent d’humanité les coeurs les plus sensibles.}
+\spl{Que je vous plains, Palmire ! Et que sur vos erreurs}
+\spl{Ma pitié malgré moi me fait verser de pleurs !}
+
+\speaker{\surname{Palmire}.}
+\spl{Et vous me refusez !}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Et vous me refusez ! }Oui. Je ne puis vous rendre}
+\spl{Au tyran qui trompa ce coeur flexible et tendre ;}
+\spl{Oui, je crois voir en vous un bien trop précieux,}
+\spl{Qui me rend Mahomet encor plus odieux.}
+
+\section[{SCÈNE III.}]{SCÈNE III.}\phantomsection
+\label{I03}
+
+{\centering\it ZOPIRE, PALMIRE, PHANOR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}.}
+\spl{Que voulez-vous, Phanor ?}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Que voulez-vous, Phanor ? }Aux portes de la ville,}
+\spl{D’où l’on voit de Moad la campagne fertile,}
+\spl{Omar est arrivé.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Omar est arrivé. }Qui ? Ce farouche Omar,}
+\spl{Que l’erreur aujourd’hui conduit après son char,}
+\spl{Qui combattit longtemps le tyran qu’il adore,}
+\spl{Qui vengea son pays ?}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Qui vengea son pays ? }Peut-être il l’aime encore.}
+\spl{Moins terrible à nos yeux, cet insolent guerrier,}
+\spl{Portant entre ses mains le glaive et l’olivier,}
+\spl{De la paix à nos chefs a présenté le gage.}
+\spl{On lui parle ; il demande, il reçoit un otage.}
+\spl{Séide est avec lui.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Séide est avec lui. }Grand dieu ! Destin plus doux !}
+\spl{Quoi ! Séide ?}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Quoi ! Séide ? }Omar vient, il s’avance vers vous.}
+
+\speaker{\surname{Zopire}.}
+\spl{Il le faut écouter. Allez, jeune Palmire.}
+         \textit{Palmire sort.}\par
+\spl{Omar devant mes yeux ! Qu’osera-t-il me dire ?}
+\spl{Ô dieux de mon pays, qui depuis trois mille ans}
+\spl{Protégiez d’Ismaël les généreux enfants !}
+\spl{Soleil, sacré flambeau, qui dans votre carrière,}
+\spl{Image de ces dieux, nous prêtez leur lumière,}
+\spl{Voyez et soutenez la juste fermeté}
+\spl{Que j’opposai toujours contre l’iniquité !}
+
+\section[{SCÈNE IV.}]{SCÈNE IV.}\phantomsection
+\label{I04}
+
+{\centering\it ZOPIRE, OMAR, PHANOR, suite.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}.}
+\spl{Eh bien ! Après six ans tu revois ta patrie,}
+\spl{Que ton bras défendit, que ton coeur a trahie.}
+\spl{Ces murs sont encor pleins de tes premiers exploits.}
+\spl{Déserteur de nos dieux, déserteur de nos lois,}
+\spl{Persécuteur nouveau de cette cité sainte,}
+\spl{D’où vient que ton audace en profane l’enceinte ?}
+\spl{Ministre d’un brigand qu’on dût exterminer,}
+\spl{Parle : que me veux-tu ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Parle : que me veux-tu ? }Je veux te pardonner.}
+\spl{Le prophète d’un dieu, par pitié pour ton âge,}
+\spl{Pour tes malheurs passés, surtout pour ton courage,}
+\spl{Te présente une main qui pourrait t’écraser ;}
+\spl{Et j’apporte la paix qu’il daigne proposer.}
+
+\speaker{\surname{Zopire}.}
+\spl{Un vil séditieux prétend avec audace}
+\spl{Nous accorder la paix, et non demander grâce !}
+\spl{Souffrirez-vous, grands dieux ! Qu’au gré de ses forfaits}
+\spl{Mahomet nous ravisse ou nous rende la paix ?}
+\spl{Et vous, qui vous chargez des volontés d’un traître,}
+\spl{Ne rougissez-vous point de servir un tel maître ?}
+\spl{Ne l’avez-vous pas vu, sans honneur et sans biens,}
+\spl{Ramper au dernier rang des derniers citoyens ?}
+\spl{Qu’alors il était loin de tant de renommée !}
+
+\speaker{\surname{Omar}.}
+\spl{À tes viles grandeurs ton âme accoutumée}
+\spl{Juge ainsi du mérite, et pèse les humains}
+\spl{Au poids que la fortune avait mis dans tes mains.}
+\spl{Ne sais-tu pas encore, homme faible et superbe,}
+\spl{Que l’insecte insensible enseveli sous l’herbe,}
+\spl{Et l’aigle impérieux qui plane au haut du ciel,}
+\spl{Rentrent dans le néant aux yeux de l’éternel ?}
+\spl{Les mortels sont égaux ; ce n’est point la naissance,}
+\spl{C’est la seule vertu qui fait leur différence.}
+\spl{Il est de ces esprits favorisés des cieux,}
+\spl{Qui sont tout par eux-même, et rien par leurs aïeux.}
+\spl{Tel est l’homme, en un mot, que j’ai choisi pour maître ;}
+\spl{Lui seul dans l’univers a mérité de l’être ;}
+\spl{Tout mortel à sa loi doit un jour obéir,}
+\spl{Et j’ai donné l’exemple aux siècles à venir.}
+
+\speaker{\surname{Zopire}.}
+\spl{Je te connais, Omar : en vain ta politique}
+\spl{Vient m’étaler ici ce tableau fanatique :}
+\spl{En vain tu peux ailleurs éblouir les esprits ;}
+\spl{Ce que ton peuple adore excite mes mépris.}
+\spl{Bannis toute imposture, et d’un coup d’oeil plus sage}
+\spl{Regarde ce prophète à qui tu rends hommage ;}
+\spl{Vois l’homme en Mahomet ; conçois par quel degré}
+\spl{Tu fais monter aux cieux ton fantôme adoré.}
+\spl{Enthousiaste ou fourbe, il faut cesser de l’être ;}
+\spl{Sers-toi de ta raison, juge avec moi ton maître :}
+\spl{Tu verras de chameaux un grossier conducteur,}
+\spl{Chez sa première épouse insolent imposteur,}
+\spl{Qui, sous le vain appât d’un songe ridicule,}
+\spl{Des plus vils des humains tente la foi crédule ;}
+\spl{Comme un séditieux à mes pieds amené,}
+\spl{Par quarante vieillards à l’exil condamné :}
+\spl{Trop léger châtiment qui l’enhardit au crime.}
+\spl{De caverne en caverne il fuit avec Fatime.}
+\spl{Ses disciples errants de cités en déserts,}
+\spl{Proscrits, persécutés, bannis, chargés de fers,}
+\spl{Promènent leur fureur, qu’ils appellent divine ;}
+\spl{De leurs venins bientôt ils infectent Médine.}
+\spl{Toi-même alors, toi-même, écoutant la raison,}
+\spl{Tu voulus dans sa source arrêter le poison.}
+\spl{Je te vis plus heureux, et plus juste, et plus brave,}
+\spl{Attaquer le tyran dont je te vois l’esclave.}
+\spl{S’il est un vrai prophète, osas-tu le punir ?}
+\spl{S’il est un imposteur, oses-tu le servir ?}
+
+\speaker{\surname{Omar}.}
+\spl{Je voulus le punir quand mon peu de lumière}
+\spl{Méconnut ce grand homme entré dans la carrière :}
+\spl{Mais enfin, quand j’ai vu que Mahomet est né}
+\spl{Pour changer l’univers à ses pieds consterné ;}
+\spl{Quand mes yeux, éclairés du feu de son génie,}
+\spl{Le virent s’élever dans sa course infinie ;}
+\spl{Éloquent, intrépide, admirable en tout lieu,}
+\spl{Agir, parler, punir, ou pardonner en dieu ;}
+\spl{J’associai ma vie à ses travaux immenses :}
+\spl{Des trônes, des autels en sont les récompenses.}
+\spl{Je fus, je te l’avoue, aveugle comme toi.}
+\spl{Ouvre les yeux, Zopire, et change ainsi que moi ;}
+\spl{Et, sans plus me vanter les fureurs de ton zèle,}
+\spl{Ta persécution si vaine et si cruelle,}
+\spl{Nos frères gémissants, notre dieu blasphémé,}
+\spl{Tombe aux pieds d’un héros par toi-même opprimé.}
+\spl{Viens baiser cette main qui porte le tonnerre.}
+\spl{Tu me vois après lui le premier de la terre ;}
+\spl{Le poste qui te reste est encore assez beau}
+\spl{Pour fléchir noblement sous ce maître nouveau.}
+\spl{Vois ce que nous étions, et vois ce que nous sommes.}
+\spl{Le peuple, aveugle et faible, est né pour les grands hommes,}
+\spl{Pour admirer, pour croire, et pour nous obéir.}
+\spl{Viens régner avec nous, si tu crains de servir ;}
+\spl{Partage nos grandeurs au lieu de t’y soustraire ;}
+\spl{Et, las de l’imiter, fais trembler le vulgaire.}
+
+\speaker{\surname{Zopire}.}
+\spl{Ce n’est qu’à Mahomet, à ses pareils, à toi,}
+\spl{Que je prétends, Omar, inspirer quelque effroi.}
+\spl{Tu veux que du sénat le shérif infidèle}
+\spl{Encense un imposteur, et couronne un rebelle !}
+\spl{Je ne te nierai point que ce fier séducteur}
+\spl{N’ait beaucoup de prudence et beaucoup de valeur :}
+\spl{Je connais comme toi les talents de ton maître ;}
+\spl{S’il était vertueux, c’est un héros peut-être :}
+\spl{Mais ce héros, Omar, est un traître, un cruel,}
+\spl{Et de tous les tyrans c’est le plus criminel.}
+\spl{Cesse de m’annoncer sa trompeuse clémence ;}
+\spl{Le grand art qu’il possède est l’art de la vengeance.}
+\spl{Dans le cour de la guerre un funeste destin}
+\spl{Le priva de son fils que fit périr ma main.}
+\spl{Mon bras perça le fils, ma voix bannit le père ;}
+\spl{Ma haine est inflexible, ainsi que sa colère ;}
+\spl{Pour rentrer dans la Mecque, il doit m’exterminer,}
+\spl{Et le juste aux méchants ne doit point pardonner.}
+
+\speaker{\surname{Omar}.}
+\spl{Eh bien ! Pour te montrer que Mahomet pardonne,}
+\spl{Pour te faire embrasser l’exemple qu’il te donne,}
+\spl{Partage avec lui-même, et donne à tes tribus}
+\spl{Les dépouilles des rois que nous avons vaincus.}
+\spl{Mets un prix à la paix, mets un prix à Palmire ;}
+\spl{Nos trésors sont à toi.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Nos trésors sont à toi. }Tu penses me séduire,}
+\spl{Me vendre ici ma honte, et marchander la paix}
+\spl{Par ses trésors honteux, le prix de ses forfaits ?}
+\spl{Tu veux que sous ses lois Palmire se remette ?}
+\spl{Elle a trop de vertus pour être sa sujette ;}
+\spl{Et je veux l’arracher aux tyrans imposteurs,}
+\spl{Qui renversent les lois et corrompent les moeurs.}
+
+\speaker{\surname{Omar}.}
+\spl{Tu me parles toujours comme un juge implacable,}
+\spl{Qui sur son tribunal intimide un coupable.}
+\spl{Pense et parle en ministre ; agis, traite avec moi}
+\spl{Comme avec l’envoyé d’un grand homme et d’un roi.}
+
+\speaker{\surname{Zopire}.}
+\spl{Qui l’a fait roi ? Qui l’a couronné ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Qui l’a fait roi ? Qui l’a couronné ? }La victoire.}
+\spl{Ménage sa puissance, et respecte sa gloire.}
+\spl{Aux noms de conquérant et de triomphateur,}
+\spl{Il veut joindre le nom de pacificateur,}
+\spl{Son armée est encore aux bords du Saïbare ;}
+\spl{Des murs où je suis né le siège se prépare ;}
+\spl{Sauvons, si tu m’en crois, le sang qui va couler :}
+\spl{Mahomet veut ici te voir et te parler.}
+
+\speaker{\surname{Zopire}.}
+\spl{Lui ? Mahomet ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Lui ? Mahomet ? }Lui-même ; il t’en conjure.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Lui ? Mahomet ? Lui-même ; il t’en conjure. }Traître !}
+\spl{Si de ces lieux sacrés j’étais l’unique maître,}
+\spl{C’est en te punissant que j’aurais répondu.}
+
+\speaker{\surname{Omar}.}
+\spl{Zopire, j’ai pitié de ta fausse vertu.}
+\spl{Mais puisqu’un vil sénat insolemment partage}
+\spl{De ton gouvernement le fragile avantage,}
+\spl{Puisqu’il règne avec toi, je cours m’y présenter.}
+
+\speaker{\surname{Zopire}.}
+\spl{Je t’y suis ; nous verrons qui l’on doit écouter.}
+\spl{Je défendrai mes lois, mes dieux, et ma patrie.}
+\spl{Viens-y contre ma voix prêter ta voix impie}
+\spl{Au dieu persécuteur, effroi du genre humain,}
+\spl{Qu’un fourbe ose annoncer les armes à la main.}
+         \textit{À Phanor.}\par
+\spl{Toi, viens m’aider, Phanor, à repousser un traître :}
+\spl{Le souffrir parmi nous, et l’épargner, c’est l’être.}
+\spl{Renversons ses desseins, confondons son orgueil ;}
+\spl{Préparons son supplice, ou creusons mon cercueil.}
+\spl{Je vais, si le sénat m’écoute et me seconde,}
+\spl{Délivrer d’un tyran ma patrie et le monde.}
+\chapterclose
+
+
+\chapteropen
+
+\chapter[{ACTE II}]{ACTE II}
+\renewcommand{\leftmark}{ACTE II}\phantomsection
+\label{II}
+
+
+\chaptercont
+
+\section[{SCÈNE I.}]{SCÈNE I.}\phantomsection
+\label{II01}
+
+{\centering\it SÉIDE, PALMIRE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Palmire}.}
+\spl{Dans ma prison cruelle est-ce un dieu qui te guide ?}
+\spl{Mes maux sont-ils finis ? Te revois-je, Séide ?}
+
+\speaker{\surname{Séide}.}
+\spl{Ô charme de ma vie et de tous mes malheurs !}
+\spl{Palmire, unique objet qui m’a coûté des pleurs,}
+\spl{Depuis ce jour de sang qu’un ennemi barbare,}
+\spl{Près des camps du prophète, aux bords du Saïbare,}
+\spl{Vint arracher sa proie à mes bras tout sanglants ;}
+\spl{Qu’étendu loin de toi sur des corps expirants,}
+\spl{Mes cris mal entendus sur cette infâme rive}
+\spl{Invoquèrent la mort sourde à ma voix plaintive,}
+\spl{Ô ma chère Palmire, en quel gouffre d’horreur}
+\spl{Tes périls et ma perte ont abîmé mon coeur !}
+\spl{Que mes feux, que ma crainte, et mon impatience,}
+\spl{Accusaient la lenteur des jours de la vengeance !}
+\spl{Que je hâtais l’assaut si longtemps différé,}
+\spl{Cette heure de carnage, où, de sang enivré,}
+\spl{Je devais de mes mains brûler la ville impie}
+\spl{Où Palmire a pleuré sa liberté ravie !}
+\spl{Enfin de Mahomet les sublimes desseins,}
+\spl{Que n’ose approfondir l’humble esprit des humains,}
+\spl{Ont fait entrer Omar en ce lieu d’esclavage ;}
+\spl{Je l’apprends, et j’y vole. On demande un otage ;}
+\spl{J’entre, je me présente ; on accepte ma foi,}
+\spl{Et je me rends captif, ou je meurs avec toi.}
+
+\speaker{\surname{Palmire}.}
+\spl{Séide, au moment même, avant que ta présence}
+\spl{Vînt de mon désespoir calmer la violence,}
+\spl{Je me jetais aux pieds de mon fier ravisseur.}
+\spl{Vous voyez, ai-je dit, les secrets de mon coeur :}
+\spl{Ma vie est dans les camps dont vous m’avez tirée ;}
+\spl{Rendez-moi le seul bien dont je suis séparée.}
+\spl{Mes pleurs, en lui parlant, ont arrosé ses pieds ;}
+\spl{Ses refus ont saisi mes esprits effrayés.}
+\spl{J’ai senti dans mes yeux la lumière obscurcie :}
+\spl{Mon coeur, sans mouvement, sans chaleur, et sans vie,}
+\spl{D’aucune ombre d’espoir n’était plus secouru ;}
+\spl{Tout finissait pour moi, quand Séide a paru.}
+
+\speaker{\surname{Séide}.}
+\spl{Quel est donc ce mortel insensible à tes larmes ?}
+
+\speaker{\surname{Palmire}.}
+\spl{C’est Zopire : il semblait touché de mes alarmes ;}
+\spl{Mais le cruel enfin vient de me déclarer}
+\spl{Que des lieux où je suis rien ne peut me tirer.}
+
+\speaker{\surname{Séide}.}
+\spl{Le barbare se trompe ; et Mahomet mon maître,}
+\spl{Et l’invincible Omar, et moi-même peut-être}
+\spl{Car j’ose me nommer après ces noms fameux,}
+\spl{Pardonne à ton amant cet espoir orgueilleux),}
+\spl{Nous briserons ta chaîne, et tarirons tes larmes.}
+\spl{Le dieu de Mahomet, protecteur de nos armes,}
+\spl{Le dieu dont j’ai porté les sacrés étendards,}
+\spl{Le dieu qui de Médine a détruit les remparts,}
+\spl{Renversera la Mecque à nos pieds abattue.}
+\spl{Omar est dans la ville, et le peuple à sa vue}
+\spl{N’a point fait éclater ce trouble et cette horreur}
+\spl{Qu’inspire aux ennemis un ennemi vainqueur ;}
+\spl{Au nom de Mahomet un grand dessein l’amène.}
+
+\speaker{\surname{Palmire}.}
+\spl{Mahomet nous chérit ; il briserait ma chaîne ;}
+\spl{Il unirait nos coeurs ; nos coeurs lui sont offerts :}
+\spl{Mais il est loin de nous, et nous sommes aux fers.}
+
+\section[{SCÈNE II.}]{SCÈNE II.}\phantomsection
+\label{II02}
+
+{\centering\it PALMIRE, SÉIDE, OMAR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{Vos fers seront brisés, soyez pleins d’espérance ;}
+\spl{Le ciel vous favorise, et Mahomet s’avance.}
+
+\speaker{\surname{Séide}.}
+\spl{Lui ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Lui ? }Notre auguste père ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Lui ? Notre auguste père ? }Au conseil assemblé}
+\spl{L’esprit de Mahomet par ma bouche a parlé.}
+\spl{" Ce favori du dieu qui préside aux batailles,}
+\spl{Ce grand homme, ai-je dit, est né dans vos murailles.}
+\spl{Il s’est rendu des rois le maître et le soutien,}
+\spl{Et vous lui refusez le rang de citoyen !}
+\spl{Vient-il vous enchaîner, vous perdre, vous détruire ?}
+\spl{Il vient vous protéger, mais surtout vous instruire :}
+\spl{Il vient dans vos coeurs même établir son pouvoir. "}
+\spl{Plus d’un juge à ma voix a paru s’émouvoir ;}
+\spl{Les esprits s’ébranlaient : l’inflexible Zopire,}
+\spl{Qui craint de la raison l’inévitable empire,}
+\spl{Veut convoquer le peuple, et s’en faire un appui.}
+\spl{On l’assemble ; j’y cours, et j’arrive avec lui :}
+\spl{Je parle aux citoyens, j’intimide, j’exhorte ;}
+\spl{J’obtiens qu’à Mahomet on ouvre enfin la porte.}
+\spl{Après quinze ans d’exil, il revoit ses foyers ;}
+\spl{Il entre accompagné des plus braves guerriers,}
+\spl{D’Ali, d’Ammon, d’Hercide, et de sa noble élite ;}
+\spl{Il entre, et sur ses pas chacun se précipite ;}
+\spl{Chacun porte un regard, comme un coeur différent :}
+\spl{L’un croit voir un héros, l’autre voir un tyran.}
+\spl{Celui-ci le blasphème, et le menace encore ;}
+\spl{Cet autre est à ses pieds, les embrasse, et l’adore.}
+\spl{Nous faisons retentir à ce peuple agité}
+\spl{Les noms sacrés de dieu, de paix, de liberté.}
+\spl{De Zopire éperdu la cabale impuissante}
+\spl{Vomit en vain les feux de sa rage expirante.}
+\spl{Au milieu de leurs cris, le front calme et serein,}
+\spl{Mahomet marche en maître, et l’olive à la main :}
+\spl{La trêve est publiée ; et le voici lui-même.}
+
+\section[{SCÈNE III.}]{SCÈNE III.}\phantomsection
+\label{II03}
+
+{\centering\it MAHOMET, OMAR, ALI, HERCIDE, SÉIDE, PALMIRE, suite.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Mahomet}.}
+\spl{Invincibles soutiens de mon pouvoir suprême,}
+\spl{Noble et sublime Ali, Morad, Hercide, Ammon,}
+\spl{Retournez vers ce peuple, instruisez-le en mon nom ;}
+\spl{Promettez, menacez ; que la vérité règne ;}
+\spl{Qu’on adore mon dieu, mais surtout qu’on le craigne.}
+\spl{Vous, Séide, en ces lieux !}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Vous, Séide, en ces lieux ! }Ô mon père ! Ô mon roi !}
+\spl{Le dieu qui vous inspire a marché devant moi.}
+\spl{Prêt à mourir pour vous, prêt à tout entreprendre,}
+\spl{J’ai prévenu votre ordre.}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{J’ai prévenu votre ordre. }Il eût fallu l’attendre.}
+\spl{Qui fait plus qu’il ne doit ne sait point me servir.}
+\spl{J’obéis à mon dieu ; vous, sachez m’obéir.}
+
+\speaker{\surname{Palmire}.}
+\spl{Ah ! Seigneur ! Pardonnez à son impatience.}
+\spl{Élevés près de vous dans notre tendre enfance,}
+\spl{Les mêmes sentiments nous animent tous deux :}
+\spl{Hélas ! Mes tristes jours sont assez malheureux !}
+\spl{Loin de vous, loin de lui, j’ai langui prisonnière ;}
+\spl{Mes yeux de pleurs noyés s’ouvraient à la lumière :}
+\spl{Empoisonneriez-vous l’instant de mon bonheur ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Palmire, c’est assez ; je lis dans votre coeur :}
+\spl{Que rien ne vous alarme, et rien ne vous étonne.}
+\spl{Allez : malgré les soins de l’autel et du trône,}
+\spl{Mes yeux sur vos destins seront toujours ouverts ;}
+\spl{Je veillerai sur vous comme sur l’univers.}
+         \textit{À Séide.}\par
+\spl{Vous, suivez mes guerriers ; et vous, jeune Palmire,}
+\spl{En servant votre dieu, ne craignez que Zopire.}
+
+\section[{SCÈNE IV.}]{SCÈNE IV.}\phantomsection
+\label{II04}
+
+{\centering\it MAHOMET, OMAR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Mahomet}.}
+\spl{Toi, reste, brave Omar : il est temps que mon coeur}
+\spl{De ses derniers replis t’ouvre la profondeur.}
+\spl{D’un siège encor douteux la lenteur ordinaire}
+\spl{Peut retarder ma course, et borner ma carrière :}
+\spl{Ne donnons point le temps aux mortels détrompés}
+\spl{De rassurer leurs yeux de tant d’éclat frappés.}
+\spl{Les préjugés, ami, sont les rois du vulgaire.}
+\spl{Tu connais quel oracle et quel bruit populaire}
+\spl{Ont promis l’univers à l’envoyé d’un dieu,}
+\spl{Qui, reçu dans la Mecque, et vainqueur en tout lieu,}
+\spl{Entrerait dans ces murs en écartant la guerre :}
+\spl{Je viens mettre à profit les erreurs de la terre.}
+\spl{Mais tandis que les miens, par de nouveaux efforts,}
+\spl{De ce peuple inconstant font mouvoir les ressorts,}
+\spl{De quel oeil revois-tu Palmire avec Séide ?}
+
+\speaker{\surname{Omar}.}
+\spl{Parmi tous ces enfants enlevés par Hercide,}
+\spl{Qui, formés sous ton joug, et nourris dans ta loi,}
+\spl{N’ont de dieu que le tien, n’ont de père que toi,}
+\spl{Aucun ne te servit avec moins de scrupule,}
+\spl{N’eut un coeur plus docile, un esprit plus crédule ;}
+\spl{De tous tes musulmans ce sont les plus soumis.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Cher Omar, je n’ai point de plus grands ennemis.}
+\spl{Ils s’aiment, c’est assez.}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Ils s’aiment, c’est assez. }Blâmes-tu leurs tendresses ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Ah ! Connais mes fureurs et toutes mes faiblesses.}
+
+\speaker{\surname{Omar}.}
+\spl{Comment ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Comment ? }Tu sais assez quel sentiment vainqueur}
+\spl{Parmi mes passions règne au fond de mon coeur.}
+\spl{Chargé du soin du monde, environné d’alarmes,}
+\spl{Je porte l’encensoir, et le sceptre, et les armes :}
+\spl{Ma vie est un combat, et ma frugalité}
+\spl{Asservit la nature à mon austérité :}
+\spl{J’ai banni loin de moi cette liqueur traîtresse}
+\spl{Qui nourrit des humains la brutale mollesse :}
+\spl{Dans des sables brûlants, sur des rochers déserts,}
+\spl{Je supporte avec toi l’inclémence des airs :}
+\spl{L’amour seul me console ; il est ma récompense,}
+\spl{L’objet de mes travaux, l’idole que j’encense,}
+\spl{Le dieu de Mahomet ; et cette passion}
+\spl{Est égale aux fureurs de mon ambition.}
+\spl{Je préfère en secret Palmire à mes épouses.}
+\spl{Conçois-tu bien l’excès de mes fureurs jalouses,}
+\spl{Quand Palmire à mes pieds, par un aveu fatal,}
+\spl{Insulte à Mahomet, et lui donne un rival ?}
+
+\speaker{\surname{Omar}.}
+\spl{Et tu n’es pas vengé ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Et tu n’es pas vengé ? }Juge si je dois l’être.}
+\spl{Pour le mieux détester, apprends à le connaître.}
+\spl{De mes deux ennemis apprends tous les forfaits :}
+\spl{Tous deux sont nés ici du tyran que je hais.}
+
+\speaker{\surname{Omar}.}
+\spl{Quoi ! Zopire...}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Quoi ! Zopire... }Est leur père : Hercide en ma puissance}
+\spl{Remit depuis quinze ans leur malheureuse enfance.}
+\spl{J’ai nourri dans mon sein ces serpents dangereux ;}
+\spl{Déjà sans se connaître ils m’outragent tous deux.}
+\spl{J’attisai de mes mains leurs feux illégitimes.}
+\spl{Le ciel voulut ici rassembler tous les crimes.}
+\spl{Je veux... leur père vient ; ses yeux lancent vers nous}
+\spl{Les regards de la haine, et les traits du courroux.}
+\spl{Observe tout, Omar, et qu’avec son escorte}
+\spl{Le vigilant Hercide assiège cette porte.}
+\spl{Reviens me rendre compte, et voir s’il faut hâter}
+\spl{Ou retenir les coups que je dois lui porter.}
+
+\section[{SCÈNE V.}]{SCÈNE V.}\phantomsection
+\label{II05}
+
+{\centering\it ZOPIRE, MAHOMET.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}.}
+\spl{Ah ! Quel fardeau cruel à ma douleur profonde !}
+\spl{Moi, recevoir ici cet ennemi du monde !}
+
+\speaker{\surname{Mahomet}.}
+\spl{Approche, et puisque enfin le ciel veut nous unir,}
+\spl{Vois Mahomet sans crainte, et parle sans rougir.}
+
+\speaker{\surname{Zopire}.}
+\spl{Je rougis pour toi seul, pour toi dont l’artifice}
+\spl{A traîné ta patrie au bord du précipice ;}
+\spl{Pour toi de qui la main sème ici les forfaits,}
+\spl{Et fait naître la guerre au milieu de la paix.}
+\spl{Ton nom seul parmi nous divise les familles,}
+\spl{Les époux, les parents, les mères et les filles ;}
+\spl{Et la trêve pour toi n’est qu’un moyen nouveau}
+\spl{Pour venir dans nos coeurs enfoncer le couteau.}
+\spl{La discorde civile est partout sur ta trace.}
+\spl{Assemblage inouï de mensonge et d’audace,}
+\spl{Tyran de ton pays, est-ce ainsi qu’en ce lieu}
+\spl{Tu viens donner la paix, et m’annoncer un dieu ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Si j’avais à répondre à d’autres qu’à Zopire,}
+\spl{Je ne ferais parler que le dieu qui m’inspire ;}
+\spl{Le glaive et l’alcoran, dans mes sanglantes mains,}
+\spl{Imposeraient silence au reste des humains ;}
+\spl{Ma voix ferait sur eux les effets du tonnerre,}
+\spl{Et je verrais leurs fronts attachés à la terre :}
+\spl{Mais je te parle en homme, et sans rien déguiser ;}
+\spl{Je me sens assez grand pour ne pas t’abuser.}
+\spl{Vois quel est Mahomet : nous sommes seuls ; écoute :}
+\spl{Je suis ambitieux ; tout homme l’est, sans doute ;}
+\spl{Mais jamais roi, pontife, ou chef, ou citoyen,}
+\spl{Ne conçut un projet aussi grand que le mien.}
+\spl{Chaque peuple à son tour a brillé sur la terre,}
+\spl{Par les lois, par les arts, et surtout par la guerre ;}
+\spl{Le temps de l’Arabie est à la fin venu.}
+\spl{Ce peuple généreux, trop longtemps inconnu,}
+\spl{Laissait dans ses déserts ensevelir sa gloire ;}
+\spl{Voici les jours nouveaux marqués pour la victoire.}
+\spl{Vois du nord au midi l’univers désolé,}
+\spl{La Perse encor sanglante, et son trône ébranlé,}
+\spl{L’Inde esclave et timide, et l’Égypte abaissée,}
+\spl{Des murs de Constantin la splendeur éclipsée ;}
+\spl{Vois l’empire romain tombant de toutes parts,}
+\spl{Ce grand corps déchiré, dont les membres épars}
+\spl{Languissent dispersés sans honneur et sans vie :}
+\spl{Sur ces débris du monde élevons l’Arabie.}
+\spl{Il faut un nouveau culte, il faut de nouveaux fers ;}
+\spl{Il faut un nouveau dieu pour l’aveugle univers.}
+\spl{En Égypte Osiris, Zoroastre en Asie,}
+\spl{Chez les crétois Minos, Numa dans l’Italie,}
+\spl{À des peuples sans moeurs, et sans culte, et sans rois,}
+\spl{Donnèrent aisément d’insuffisantes lois.}
+\spl{Je viens après mille ans changer ces lois grossières :}
+\spl{J’apporte un joug plus noble aux nations entières :}
+\spl{J’abolis les faux dieux ; et mon culte épuré}
+\spl{De ma grandeur naissante est le premier degré.}
+\spl{Ne me reproche point de tromper ma patrie ;}
+\spl{Je détruis sa faiblesse et son idolâtrie :}
+\spl{Sous un roi, sous un dieu, je viens la réunir ;}
+\spl{Et, pour la rendre illustre, il la faut asservir.}
+
+\speaker{\surname{Zopire}.}
+\spl{Voilà donc tes desseins ! C’est donc toi dont l’audace}
+\spl{De la terre à ton gré prétend changer la face !}
+\spl{Tu veux, en apportant le carnage et l’effroi,}
+\spl{Commander aux humains de penser comme toi :}
+\spl{Tu ravages le monde, et tu prétends l’instruire.}
+\spl{Ah ! Si par des erreurs il s’est laissé séduire,}
+\spl{Si la nuit du mensonge a pu nous égarer,}
+\spl{Par quels flambeaux affreux veux-tu nous éclairer ?}
+\spl{Quel droit as-tu reçu d’enseigner, de prédire,}
+\spl{De porter l’encensoir, et d’affecter l’empire ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Le droit qu’un esprit vaste, et ferme en ses desseins,}
+\spl{A sur l’esprit grossier des vulgaires humains.}
+
+\speaker{\surname{Zopire}.}
+\spl{Eh quoi ! Tout factieux qui pense avec courage}
+\spl{Doit donner aux mortels un nouvel esclavage ?}
+\spl{Il a droit de tromper, s’il trompe avec grandeur ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Oui ; je connais ton peuple, il a besoin d’erreur ;}
+\spl{Ou véritable ou faux, mon culte est nécessaire.}
+\spl{Que t’ont produit tes dieux ? Quel bien t’ont-ils pu faire ?}
+\spl{Quels lauriers vois-tu croître au pied de leurs autels ?}
+\spl{Ta secte obscure et basse avilit les mortels,}
+\spl{Énerve le courage, et rend l’homme stupide ;}
+\spl{La mienne élève l’âme, et la rend intrépide :}
+\spl{Ma loi fait des héros.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Ma loi fait des héros. }Dis plutôt des brigands.}
+\spl{Porte ailleurs tes leçons, l’école des tyrans ;}
+\spl{Va vanter l’imposture à Médine où tu règnes,}
+\spl{Où tes maîtres séduits marchent sous tes enseignes,}
+\spl{Où tu vois tes égaux à tes pieds abattus.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Des égaux ! Dès longtemps Mahomet n’en a plus.}
+\spl{Je fais trembler la Mecque, et je règne à Médine ;}
+\spl{Crois-moi, reçois la paix, si tu crains ta ruine.}
+
+\speaker{\surname{Zopire}.}
+\spl{La paix est dans ta bouche, et ton coeur en est loin :}
+\spl{Penses-tu me tromper ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Penses-tu me tromper ? }Je n’en ai pas besoin.}
+\spl{C’est le faible qui trompe, et le puissant commande.}
+\spl{Demain j’ordonnerai ce que je te demande ;}
+\spl{Demain je puis te voir à mon joug asservi :}
+\spl{Aujourd’hui Mahomet veut être ton ami.}
+
+\speaker{\surname{Zopire}.}
+\spl{Nous amis ! Nous, cruel ! Ah ! Quel nouveau prestige !}
+\spl{Connais-tu quelque dieu qui fasse un tel prodige ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{J’en connais un puissant, et toujours écouté,}
+\spl{Qui te parle avec moi.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Qui te parle avec moi. }Qui ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Qui te parle avec moi. Qui ? }La nécessité,}
+\spl{Ton intérêt.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Ton intérêt. }Avant qu’un tel noeud nous rassemble,}
+\spl{Les enfers et les cieux seront unis ensemble.}
+\spl{L’intérêt est ton dieu, le mien est l’équité ;}
+\spl{Entre ces ennemis il n’est point de traité.}
+\spl{Quel serait le ciment, réponds-moi, si tu l’oses,}
+\spl{De l’horrible amitié qu’ici tu me proposes ?}
+\spl{Réponds ; est-ce ton fils que mon bras te ravit ?}
+\spl{Est-ce le sang des miens que ta main répandit ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Oui, ce sont tes fils même. Oui, connais un mystère}
+\spl{Dont seul dans l’univers je suis dépositaire :}
+\spl{Tu pleures tes enfants, ils respirent tous deux.}
+
+\speaker{\surname{Zopire}.}
+\spl{Ils vivraient ! Qu’as-tu dit ? ô ciel ! ô jour heureux !}
+\spl{Ils vivraient ! C’est de toi qu’il faut que je l’apprenne !}
+
+\speaker{\surname{Mahomet}.}
+\spl{Élevés dans mon camp, tous deux sont dans ma chaîne.}
+
+\speaker{\surname{Zopire}.}
+\spl{Mes enfants dans tes fers ! Ils pourraient te servir !}
+
+\speaker{\surname{Mahomet}.}
+\spl{Mes bienfaisantes mains ont daigné les nourrir.}
+
+\speaker{\surname{Zopire}.}
+\spl{Quoi ! Tu n’as point sur eux étendu ta colère ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Je ne les punis point des fautes de leur père.}
+
+\speaker{\surname{Zopire}.}
+\spl{Achève, éclaircis-moi, parle, quel est leur sort ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Je tiens entre mes mains et leur vie et leur mort ;}
+\spl{Tu n’as qu’à dire un mot, et je t’en fais l’arbitre.}
+
+\speaker{\surname{Zopire}.}
+\spl{Moi, je puis les sauver ! à quel prix ? à quel titre ?}
+\spl{Faut-il donner mon sang ? Faut-il porter leurs fers ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Non, mais il faut m’aider à tromper l’univers ;}
+\spl{Il faut rendre la Mecque, abandonner ton temple,}
+\spl{De la crédulité donner à tous l’exemple,}
+\spl{Annoncer l’alcoran aux peuples effrayés,}
+\spl{Me servir en prophète, et tomber à mes pieds :}
+\spl{Je te rendrai ton fils, et je serai ton gendre.}
+
+\speaker{\surname{Zopire}.}
+\spl{Mahomet, je suis père, et je porte un coeur tendre.}
+\spl{Après quinze ans d’ennuis, retrouver mes enfants,}
+\spl{Les revoir, et mourir dans leurs embrassements,}
+\spl{C’est le premier des biens pour mon âme attendrie :}
+\spl{Mais s’il faut à ton culte asservir ma patrie,}
+\spl{Ou de ma propre main les immoler tous deux ;}
+\spl{Connais-moi, Mahomet, mon choix n’est pas douteux.}
+\spl{Adieu.}
+
+\speaker{\surname{Mahomet}, \textit{seul}.}
+\spl{\phantom{Adieu. }Fier citoyen, vieillard inexorable,}
+\spl{Je serai plus que toi cruel, impitoyable.}
+
+\section[{SCÈNE VI.}]{SCÈNE VI.}\phantomsection
+\label{II06}
+
+{\centering\it MAHOMET, OMAR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{Mahomet, il faut l’être, ou nous sommes perdus :}
+\spl{Les secrets des tyrans me sont déjà vendus.}
+\spl{Demain la trêve expire, et demain l’on t’arrête :}
+\spl{Demain Zopire est maître, et fait tomber ta tête.}
+\spl{La moitié du sénat vient de te condamner ;}
+\spl{N’osant pas te combattre, on t’ose assassiner.}
+\spl{Ce meurtre d’un héros, ils le nomment supplice ;}
+\spl{Et ce complot obscur, ils l’appellent justice.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Ils sentiront la mienne ; ils verront ma fureur.}
+\spl{La persécution fit toujours ma grandeur :}
+\spl{Zopire périra.}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Zopire périra. }Cette tête funeste,}
+\spl{En tombant à tes pieds, fera fléchir le reste.}
+\spl{Mais ne perds point de temps.}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Mais ne perds point de temps. }Mais, malgré mon courroux,}
+\spl{Je dois cacher la main qui va lancer les coups,}
+\spl{Et détourner de moi les soupçons du vulgaire.}
+
+\speaker{\surname{Omar}.}
+\spl{Il est trop méprisable.}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Il est trop méprisable. }Il faut pourtant lui plaire ;}
+\spl{Et j’ai besoin d’un bras qui, par ma voix conduit,}
+\spl{Soit seul chargé du meurtre et m’en laisse le fruit.}
+
+\speaker{\surname{Omar}.}
+\spl{Pour un tel attentat je réponds de Séide.}
+
+\speaker{\surname{Mahomet}.}
+\spl{De lui ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{De lui ? }C’est l’instrument d’un pareil homicide.}
+\spl{Otage de Zopire, il peut seul aujourd’hui}
+\spl{L’aborder en secret, et te venger de lui.}
+\spl{Tes autres favoris, zélés avec prudence,}
+\spl{Pour s’exposer à tout ont trop d’expérience ;}
+\spl{Ils sont tous dans cet âge où la maturité}
+\spl{Fait tomber le bandeau de la crédulité ;}
+\spl{Il faut un coeur plus simple, aveugle avec courage,}
+\spl{Un esprit amoureux de son propre esclavage :}
+\spl{La jeunesse est le temps de ces illusions.}
+\spl{Séide est tout en proie aux superstitions ;}
+\spl{C’est un lion docile à la voix qui le guide.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Le frère de Palmire ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Le frère de Palmire ? }Oui, lui-même, oui, Séide,}
+\spl{De ton fier ennemi le fils audacieux,}
+\spl{De son maître offensé rival incestueux.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Je déteste Séide, et son nom seul m’offense ;}
+\spl{La cendre de mon fils me crie encor vengeance :}
+\spl{Mais tu connais l’objet de mon fatal amour ;}
+\spl{Tu connais dans quel sang elle a puisé le jour.}
+\spl{Tu vois que dans ces lieux environnés d’abîmes}
+\spl{Je viens chercher un trône, un autel, des victimes ;}
+\spl{Qu’il faut d’un peuple fier enchanter les esprits,}
+\spl{Qu’il faut perdre Zopire, et perdre encor son fils.}
+\spl{Allons, consultons bien mon intérêt, ma haine,}
+\spl{L’amour, l’indigne amour, qui malgré moi m’entraîne,}
+\spl{Et la religion, à qui tout est soumis,}
+\spl{Et la nécessité, par qui tout est permis.}
+\chapterclose
+
+
+\chapteropen
+
+\chapter[{ACTE III}]{ACTE III}
+\renewcommand{\leftmark}{ACTE III}\phantomsection
+\label{III}
+
+
+\chaptercont
+
+\section[{SCÈNE I.}]{SCÈNE I.}\phantomsection
+\label{III01}
+
+{\centering\it SÉIDE, PALMIRE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Palmire}.}
+\spl{Demeure. Quel est donc ce secret sacrifice ?}
+\spl{Quel sang a demandé l’éternelle justice ?}
+\spl{Ne m’abandonne pas.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Ne m’abandonne pas. }Dieu daigne m’appeler :}
+\spl{Mon bras doit le servir, mon coeur va lui parler.}
+\spl{Omar veut à l’instant, par un serment terrible,}
+\spl{M’attacher de plus près à ce maître invincible :}
+\spl{Je vais jurer à Dieu de mourir pour sa loi,}
+\spl{Et mes seconds serments ne seront que pour toi.}
+
+\speaker{\surname{Palmire}.}
+\spl{D’où vient qu’à ce serment je ne suis point présente ?}
+\spl{Si je t’accompagnais, j’aurais moins d’épouvante.}
+\spl{Omar, ce même Omar, loin de me consoler,}
+\spl{Parle de trahison, de sang prêt à couler,}
+\spl{Des fureurs du sénat, des complots de Zopire.}
+\spl{Les feux sont allumés, bientôt la trêve expire :}
+\spl{Le fer cruel est prêt ; on s’arme, on va frapper :}
+\spl{Le prophète l’a dit, il ne peut nous tromper.}
+\spl{Je crains tout de Zopire, et je crains pour Séide.}
+
+\speaker{\surname{Séide}.}
+\spl{Croirai-je que Zopire ait un coeur si perfide !}
+\spl{Ce matin, comme otage à ses yeux présenté,}
+\spl{J’admirais sa noblesse et son humanité ;}
+\spl{Je sentais qu’en secret une force inconnue}
+\spl{Enlevait jusqu’à lui mon âme prévenue :}
+\spl{Soit respect pour son nom, soit qu’un dehors heureux}
+\spl{Me cachât de son coeur les replis dangereux ;}
+\spl{Soit que, dans ces moments où je t’ai rencontrée,}
+\spl{Mon âme tout entière à son bonheur livrée,}
+\spl{Oubliant ses douleurs, et chassant tout effroi,}
+\spl{Ne connût, n’entendît, ne vît plus rien que toi ;}
+\spl{Je me trouvais heureux d’être auprès de Zopire.}
+\spl{Je le hais d’autant plus qu’il m’avait su séduire :}
+\spl{Mais malgré le courroux dont je dois m’animer,}
+\spl{Qu’il est dur de haïr ceux qu’on voulait aimer !}
+
+\speaker{\surname{Palmire}.}
+\spl{Ah ! Que le ciel en tout a joint nos destinées !}
+\spl{Qu’il a pris soin d’unir nos âmes enchaînées !}
+\spl{Hélas, sans mon amour, sans ce tendre lien,}
+\spl{Sans cet instinct charmant qui joint mon coeur au tien,}
+\spl{Sans la religion que Mahomet m’inspire,}
+\spl{J’aurais eu des remords en accusant Zopire.}
+
+\speaker{\surname{Séide}.}
+\spl{Laissons ces vains remords, et nous abandonnons}
+\spl{À la voix de ce dieu qu’à l’envi nous servons.}
+\spl{Je sors. Il faut prêter ce serment redoutable ;}
+\spl{Le dieu qui m’entendra nous sera favorable ;}
+\spl{Et le pontife-roi, qui veille sur nos jours,}
+\spl{Bénira de ses mains de si chastes amours.}
+\spl{Adieu. Pour être à toi, je vais tout entreprendre.}
+
+\section[{SCÈNE II.}]{SCÈNE II.}\phantomsection
+\label{III02}
+
+
+\speaker{\surname{Palmire}.}
+\spl{D’un noir pressentiment je ne puis me défendre.}
+\spl{Cet amour dont l’idée avait fait mon bonheur,}
+\spl{Ce jour tant souhaité n’est qu’un jour de terreur.}
+\spl{Quel est donc ce serment qu’on attend de Séide ?}
+\spl{Tout m’est suspect ici ; Zopire m’intimide.}
+\spl{J’invoque Mahomet, et cependant mon coeur}
+\spl{Éprouve à son nom même une secrète horreur.}
+\spl{Dans les profonds respects que ce héros m’inspire,}
+\spl{Je sens que je le crains presque autant que Zopire.}
+\spl{Délivre-moi, grand dieu ! De ce trouble où je suis ?}
+\spl{Craintive je te sers, aveugle je te suis :}
+\spl{Hélas ! Daigne essuyer les pleurs où je me noie !}
+
+\section[{SCÈNE III.}]{SCÈNE III.}\phantomsection
+\label{III03}
+
+{\centering\it MAHOMET, PALMIRE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Palmire}.}
+\spl{C’est vous qu’à mon secours un dieu propice envoie,}
+\spl{Seigneur, Séide...}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Seigneur, Séide... }Eh bien ! D’où vous vient cet effroi ?}
+\spl{Et que craint-on pour lui, quand on est près de moi ?}
+
+\speaker{\surname{Palmire}.}
+\spl{Ô ciel ! Vous redoublez la douleur qui m’agite.}
+\spl{Quel prodige inouï ! Votre âme est interdite ;}
+\spl{Mahomet est troublé pour la première fois.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Je devrais l’être au moins du trouble où je vous vois.}
+\spl{Est-ce ainsi qu’à mes yeux votre simple innocence}
+\spl{Ose avouer un feu qui peut-être m’offense ?}
+\spl{Votre coeur a-t-il pu, sans être épouvanté,}
+\spl{Avoir un sentiment que je n’ai pas dicté ?}
+\spl{Ce coeur que j’ai formé n’est-il plus qu’un rebelle,}
+\spl{Ingrat à mes bienfaits, à mes lois infidèle ?}
+
+\speaker{\surname{Palmire}.}
+\spl{Que dites-vous ? Surprise et tremblante à vos pieds,}
+\spl{Je baisse en frémissant mes regards effrayés.}
+\spl{Eh quoi ! N’avez-vous pas daigné, dans ce lieu même,}
+\spl{Vous rendre à nos souhaits, et consentir qu’il m’aime ?}
+\spl{Ces noeuds, ces chastes noeuds, que dieu formait en nous,}
+\spl{Sont un lien de plus qui nous attache à vous.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Redoutez des liens formés par l’imprudence.}
+\spl{Le crime quelquefois suit de près l’innocence.}
+\spl{Le coeur peut se tromper ; l’amour et ses douceurs}
+\spl{Pourront coûter, Palmire, et du sang et des pleurs.}
+
+\speaker{\surname{Palmire}.}
+\spl{N’en doutez pas, mon sang coulerait pour Séide.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Vous l’aimez à ce point ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Vous l’aimez à ce point ? }Depuis le jour qu’Hercide}
+\spl{Nous soumit l’un et l’autre à votre joug sacré,}
+\spl{Cet instinct tout-puissant, de nous-même ignoré,}
+\spl{Devançant la raison, croissant avec notre âge,}
+\spl{Du ciel, qui conduit tout, fut le secret ouvrage.}
+\spl{Nos penchants, dites-vous, ne viennent que de lui.}
+\spl{Dieu ne saurait changer : pourrait-il aujourd’hui}
+\spl{Réprouver un amour que lui-même il fit naître ?}
+\spl{Ce qui fut innocent peut-il cesser de l’être ?}
+\spl{Pourrais-je être coupable ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Pourrais-je être coupable ? }Oui. Vous devez trembler :}
+\spl{Attendez les secrets que je dois révéler ;}
+\spl{Attendez que ma voix veuille enfin vous apprendre}
+\spl{Ce qu’on peut approuver, ce qu’on doit se défendre.}
+\spl{Ne croyez que moi seul.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Ne croyez que moi seul. }Et qui croire que vous ?}
+\spl{Esclave de vos lois, soumise, à vos genoux,}
+\spl{Mon coeur d’un saint respect ne perd point l’habitude.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Trop de respect souvent mène à l’ingratitude.}
+
+\speaker{\surname{Palmire}.}
+\spl{Non, si de vos bienfaits je perds le souvenir,}
+\spl{Que Séide à vos yeux s’empresse à m’en punir !}
+
+\speaker{\surname{Mahomet}.}
+\spl{Séide !}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Séide ! }Ah ! Quel courroux arme votre oeil sévère ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Allez, rassurez-vous, je n’ai point de colère.}
+\spl{C’est éprouver assez vos sentiments secrets ;}
+\spl{Reposez-vous sur moi de vos vrais intérêts :}
+\spl{Je suis digne du moins de votre confiance.}
+\spl{Vos destins dépendront de votre obéissance.}
+\spl{Si j’eus soin de vos jours, si vous m’appartenez,}
+\spl{Méritez des bienfaits qui vous sont destinés.}
+\spl{Quoi que la voix du ciel ordonne de Séide,}
+\spl{Affermissez ses pas où son devoir le guide :}
+\spl{Qu’il garde ses serments ; qu’il soit digne de vous.}
+
+\speaker{\surname{Palmire}.}
+\spl{N’en doutez point, mon père, il les remplira tous :}
+\spl{Je réponds de son coeur, ainsi que de moi-même.}
+\spl{Séide vous adore encor plus qu’il ne m’aime ;}
+\spl{Il voit en vous son roi, son père, son appui :}
+\spl{J’en atteste à vos pieds l’amour que j’ai pour lui.}
+\spl{Je cours à vous servir encourager son âme.}
+
+\section[{SCÈNE IV.}]{SCÈNE IV.}\phantomsection
+\label{III04}
+
+
+\speaker{\surname{Mahomet}.}
+\spl{Quoi ! Je suis malgré moi confident de sa flamme !}
+\spl{Quoi ! Sa naïveté, confondant ma fureur,}
+\spl{Enfonce innocemment le poignard dans mon coeur !}
+\spl{Père, enfants, destinés au malheur de ma vie,}
+\spl{Race toujours funeste et toujours ennemie,}
+\spl{Vous allez éprouver, dans cet horrible jour,}
+\spl{Ce que peut à la fois ma haine et mon amour.}
+
+\section[{SCÈNE V.}]{SCÈNE V.}\phantomsection
+\label{III05}
+
+{\centering\it MAHOMET, OMAR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{Enfin voici le temps et de ravir Palmire,}
+\spl{Et d’envahir la Mecque, et de punir Zopire :}
+\spl{Sa mort seule à tes pieds mettra nos citoyens ;}
+\spl{Tout est désespéré si tu ne le préviens.}
+\spl{Le seul Séide ici te peut servir, sans doute ;}
+\spl{Il voit souvent Zopire, il lui parle, il l’écoute.}
+\spl{Tu vois cette retraite, et cet obscur détour}
+\spl{Qui peut de ton palais conduire à son séjour ;}
+\spl{Là, cette nuit, Zopire à ses dieux fantastiques}
+\spl{Offre un encens frivole et des voeux chimériques.}
+\spl{Là, Séide, enivré du zèle de ta loi,}
+\spl{Va l’immoler au dieu qui lui parle par toi.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Qu’il l’immole, il le faut : il est né pour le crime :}
+\spl{Qu’il en soit l’instrument, qu’il en soit la victime.}
+\spl{Ma vengeance, mes feux, ma loi, ma sûreté,}
+\spl{L’irrévocable arrêt de la fatalité,}
+\spl{Tout le veut ; mais crois-tu que son jeune courage,}
+\spl{Nourri du fanatisme, en ait toute la rage ?}
+
+\speaker{\surname{Omar}.}
+\spl{Lui seul était formé pour remplir ton dessein.}
+\spl{Palmire à te servir excite encor sa main.}
+\spl{L’amour, le fanatisme, aveuglent sa jeunesse ;}
+\spl{Il sera furieux par excès de faiblesse.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Par les noeuds des serments as-tu lié son coeur ?}
+
+\speaker{\surname{Omar}.}
+\spl{Du plus saint appareil la ténébreuse horreur,}
+\spl{Les autels, les serments, tout enchaîne Séide.}
+\spl{J’ai mis un fer sacré dans sa main parricide,}
+\spl{Et la religion le remplit de fureur.}
+\spl{Il vient.}
+
+\section[{SCÈNE VI.}]{SCÈNE VI.}\phantomsection
+\label{III06}
+
+{\centering\it MAHOMET, OMAR, SÉIDE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Il vient. }Enfant d’un dieu qui parle à votre coeur,}
+\spl{Écoutez par ma voix sa volonté suprême :}
+\spl{Il faut venger son culte, il faut venger dieu même.}
+
+\speaker{\surname{Séide}.}
+\spl{Roi, pontife, et prophète, à qui je suis voué,}
+\spl{Maître des nations, par le ciel avoué,}
+\spl{Vous avez sur mon être une entière puissance ;}
+\spl{Éclairez seulement ma docile ignorance.}
+\spl{Un mortel venger dieu !}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Un mortel venger dieu ! }C’est par vos faibles mains}
+\spl{Qu’il veut épouvanter les profanes humains.}
+
+\speaker{\surname{Séide}.}
+\spl{Ah ! Sans doute ce dieu, dont vous êtes l’image,}
+\spl{Va d’un combat illustre honorer mon courage.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Faites ce qu’il ordonne, il n’est point d’autre honneur.}
+\spl{De ses décrets divins aveugle exécuteur,}
+\spl{Adorez et frappez ; vos mains seront armées}
+\spl{Par l’ange de la mort, et le dieu des armées.}
+
+\speaker{\surname{Séide}.}
+\spl{Parlez : quels ennemis vous faut-il immoler ?}
+\spl{Quel tyran faut-il perdre ? Et quel sang doit couler ?}
+
+\speaker{\surname{Mahomet}.}
+\spl{Le sang du meurtrier que Mahomet abhorre,}
+\spl{Qui nous persécuta, qui nous poursuit encore,}
+\spl{Qui combattit mon dieu, qui massacra mon fils ;}
+\spl{Le sang du plus cruel de tous nos ennemis,}
+\spl{De Zopire.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{De Zopire. }De lui ! Quoi ! Mon bras...}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{De Zopire. De lui ! Quoi ! Mon bras... }Téméraire,}
+\spl{On devient sacrilège alors qu’on délibère.}
+\spl{Loin de moi les mortels assez audacieux}
+\spl{Pour juger par eux-mêmes, et pour voir par leurs yeux !}
+\spl{Quiconque ose penser n’est pas né pour me croire.}
+\spl{Obéir en silence est votre seule gloire.}
+\spl{Savez-vous qui je suis ? Savez-vous en quels lieux}
+\spl{Ma voix vous a chargé des volontés des cieux ?}
+\spl{Si malgré ses erreurs et son idolâtrie,}
+\spl{Des peuples d’orient la Mecque est la patrie ;}
+\spl{Si ce temple du monde est promis à ma loi ;}
+\spl{Si dieu m’en a créé le pontife et le roi ;}
+\spl{Si la Mecque est sacrée, en savez-vous la cause ?}
+\spl{Ibrahim y naquit, et sa cendre y repose :}
+\spl{Ibrahim, dont le bras, docile à l’éternel,}
+\spl{Traîna son fils unique aux marches de l’autel,}
+\spl{Étouffant pour son dieu les cris de la nature.}
+\spl{Et quand ce dieu par vous veut venger son injure,}
+\spl{Quand je demande un sang à lui seul adressé,}
+\spl{Quand dieu vous a choisi, vous avez balancé !}
+\spl{Allez, vil idolâtre, et né pour toujours l’être,}
+\spl{Indigne musulman, cherchez un autre maître.}
+\spl{Le prix était tout prêt ; Palmire était à vous :}
+\spl{Mais vous bravez Palmire et le ciel en courroux.}
+\spl{Lâche et faible instrument des vengeances suprêmes,}
+\spl{Les traits que vous portez vont tomber sur vous-mêmes ;}
+\spl{Fuyez, servez, rampez, sous mes fiers ennemis.}
+
+\speaker{\surname{Séide}.}
+\spl{Je crois entendre dieu ; tu parles : j’obéis.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Obéissez, frappez : teint du sang d’un impie,}
+\spl{Méritez par sa mort une éternelle vie.}
+         \textit{À Omar.}\par
+\spl{Ne l’abandonne pas ; et, non loin de ces lieux,}
+\spl{Sur tous ses mouvements ouvre toujours les yeux.}
+
+\section[{SCÈNE VII.}]{SCÈNE VII.}\phantomsection
+\label{III07}
+
+
+\speaker{\surname{Séide}.}
+\spl{Immoler un vieillard de qui je suis l’otage,}
+\spl{Sans armes, sans défense, appesanti par l’âge !}
+\spl{N’importe ; une victime amenée à l’autel}
+\spl{Y tombe sans défense, et son sang plaît au ciel.}
+\spl{Enfin dieu m’a choisi pour ce grand sacrifice :}
+\spl{J’en ai fait le serment ; il faut qu’il s’accomplisse.}
+\spl{Venez à mon secours, ô vous, de qui le bras}
+\spl{Aux tyrans de la terre a donné le trépas !}
+\spl{Ajoutez vos fureurs à mon zèle intrépide ;}
+\spl{Affermissez ma main saintement homicide.}
+\spl{Ange de Mahomet, ange exterminateur,}
+\spl{Mets ta férocité dans le fond de mon coeur !}
+\spl{Ah ! Que vois-je ?}
+
+\section[{SCÈNE VIII.}]{SCÈNE VIII.}\phantomsection
+\label{III08}
+
+{\centering\it ZOPIRE, SÉIDE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Ah ! Que vois-je ? }À mes yeux tu te troubles, Séide !}
+\spl{Vois d’un oeil plus content le dessein qui me guide :}
+\spl{Otage infortuné, que le sort m’a remis,}
+\spl{Je te vois à regret parmi mes ennemis.}
+\spl{La trêve a suspendu le moment du carnage ;}
+\spl{Ce torrent retenu peut s’ouvrir un passage :}
+\spl{Je ne t’en dis pas plus : mais mon coeur, malgré moi,}
+\spl{A frémi des dangers assemblés près de toi.}
+\spl{Cher Séide, en un mot, dans cette horreur publique,}
+\spl{Souffre que ma maison soit ton asile unique.}
+\spl{Je réponds de tes jours ; ils me sont précieux ;}
+\spl{Ne me refuse pas.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Ne me refuse pas. }Ô mon devoir ! Ô cieux.}
+\spl{Ah, Zopire ! Est-ce vous qui n’avez d’autre envie}
+\spl{Que de me protéger, de veiller sur ma vie ?}
+\spl{Prêt à verser son sang, qu’ai-je ouï ? Qu’ai-je vu ?}
+\spl{Pardonne, Mahomet, tout mon coeur s’est ému.}
+
+\speaker{\surname{Zopire}.}
+\spl{De ma pitié pour toi tu t’étonnes peut-être ;}
+\spl{Mais enfin je suis homme, et c’est assez de l’être}
+\spl{Pour aimer à donner des soins compatissants}
+\spl{À des coeurs malheureux que l’on croit innocents.}
+\spl{Exterminez, grands dieux, de la terre où nous sommes,}
+\spl{Quiconque avec plaisir répand le sang des hommes !}
+
+\speaker{\surname{Séide}.}
+\spl{Que ce langage est cher à mon coeur combattu !}
+\spl{L’ennemi de mon dieu connaît donc la vertu !}
+
+\speaker{\surname{Zopire}.}
+\spl{Tu la connais bien peu, puisque tu t’en étonnes.}
+\spl{Mon fils, à quelle erreur, hélas ! Tu t’abandonnes !}
+\spl{Ton esprit, fasciné par les lois d’un tyran,}
+\spl{Pense que tout est crime hors d’être musulman.}
+\spl{Cruellement docile aux leçons de ton maître,}
+\spl{Tu m’avais en horreur avant de me connaître ;}
+\spl{Avec un joug de fer, un affreux préjugé}
+\spl{Tient ton coeur innocent dans le piège engagé.}
+\spl{Je pardonne aux erreurs où Mahomet t’entraîne ;}
+\spl{Mais peux-tu croire un dieu qui commande la haine ?}
+
+\speaker{\surname{Séide}.}
+\spl{Ah ! Je sens qu’à ce dieu je vais désobéir ;}
+\spl{Non, seigneur, non ; mon coeur ne saurait vous haïr.}
+
+\speaker{\surname{Zopire}, \textit{à part}.}
+\spl{Hélas ! Plus je lui parle, et plus il m’intéresse ?}
+\spl{Son âge, sa candeur, ont surpris ma tendresse.}
+\spl{Se peut-il qu’un soldat de ce monstre imposteur}
+\spl{Ait trouvé malgré lui le chemin de mon coeur ?}
+         \textit{À Séide.}\par
+\spl{Quel es-tu ? De quel sang les dieux t’ont-ils fait naître ?}
+
+\speaker{\surname{Séide}.}
+\spl{Je n’ai point de parents, seigneur, je n’ai qu’un maître,}
+\spl{Que jusqu’à ce moment j’avais toujours servi,}
+\spl{Mais qu’en vous écoutant ma faiblesse a trahi.}
+
+\speaker{\surname{Zopire}.}
+\spl{Quoi ! Tu ne connais point de qui tu tiens la vie ?}
+
+\speaker{\surname{Séide}.}
+\spl{Son camp fut mon berceau ; son temple est ma patrie :}
+\spl{Je n’en connais point d’autre ; et, parmi ces enfants}
+\spl{Qu’en tribut à mon maître on offre tous les ans,}
+\spl{Nul n’a plus que Séide éprouvé sa clémence.}
+
+\speaker{\surname{Zopire}.}
+\spl{Je ne puis le blâmer de sa reconnaissance.}
+\spl{Oui, les bienfaits, Séide, ont des droits sur un coeur.}
+\spl{Ciel ! Pourquoi Mahomet fut-il son bienfaiteur !}
+\spl{Il t’a servi de père, aussi bien qu’à Palmire :}
+\spl{D’où vient que tu frémis, et que ton coeur soupire ?}
+\spl{Tu détournes de moi ton regard égaré ;}
+\spl{De quelque grand remords tu sembles déchiré.}
+
+\speaker{\surname{Séide}.}
+\spl{Eh ! Qui n’en aurait pas dans ce jour effroyable !}
+
+\speaker{\surname{Zopire}.}
+\spl{Si tes remords sont vrais, ton coeur n’est plus coupable.}
+\spl{Viens, le sang va couler ; je veux sauver le tien.}
+
+\speaker{\surname{Séide}.}
+\spl{Juste ciel ! Et c’est moi qui répandrais le sien !}
+\spl{Ô serments ! Ô Palmire ! Ô vous, dieu des vengeances !}
+
+\speaker{\surname{Zopire}.}
+\spl{Remets-toi dans mes mains ; tremble, si tu balances ;}
+\spl{Pour la dernière fois, viens, ton sort en dépend.}
+
+\section[{SCÈNE IX.}]{SCÈNE IX.}\phantomsection
+\label{III09}
+
+{\centering\it ZOPIRE, SÉIDE, OMAR, suite.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}, \textit{entrant avec précipitation}.}
+\spl{Traître, que faites-vous ? Mahomet vous attend.}
+
+\speaker{\surname{Séide}.}
+\spl{Où suis-je ! Ô ciel ! Où suis-je ! Et que dois-je résoudre ?}
+\spl{D’un et d’autre côté je vois tomber la foudre.}
+\spl{Où courir ? Où porter un trouble si cruel ?}
+\spl{Où fuir ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Où fuir ? }Aux pieds du roi qu’a choisi l’éternel.}
+
+\speaker{\surname{Séide}.}
+\spl{Oui, j’y cours abjurer un serment que j’abhorre.}
+
+\section[{SCÈNE X.}]{SCÈNE X.}\phantomsection
+\label{III10}
+
+
+\speaker{\surname{Zopire}.}
+\spl{Ah, Séide ! Où vas-tu ? Mais il me fuit encore ;}
+\spl{Il sort désespéré, frappé d’un sombre effroi,}
+\spl{Et mon coeur qui le suit s’échappe loin de moi.}
+\spl{Ses remords, ma pitié, son aspect, son absence,}
+\spl{À mes sens déchirés font trop de violence.}
+\spl{Suivons ses pas.}
+
+\section[{SCÈNE XI.}]{SCÈNE XI.}\phantomsection
+\label{III11}
+
+{\centering\it ZOPIRE, PHANOR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Suivons ses pas. }Lisez ce billet important}
+\spl{Qu’un arabe en secret m’a donné dans l’instant.}
+
+\speaker{\surname{Zopire}.}
+\spl{Hercide ! Qu’ai-je lu ? Grands dieux ! Votre clémence}
+\spl{Répare-t-elle enfin soixante ans de souffrance ?}
+\spl{Hercide veut me voir ! Lui, dont le bras cruel}
+\spl{Arracha mes enfants à ce sein paternel !}
+\spl{Ils vivent ! Mahomet les tient sous sa puissance,}
+\spl{Et Séide et Palmire ignorent leur naissance !}
+\spl{Mes enfants ! Tendre espoir, que je n’ose écouter !}
+\spl{Je suis trop malheureux, je crains de me flatter.}
+\spl{Pressentiment confus, faut-il que je vous croie ?}
+\spl{Ô mon sang ! Où porter mes larmes et ma joie ?}
+\spl{Mon coeur ne peut suffire à tant de mouvements ;}
+\spl{Je cours, et je suis prêt d’embrasser mes enfants.}
+\spl{Je m’arrête, j’hésite, et ma douleur craintive}
+\spl{Prête à la voix du sang une oreille attentive.}
+\spl{Allons. Voyons Hercide au milieu de la nuit ;}
+\spl{Qu’il soit sous cette voûte en secret introduit,}
+\spl{Au pied de cet autel, où les pleurs de ton maître}
+\spl{Ont fatigué les dieux, qui s’apaisent peut-être.}
+\spl{Dieux, rendez-moi mes fils ! Dieux, rendez aux vertus}
+\spl{Deux coeurs nés généreux, qu’un traître a corrompus !}
+\spl{S’ils ne sont point à moi, si telle est ma misère,}
+\spl{Je les veux adopter, je veux être leur père.}
+\chapterclose
+
+
+\chapteropen
+
+\chapter[{ACTE IV}]{ACTE IV}
+\renewcommand{\leftmark}{ACTE IV}\phantomsection
+\label{IV}
+
+
+\chaptercont
+
+\section[{SCÈNE I.}]{SCÈNE I.}\phantomsection
+\label{IV01}
+
+{\centering\it MAHOMET, OMAR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{Oui, de ce grand secret la trame est découverte ;}
+\spl{Ta gloire est en danger, ta tombe est entr’ouverte.}
+\spl{Séide obéira : mais avant que son coeur,}
+\spl{Raffermi par ta voix, eût repris sa fureur,}
+\spl{Séide a révélé cet horrible mystère.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Ô ciel !}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Ô ciel ! }Hercide l’aime : il lui tient lieu de père.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Eh bien ! Que pense Hercide ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Eh bien ! Que pense Hercide ? }Il paraît effrayé ;}
+\spl{Il semble pour Zopire avoir quelque pitié.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Hercide est faible ; ami, le faible est bientôt traître.}
+\spl{Qu’il tremble ! Il est chargé du secret de son maître.}
+\spl{Je sais comme on écarte un témoin dangereux.}
+\spl{Suis-je en tout obéi ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Suis-je en tout obéi ? }J’ai fait ce que tu veux.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Préparons donc le reste. Il faut que dans une heure}
+\spl{On nous traîne au supplice, ou que Zopire meure.}
+\spl{S’il meurt, c’en est assez ; tout ce peuple éperdu}
+\spl{Adorera mon dieu, qui m’aura défendu.}
+\spl{Voilà le premier pas ; mais sitôt que Séide}
+\spl{Aura rougi ses mains de ce grand homicide,}
+\spl{Réponds-tu qu’au trépas Séide soit livré ?}
+\spl{Réponds-tu du poison qui lui fut préparé ?}
+
+\speaker{\surname{Omar}.}
+\spl{N’en doute point.}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{N’en doute point. }Il faut que nos mystères sombres}
+\spl{Soient cachés dans la mort, et couverts de ses ombres.}
+\spl{Mais tout prêt à frapper, prêt à percer le flanc}
+\spl{Dont Palmire a tiré la source de son sang,}
+\spl{Prends soin de redoubler son heureuse ignorance :}
+\spl{Épaississons la nuit qui voile sa naissance,}
+\spl{Pour son propre intérêt, pour moi, pour mon bonheur.}
+\spl{Mon triomphe en tout temps est fondé sur l’erreur.}
+\spl{Elle naquit en vain de ce sang que j’abhorre :}
+\spl{On n’a point de parents alors qu’on les ignore.}
+\spl{Les cris du sang, sa force, et ses impressions,}
+\spl{Des coeurs toujours trompés sont les illusions.}
+\spl{La nature à mes yeux n’est rien que l’habitude ;}
+\spl{Celle de m’obéir fit son unique étude :}
+\spl{Je lui tiens lieu de tout. Qu’elle passe en mes bras,}
+\spl{Sur la cendre des siens, qu’elle ne connaît pas.}
+\spl{Son coeur même en secret, ambitieux peut-être,}
+\spl{Sentira quelque orgueil à captiver son maître.}
+\spl{Mais déjà l’heure approche où Séide en ces lieux}
+\spl{Doit m’immoler son père à l’aspect de ses dieux.}
+\spl{Retirons-nous.}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Retirons-nous. }Tu vois sa démarche égarée ;}
+\spl{De l’ardeur d’obéir son âme est dévorée.}
+
+\section[{SCÈNE II.}]{SCÈNE II.}\phantomsection
+\label{IV02}
+
+{\centering\it MAHOMET, OMAR, \textit{sur le devant, mais retirés de côté} ; SÉIDE, \textit{dans le fond}.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Séide}.}
+\spl{Il le faut donc remplir ce terrible devoir !}
+
+\speaker{\surname{Mahomet}.}
+\spl{Viens, et par d’autres coups assurons mon pouvoir.}
+         \textit{Il sort avec Omar.}\par
+
+\speaker{\surname{Séide}, \textit{seul}.}
+\spl{À tout ce qu’ils m’ont dit je n’ai rien à répondre.}
+\spl{Un mot de Mahomet suffit pour me confondre.}
+\spl{Mais quand il m’accablait de cette sainte horreur,}
+\spl{La persuasion n’a point rempli mon coeur.}
+\spl{Si le ciel a parlé, j’obéirai sans doute ;}
+\spl{Mais quelle obéissance ! ô ciel ! Et qu’il en coûte !}
+
+\section[{SCÈNE III.}]{SCÈNE III.}\phantomsection
+\label{IV03}
+
+{\centering\it SÉIDE, PALMIRE.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Séide}.}
+\spl{Palmire, que veux-tu ? Quel funeste transport !}
+\spl{Qui t’amène en ces lieux consacrés à la mort ?}
+
+\speaker{\surname{Palmire}.}
+\spl{Séide, la frayeur et l’amour sont mes guides ;}
+\spl{Mes pleurs baignent tes mains saintement homicides.}
+\spl{Quel sacrifice horrible, hélas ! Faut-il offrir ?}
+\spl{À Mahomet, à Dieu, tu vas donc obéir ?}
+
+\speaker{\surname{Séide}.}
+\spl{Ô de mes sentiments souveraine adorée !}
+\spl{Parlez, déterminez ma fureur égarée ;}
+\spl{Éclairez mon esprit, et conduisez mon bras ;}
+\spl{Tenez-moi lieu d’un dieu que je ne comprends pas.}
+\spl{Pourquoi m’a-t-il choisi ? Ce terrible prophète}
+\spl{D’un ordre irrévocable est-il donc l’interprète !}
+
+\speaker{\surname{Palmire}.}
+\spl{Tremblons d’examiner. Mahomet voit nos coeurs,}
+\spl{Il entend nos soupirs, il observe mes pleurs.}
+\spl{Chacun redoute en lui la divinité même,}
+\spl{C’est tout ce que je sais ; le doute est un blasphème :}
+\spl{Et le dieu qu’il annonce avec tant de hauteur,}
+\spl{Séide, est le vrai dieu, puisqu’il le rend vainqueur.}
+
+\speaker{\surname{Séide}.}
+\spl{Il l’est, puisque Palmire et le croit et l’adore.}
+\spl{Mais mon esprit confus ne conçoit point encore}
+\spl{Comment ce dieu si bon, ce père des humains,}
+\spl{Pour un meurtre effroyable a réservé mes mains.}
+\spl{Je ne le sais que trop que mon doute est un crime,}
+\spl{Qu’un prêtre sans remords égorge sa victime,}
+\spl{Que par la voix du ciel Zopire est condamné,}
+\spl{Qu’à soutenir ma loi j’étais prédestiné.}
+\spl{Mahomet s’expliquait, il a fallu me taire ;}
+\spl{Et, tout fier de servir la céleste colère,}
+\spl{Sur l’ennemi de dieu je portais le trépas :}
+\spl{Un autre dieu, peut-être, a retenu mon bras.}
+\spl{Du moins, lorsque j’ai vu ce malheureux Zopire,}
+\spl{De ma religion j’ai senti moins l’empire.}
+\spl{Vainement mon devoir au meurtre m’appelait ;}
+\spl{À mon coeur éperdu l’humanité parlait.}
+\spl{Mais avec quel courroux, avec quelle tendresse,}
+\spl{Mahomet de mes sens accuse la faiblesse !}
+\spl{Avec quelle grandeur, et quelle autorité,}
+\spl{Sa voix vient d’endurcir ma sensibilité !}
+\spl{Que la religion est terrible et puissante !}
+\spl{J’ai senti la fureur en mon coeur renaissante ;}
+\spl{Palmire, je suis faible, et du meurtre effrayé ;}
+\spl{De ces saintes fureurs je passe à la pitié ;}
+\spl{De sentiments confus une foule m’assiège :}
+\spl{Je crains d’être barbare, ou d’être sacrilège.}
+\spl{Je ne me sens point fait pour être un assassin.}
+\spl{Mais quoi ! Dieu me l’ordonne, et j’ai promis ma main ;}
+\spl{J’en verse encor des pleurs de douleur et de rage.}
+\spl{Vous me voyez, Palmire, en proie à cet orage,}
+\spl{Nageant dans le reflux des contrariétés,}
+\spl{Qui pousse et qui retient mes faibles volontés :}
+\spl{C’est à vous de fixer mes fureurs incertaines :}
+\spl{Nos coeurs sont réunis par les plus fortes chaînes ;}
+\spl{Mais, sans ce sacrifice à mes mains imposé,}
+\spl{Le noeud qui nous unit est à jamais brisé ;}
+\spl{Ce n’est qu’à ce seul prix que j’obtiendrai Palmire.}
+
+\speaker{\surname{Palmire}.}
+\spl{Je suis le prix du sang du malheureux Zopire !}
+
+\speaker{\surname{Séide}.}
+\spl{Le ciel et Mahomet ainsi l’ont arrêté.}
+
+\speaker{\surname{Palmire}.}
+\spl{L’amour est-il donc fait pour tant de cruauté ?}
+
+\speaker{\surname{Séide}.}
+\spl{Ce n’est qu’au meurtrier que Mahomet te donne.}
+
+\speaker{\surname{Palmire}.}
+\spl{Quelle effroyable dot ! Mais si le ciel l’ordonne ?}
+\spl{Si je sers et l’amour et la religion ?}
+
+\speaker{\surname{Palmire}.}
+\spl{Hélas !}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Hélas ! }Vous connaissez la malédiction}
+\spl{Qui punit à jamais la désobéissance.}
+
+\speaker{\surname{Palmire}.}
+\spl{Si dieu même en tes mains a remis sa vengeance,}
+\spl{S’il exige le sang que ta bouche a promis...}
+
+\speaker{\surname{Séide}.}
+\spl{Eh bien ! Pour être à toi que faut-il ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Eh bien ! Pour être à toi que faut-il ? }Je frémis.}
+
+\speaker{\surname{Séide}.}
+\spl{Je t’entends ; son arrêt est parti de ta bouche.}
+
+\speaker{\surname{Palmire}.}
+\spl{Qui ? Moi ?}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Qui ? Moi ? }Tu l’as voulu.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Qui ? Moi ? Tu l’as voulu. }Dieu ! Quel arrêt farouche !}
+\spl{Que t’ai-je dit ?}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Que t’ai-je dit ? }Le ciel vient d’emprunter ta voix ;}
+\spl{C’est son dernier oracle, et j’accomplis ses lois.}
+\spl{Voici l’heure où Zopire à cet autel funeste}
+\spl{Doit prier en secret des dieux que je déteste.}
+\spl{Palmire, éloigne-toi.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Palmire, éloigne-toi. }Je ne puis te quitter.}
+\spl{Ne vois point l’attentat qui va s’exécuter.}
+\spl{Ces moments sont affreux. Va, fuis ; cette retraite}
+\spl{Est voisine des lieux qu’habite le prophète !}
+\spl{Va, dis-je.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Va, dis-je. }Ce vieillard va donc être immolé !}
+
+\speaker{\surname{Séide}.}
+\spl{De ce grand sacrifice ainsi l’ordre est réglé !}
+\spl{Il le faut de ma main traîner sur la poussière,}
+\spl{De trois coups dans le sein lui ravir la lumière,}
+\spl{Renverser dans son sang cet autel dispersé.}
+
+\speaker{\surname{Palmire}.}
+\spl{Lui, mourir par tes mains ! Tout mon sang s’est glacé.}
+\spl{Le voici, juste ciel ! ...}
+         \textit{Le fond du théâtre s’ouvre. On voit un autel.}\par
+
+\section[{SCÈNE IV.}]{SCÈNE IV.}\phantomsection
+\label{IV04}
+
+{\centering\it ZOPIRE ; SÉIDE, PALMIRE, \textit{sur le devant}.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Zopire}, \textit{près de l’autel}.}
+\spl{\phantom{Le voici, juste ciel ! ... }Ô dieux de ma patrie !}
+\spl{Dieux prêts à succomber sous une secte impie,}
+\spl{C’est pour vous-même ici que ma débile voix}
+\spl{Vous implore aujourd’hui pour la dernière fois.}
+\spl{La guerre va renaître, et ses mains meurtrières}
+\spl{De cette faible paix vont briser les barrières.}
+\spl{Dieux ! Si d’un scélérat vous respectez le sort...}
+
+\speaker{\surname{Séide}, \textit{à Palmire}.}
+\spl{Tu l’entends qui blasphème ?}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Tu l’entends qui blasphème ? }Accordez-moi la mort.}
+\spl{Mais rendez-moi mes fils à mon heure dernière ;}
+\spl{Que j’expire en leurs bras ; qu’ils ferment ma paupière.}
+\spl{Hélas ! Si j’en croyais mes secrets sentiments,}
+\spl{Si vos mains en ces lieux ont conduit mes enfants...}
+
+\speaker{\surname{Palmire}, \textit{à Séide}.}
+\spl{Que dit-il ? Ses enfants !}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Que dit-il ? Ses enfants ! }Ô mes dieux que j’adore !}
+\spl{Je mourrais du plaisir de les revoir encore.}
+\spl{Arbitre des destins, daignez veiller sur eux ;}
+\spl{Qu’ils pensent comme moi, mais qu’ils soient plus heureux !}
+
+\speaker{\surname{Séide}.}
+\spl{Il court à ses faux dieux ! Frappons.}
+         \textit{Il tire son poignard.}\par
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Il court à ses faux dieux ! Frappons. }Que vas-tu faire ?}
+\spl{Hélas !}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Hélas ! }Servir le ciel, te mériter, te plaire.}
+\spl{Ce glaive à notre dieu vient d’être consacré ;}
+\spl{Que l’ennemi de dieu soit par lui massacré !}
+\spl{Marchons. Ne vois-tu pas dans ces demeures sombres}
+\spl{Ces traits de sang, ce spectre, et ces errantes ombres ?}
+
+\speaker{\surname{Palmire}.}
+\spl{Que dis-tu ?}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Que dis-tu ? }Je vous suis, ministres du trépas :}
+\spl{Vous me montrez l’autel ; vous conduisez mon bras.}
+\spl{Allons.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Allons. }Non ; trop d’horreur entre nous deux s’assemble.}
+\spl{Demeure.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Demeure. }Il n’est plus temps ; avançons : l’autel tremble.}
+
+\speaker{\surname{Palmire}.}
+\spl{Le ciel se manifeste, il n’en faut pas douter.}
+
+\speaker{\surname{Séide}.}
+\spl{Me pousse-t-il au meurtre, ou veut-il m’arrêter ?}
+\spl{Du prophète de dieu la voix se fait entendre ;}
+\spl{Il me reproche un coeur trop flexible et trop tendre ;}
+\spl{Palmire !}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Palmire ! }Eh bien ?}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Palmire ! Eh bien ? }Au ciel adressez tous vos voeux.}
+\spl{Je vais frapper.}
+         \textit{Il sort, et va derrière l’autel où est Zopire.}\par
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Je vais frapper. }Je meurs ! Ô moment douloureux !}
+\spl{Quelle effroyable voix dans mon âme s’élève !}
+\spl{D’où vient que tout mon sang malgré moi se soulève ?}
+\spl{Si le ciel veut un meurtre, est-ce à moi d’en juger ?}
+\spl{Est-ce à moi de m’en plaindre, et de l’interroger ?}
+\spl{J’obéis. D’où vient donc que le remords m’accable ?}
+\spl{Ah ! Quel coeur sait jamais s’il est juste ou coupable ?}
+\spl{Je me trompe, ou les coups sont portés cette fois ;}
+\spl{J’entends les cris plaintifs d’une mourante voix.}
+\spl{Séide... hélas ! ...}
+
+\speaker{\surname{Séide}, \textit{revient d’un air égaré}.}
+\spl{\phantom{Séide... hélas ! ... }Où suis-je ? Et quelle voix m’appelle ?}
+\spl{Je ne vois point Palmire ; un dieu m’a privé d’elle.}
+
+\speaker{\surname{Palmire}.}
+\spl{Eh quoi ! Méconnais-tu celle qui vit pour toi ?}
+
+\speaker{\surname{Séide}.}
+\spl{Où sommes-nous ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Où sommes-nous ? }Eh bien ! Cette effroyable loi,}
+\spl{Cette triste promesse est-elle enfin remplie ?}
+
+\speaker{\surname{Séide}.}
+\spl{Que me dis-tu ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Que me dis-tu ? }Zopire a-t-il perdu la vie ?}
+
+\speaker{\surname{Séide}.}
+\spl{Qui ? Zopire ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Qui ? Zopire ? }Ah ! Grand dieu ! Dieu de sang altéré,}
+\spl{Ne persécutez point son esprit égaré.}
+\spl{Fuyons d’ici.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Fuyons d’ici. }Je sens que mes genoux s’affaissent.}
+         \textit{Il s’assied.}\par
+\spl{Ah ! Je revois le jour, et mes forces renaissent.}
+\spl{Quoi ! C’est vous ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Quoi ! C’est vous ? }Qu’as-tu fait ?}
+
+\speaker{\surname{Séide}, \textit{se relevant}.}
+\spl{\phantom{Quoi ! C’est vous ? Qu’as-tu fait ? }Moi ! Je viens d’obéir...}
+\spl{D’un bras désespéré je viens de le saisir.}
+\spl{Par ses cheveux blanchis j’ai traîné ma victime.}
+\spl{Ô ciel ! Tu l’as voulu ! Peux-tu vouloir un crime ?}
+\spl{Tremblant, saisi d’effroi, j’ai plongé dans son flanc}
+\spl{Ce glaive consacré qui dut verser son sang.}
+\spl{J’ai voulu redoubler ; ce vieillard vénérable}
+\spl{A jeté dans mes bras un cri si lamentable !}
+\spl{La nature a tracé dans ses regards mourants}
+\spl{Un si grand caractère, et des traits si touchants ! ...}
+\spl{De tendresse et d’effroi mon âme s’est remplie,}
+\spl{Et, plus mourant que lui, je déteste ma vie.}
+
+\speaker{\surname{Palmire}.}
+\spl{Fuyons vers Mahomet qui doit nous protéger :}
+\spl{Près de ce corps sanglant vous êtes en danger.}
+\spl{Suivez-moi.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Suivez-moi. }Je ne puis. Je me meurs. Ah ! Palmire ! ...}
+
+\speaker{\surname{Palmire}.}
+\spl{Quel trouble épouvantable à mes yeux le déchire !}
+
+\speaker{\surname{Séide}, \textit{en pleurant}.}
+\spl{Ah ! Si tu l’avais vu, le poignard dans le sein,}
+\spl{S’attendrir à l’aspect de son lâche assassin !}
+\spl{Je fuyais. Croirais-tu que sa voix affaiblie}
+\spl{Pour m’appeler encore a ranimé sa vie ?}
+\spl{Il retirait ce fer de ses flancs malheureux.}
+\spl{Hélas ! Il m’observait d’un regard douloureux.}
+\spl{« Cher Séide, a-t-il dit, infortuné Séide ! »}
+\spl{Cette voix, ces regards, ce poignard homicide,}
+\spl{Ce vieillard attendri, tout sanglant à mes pieds,}
+\spl{Poursuivent devant toi mes regards effrayés.}
+\spl{Qu’avons-nous fait ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Qu’avons-nous fait ? }On vient, je tremble pour ta vie.}
+\spl{Fuis au nom de l’amour et du noeud qui nous lie.}
+
+\speaker{\surname{Séide}.}
+\spl{Va, laisse-moi. Pourquoi cet amour malheureux}
+\spl{M’a-t-il pu commander ce sacrifice affreux ?}
+\spl{Non, cruelle ! Sans toi, sans ton ordre suprême,}
+\spl{Je n’aurais pu jamais obéir au ciel même.}
+\spl{De quel reproche horrible oses-tu m’accabler !}
+\spl{Hélas ! Plus que le tien mon coeur se sent troubler.}
+\spl{Cher amant, prends pitié de Palmire éperdue !}
+
+\speaker{\surname{Séide}.}
+\spl{Palmire ! Quel objet vient effrayer ma vue ?}
+         \textit{Zopire paraît, appuyé sur l’autel, après s’être relevé derrière cet autel où il a reçu le coup.}\par
+\spl{C’est cet infortuné luttant contre la mort,}
+\spl{Qui vers nous tout sanglant se traîne avec effort.}
+
+\speaker{\surname{Séide}.}
+\spl{Eh quoi ! Tu vas à lui ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Eh quoi ! Tu vas à lui ? }De remords dévorée,}
+\spl{Je cède à la pitié dont je suis déchirée.}
+\spl{Je n’y puis résister ; elle entraîne mes sens.}
+\spl{Zopire, avançant et soutenu par elle.}
+\spl{Hélas ! Servez de guide à mes pas languissants !}
+         \textit{Il s’assied.}\par
+\spl{Séide, ingrat ! C’est toi qui m’arraches la vie !}
+\spl{Tu pleures ! Ta pitié succède à ta furie !}
+
+\section[{SCÈNE V.}]{SCÈNE V.}\phantomsection
+\label{IV05}
+
+{\centering\it ZOPIRE, SÉIDE, PALMIRE, PHANOR.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Phanor}.}
+\spl{Ciel ! Quels affreux objets se présentent à moi !}
+
+\speaker{\surname{Zopire}.}
+\spl{Si je voyais Hercide !... Ah ! Phanor, est-ce toi ?}
+\spl{Voilà mon assassin.}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Voilà mon assassin. }Ô crime ! Affreux mystère !}
+\spl{Assassin malheureux, connaissez votre père !}
+
+\speaker{\surname{Séide}.}
+\spl{Qui ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Qui ? }Lui ?}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Qui ? Lui ? }Mon père ?}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Qui ? Lui ? Mon père ? }Ô ciel !}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Qui ? Lui ? Mon père ? Ô ciel ! }Hercide est expirant :}
+\spl{Il me voit, il m’appelle, il s’écrie en mourant :}
+\spl{« S’il en est encor temps, préviens un parricide ;}
+\spl{Cours arracher ce fer à la main de Séide.}
+\spl{Malheureux confident d’un horrible secret,}
+\spl{Je suis puni, je meurs des mains de Mahomet :}
+\spl{Cours, hâte-toi d’apprendre au malheureux Zopire}
+\spl{Que Séide est son fils, et frère de Palmire. »}
+
+\speaker{\surname{Séide}.}
+\spl{Vous !}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Vous ! }Mon frère ?}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Vous ! Mon frère ? }Ô mes fils ! ô nature ! ô mes dieux !}
+\spl{Vous ne me trompiez pas quand vous parliez pour eux.}
+\spl{Vous m’éclairiez sans doute. Ah ! Malheureux Séide !}
+\spl{Qui t’a pu commander cet affreux homicide ?}
+
+\speaker{\surname{Séide}, \textit{se jetant à genoux}.}
+\spl{L’amour de mon devoir et de ma nation,}
+\spl{Et ma reconnaissance, et ma religion ;}
+\spl{Tout ce que les humains ont de plus respectable}
+\spl{M’inspira des forfaits le plus abominable.}
+\spl{Rendez, rendez ce fer à ma barbare main.}
+\spl{Palmire, à genoux, arrêtant le bras de Séide.}
+\spl{Ah, mon père ! Ah, seigneur ! Plongez-le dans mon sein.}
+\spl{J’ai seule à ce grand crime encouragé Séide ;}
+\spl{L’inceste était pour nous le prix du parricide.}
+
+\speaker{\surname{Séide}.}
+\spl{Le ciel n’a point pour nous d’assez grands châtiments.}
+\spl{Frappez vos assassins.}
+
+\speaker{\surname{Zopire}, \textit{en les embrassant}.}
+\spl{\phantom{Frappez vos assassins. }J’embrasse mes enfants.}
+\spl{Le ciel voulut mêler, dans les maux qu’il m’envoie,}
+\spl{Le comble des horreurs au comble de la joie.}
+\spl{Je bénis mon destin ; je meurs, mais vous vivez.}
+\spl{Ô vous, qu’en expirant mon coeur a retrouvés,}
+\spl{Séide, et vous, Palmire, au nom de la nature,}
+\spl{Par ce reste de sang qui sort de ma blessure,}
+\spl{Par ce sang paternel, par vous, par mon trépas,}
+\spl{Vengez-vous, vengez-moi ; mais ne vous perdez pas.}
+\spl{L’heure approche, mon fils, où la trêve rompue}
+\spl{Laissait à mes desseins une libre étendue :}
+\spl{Les dieux de tant de maux ont pris quelque pitié ;}
+\spl{Le crime de tes mains n’est commis qu’à moitié.}
+\spl{Le peuple avec le jour en ces lieux va paraître ;}
+\spl{Mon sang va les conduire ; ils vont punir un traître.}
+\spl{Attendons ces moments.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{Attendons ces moments. }Ah ! Je cours de ce pas}
+\spl{Vous immoler ce monstre, et hâter mon trépas ;}
+\spl{Me punir, vous venger.}
+
+\section[{SCÈNE VI.}]{SCÈNE VI.}\phantomsection
+\label{IV06}
+
+{\centering\it ZOPIRE, SÉIDE, PALMIRE, PHANOR, OMAR, suite.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Me punir, vous venger. }Qu’on arrête Séide !}
+\spl{Secourez tous Zopire ; enchaînez l’homicide.}
+\spl{Mahomet n’est venu que pour venger les lois.}
+
+\speaker{\surname{Zopire}.}
+\spl{Ciel ! Quel comble du crime ! Et qu’est-ce que je vois ?}
+
+\speaker{\surname{Séide}.}
+\spl{Mahomet me punir ?}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Mahomet me punir ? }Eh quoi ! Tyran farouche,}
+\spl{Après ce meurtre horrible ordonné par ta bouche !}
+
+\speaker{\surname{Omar}.}
+\spl{On n’a rien ordonné.}
+
+\speaker{\surname{Séide}.}
+\spl{\phantom{On n’a rien ordonné. }Va, j’ai bien mérité}
+\spl{Cet exécrable prix de ma crédulité.}
+
+\speaker{\surname{Omar}.}
+\spl{Soldats, obéissez.}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Soldats, obéissez. }Non ; arrêtez. Perfide !}
+
+\speaker{\surname{Omar}.}
+\spl{Madame, obéissez, si vous aimez Séide.}
+\spl{Mahomet vous protège, et son juste courroux,}
+\spl{Prêt à tout foudroyer, peut s’arrêter par vous.}
+\spl{Auprès de votre roi, madame, il faut me suivre.}
+
+\speaker{\surname{Palmire}.}
+\spl{Grand dieu ! De tant d’horreurs que la mort me délivre !}
+         \textit{On emmène Palmire et Séide.}\par
+
+\speaker{\surname{Zopire}, à \surname{Phanor}.}
+\spl{On les enlève ! Ô ciel ! Ô père malheureux !}
+\spl{Le coup qui m’assassine est cent fois moins affreux.}
+
+\speaker{\surname{Phanor}.}
+\spl{Déjà le jour renaît ; tout le peuple s’avance ;}
+\spl{On s’arme, on vient à vous, on prend votre défense.}
+
+\speaker{\surname{Zopire}.}
+\spl{Quoi ! Séide est mon fils !}
+
+\speaker{\surname{Phanor}.}
+\spl{\phantom{Quoi ! Séide est mon fils ! }N’en doutez point.}
+
+\speaker{\surname{Zopire}.}
+\spl{\phantom{Quoi ! Séide est mon fils ! N’en doutez point. }Hélas !}
+\spl{Ô forfaits ! Ô nature !... Allons, soutiens mes pas,}
+\spl{Je meurs. Sauvez, grands dieux ! De tant de barbarie}
+\spl{Mes deux enfants que j’aime, et qui m’ôtent la vie.}
+\chapterclose
+
+
+\chapteropen
+
+\chapter[{ACTE V}]{ACTE V}
+\renewcommand{\leftmark}{ACTE V}\phantomsection
+\label{V}
+
+
+\chaptercont
+
+\section[{SCÈNE I.}]{SCÈNE I.}\phantomsection
+\label{V01}
+
+{\centering\it MAHOMET, OMAR ; suite, \textit{dans le fond}.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{Zopire est expirant, et ce peuple éperdu}
+\spl{Levait déjà son front dans la poudre abattu.}
+\spl{Tes prophètes et moi, que ton esprit inspire,}
+\spl{Nous désavouons tous le meurtre de Zopire.}
+\spl{Ici, nous l’annonçons à ce peuple en fureur}
+\spl{Comme un coup du très-haut qui s’arme en ta faveur ;}
+\spl{Là, nous en gémissons ; nous promettons vengeance :}
+\spl{Nous vantons ta justice, ainsi que ta clémence.}
+\spl{Partout on nous écoute, on fléchit à ton nom ;}
+\spl{Et ce reste importun de la sédition}
+\spl{N’est qu’un bruit passager de flots après l’orage,}
+\spl{Dont le courroux mourant frappe encor le rivage}
+\spl{Quand la sérénité règne aux plaines du ciel.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Imposons à ces flots un silence éternel.}
+\spl{As-tu fait des remparts approcher mon armée ?}
+
+\speaker{\surname{Omar}.}
+\spl{Elle a marché la nuit vers la ville alarmée ;}
+\spl{Osman la conduisait par de secrets chemins.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Faut-il toujours combattre, ou tromper les humains !}
+\spl{Séide ne sait point qu’aveugle en sa furie}
+\spl{Il vient d’ouvrir le flanc dont il reçut la vie ?}
+
+\speaker{\surname{Omar}.}
+\spl{Qui pourrait l’en instruire ? Un éternel oubli}
+\spl{Tient avec ce secret Hercide enseveli :}
+\spl{Séide va le suivre, et son trépas commence.}
+\spl{J’ai détruit l’instrument qu’employa ta vengeance.}
+\spl{Tu sais que dans son sang ses mains ont fait couler}
+\spl{Le poison qu’en sa coupe on avait su mêler.}
+\spl{Le châtiment sur lui tombait avant le crime ;}
+\spl{Et tandis qu’à l’autel il traînait sa victime,}
+\spl{Tandis qu’au sein d’un père il enfonçait son bras,}
+\spl{Dans ses veines, lui-même, il portait son trépas.}
+\spl{Il est dans la prison, et bientôt il expire.}
+\spl{Cependant en ces lieux j’ai fait garder Palmire.}
+\spl{Palmire à tes desseins va même encor servir :}
+\spl{Croyant sauver Séide, elle va t’obéir.}
+\spl{Je lui fais espérer la grâce de Séide.}
+\spl{Le silence est encor sur sa bouche timide ;}
+\spl{Son coeur toujours docile, et fait pour t’adorer,}
+\spl{En secret seulement n’osera murmurer.}
+\spl{Législateur, prophète, et roi dans ta patrie,}
+\spl{Palmire achèvera le bonheur de ta vie.}
+\spl{Tremblante, inanimée, on l’amène à tes yeux.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Va rassembler mes chefs, et revole en ces lieux.}
+
+\section[{SCÈNE II.}]{SCÈNE II.}\phantomsection
+\label{V02}
+
+{\centering\it MAHOMET, PALMIRE ; suite de Palmire et de Mahomet.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Palmire}.}
+\spl{Ciel ! Où suis-je ? Ah, grand dieu !}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Ciel ! Où suis-je ? Ah, grand dieu ! }Soyez moins consternée ;}
+\spl{J’ai du peuple et de vous pesé la destinée,}
+\spl{Le grand événement qui vous remplit d’effroi,}
+\spl{Palmire, est un mystère entre le ciel et moi.}
+\spl{De vos indignes fers à jamais dégagée,}
+\spl{Vous êtes en ces lieux libre, heureuse, et vengée.}
+\spl{Ne pleurez point Séide, et laissez à mes mains}
+\spl{Le soin de balancer le destin des humains.}
+\spl{Ne songez plus qu’au vôtre ; et si vous m’êtes chère,}
+\spl{Si Mahomet sur vous jeta des yeux de père,}
+\spl{Sachez qu’un sort plus noble, un titre encor plus grand,}
+\spl{Si vous le méritez, peut-être vous attend.}
+\spl{Portez vos yeux hardis au faîte de la gloire ;}
+\spl{De Séide et du reste étouffez la mémoire :}
+\spl{Vos premiers sentiments doivent tous s’effacer}
+\spl{À l’aspect des grandeurs où vous n’osiez penser.}
+\spl{Il faut que votre coeur à mes bontés réponde,}
+\spl{Et suive en tout mes lois, lorsque j’en donne au monde.}
+
+\speaker{\surname{Palmire}.}
+\spl{Qu’entends-je ? Quelles lois, ô ciel ! Et quels bienfaits !}
+\spl{Imposteur teint de sang, que j’abjure à jamais,}
+\spl{Bourreau de tous les miens, va, ce dernier outrage}
+\spl{Manquait à ma misère, et manquait à ta rage.}
+\spl{Le voilà donc, grand dieu ! Ce prophète sacré,}
+\spl{Ce roi que je servis, ce dieu que j’adorai !}
+\spl{Monstre, dont les fureurs et les complots perfides}
+\spl{De deux coeurs innocents ont fait deux parricides ;}
+\spl{De ma faible jeunesse infâme séducteur,}
+\spl{Tout souillé de mon sang, tu prétends à mon coeur ?}
+\spl{Mais tu n’as pas encore assuré ta conquête ;}
+\spl{Le voile est déchiré, la vengeance s’apprête.}
+\spl{Entends-tu ces clameurs ? Entends-tu ces éclats ?}
+\spl{Mon père te poursuit des ombres du trépas.}
+\spl{Le peuple se soulève ; on s’arme en ma défense ;}
+\spl{Leurs bras vont à ta rage arracher l’innocence.}
+\spl{Puissé-je de mes mains te déchirer le flanc,}
+\spl{Voir mourir tous les tiens, et nager dans leur sang !}
+\spl{Puissent la Mecque ensemble, et Médine, et l’Asie,}
+\spl{Punir tant de fureur et tant d’hypocrisie ?}
+\spl{Que le monde, par toi séduit et ravagé,}
+\spl{Rougisse de ses fers, les brise, et soit vengé !}
+\spl{Que ta religion, qui fonda l’imposture,}
+\spl{Soit l’éternel mépris de la race future !}
+\spl{Que l’enfer, dont tes cris menaçaient tant de fois}
+\spl{Quiconque osait douter de tes indignes lois ;}
+\spl{Que l’enfer, que ces lieux de douleur et de rage,}
+\spl{Pour toi seul préparés, soient ton juste partage !}
+\spl{Voilà les sentiments qu’on doit à tes bienfaits,}
+\spl{L’hommage, les serments, et les voeux que je fais !}
+
+\speaker{\surname{Mahomet}.}
+\spl{Je vois qu’on m’a trahi ; mais quoi qu’il en puisse être,}
+\spl{Et qui que vous soyez, fléchissez sous un maître.}
+\spl{Apprenez que mon coeur...}
+
+\section[{SCÈNE III.}]{SCÈNE III.}\phantomsection
+\label{V03}
+
+{\centering\it MAHOMET, PALMIRE, OMAR, ALI, suite.\par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Apprenez que mon coeur... }On sait tout, Mahomet :}
+\spl{Hercide en expirant révéla ton secret.}
+\spl{Le peuple en est instruit ; la prison est forcée ;}
+\spl{Tout s’arme, tout s’émeut : une foule insensée,}
+\spl{Élevant contre toi ses hurlements affreux,}
+\spl{Porte le corps sanglant de son chef malheureux.}
+\spl{Séide est à leur tête ; et, d’une voix funeste,}
+\spl{Les excite à venger ce déplorable reste.}
+\spl{Ce corps, souillé de sang, est l’horrible signal}
+\spl{Qui fait courir ce peuple à ce combat fatal.}
+\spl{Il s’écrie en pleurant : " je suis un parricide ! "}
+\spl{La douleur le ranime, et la rage le guide.}
+\spl{Il semble respirer pour se venger de toi.}
+\spl{On déteste ton dieu, tes prophètes, ta loi.}
+\spl{Ceux même qui devaient dans la Mecque alarmée}
+\spl{Faire ouvrir, cette nuit, la porte à ton armée,}
+\spl{De la fureur commune avec zèle enivrés,}
+\spl{Viennent lever sur toi leurs bras désespérés.}
+\spl{On n’entend que les cris de mort et de vengeance.}
+
+\speaker{\surname{Palmire}.}
+\spl{Achève, juste ciel ! Et soutiens l’innocence.}
+\spl{Frappe.}
+
+\speaker{\surname{Mahomet}, \textit{à Omar}.}
+\spl{\phantom{Frappe. }Eh bien ! Que crains-tu ?}
+
+\speaker{\surname{Omar}.}
+\spl{\phantom{Frappe. Eh bien ! Que crains-tu ? }Tu vois quelques amis,}
+\spl{Qui contre les dangers comme moi raffermis,}
+\spl{Mais vainement armés contre un pareil orage,}
+\spl{Viennent tous à tes pieds mourir avec courage.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Seul je les défendrai. Rangez-vous près de moi,}
+\spl{Et connaissez enfin qui vous avez pour roi.}
+
+\section[{SCÈNE IV.}]{SCÈNE IV.}\phantomsection
+\label{V04}
+
+{\centering\it MAHOMET, OMAR, \textit{sa suite, d’un côté} ; SÉIDE \textit{et le peuple, de l’autre} ; PALMIRE, \textit{au milieu}. \par}\nobreakpage\bigskip\nobreakpage
+
+\speaker{\surname{Séide}, \textit{un poignard à la main, mais déjà affaibli par le poison}.}
+\spl{Peuple, vengez mon père, et courez à ce traître.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Peuple, né pour me suivre, écoutez votre maître.}
+
+\speaker{\surname{Séide}.}
+\spl{N’écoutez point ce monstre, et suivez-moi... grands dieux !}
+\spl{Quel nuage épaissi se répand sur mes yeux !}
+         \textit{il avance, il chancelle.}\par
+\spl{Frappons... ciel ! Je me meurs.}
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Frappons... ciel ! Je me meurs. }Je triomphe.}
+
+\speaker{\surname{Palmire}, \textit{courant à lui}.}
+\spl{\phantom{Frappons... ciel ! Je me meurs. Je triomphe. }Ah, mon frère !}
+\spl{N’auras-tu pu verser que le sang de ton père ?}
+
+\speaker{\surname{Séide}.}
+\spl{Avançons. Je ne puis... quel dieu vient m’accabler ?}
+         \textit{Il tombe entre les bras des siens.}\par
+
+\speaker{\surname{Mahomet}.}
+\spl{Ainsi tout téméraire à mes yeux doit trembler.}
+\spl{Incrédules esprits, qu’un zèle aveugle inspire,}
+\spl{Qui m’osez blasphémer, et qui vengez Zopire,}
+\spl{Ce seul bras que la terre apprit à redouter,}
+\spl{Ce bras peut vous punir d’avoir osé douter.}
+\spl{Dieu qui m’a confié sa parole et sa foudre,}
+\spl{Si je me veux venger, va vous réduire en poudre.}
+\spl{Malheureux ! Connaissez son prophète et sa loi,}
+\spl{Et que ce dieu soit juge entre Séide et moi.}
+\spl{De nous deux, à l’instant, que le coupable expire !}
+
+\speaker{\surname{Palmire}.}
+\spl{Mon frère ! Eh quoi ! Sur eux ce monstre a tant d’empire !}
+\spl{Ils demeurent glacés, ils tremblent à sa voix.}
+\spl{Mahomet, comme un dieu, leur dicte encor ses lois :}
+\spl{Et toi, Séide, aussi !}
+
+\speaker{\surname{Séide}, \textit{entre les bras des siens}.}
+\spl{\phantom{Et toi, Séide, aussi ! }Le ciel punit ton frère.}
+\spl{Mon crime était horrible autant qu’involontaire ;}
+\spl{En vain la vertu même habitait dans mon coeur.}
+\spl{Toi, tremble, scélérat ! Si dieu punit l’erreur,}
+\spl{Vois quel foudre il prépare aux artisans des crimes :}
+\spl{Tremble ; son bras s’essaie à frapper ses victimes.}
+\spl{Détournez d’elle, ô dieu ! Cette mort qui me suit !}
+
+\speaker{\surname{Palmire}.}
+\spl{Non, peuple, ce n’est point un dieu qui le poursuit ;}
+\spl{Non ; le poison sans doute...}
+
+\speaker{\surname{Mahomet}, \textit{en l’interrompant, et s’adressant au peuple}.}
+\spl{\phantom{Non ; le poison sans doute... }Apprenez, infidèles,}
+\spl{À former contre moi des trames criminelles :}
+\spl{Aux vengeances des cieux reconnaissez mes droits.}
+\spl{La nature et la mort ont entendu ma voix.}
+\spl{La mort, qui m’obéit, qui, prenant ma défense,}
+\spl{Sur ce front pâlissant a tracé ma vengeance ;}
+\spl{La mort est, à vos yeux, prête à fondre sur vous.}
+\spl{Ainsi mes ennemis sentiront mon courroux ;}
+\spl{Ainsi je punirai les erreurs insensées,}
+\spl{Les révoltes du coeur, et les moindres pensées.}
+\spl{Si ce jour luit pour vous, ingrats, si vous vivez,}
+\spl{Rendez grâce au pontife à qui vous le devez.}
+\spl{Fuyez, courez au temple apaiser ma colère.}
+         \textit{Le peuple se retire.}\par
+
+\speaker{\surname{Palmire}, \textit{revenant à elle}.}
+\spl{Arrêtez. Le barbare empoisonna mon frère.}
+\spl{Monstre, ainsi son trépas t’aura justifié !}
+\spl{À force de forfaits tu t’es déifié.}
+\spl{Malheureux assassin de ma famille entière,}
+\spl{Ôte-moi de tes mains ce reste de lumière.}
+\spl{Ô frère ! ô triste objet d’un amour plein d’horreurs !}
+\spl{Que je te suive au moins !}
+         \textit{Elle se jette sur le poignard de son frère, et s’en frappe.}\par
+
+\speaker{\surname{Mahomet}.}
+\spl{\phantom{Que je te suive au moins ! }Qu’on l’arrête !}
+
+\speaker{\surname{Palmire}.}
+\spl{\phantom{Que je te suive au moins ! Qu’on l’arrête ! }Je meurs.}
+\spl{Je cesse de te voir, imposteur exécrable.}
+\spl{Je me flatte, en mourant, qu’un dieu plus équitable}
+\spl{Réserve un avenir pour les coeurs innocents.}
+\spl{Tu dois régner ; le monde est fait pour les tyrans.}
+
+\speaker{\surname{Mahomet}.}
+\spl{Elle m’est enlevée... Ah ! Trop chère victime !}
+\spl{Je me vois arracher le seul prix de mon crime.}
+\spl{De ses jours pleins d’appas détestable ennemi,}
+\spl{Vainqueur et tout-puissant, c’est moi qui suis puni.}
+\spl{Il est donc des remords ! Ô fureur ! Ô justice !}
+\spl{Mes forfaits dans mon coeur ont donc mis mon supplice !}
+\spl{Dieu, que j’ai fait servir au malheur des humains,}
+\spl{Adorable instrument de mes affreux desseins,}
+\spl{Toi que j’ai blasphémé, mais que je crains encore,}
+\spl{Je me sens condamné, quand l’univers m’adore.}
+\spl{Je brave en vain les traits dont je me sens frapper.}
+\spl{J’ai trompé les mortels, et ne puis me tromper.}
+\spl{Père, enfants malheureux, immolés à ma rage,}
+\spl{Vengez la terre et vous, et le ciel que j’outrage.}
+\spl{Arrachez-moi ce jour, et ce perfide coeur,}
+\spl{Ce coeur né pour haïr, qui brûle avec fureur.}
+         \textit{À Omar.}\par
+\spl{Et toi, de tant de honte étouffe la mémoire ;}
+\spl{Cache au moins ma faiblesse, et sauve encor ma gloire :}
+\spl{Je dois régir en dieu l’univers prévenu ;}
+\spl{Mon empire est détruit si l’homme est reconnu.}
+\chapterclose
+
+ 
 
 
 % at least one empty page at end (for booklet couv)
@@ -653,17 +3245,19 @@
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -684,20 +3278,7 @@
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}
