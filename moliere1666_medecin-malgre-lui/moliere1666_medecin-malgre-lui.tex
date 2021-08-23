@@ -67,7 +67,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -93,13 +93,13 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
+\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -110,9 +110,12 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{poetry} % <l>, bad for theater
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -130,13 +133,12 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
+
 
 % TOTEST
 % \usepackage{hypcap} % links in caption ?
@@ -145,6 +147,7 @@
 % \usepackage{background} % doesn’t work with xetek
 % \usepackage{bookmark} % prefers the hyperref hack \phantomsection
 % \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
+% \usepackage{DejaVuSans} % override too much, was for for symbols
 % \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
 % \usepackage[sfdefault,medium]{inter} % no small caps
 % \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
@@ -156,13 +159,32 @@
 % \usepackage{sectsty} % \chapterfont OBSOLETE
 % \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
 % \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
+% \usepackage{verse} % not enough control on indent, poetry is better
 
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Le médecin malgré lui }}
+\title{\textbf{ Le médecin malgré lui }\par
+}
 \date{1666}
 \author{Molière}
 \def\elbibl{Molière. 1666. \emph{Le médecin malgré lui}}
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Molière\par}\bigskip
+  {\Large 1666\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Le médecin malgré lui}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -185,11 +207,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -214,6 +231,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -273,12 +298,14 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -289,10 +316,14 @@
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\centering #1\par\nopagebreak}} % supposed bottom
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
@@ -307,7 +338,7 @@
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -332,6 +363,11 @@
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
+ % epigraph pack
+\setlength{\epigraphrule}{0pt}
+\setlength{\epigraphwidth}{0.8\textwidth}
+% \renewcommand{\epigraphflush}{center} ? dont work
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -366,8 +402,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -400,14 +434,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -415,20 +457,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -439,7 +478,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -447,6 +486,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -490,7 +532,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -524,7 +566,7 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
+  [display]{}{}{}{}
   [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
@@ -577,34 +619,25 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
-  \smallskip
-  {\large\eldate}\par
-  \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  \centering\parindent0pt % no vskip ()
+  \eltitlepage
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\bfseries{\elauthor}}\par
-  \bigskip
-  {\Large\eldate}\par
-  \bigskip
-  \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -634,1964 +667,2002 @@
 \bigskip
 
 \pagestyle{main} % after style
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
+  \frontmatter 
+\section[{PERSONNAGES}]{PERSONNAGES}
+\renewcommand{\leftmark}{PERSONNAGES}
 
-  \frontmatter \section[{PERSONNAGES}]{PERSONNAGES}\renewcommand{\leftmark}{PERSONNAGES}
 
-\begin{itemize} 
-\item \textbf{Sganarelle}, mari de Martine.
-\item \textbf{Martine}, femme de Sganarelle.
-\item \textbf{Monsieur Robert}, voisin de Sganarelle.
-\item \textbf{Valère}, domestique de Géronte.
-\item \textbf{Lucas}, mari de Jacqueline.
-\item \textbf{Géronte}, père de Lucinde.
-\item \textbf{Jacqueline}, nourrice chez Géronte, et femme de Lucas.
-\item \textbf{Lucinde}, fille de Géronte.
-\item \textbf{Léandre}, amant de Lucinde.
-\item \textbf{Thibaut}, père de Perrin.
-\item \textbf{Perrin}, fils de Thibaut, paysan.\end{itemize} \section[{EXTRAIT DU PRIVILÈGE, du ROI}]{EXTRAIT DU PRIVILÈGE \\
-du ROI}\renewcommand{\leftmark}{EXTRAIT DU PRIVILÈGE \\
+\bigbreak
+
+\castItem{\textbf{Sganarelle}, mari de Martine.}
+
+\castItem{\textbf{Martine}, femme de Sganarelle.}
+
+\castItem{\textbf{Monsieur Robert}, voisin de Sganarelle.}
+
+\castItem{\textbf{Valère}, domestique de Géronte.}
+
+\castItem{\textbf{Lucas}, mari de Jacqueline.}
+
+\castItem{\textbf{Géronte}, père de Lucinde.}
+
+\castItem{\textbf{Jacqueline}, nourrice chez Géronte, et femme de Lucas.}
+
+\castItem{\textbf{Lucinde}, fille de Géronte.}
+
+\castItem{\textbf{Léandre}, amant de Lucinde.}
+
+\castItem{\textbf{Thibaut}, père de Perrin.}
+
+\castItem{\textbf{Perrin}, fils de Thibaut, paysan.}
+\bigbreak
+
+
+\section[{EXTRAIT DU PRIVILÈGE, du ROI}]{EXTRAIT DU PRIVILÈGE \\
+du ROI}
+\renewcommand{\leftmark}{EXTRAIT DU PRIVILÈGE \\
 du ROI}
 
 \noindent Par Grace \& Privilège du Roy, donné à Paris le 8. Jour d’Octobre 1666, signé par le Roy en son Conseil GUITONNEAU. Il est permis à JEAN BAPTISTE POCQUELIN DE MOLIÈRE, Comédien de la Troupe de notre très Cher et très Amé Frère Unique le Duc d’Orléans, de faire imprimer, vendre \& débiter une Comédie par lui composée, Intitulée \emph{Le Médecin malgré lui}, pendant sept années : \& défenses sont faites à tous autres de l’imprimer, ni vendre d’autre Édition que celle de l’Exposant, ou de ceux qui auront droit de lui, à peine de quinze cens livre d’amande, confiscation des Exemplaires, \& de tous autres dépens, dommages, \& intérêts, comme il est porté plus amplement par lesdites Lettres.\par
 {\itshape Registré sur le Livre de la Communauté. Signé PIGET. Syndic}\par
 Et ledit sieur de MOLIÈRE, a cédé \&transporté son droit de Privilège à JEAN RIBOU, Marchand Libraire à Paris, pour en jouir suivant l’accord entre eux.\par
 {\itshape Achevé d’imprimer pour la première fois, le 24. Décembre 1666.}
-\mainmatter \section[{Acte I}]{Acte I}\phantomsection
-\label{I}\renewcommand{\leftmark}{Acte I}
 
-\subsection[{Scène I}]{Scène I}\phantomsection
+\mainmatter
+
+
+\chapteropen
+
+\chapter[{Acte I}]{Acte I}
+\renewcommand{\leftmark}{Acte I}\phantomsection
+\label{I}
+
+
+\chaptercont
+
+\section[{Scène I}]{Scène I}\phantomsection
 \label{I01}
-\textit{Sganarelle, Martine, \\
-Paraissant sur le théâtre en se querellant.}\par
- \begin{description} \item[Sganarelle] 
 
-Non je te dis que je n’en veux rien faire : et que c’est à moi de parler, et d’être le Maître.\end{description}
- \begin{description} \item[Martine] 
+{\centering\it Sganarelle, Martine, \\
+Paraissant sur le théâtre en se querellant.\par}\nobreakpage\bigskip\nobreakpage
 
-Et je te dis moi, que je veux que tu vives à ma fantaisie : et que je ne me suis point mariée avec toi, pour souffrir tes fredaines.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Non je te dis que je n’en veux rien faire : et que c’est à moi de parler, et d’être le Maître.
 
-Ô la grande fatigue que d’avoir une Femme : et qu’Aristote a bien raison, quand il dit qu’une Femme est pire qu’un Démon !\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Et je te dis moi, que je veux que tu vives à ma fantaisie : et que je ne me suis point mariée avec toi, pour souffrir tes fredaines.
 
-Voyez un peu l’habile Homme, avec son benêt d’Aristote.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ô la grande fatigue que d’avoir une Femme : et qu’Aristote a bien raison, quand il dit qu’une Femme est pire qu’un Démon !
 
-Oui, habile Homme, trouve-moi un Faiseur de fagots, qui sache, comme moi, raisonner des choses, qui ait servi six ans, un fameux Médecin, et qui ait su dans son jeune âge, son Rudiment par cœur.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Voyez un peu l’habile Homme, avec son benêt d’Aristote.
 
-Peste du Fou fieffé.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Oui, habile Homme, trouve-moi un Faiseur de fagots, qui sache, comme moi, raisonner des choses, qui ait servi six ans, un fameux Médecin, et qui ait su dans son jeune âge, son Rudiment par cœur.
 
-Peste de la Carogne.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Peste du Fou fieffé.
 
-Que maudit soit l’heure, et le jour, où je m’avisai d’aller dire oui.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Peste de la Carogne.
 
-Que maudit soit le Bec cornu de Notaire, qui me fit signer ma ruine.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Que maudit soit l’heure, et le jour, où je m’avisai d’aller dire oui.
 
-C’est bien à toi, vraiment, à te plaindre de cette affaire : devrais-tu être un seul moment, sans rendre grâce au Ciel de m’avoir pour ta Femme, et méritais-tu d’épouser une personne comme moi ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Que maudit soit le Bec cornu de Notaire, qui me fit signer ma ruine.
 
-Il est vrai que tu me fis trop d’honneur : et que j’eus lieu de me louer la première nuit de nos Noces. Hé ! morbleu, ne me fais point parler là-dessus, je dirais de certaines choses...\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent C’est bien à toi, vraiment, à te plaindre de cette affaire : devrais-tu être un seul moment, sans rendre grâce au Ciel de m’avoir pour ta Femme, et méritais-tu d’épouser une personne comme moi ?
 
-Quoi ? que dirais-tu ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Il est vrai que tu me fis trop d’honneur : et que j’eus lieu de me louer la première nuit de nos Noces. Hé ! morbleu, ne me fais point parler là-dessus, je dirais de certaines choses...
 
-Baste, laissons là ce Chapitre, il suffit que nous savons ce que nous savons : et que tu fus bien heureuse de me trouver.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Quoi ? que dirais-tu ?
 
-Qu’appelles-tu bien heureuse, de te trouver un homme qui me réduit à l’Hôpital, un Débauché, un Traître qui me mange tout ce que j’ai ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Baste, laissons là ce Chapitre, il suffit que nous savons ce que nous savons : et que tu fus bien heureuse de me trouver.
 
-Tu as menti, j’en bois une partie.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Qu’appelles-tu bien heureuse, de te trouver un homme qui me réduit à l’Hôpital, un Débauché, un Traître qui me mange tout ce que j’ai ?
 
-Qui me vend, pièce à pièce, tout ce qui est dans le Logis.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tu as menti, j’en bois une partie.
 
-C’est vivre de Ménage.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Qui me vend, pièce à pièce, tout ce qui est dans le Logis.
 
-Qui m’a ôté jusqu’au Lit que j’avais.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent C’est vivre de Ménage.
 
-Tu t’en lèveras plus matin.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Qui m’a ôté jusqu’au Lit que j’avais.
 
-Enfin, qui ne laisse aucun meuble dans toute la maison.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tu t’en lèveras plus matin.
 
-On en déménage plus aisément.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Enfin, qui ne laisse aucun meuble dans toute la maison.
 
-Et qui du matin jusqu’au soir, ne fait que jouer, et que boire.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent On en déménage plus aisément.
 
-C’est pour ne me point ennuyer.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Et qui du matin jusqu’au soir, ne fait que jouer, et que boire.
 
-Et que veux-tu pendant ce temps, que je fasse avec ma famille ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent C’est pour ne me point ennuyer.
 
-Tout ce qu’il te plaira.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Et que veux-tu pendant ce temps, que je fasse avec ma famille ?
 
-J’ai quatre pauvres petits Enfants sur les bras.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tout ce qu’il te plaira.
 
-Mets-les à terre.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent J’ai quatre pauvres petits Enfants sur les bras.
 
-Qui me demandent à toute heure, du pain.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Mets-les à terre.
 
-Donne-leur le fouet, quand j’ai bien bu, et bien mangé, je veux que tout le monde soit saoul dans ma maison.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Qui me demandent à toute heure, du pain.
 
-Et tu prétends ivrogne, que les choses aillent toujours de même ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Donne-leur le fouet, quand j’ai bien bu, et bien mangé, je veux que tout le monde soit saoul dans ma maison.
 
-Ma Femme, allons tout doucement, s’il vous plaît.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Et tu prétends ivrogne, que les choses aillent toujours de même ?
 
-Que j’endure éternellement, tes insolences, et tes débauches ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ma Femme, allons tout doucement, s’il vous plaît.
 
-Ne nous emportons point ma Femme.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Que j’endure éternellement, tes insolences, et tes débauches ?
 
-Et que je ne sache pas trouver le moyen de te ranger à ton devoir ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ne nous emportons point ma Femme.
 
-Ma Femme, vous savez que je n’ai pas l’âme endurante : et que j’ai le bras assez bon.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Et que je ne sache pas trouver le moyen de te ranger à ton devoir ?
 
-Je me moque de tes menaces.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ma Femme, vous savez que je n’ai pas l’âme endurante : et que j’ai le bras assez bon.
 
-Ma petite Femme, ma mie, votre peau vous démange, à votre ordinaire.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Je me moque de tes menaces.
 
-Je te montrerai bien que je ne te crains nullement.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ma petite Femme, ma mie, votre peau vous démange, à votre ordinaire.
 
-Ma chère Moitié, vous avez envie de me dérober quelque chose.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Je te montrerai bien que je ne te crains nullement.
 
-Crois-tu que je m’épouvante de tes paroles ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ma chère Moitié, vous avez envie de me dérober quelque chose.
 
-Doux Objet de mes vœux, je vous frotterai les oreilles.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Crois-tu que je m’épouvante de tes paroles ?
 
-Ivrogne que tu es.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Doux Objet de mes vœux, je vous frotterai les oreilles.
 
-Je vous battrai.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Ivrogne que tu es.
 
-Sac à vin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je vous battrai.
 
-Je vous rosserai.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Sac à vin.
 
-Infâme.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je vous rosserai.
 
-Je vous étrillerai.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Infâme.
 
-Traître, insolent, trompeur, lâche, coquin, pendard, gueux, bélitre, fripon, maraud, voleur....\end{description}
- \begin{description} \item[Sganarelle] \textit{Il prend un bâton, et lui en donne.} 
+\speaker{Sganarelle}
+\noindent Je vous étrillerai.
 
-Ah ! vous en voulez, donc.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Traître, insolent, trompeur, lâche, coquin, pendard, gueux, bélitre, fripon, maraud, voleur....
 
-Ah, ah, ah, ah.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+         \textit{Il prend un bâton, et lui en donne.}\par
+\noindent Ah ! vous en voulez, donc.
 
-Voilà le vrai moyen de vous apaiser.\end{description}
-\subsection[{Scène II}]{Scène II}\phantomsection
+\speaker{Martine}
+\noindent Ah, ah, ah, ah.
+
+\speaker{Sganarelle}
+\noindent Voilà le vrai moyen de vous apaiser.
+
+\section[{Scène II}]{Scène II}\phantomsection
 \label{I02}
-\textit{MONSIEUR Robert, Sganarelle, Martine.}\par
- \begin{description} \item[M. Robert] 
 
-Holà, holà, holà, fi qu’est ceci ? Quelle infamie, peste soit le Coquin, de battre ainsi sa Femme.\end{description}
- \begin{description} \item[Martine\textit{, les mains sur les côtés, lui parle en le faisant reculer, et à la fin, lui donne un soufflet}\par
-] 
+{\centering\it MONSIEUR Robert, Sganarelle, Martine.\par}\nobreakpage\bigskip\nobreakpage
 
-Et je veux qu’il me batte, moi.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Holà, holà, holà, fi qu’est ceci ? Quelle infamie, peste soit le Coquin, de battre ainsi sa Femme.
 
-Ah ! j’y consens de tout mon cœur.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine\textit{, les mains sur les côtés, lui parle en le faisant reculer, et à la fin, lui donne un soufflet}}
+\noindent Et je veux qu’il me batte, moi.
 
-De quoi vous mêlez-vous ?\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Ah ! j’y consens de tout mon cœur.
 
-J’ai tort.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent De quoi vous mêlez-vous ?
 
-Est-ce là votre affaire ?\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent J’ai tort.
 
-Vous avez raison.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Est-ce là votre affaire ?
 
-Voyez un peu cet Impertinent, qui veut empêcher les Maris de battre leurs Femmes.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Vous avez raison.
 
-Je me rétracte.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Voyez un peu cet Impertinent, qui veut empêcher les Maris de battre leurs Femmes.
 
-Qu’avez-vous à voir là-dessus ?\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Je me rétracte.
 
-Rien.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Qu’avez-vous à voir là-dessus ?
 
-Est-ce à vous, d’y mettre le nez ?\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Rien.
 
-Non.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Est-ce à vous, d’y mettre le nez ?
 
-Mêlez-vous de vos affaires.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Non.
 
-Je ne dis plus mot.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Mêlez-vous de vos affaires.
 
-Il me plaît d’être battue.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Je ne dis plus mot.
 
-D’accord.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Il me plaît d’être battue.
 
-Ce n’est pas à vos dépens.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent D’accord.
 
-Il est vrai.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Ce n’est pas à vos dépens.
 
-Et vous êtes un Sot, de venir vous fourrer où vous n’avez que faire.\end{description}
- \begin{description} \item[M. Robert] \textit{Il passe ensuite, vers le Mari, qui, pareillement, lui parle toujours, en le faisant reculer : le frappe avec le même Bâton, et le met en fuite, il dit à la fin.} 
+\speaker{M. Robert}
+\noindent Il est vrai.
 
-Compère, je vous demande pardon de tout mon cœur, faites, rossez, battez, comme il faut, votre Femme, je vous aiderai si vous le voulez ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Et vous êtes un Sot, de venir vous fourrer où vous n’avez que faire.
 
-Il ne me plaît pas, moi.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+         \textit{Il passe ensuite, vers le Mari, qui, pareillement, lui parle toujours, en le faisant reculer : le frappe avec le même Bâton, et le met en fuite, il dit à la fin.}\par
+\noindent Compère, je vous demande pardon de tout mon cœur, faites, rossez, battez, comme il faut, votre Femme, je vous aiderai si vous le voulez ?
 
-Ah ! c’est une autre chose.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Il ne me plaît pas, moi.
 
-Je la veux battre, si je le veux : et ne la veux pas battre, si je ne le veux pas.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Ah ! c’est une autre chose.
 
-Fort bien.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je la veux battre, si je le veux : et ne la veux pas battre, si je ne le veux pas.
 
-C’est ma Femme, et non pas la vôtre.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Fort bien.
 
-Sans doute.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent C’est ma Femme, et non pas la vôtre.
 
-Vous n’avez rien à me commander.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent Sans doute.
 
-D’accord.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Vous n’avez rien à me commander.
 
-Je n’ai que faire de votre aide.\end{description}
- \begin{description} \item[M. Robert] 
+\speaker{M. Robert}
+\noindent D’accord.
 
-Très volontiers.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je n’ai que faire de votre aide.
 
-Et vous êtes un Impertinent, de vous ingérer des affaires d’autrui : apprenez que Cicéron dit, qu’entre l’arbre et le doigt, il ne faut point mettre l’écorce.
+\speaker{M. Robert}
+\noindent Très volontiers.
 
-Ensuite il revient vers sa femme, et lui dit, en lui pressant la main, Ô çà faisons la paix nous deux. Touche là.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Et vous êtes un Impertinent, de vous ingérer des affaires d’autrui : apprenez que Cicéron dit, qu’entre l’arbre et le doigt, il ne faut point mettre l’écorce.\par
+Ensuite il revient vers sa femme, et lui dit, en lui pressant la main, Ô çà faisons la paix nous deux. Touche là.
 
-Oui ! après m’avoir ainsi battue !\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Oui ! après m’avoir ainsi battue !
 
-Cela n’est rien, touche.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Cela n’est rien, touche.
 
-Je ne veux pas.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Je ne veux pas.
 
-Eh !\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Eh !
 
-Non.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Non.
 
-Ma petite Femme.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Ma petite Femme.
 
-Point.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Point.
 
-Allons, te dis-je.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Allons, te dis-je.
 
-Je n’en ferai rien.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Je n’en ferai rien.
 
-Viens, viens, viens.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Viens, viens, viens.
 
-Non, je veux être en colère.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Non, je veux être en colère.
 
-Fi, c’est une bagatelle, allons, allons.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Fi, c’est une bagatelle, allons, allons.
 
-Laisse-moi là.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Laisse-moi là.
 
-Touche, te dis-je.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Sganarelle}
+\noindent Touche, te dis-je.
 
-Tu m’as trop maltraitée.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+\noindent Tu m’as trop maltraitée.
 
-Eh bien va, je te demande pardon, mets là, ta main.\end{description}
- \begin{description} \item[Martine] \textit{Je te pardonne ; (elle dit le reste bas} 
+\speaker{Sganarelle}
+\noindent Eh bien va, je te demande pardon, mets là, ta main.
 
-) mais tu le payeras.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Martine}
+         \textit{Je te pardonne ; (elle dit le reste bas}\par
+\noindent ) mais tu le payeras.
 
-Tu es une Folle, de prendre garde à cela. Ce sont petites choses qui sont, de temps en temps, nécessaires dans l’Amitié : et cinq ou six coups de bâton, entre Gens qui s’aiment, ne font que ragaillardir l’Affection. Va je m’en vais au Bois : et je te promets, aujourd’hui, plus d’un cent de Fagots.\end{description}
-\subsection[{Scène III}]{Scène III}\phantomsection
+\speaker{Sganarelle}
+\noindent Tu es une Folle, de prendre garde à cela. Ce sont petites choses qui sont, de temps en temps, nécessaires dans l’Amitié : et cinq ou six coups de bâton, entre Gens qui s’aiment, ne font que ragaillardir l’Affection. Va je m’en vais au Bois : et je te promets, aujourd’hui, plus d’un cent de Fagots.
+
+\section[{Scène III}]{Scène III}\phantomsection
 \label{I03}
- \begin{description} \item[Martine\textit{, seule}\par
-] 
 
-Va, quelque mine que je fasse, je n’oublie pas mon ressentiment : et je brûle en moi-même, de trouver les moyens de te punir des coups que tu me donnes. Je sais bien qu’une femme a toujours dans les mains, de quoi se venger d’un Mari : mais c’est une punition trop délicate pour mon Pendard. Je veux une vengeance qui se fasse un peu mieux sentir : et ce n’est pas contentement, pour l’injure que j’ai reçue.\end{description}
-\subsection[{Scène IV}]{Scène IV}\phantomsection
+
+\speaker{Martine\textit{, seule}}
+\noindent Va, quelque mine que je fasse, je n’oublie pas mon ressentiment : et je brûle en moi-même, de trouver les moyens de te punir des coups que tu me donnes. Je sais bien qu’une femme a toujours dans les mains, de quoi se venger d’un Mari : mais c’est une punition trop délicate pour mon Pendard. Je veux une vengeance qui se fasse un peu mieux sentir : et ce n’est pas contentement, pour l’injure que j’ai reçue.
+
+\section[{Scène IV}]{Scène IV}\phantomsection
 \label{I04}
-\textit{Valère, Lucas, Martine.}\par
-\noindent \par
- \begin{description} \item[Lucas] 
 
-Parguenne, j’avons pris là, tous deux, une guèble de commission : et je ne sais pas moi, ce que je pensons attraper.\end{description}
- \begin{description} \item[Valère] 
+{\centering\it Valère, Lucas, Martine.\par}\nobreakpage\bigskip\nobreakpage
+\par
 
-Que veux-tu mon pauvre Nourricier ? il faut bien obéir à notre Maître : et puis, nous avons intérêt, l’un et l’autre, à la santé de sa Fille, notre maîtresse, et, sans doute, son Mariage différé par sa Maladie, nous vaudrait quelque récompense. Horace qui est libéral, a bonne part aux prétentions qu’on peut avoir sur sa Personne : et quoiqu’elle ait fait voir de l’amitié pour un certain Léandre, tu sais bien que son père n’a jamais, voulu consentir à le recevoir pour son Gendre.\end{description}
- \begin{description} \item[Martine\textit{, Rêvant à part elle}\par
-] 
+\speaker{Lucas}
+\noindent Parguenne, j’avons pris là, tous deux, une guèble de commission : et je ne sais pas moi, ce que je pensons attraper.
 
-Ne puis-je point trouver quelque invention pour me venger ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Que veux-tu mon pauvre Nourricier ? il faut bien obéir à notre Maître : et puis, nous avons intérêt, l’un et l’autre, à la santé de sa Fille, notre maîtresse, et, sans doute, son Mariage différé par sa Maladie, nous vaudrait quelque récompense. Horace qui est libéral, a bonne part aux prétentions qu’on peut avoir sur sa Personne : et quoiqu’elle ait fait voir de l’amitié pour un certain Léandre, tu sais bien que son père n’a jamais, voulu consentir à le recevoir pour son Gendre.
 
-Mais quelle fantaisie s’est-il boutée là dans la tête, puisque les médecins y avont tous pardu leur latin ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine\textit{, Rêvant à part elle}}
+\noindent Ne puis-je point trouver quelque invention pour me venger ?
 
-On trouve quelquefois, à force de chercher, ce qu’on ne trouve pas d’abord : et souvent, en de simples lieux ....\end{description}
- \begin{description} \item[Martine] 
+\speaker{Lucas}
+\noindent Mais quelle fantaisie s’est-il boutée là dans la tête, puisque les médecins y avont tous pardu leur latin ?
 
-Oui, il faut que je m’en venge à quelque prix que ce soit : ces coups de bâton me reviennent au cœur, je ne les saurais digérer, et… \textit{(Elle dit tout ceci en rêvant : de sorte que ne prenant pas garde à ces deux Hommes, elle les heurte en se retournant, et leur dit)} Ah ! Messieurs, je vous demande pardon, je ne vous voyais pas : et cherchais dans ma tête quelque chose qui m’embarrasse.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent On trouve quelquefois, à force de chercher, ce qu’on ne trouve pas d’abord : et souvent, en de simples lieux ....
 
-Chacun a ses soins dans le Monde : et nous cherchons aussi, ce que nous voudrions bien trouver.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Oui, il faut que je m’en venge à quelque prix que ce soit : ces coups de bâton me reviennent au cœur, je ne les saurais digérer, et… \textit{(Elle dit tout ceci en rêvant : de sorte que ne prenant pas garde à ces deux Hommes, elle les heurte en se retournant, et leur dit)} Ah ! Messieurs, je vous demande pardon, je ne vous voyais pas : et cherchais dans ma tête quelque chose qui m’embarrasse.
 
-Serait-ce quelque chose, où je vous puisse aider ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Chacun a ses soins dans le Monde : et nous cherchons aussi, ce que nous voudrions bien trouver.
 
-Cela se pourrait faire, et nous tâchons de rencontrer quelque habile Homme, quelque Médecin particulier, qui pût donner quelque soulagement à la Fille de notre Maître, attaquée d’une Maladie qui lui a ôté, tout d’un coup, l’usage de la langue. Plusieurs Médecins ont déjà épuisé toute leur Science après elle : mais on trouve, parfois, des gens avec des Secrets admirables, de certains Remèdes particuliers, qui font le plus souvent, ce que les autres n’ont su faire, et c’est là, ce que nous cherchons.\end{description}
- \begin{description} \item[Martine] \textit{Elle dit ces premières lignes bas.} 
+\speaker{Martine}
+\noindent Serait-ce quelque chose, où je vous puisse aider ?
 
-Ah ! que le Ciel m’inspire une admirable invention pour me venger de mon Pendard. \textit{(Haut.)} Vous ne pouviez jamais, vous mieux adresser, pour rencontrer ce que vous cherchez ; et nous avons ici, un Homme, le plus merveilleux Homme du monde, pour les Maladies désespérées.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Cela se pourrait faire, et nous tâchons de rencontrer quelque habile Homme, quelque Médecin particulier, qui pût donner quelque soulagement à la Fille de notre Maître, attaquée d’une Maladie qui lui a ôté, tout d’un coup, l’usage de la langue. Plusieurs Médecins ont déjà épuisé toute leur Science après elle : mais on trouve, parfois, des gens avec des Secrets admirables, de certains Remèdes particuliers, qui font le plus souvent, ce que les autres n’ont su faire, et c’est là, ce que nous cherchons.
 
-Et de grâce, où pouvons-nous le rencontrer ?\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+         \textit{Elle dit ces premières lignes bas.}\par
+\noindent Ah ! que le Ciel m’inspire une admirable invention pour me venger de mon Pendard. \textit{(Haut.)} Vous ne pouviez jamais, vous mieux adresser, pour rencontrer ce que vous cherchez ; et nous avons ici, un Homme, le plus merveilleux Homme du monde, pour les Maladies désespérées.
 
-Vous le trouverez, maintenant, vers ce petit Lieu que voilà, qui s’amuse à couper du Bois.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Et de grâce, où pouvons-nous le rencontrer ?
 
-Un Médecin qui coupe du Bois !\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine}
+\noindent Vous le trouverez, maintenant, vers ce petit Lieu que voilà, qui s’amuse à couper du Bois.
 
-Qui s’amuse à cueillir des Simples, voulez-vous dire ?\end{description}
- \begin{description} \item[Martine] 
+\speaker{Lucas}
+\noindent Un Médecin qui coupe du Bois !
 
-Non, c’est un Homme extraordinaire, qui se plaît à cela, fantasque, bizarre, quinteux, et que vous ne prendriez jamais, pour ce qu’il est. Il va vêtu d’une façon extravagante, affecte, quelquefois, de paraître ignorant, tient sa Science renfermée, et ne fuit rien tant tous les jours, que d’exercer les merveilleux Talents qu’il a eus du Ciel, pour la Médecine.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Qui s’amuse à cueillir des Simples, voulez-vous dire ?
 
-C’est une chose admirable, que tous les grands Hommes ont toujours du Caprice, quelque petit Grain de Folie, mêlé à leur Science.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Non, c’est un Homme extraordinaire, qui se plaît à cela, fantasque, bizarre, quinteux, et que vous ne prendriez jamais, pour ce qu’il est. Il va vêtu d’une façon extravagante, affecte, quelquefois, de paraître ignorant, tient sa Science renfermée, et ne fuit rien tant tous les jours, que d’exercer les merveilleux Talents qu’il a eus du Ciel, pour la Médecine.
 
-La Folie de celui-ci, est plus grande qu’on ne peut croire : car elle va, parfois, jusqu’à vouloir être battu, pour demeurer d’accord de sa capacité ; Et je vous donne avis que vous n’en viendrez point à bout, qu’il n’avouera jamais, qu’il est Médecin, s’il se le met en fantaisie, que vous ne preniez, chacun, un Bâton, et ne le réduisiez à force de coups, à vous confesser à la fin, ce qu’il vous cachera d’abord. C’est ainsi que nous en usons, quand nous avons besoin de lui.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent C’est une chose admirable, que tous les grands Hommes ont toujours du Caprice, quelque petit Grain de Folie, mêlé à leur Science.
 
-Voilà une étrange folie !\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent La Folie de celui-ci, est plus grande qu’on ne peut croire : car elle va, parfois, jusqu’à vouloir être battu, pour demeurer d’accord de sa capacité ; Et je vous donne avis que vous n’en viendrez point à bout, qu’il n’avouera jamais, qu’il est Médecin, s’il se le met en fantaisie, que vous ne preniez, chacun, un Bâton, et ne le réduisiez à force de coups, à vous confesser à la fin, ce qu’il vous cachera d’abord. C’est ainsi que nous en usons, quand nous avons besoin de lui.
 
-Il est vrai : mais après cela, vous verrez qu’il fait des merveilles.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Voilà une étrange folie !
 
-Comment s’appelle-t-il ?\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Il est vrai : mais après cela, vous verrez qu’il fait des merveilles.
 
-Il s’appelle Sganarelle : mais il est aisé à connaître. C’est un homme qui a une large Barbe noire, et qui porte une fraise, avec un Habit jaune et vert.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Comment s’appelle-t-il ?
 
-Un habit jaune et vert ! C’est donc, le médecin des Paroquets.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine}
+\noindent Il s’appelle Sganarelle : mais il est aisé à connaître. C’est un homme qui a une large Barbe noire, et qui porte une fraise, avec un Habit jaune et vert.
 
-Mais est-il bien vrai, qu’il soit si habile, que vous le dites ?\end{description}
- \begin{description} \item[Martine] 
+\speaker{Lucas}
+\noindent Un habit jaune et vert ! C’est donc, le médecin des Paroquets.
 
-Comment ! C’est un Homme qui fait des Miracles. Il y a six mois, qu’une Femme fut abandonnée de tous les autres Médecins. On la tenait morte, il y avait déjà six heures : et l’on se disposait à l’ensevelir, lorsqu’on y fit venir de force, l’Homme dont nous parlons. Il lui mit, l’ayant vue, une petite goutte de je ne sais quoi dans la Bouche : et dans le même instant, Elle se leva de son Lit, et se mit, aussitôt, à se promener dans sa Chambre, comme si de rien n’eût été.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Mais est-il bien vrai, qu’il soit si habile, que vous le dites ?
 
-Ah !\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine}
+\noindent Comment ! C’est un Homme qui fait des Miracles. Il y a six mois, qu’une Femme fut abandonnée de tous les autres Médecins. On la tenait morte, il y avait déjà six heures : et l’on se disposait à l’ensevelir, lorsqu’on y fit venir de force, l’Homme dont nous parlons. Il lui mit, l’ayant vue, une petite goutte de je ne sais quoi dans la Bouche : et dans le même instant, Elle se leva de son Lit, et se mit, aussitôt, à se promener dans sa Chambre, comme si de rien n’eût été.
 
-Il fallait que ce fût quelque goutte d’Or potable.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Lucas}
+\noindent Ah !
 
-Cela pourrait bien être. Il n’y a pas trois semaines, encore, qu’un jeune Enfant de douze ans, tomba du haut du Clocher, en bas, et se brisa, sur le pavé, la Tête, les Bras et les Jambes. On n’y eut pas plus tôt, amené notre Homme, qu’il le frotta par tout le Corps, d’un certain Onguent qu’il sait faire ; et l’Enfant, aussitôt, se leva sur ses pieds, et courut jouer à la fossette.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Il fallait que ce fût quelque goutte d’Or potable.
 
-Ah !\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine}
+\noindent Cela pourrait bien être. Il n’y a pas trois semaines, encore, qu’un jeune Enfant de douze ans, tomba du haut du Clocher, en bas, et se brisa, sur le pavé, la Tête, les Bras et les Jambes. On n’y eut pas plus tôt, amené notre Homme, qu’il le frotta par tout le Corps, d’un certain Onguent qu’il sait faire ; et l’Enfant, aussitôt, se leva sur ses pieds, et courut jouer à la fossette.
 
-Il faut que cet Homme-là, ait la Médecine Universelle.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Lucas}
+\noindent Ah !
 
-Qui en doute ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Il faut que cet Homme-là, ait la Médecine Universelle.
 
-Testigué, velà justement, l’Homme qu’il nous faut : allons vite le charcher.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine}
+\noindent Qui en doute ?
 
-Nous vous remercions du plaisir que vous nous faites.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Lucas}
+\noindent Testigué, velà justement, l’Homme qu’il nous faut : allons vite le charcher.
 
-Mais souvenez-vous bien au moins, de l’avertissement que je vous ai donné.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Nous vous remercions du plaisir que vous nous faites.
 
-Eh ! morguenne, laissez-nous faire, s’il ne tient qu’à battre, la Vache est à nous.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Martine}
+\noindent Mais souvenez-vous bien au moins, de l’avertissement que je vous ai donné.
 
-Nous sommes bien heureux d’avoir fait cette rencontre : et j’en conçois, pour moi, la meilleure espérance du Monde.\end{description}
-\subsection[{Scène V}]{Scène V}\phantomsection
+\speaker{Lucas}
+\noindent Eh ! morguenne, laissez-nous faire, s’il ne tient qu’à battre, la Vache est à nous.
+
+\speaker{Valère}
+\noindent Nous sommes bien heureux d’avoir fait cette rencontre : et j’en conçois, pour moi, la meilleure espérance du Monde.
+
+\section[{Scène V}]{Scène V}\phantomsection
 \label{I05}
-\textit{Sganarelle, Valère, Lucas.}\par
-\noindent \par
- \begin{description} \item[Sganarelle\textit{. Entre sur le Théâtre en chantant, et tenant une Bouteille}\par
-] 
 
-La, la, la.\end{description}
- \begin{description} \item[Valère] 
+{\centering\it Sganarelle, Valère, Lucas.\par}\nobreakpage\bigskip\nobreakpage
+\par
 
-J’entends quelqu’un qui chante, et qui coupe du Bois.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{. Entre sur le Théâtre en chantant, et tenant une Bouteille}}
+\noindent La, la, la.
 
-La, la, la... Ma foi, c’est assez travaillé pour un coup : prenons un peu d’haleine.
+\speaker{Valère}
+\noindent J’entends quelqu’un qui chante, et qui coupe du Bois.
 
-Il boit, et dit après avoir bu. Voilà du bois qui est salé, comme tous les Diables.
-\begin{verse}
-Qu’ils sont doux\\
-Bouteille jolie,\\
-Qu’ils sont doux\\
-Vos petits {\itshape glougloux} !\\
-Mais mon sort ferait bien des jaloux,\\
-Si vous étiez toujours remplie.\\
-Ah ! Bouteille ma mie,\\
-Pourquoi vous videz-vous ?\\
-\end{verse}
+\speaker{Sganarelle}
+\noindent La, la, la... Ma foi, c’est assez travaillé pour un coup : prenons un peu d’haleine.\par
+Il boit, et dit après avoir bu. Voilà du bois qui est salé, comme tous les Diables.\par
+\spl{Qu’ils sont doux}
+\spl{Bouteille jolie,}
+\spl{Qu’ils sont doux}
+\spl{Vos petits {\itshape glougloux} !}
+\spl{Mais mon sort ferait bien des jaloux,}
+\spl{Si vous étiez toujours remplie.}
+\spl{Ah ! Bouteille ma mie,}
+\spl{Pourquoi vous videz-vous ?}
+\noindent Allons, morbleu, il ne faut point engendrer de mélancolie.
 
+\speaker{Valère}
+\noindent Le voilà lui-même.
 
-Allons, morbleu, il ne faut point engendrer de mélancolie.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Lucas}
+\noindent Je pense que vous dites vrai : et que j’avons bouté le nez dessus.
 
-Le voilà lui-même.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Voyons de près.
 
-Je pense que vous dites vrai : et que j’avons bouté le nez dessus.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle\textit{, les apercevant, les regarde en se tournant vers l’un, et puis vers l’autre, et, abaissant sa voix, dit,}}
+\noindent Ah ! ma petite friponne, que je t’aime, mon petit bouchon.\par
+Mon sort… ferait… bien des… jaloux,\par
+Si…\par
+Que diable, à qui en veulent ces Gens-là ?
 
-Voyons de près.\end{description}
- \begin{description} \item[Sganarelle\textit{, les apercevant, les regarde en se tournant vers l’un, et puis vers l’autre, et, abaissant sa voix, dit,}\par
-] 
+\speaker{Valère}
+\noindent C’est lui assurément.
 
-Ah ! ma petite friponne, que je t’aime, mon petit bouchon.
+\speaker{Lucas}
+\noindent Le velà tout craché, comme on nous l’a défiguré.
 
-Mon sort… ferait… bien des… jaloux,
+\speaker{Sganarelle\textit{, à part}}
+         \textit{Ici il pose sa Bouteille à terre, et Valère se baissant pour le saluer, comme il croit que c’est à dessein de la prendre, il la met de l’autre côté : ensuite de quoi, Lucas faisant la même chose, il la reprend, et la tient contre son Estomac avec divers gestes, qui font un grand jeu de théâtre.}\par
+\noindent Ils consultent en me regardant. Quel dessein auraient-ils ?
 
-Si…
+\speaker{Valère}
+\noindent Monsieur, n’est-ce pas vous qui vous appelez Sganarelle ?
 
-Que diable, à qui en veulent ces Gens-là ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Eh quoi ?
 
-C’est lui assurément.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Je vous demande, si ce n’est pas vous, qui se nomme Sganarelle.
 
-Le velà tout craché, comme on nous l’a défiguré.\end{description}
- \begin{description} \item[Sganarelle\textit{, à part}\par
-] \textit{Ici il pose sa Bouteille à terre, et Valère se baissant pour le saluer, comme il croit que c’est à dessein de la prendre, il la met de l’autre côté : ensuite de quoi, Lucas faisant la même chose, il la reprend, et la tient contre son Estomac avec divers gestes, qui font un grand jeu de théâtre.} 
+\speaker{Sganarelle\textit{, se tournant vers Valère, puis vers Lucas}}
+\noindent Oui, et non, selon ce que vous lui voulez.
 
-Ils consultent en me regardant. Quel dessein auraient-ils ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Nous ne voulons que lui faire toutes les civilités que nous pourrons.
 
-Monsieur, n’est-ce pas vous qui vous appelez Sganarelle ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent En ce cas, c’est moi, qui se nomme Sganarelle.
 
-Eh quoi ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Monsieur, nous sommes ravis de vous voir. On nous a adressés à vous, pour ce que nous cherchons : et nous venons implorer votre aide, dont nous avons besoin.
 
-Je vous demande, si ce n’est pas vous, qui se nomme Sganarelle.\end{description}
- \begin{description} \item[Sganarelle\textit{, se tournant vers Valère, puis vers Lucas}\par
-] 
+\speaker{Sganarelle}
+\noindent Si c’est quelque chose, Messieurs, qui dépende de mon petit Négoce, je suis tout prêt à vous rendre service.
 
-Oui, et non, selon ce que vous lui voulez.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Monsieur, c’est trop de grâce que vous nous faites : mais, Monsieur, couvrez-vous, s’il vous plaît, le Soleil pourrait vous incommoder.
 
-Nous ne voulons que lui faire toutes les civilités que nous pourrons.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Monsieu, boutez dessus.
 
-En ce cas, c’est moi, qui se nomme Sganarelle.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle\textit{, bas}}
+\noindent Voici des Gens bien pleins de cérémonie.
 
-Monsieur, nous sommes ravis de vous voir. On nous a adressés à vous, pour ce que nous cherchons : et nous venons implorer votre aide, dont nous avons besoin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Monsieur, il ne faut pas trouver étrange que nous venions à vous : les habiles Gens sont toujours recherchés, et nous sommes instruits de votre capacité.
 
-Si c’est quelque chose, Messieurs, qui dépende de mon petit Négoce, je suis tout prêt à vous rendre service.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Il est vrai, Messieurs, que je suis le premier Homme du Monde, pour faire des fagots.
 
-Monsieur, c’est trop de grâce que vous nous faites : mais, Monsieur, couvrez-vous, s’il vous plaît, le Soleil pourrait vous incommoder.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Ah ! Monsieur...
 
-Monsieu, boutez dessus.\end{description}
- \begin{description} \item[Sganarelle\textit{, bas}\par
-] 
+\speaker{Sganarelle}
+\noindent Je n’y épargne aucune chose, et les fais d’une façon qu’il n’y a rien à dire.
 
-Voici des Gens bien pleins de cérémonie.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Monsieur, ce n’est pas cela, dont il est question.
 
-Monsieur, il ne faut pas trouver étrange que nous venions à vous : les habiles Gens sont toujours recherchés, et nous sommes instruits de votre capacité.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Mais, aussi, je les vends cent dix sols, le cent.
 
-Il est vrai, Messieurs, que je suis le premier Homme du Monde, pour faire des fagots.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Ne parlons point de cela, s’il vous plaît.
 
-Ah ! Monsieur...\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je vous promets, que je ne saurais les donner à moins.
 
-Je n’y épargne aucune chose, et les fais d’une façon qu’il n’y a rien à dire.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Monsieur, nous savons les choses.
 
-Monsieur, ce n’est pas cela, dont il est question.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Si vous savez les choses, vous savez que je les vends cela.
 
-Mais, aussi, je les vends cent dix sols, le cent.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Monsieur, c’est se moquer que...
 
-Ne parlons point de cela, s’il vous plaît.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je ne me moque point, je n’en puis rien rabattre.
 
-Je vous promets, que je ne saurais les donner à moins.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Parlons d’autre façon, de grâce.
 
-Monsieur, nous savons les choses.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Vous en pourrez trouver autre part, à moins : il y a Fagots, et Fagots. Mais pour ceux que je fais...
 
-Si vous savez les choses, vous savez que je les vends cela.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Eh ! Monsieur, laissons là, ce discours.
 
-Monsieur, c’est se moquer que...\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je vous jure que vous ne les auriez pas, s’il s’en fallait un double.
 
-Je ne me moque point, je n’en puis rien rabattre.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Eh fi.
 
-Parlons d’autre façon, de grâce.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Non, en conscience, vous en payerez cela. Je vous parle sincèrement, et ne suis pas Homme à surfaire.
 
-Vous en pourrez trouver autre part, à moins : il y a Fagots, et Fagots. Mais pour ceux que je fais...\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Faut-il, Monsieur, qu’une personne comme vous s’amuse à ces grossières feintes ? s’abaisse à parler de la sorte ? qu’un Homme si savant, un fameux Médecin, comme vous êtes, veuille se déguiser aux yeux du Monde, et tenir enterrés les beaux Talents qu’il a ?
 
-Eh ! Monsieur, laissons là, ce discours.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, à part}}
+\noindent Il est fou.
 
-Je vous jure que vous ne les auriez pas, s’il s’en fallait un double.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent De grâce, Monsieur, ne dissimulez point avec nous.
 
-Eh fi.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Comment ?
 
-Non, en conscience, vous en payerez cela. Je vous parle sincèrement, et ne suis pas Homme à surfaire.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Lucas}
+\noindent Tout ce Tripotage ne sart de rian, je savons, çen que je savons.
 
-Faut-il, Monsieur, qu’une personne comme vous s’amuse à ces grossières feintes ? s’abaisse à parler de la sorte ? qu’un Homme si savant, un fameux Médecin, comme vous êtes, veuille se déguiser aux yeux du Monde, et tenir enterrés les beaux Talents qu’il a ?\end{description}
- \begin{description} \item[Sganarelle\textit{, à part}\par
-] 
+\speaker{Sganarelle}
+\noindent Quoi donc, que me voulez-vous dire ? pour qui me prenez-vous ?
 
-Il est fou.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Pour ce que vous êtes, pour un grand Médecin.
 
-De grâce, Monsieur, ne dissimulez point avec nous.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Médecin, vous-même : je ne le suis point, et ne l’ai jamais été.
 
-Comment ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère\textit{, bas}}
+\noindent Voilà sa folie qui le tient.\par
+\textit{(Haut.)} Monsieur, ne veuillez point nier les choses davantage : et n’en venons point, s’il vous plaît, à de fâcheuses extrémités.
 
-Tout ce Tripotage ne sart de rian, je savons, çen que je savons.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent À quoi, donc ?
 
-Quoi donc, que me voulez-vous dire ? pour qui me prenez-vous ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent À de certaines choses, dont nous serions marris.
 
-Pour ce que vous êtes, pour un grand Médecin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Parbleu, venez-en à tout ce qu’il vous plaira, je ne suis point Médecin : et ne sais ce que vous me voulez dire.
 
-Médecin, vous-même : je ne le suis point, et ne l’ai jamais été.\end{description}
- \begin{description} \item[Valère\textit{, bas}\par
-] 
+\speaker{Valère\textit{, bas}}
+\noindent Je vois bien qu’il faut se servir du remède.\par
+\textit{(Haut.)} Monsieur, encore un coup, je vous prie d’avouer ce que vous êtes.
 
-Voilà sa folie qui le tient.
+\speaker{Lucas}
+\noindent Et testigué, ne lantiponez point davantage : et confessez à la franquette, que v’êtes Médecin.
 
-\textit{(Haut.)} Monsieur, ne veuillez point nier les choses davantage : et n’en venons point, s’il vous plaît, à de fâcheuses extrémités.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent J’enrage.
 
-À quoi, donc ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent À quoi bon nier ce qu’on sait ?
 
-À de certaines choses, dont nous serions marris.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Pourquoi toutes ces fraimes-là ? à quoi est-ce que ça vous sart ?
 
-Parbleu, venez-en à tout ce qu’il vous plaira, je ne suis point Médecin : et ne sais ce que vous me voulez dire.\end{description}
- \begin{description} \item[Valère\textit{, bas}\par
-] 
+\speaker{Sganarelle}
+\noindent Messieurs, en un mot, autant qu’en deux mille, je vous dis, que je ne suis point Médecin.
 
-Je vois bien qu’il faut se servir du remède.
+\speaker{Valère}
+\noindent Vous n’êtes point Médecin ?
 
-\textit{(Haut.)} Monsieur, encore un coup, je vous prie d’avouer ce que vous êtes.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Non.
 
-Et testigué, ne lantiponez point davantage : et confessez à la franquette, que v’êtes Médecin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent V’n’estes pas Médecin ?
 
-J’enrage.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Non, vous dis-je.
 
-À quoi bon nier ce qu’on sait ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Puisque vous le voulez, il faut s’y résoudre.\par
+         \textit{Ils prennent un bâton, et le frappent.}\par
 
-Pourquoi toutes ces fraimes-là ? à quoi est-ce que ça vous sart ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ah ! ah ! ah ! Messieurs, je suis tout ce qu’il vous plaira.
 
-Messieurs, en un mot, autant qu’en deux mille, je vous dis, que je ne suis point Médecin.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Pourquoi, Monsieur, nous obligez-vous à cette violence ?
 
-Vous n’êtes point Médecin ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent À quoi bon, nous bailler la peine de vous battre ?
 
-Non.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Je vous assure que j’en ai tous les regrets du monde.
 
-V’n’estes pas Médecin ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Par ma figué, j’en sis fâché, franchement.
 
-Non, vous dis-je.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Que Diable est ceci, Messieurs, de grâce, est-ce pour rire, ou si tous deux, vous extravaguez, de vouloir que je sois Médecin ?
 
-Puisque vous le voulez, il faut s’y résoudre.\textit{Ils prennent un bâton, et le frappent.} \end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Quoi ? vous ne vous rendez pas encore : et vous vous défendez d’être Médecin ?
 
-Ah ! ah ! ah ! Messieurs, je suis tout ce qu’il vous plaira.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Diable emporte, si je le suis.
 
-Pourquoi, Monsieur, nous obligez-vous à cette violence ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Il n’est pas vrai qu’ous sayez Médecin ?
 
-À quoi bon, nous bailler la peine de vous battre ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Non, la peste m’étouffe !\par
+\textit{(Là ils recommencent de le battre.)} Ah, ah. Eh bien, Messieurs, oui, puisque vous le voulez, je suis Médecin, je suis Médecin, Apothicaire encore, si vous le trouvez bon. J’aime mieux consentir à tout, que de me faire assommer.
 
-Je vous assure que j’en ai tous les regrets du monde.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Ah ! voilà qui va bien, Monsieur, je suis ravi de vous voir raisonnable.
 
-Par ma figué, j’en sis fâché, franchement.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Vous me boutez la joie au cœur, quand je vous vois parler comme ça.
 
-Que Diable est ceci, Messieurs, de grâce, est-ce pour rire, ou si tous deux, vous extravaguez, de vouloir que je sois Médecin ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Je vous demande pardon de toute mon âme.
 
-Quoi ? vous ne vous rendez pas encore : et vous vous défendez d’être Médecin ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Je vous demandons excuse, de la libarté que j’avons prise.
 
-Diable emporte, si je le suis.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle\textit{, à part}}
+\noindent Ouais, serait-ce bien moi qui me tromperais, et serais-je devenu Médecin, sans m’en être aperçu ?
 
-Il n’est pas vrai qu’ous sayez Médecin ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Monsieur, vous ne vous repentirez pas de nous montrer ce que vous êtes : et vous verrez assurément, que vous en serez satisfait.
 
-Non, la peste m’étouffe !
+\speaker{Sganarelle}
+\noindent Mais, Messieurs, dites-moi, ne vous trompez-vous point vous-mêmes ? Est-il bien assuré que je sois Médecin ?
 
-\textit{(Là ils recommencent de le battre.)} Ah, ah. Eh bien, Messieurs, oui, puisque vous le voulez, je suis Médecin, je suis Médecin, Apothicaire encore, si vous le trouvez bon. J’aime mieux consentir à tout, que de me faire assommer.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Lucas}
+\noindent Oui, par ma figué.
 
-Ah ! voilà qui va bien, Monsieur, je suis ravi de vous voir raisonnable.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Tout de bon ?
 
-Vous me boutez la joie au cœur, quand je vous vois parler comme ça.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Sans doute.
 
-Je vous demande pardon de toute mon âme.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Diable emporte, si je le savais !
 
-Je vous demandons excuse, de la libarté que j’avons prise.\end{description}
- \begin{description} \item[Sganarelle\textit{, à part}\par
-] 
+\speaker{Valère}
+\noindent Comment ? Vous êtes le plus habile Médecin du Monde.
 
-Ouais, serait-ce bien moi qui me tromperais, et serais-je devenu Médecin, sans m’en être aperçu ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Ah ! ah !
 
-Monsieur, vous ne vous repentirez pas de nous montrer ce que vous êtes : et vous verrez assurément, que vous en serez satisfait.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Un Médecin, qui a guari, je ne sais combien de Maladies.
 
-Mais, Messieurs, dites-moi, ne vous trompez-vous point vous-mêmes ? Est-il bien assuré que je sois Médecin ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Tudieu !
 
-Oui, par ma figué.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Une Femme était tenue pour morte, il y avait six heures ; elle était prête à ensevelir, lorsqu’avec une goutte de quelque chose, vous la fîtes revenir, et marcher d’abord, par la chambre.
 
-Tout de bon ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Peste !
 
-Sans doute.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Un petit Enfant de douze ans, se laissit choir du haut d’un clocher, de quoi il eut la Tête, les Jambes, et les bras cassés : et vous, avec je ne sai quel Onguent, vous fîtes qu’aussitôt, il se relevit sur ses pieds, et s’en fut jouer à la fossette.
 
-Diable emporte, si je le savais !\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Diantre !
 
-Comment ? Vous êtes le plus habile Médecin du Monde.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Enfin, Monsieur, vous aurez contentement avec nous : et vous gagnerez ce que vous voudrez, en vous laissant conduire où nous prétendons vous mener.
 
-Ah ! ah !\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Je gagnerai ce que je voudrai ?
 
-Un Médecin, qui a guari, je ne sais combien de Maladies.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Oui.
 
-Tudieu !\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Ah ! je suis Médecin, sans contredit : Je l’avais oublié, mais je m’en ressouviens. De quoi est-il question ? où faut-il se transporter ?
 
-Une Femme était tenue pour morte, il y avait six heures ; elle était prête à ensevelir, lorsqu’avec une goutte de quelque chose, vous la fîtes revenir, et marcher d’abord, par la chambre.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Nous vous conduirons. Il est question d’aller voir une Fille, qui a perdu la parole.
 
-Peste !\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Ma foi, je ne l’ai pas trouvée.
 
-Un petit Enfant de douze ans, se laissit choir du haut d’un clocher, de quoi il eut la Tête, les Jambes, et les bras cassés : et vous, avec je ne sai quel Onguent, vous fîtes qu’aussitôt, il se relevit sur ses pieds, et s’en fut jouer à la fossette.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Il aime à rire. Allons, Monsieur.
 
-Diantre !\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Sans une Robe de Médecin ?
 
-Enfin, Monsieur, vous aurez contentement avec nous : et vous gagnerez ce que vous voudrez, en vous laissant conduire où nous prétendons vous mener.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Valère}
+\noindent Nous en prendrons une.
 
-Je gagnerai ce que je voudrai ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle\textit{, présentant sa Bouteille à Valère}}
+\noindent Tenez cela vous : voilà où je mets mes juleps.\par
+\textit{(Puis se tournant vers Lucas en crachant.)} Vous, marchez là-dessus, par ordonnance du médecin.
 
-Oui.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Palsanguenne, velà un Médecin qui me plaît ; je pense qu’il réussira ; car il est Bouffon.
+\chapterclose
 
-Ah ! je suis Médecin, sans contredit : Je l’avais oublié, mais je m’en ressouviens. De quoi est-il question ? où faut-il se transporter ?\end{description}
- \begin{description} \item[Valère] 
 
-Nous vous conduirons. Il est question d’aller voir une Fille, qui a perdu la parole.\end{description}
- \begin{description} \item[Sganarelle] 
+\chapteropen
 
-Ma foi, je ne l’ai pas trouvée.\end{description}
- \begin{description} \item[Valère] 
+\chapter[{Acte II}]{Acte II}
+\renewcommand{\leftmark}{Acte II}\phantomsection
+\label{II}
 
-Il aime à rire. Allons, Monsieur.\end{description}
- \begin{description} \item[Sganarelle] 
 
-Sans une Robe de Médecin ?\end{description}
- \begin{description} \item[Valère] 
+\chaptercont
 
-Nous en prendrons une.\end{description}
- \begin{description} \item[Sganarelle\textit{, présentant sa Bouteille à Valère}\par
-] 
-
-Tenez cela vous : voilà où je mets mes juleps.
-
-\textit{(Puis se tournant vers Lucas en crachant.)} Vous, marchez là-dessus, par ordonnance du médecin.\end{description}
- \begin{description} \item[Lucas] 
-
-Palsanguenne, velà un Médecin qui me plaît ; je pense qu’il réussira ; car il est Bouffon.\end{description}
-\section[{Acte II}]{Acte II}\phantomsection
-\label{II}\renewcommand{\leftmark}{Acte II}
-
-\subsection[{Scène I}]{Scène I}\phantomsection
+\section[{Scène I}]{Scène I}\phantomsection
 \label{II01}
-\textit{Géronte, Valère, Lucas, Jacqueline.}\par
- \begin{description} \item[Valère] 
 
-Oui, Monsieur, je crois que vous serez satisfait : et nous vous avons amené le plus grand Médecin du Monde.\end{description}
- \begin{description} \item[Lucas] 
+{\centering\it Géronte, Valère, Lucas, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
 
-Oh morguenne, il faut tirer l’échelle après ceti-là : et tous les autres, ne sont pas daignes de li déchausser ses souillez.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Oui, Monsieur, je crois que vous serez satisfait : et nous vous avons amené le plus grand Médecin du Monde.
 
-C’est un Homme qui a fait des Cures merveilleuses.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Oh morguenne, il faut tirer l’échelle après ceti-là : et tous les autres, ne sont pas daignes de li déchausser ses souillez.
 
-Qui a gari des Gens qui estiants morts.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent C’est un Homme qui a fait des Cures merveilleuses.
 
-Il est un peu capricieux, comme je vous ai dit : et parfois, il a des moments où son esprit s’échappe, et ne paraît pas ce qu’il est.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Qui a gari des Gens qui estiants morts.
 
-Oui, il aime à bouffonner, et l’an dirait par fois, ne v’s en déplaise qu’il a quelque petit coup de hache à la Tête.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Il est un peu capricieux, comme je vous ai dit : et parfois, il a des moments où son esprit s’échappe, et ne paraît pas ce qu’il est.
 
-Mais dans le fond, il est toute Science : et bien souvent, il dit des choses tout à fait relevées.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Oui, il aime à bouffonner, et l’an dirait par fois, ne v’s en déplaise qu’il a quelque petit coup de hache à la Tête.
 
-Quand il s’y boute, il parle tout fin drait, comme s’il lisait dans un livre.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Mais dans le fond, il est toute Science : et bien souvent, il dit des choses tout à fait relevées.
 
-Sa réputation s’est déjà répandue ici : et tout le Monde vient à lui.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucas}
+\noindent Quand il s’y boute, il parle tout fin drait, comme s’il lisait dans un livre.
 
-Je meurs d’envie de le voir, faites-le-moi vite venir.\end{description}
- \begin{description} \item[Valère] 
+\speaker{Valère}
+\noindent Sa réputation s’est déjà répandue ici : et tout le Monde vient à lui.
 
-Je le vais quérir.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Géronte}
+\noindent Je meurs d’envie de le voir, faites-le-moi vite venir.
 
-Par ma fi, Monsieu, ceti-ci fera justement ce qu’ant fait les autres. Je pense que ce sera queussi queumi : et la meilleure Médeçaine, que l’an pourrait bailler à votre fille, ce serait, selon moi, un biau et bon mari, pour qui elle eût de l’amiqué.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Valère}
+\noindent Je le vais quérir.
 
-Ouais, Nourrice, Ma mie, vous vous mêlez de bien des choses.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Jacqueline}
+\noindent Par ma fi, Monsieu, ceti-ci fera justement ce qu’ant fait les autres. Je pense que ce sera queussi queumi : et la meilleure Médeçaine, que l’an pourrait bailler à votre fille, ce serait, selon moi, un biau et bon mari, pour qui elle eût de l’amiqué.
 
-Taisez-vous, notre Ménagère Jaquelaine : ce n’est pas à vous, à bouter là votre nez.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Géronte}
+\noindent Ouais, Nourrice, Ma mie, vous vous mêlez de bien des choses.
 
-Je vous dis et vous douze, que tous ces Médecins n’y feront rian que de l’iau claire, que votre Fille a besoin d’autre chose, que de Ribarbe, et de sené, et qu’un Mari est une emplâtre qui garit tous les maux des Filles.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucas}
+\noindent Taisez-vous, notre Ménagère Jaquelaine : ce n’est pas à vous, à bouter là votre nez.
 
-Est-elle en état, maintenant, qu’on s’en voulût charger, avec l’infirmité qu’elle a ? Et lorsque j’ai été dans le dessein de la marier, ne s’est-elle pas opposée à mes volontés ?\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Je vous dis et vous douze, que tous ces Médecins n’y feront rian que de l’iau claire, que votre Fille a besoin d’autre chose, que de Ribarbe, et de sené, et qu’un Mari est une emplâtre qui garit tous les maux des Filles.
 
-Je le crois bian, vous li vouilliez bailler cun homme qu’alle n’aime point. Que ne preniais-vous ce Monsieu Liandre, qui li touchait au cœur ?Alle aurait été fort obéissante : et je m’en vas gager qu’il la prendrait li, comme alle est, si vous la li vouillais donner.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Est-elle en état, maintenant, qu’on s’en voulût charger, avec l’infirmité qu’elle a ? Et lorsque j’ai été dans le dessein de la marier, ne s’est-elle pas opposée à mes volontés ?
 
-Ce Léandre n’est pas ce qu’il lui faut : il n’a pas du Bien comme l’autre.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Je le crois bian, vous li vouilliez bailler cun homme qu’alle n’aime point. Que ne preniais-vous ce Monsieu Liandre, qui li touchait au cœur ?Alle aurait été fort obéissante : et je m’en vas gager qu’il la prendrait li, comme alle est, si vous la li vouillais donner.
 
-Il a un oncle qui est si riche, dont il est hériquié.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Ce Léandre n’est pas ce qu’il lui faut : il n’a pas du Bien comme l’autre.
 
-Tous ces Biens à venir, me semblent autant de Chansons. Il n’est rien tel que ce qu’on tient : et l’on court grand risque de s’abuser, lorsque l’on compte sur le bien qu’un autre vous garde. La mort n’a pas toujours les oreilles ouvertes aux vœux et aux prières de Messieurs les héritiers : et l’on a le temps d’avoir les dents longues, lorsqu’on attend, pour vivre, le trépas de quelqu’un.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Il a un oncle qui est si riche, dont il est hériquié.
 
-Enfin, j’ai, toujours, ouï dire, qu’en Mariage, comme ailleurs, Contentement passe Richesse. Les Bères et les Mères ant cette maudite couteume, de demander toujours, Qu’a-t-il ? et : Qu’a-t-elle ? et le compère Biarre, a marié sa fille Simonette, au gros Thomas, pour un quarquié de Vaigne qu’il avait davantage que le jeune Robin, où alle avait bouté son amiquié : et velà que la pauvre Creiature en est devenue jaune comme un Coing, et n’a point profité tout depuis ce temps-là. C’est un bel exemple pour vous, Monsieu ; on n’a que son plaisir en ce Monde : et j’aimerais mieux, bailler à ma Fille, un bon Mari qui li fût agriable, que toutes les Rentes de la Biausse.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Tous ces Biens à venir, me semblent autant de Chansons. Il n’est rien tel que ce qu’on tient : et l’on court grand risque de s’abuser, lorsque l’on compte sur le bien qu’un autre vous garde. La mort n’a pas toujours les oreilles ouvertes aux vœux et aux prières de Messieurs les héritiers : et l’on a le temps d’avoir les dents longues, lorsqu’on attend, pour vivre, le trépas de quelqu’un.
 
-Peste ! Madame la Nourrice, comme vous dégoisez ! Taisez-vous, je vous prie, vous prenez trop de soin, et vous échauffez votre Lait.\end{description}
- \begin{description} \item[Lucas] \textit{En disant ceci, il frappe sur la poitrine à Géronte.} 
+\speaker{Jacqueline}
+\noindent Enfin, j’ai, toujours, ouï dire, qu’en Mariage, comme ailleurs, Contentement passe Richesse. Les Bères et les Mères ant cette maudite couteume, de demander toujours, Qu’a-t-il ? et : Qu’a-t-elle ? et le compère Biarre, a marié sa fille Simonette, au gros Thomas, pour un quarquié de Vaigne qu’il avait davantage que le jeune Robin, où alle avait bouté son amiquié : et velà que la pauvre Creiature en est devenue jaune comme un Coing, et n’a point profité tout depuis ce temps-là. C’est un bel exemple pour vous, Monsieu ; on n’a que son plaisir en ce Monde : et j’aimerais mieux, bailler à ma Fille, un bon Mari qui li fût agriable, que toutes les Rentes de la Biausse.
 
-Morgué, tais-toi, T’es cune impartinante. Monsieu n’a que faire de tes discours, et il sait ce qu’il a à faire. Mêle-toi de donner à téter à ton Enfant, sans tant faire la raisonneuse. Monsieu est le Père de sa Fille ; et il est bon et sage, pour voir ce qu’il li faut.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Peste ! Madame la Nourrice, comme vous dégoisez ! Taisez-vous, je vous prie, vous prenez trop de soin, et vous échauffez votre Lait.
 
-Tout doux, Oh, tout doux.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+         \textit{En disant ceci, il frappe sur la poitrine à Géronte.}\par
+\noindent Morgué, tais-toi, T’es cune impartinante. Monsieu n’a que faire de tes discours, et il sait ce qu’il a à faire. Mêle-toi de donner à téter à ton Enfant, sans tant faire la raisonneuse. Monsieu est le Père de sa Fille ; et il est bon et sage, pour voir ce qu’il li faut.
 
-Monsieu, je veux un peu la mortifier : et ly apprendre le respect qu’alle vous doit.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Tout doux, Oh, tout doux.
 
-Oui, mais ces gestes ne sont pas nécessaires.\end{description}
-\subsection[{Scène II}]{Scène II}\phantomsection
+\speaker{Lucas}
+\noindent Monsieu, je veux un peu la mortifier : et ly apprendre le respect qu’alle vous doit.
+
+\speaker{Géronte}
+\noindent Oui, mais ces gestes ne sont pas nécessaires.
+
+\section[{Scène II}]{Scène II}\phantomsection
 \label{II02}
-\textit{Valère, Sganarelle, Géronte, Lucas, Jacqueline.}\par
- \begin{description} \item[Valère] 
 
-Monsieur préparez-vous, voici notre Médecin qui entre.\end{description}
- \begin{description} \item[Géronte] 
+{\centering\it Valère, Sganarelle, Géronte, Lucas, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
 
-Monsieur, je suis ravi de vous voir chez moi : et nous avons grand besoin de vous.\end{description}
- \begin{description} \item[Sganarelle\textit{, en Robe de Médecin, avec un Chapeau des plus pointus}\par
-] 
+\speaker{Valère}
+\noindent Monsieur préparez-vous, voici notre Médecin qui entre.
 
-Hippocrate dit .... que nous nous couvrions tous deux.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Monsieur, je suis ravi de vous voir chez moi : et nous avons grand besoin de vous.
 
-Hippocrate dit cela ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, en Robe de Médecin, avec un Chapeau des plus pointus}}
+\noindent Hippocrate dit .... que nous nous couvrions tous deux.
 
-Oui.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Hippocrate dit cela ?
 
-Dans quel Chapitre, s’il vous plaît ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Oui.
 
-Dans son Chapitre des Chapeaux.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Dans quel Chapitre, s’il vous plaît ?
 
-Puisque Hippocrate le dit, il le faut faire.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Dans son Chapitre des Chapeaux.
 
-Monsieur le Médecin, ayant appris les merveilleuses choses...\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Puisque Hippocrate le dit, il le faut faire.
 
-À qui parlez-vous, de grâce ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Monsieur le Médecin, ayant appris les merveilleuses choses...
 
-À vous.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent À qui parlez-vous, de grâce ?
 
-Je ne suis pas Médecin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent À vous.
 
-Vous n’êtes pas Médecin ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je ne suis pas Médecin.
 
-Non vraiment.\end{description}
- \begin{description} \item[Sganarelle] \textit{Il prend ici un bâton, et le bat, comme on l’a battu.} 
+\speaker{Sganarelle}
+\noindent Vous n’êtes pas Médecin ?
 
-Tout de bon ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Non vraiment.
 
-Tout de bon. Ah ! ah ! ah !\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+         \textit{Il prend ici un bâton, et le bat, comme on l’a battu.}\par
+\noindent Tout de bon ?
 
-Vous êtes Médecin, maintenant, je n’ai jamais eu d’autres Licences.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Tout de bon. Ah ! ah ! ah !
 
-Quel diable d’homme m’avez-vous là amené ?\end{description}
- \begin{description} \item[Valère] 
+\speaker{Sganarelle}
+\noindent Vous êtes Médecin, maintenant, je n’ai jamais eu d’autres Licences.
 
-Je vous ai bien dit que c’était un Médecin goguenard.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Quel diable d’homme m’avez-vous là amené ?
 
-Oui, Mais je l’enverrais promener avec ses goguenarderies.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Valère}
+\noindent Je vous ai bien dit que c’était un Médecin goguenard.
 
-Ne prenez pas garde à ça, Monsieu, ce n’est que pour rire.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui, Mais je l’enverrais promener avec ses goguenarderies.
 
-Cette raillerie ne me plaît pas.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Ne prenez pas garde à ça, Monsieu, ce n’est que pour rire.
 
-Monsieur, je vous demande pardon de la liberté que j’ai prise.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Cette raillerie ne me plaît pas.
 
-Monsieur, je suis votre serviteur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Monsieur, je vous demande pardon de la liberté que j’ai prise.
 
-Je suis fâché...\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Monsieur, je suis votre serviteur.
 
-Cela n’est rien.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je suis fâché...
 
-Des coups de bâton ....\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Cela n’est rien.
 
-Il n’y a pas de mal.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Des coups de bâton ....
 
-Que j’ai eu l’honneur de vous donner.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Il n’y a pas de mal.
 
-Ne parlons plus de cela. Monsieur, j’ai une Fille qui est tombée dans une étrange Maladie.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Que j’ai eu l’honneur de vous donner.
 
-Je suis ravi, Monsieur, que votre Fille ait besoin de moi : et je souhaiterais de tout mon cœur, que vous en eussiez besoin, aussi, vous et toute votre Famille, pour vous témoigner l’envie que j’ai de vous servir.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Ne parlons plus de cela. Monsieur, j’ai une Fille qui est tombée dans une étrange Maladie.
 
-Je vous suis obligé de ces sentiments.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je suis ravi, Monsieur, que votre Fille ait besoin de moi : et je souhaiterais de tout mon cœur, que vous en eussiez besoin, aussi, vous et toute votre Famille, pour vous témoigner l’envie que j’ai de vous servir.
 
-Je vous assure que c’est du meilleur de mon âme, que je vous parle.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je vous suis obligé de ces sentiments.
 
-C’est trop d’honneur que vous me faites.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je vous assure que c’est du meilleur de mon âme, que je vous parle.
 
-Comment s’appelle votre Fille ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent C’est trop d’honneur que vous me faites.
 
-Lucinde.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Comment s’appelle votre Fille ?
 
-Lucinde ! Ah beau nom à médicamenter ! Lucinde !\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Lucinde.
 
-Je m’en vais voir un peu ce qu’elle fait.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Lucinde ! Ah beau nom à médicamenter ! Lucinde !
 
-Qui est cette grande femme-là ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je m’en vais voir un peu ce qu’elle fait.
 
-C’est la nourrice d’un petit Enfant que j’ai.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Qui est cette grande femme-là ?
 
-Peste ! le joli Meuble que voilà. Ah Nourrice, charmante Nourrice, ma Médecine est la très humble Esclave de votre Nourricerie ; et je voudrais bien être le petit Poupon fortuné, qui tétât le Lait de vos bonnes grâces.\textit{Il lui porte la main sur le sein.} 
+\speaker{Géronte}
+\noindent C’est la nourrice d’un petit Enfant que j’ai.
 
-Tous mes Remèdes ; toute ma Science, toute ma Capacité est à votre service, et...\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Peste ! le joli Meuble que voilà. Ah Nourrice, charmante Nourrice, ma Médecine est la très humble Esclave de votre Nourricerie ; et je voudrais bien être le petit Poupon fortuné, qui tétât le Lait de vos bonnes grâces.\par
+         \textit{Il lui porte la main sur le sein.}\par
+\noindent Tous mes Remèdes ; toute ma Science, toute ma Capacité est à votre service, et...
 
-Avec votte parmission, Monsieu le Médecin, laissez là ma Femme, je vous prie.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Avec votte parmission, Monsieu le Médecin, laissez là ma Femme, je vous prie.
 
-Quoi, est-elle votre Femme ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Quoi, est-elle votre Femme ?
 
-Oui.\end{description}
- \begin{description} \item[Sganarelle] \textit{. Il fait semblant d’embrasser Lucas : et se tournant du côté de la Nourrice, il l’embrasse.} 
+\speaker{Lucas}
+\noindent Oui.
 
-Ah vraiment, je ne savais pas cela : et je m’en réjouis pour l’amour de l’un et de l’autre.\end{description}
- \begin{description} \item[Lucas\textit{, en le tirant}\par
-] 
+\speaker{Sganarelle}
+         \textit{. Il fait semblant d’embrasser Lucas : et se tournant du côté de la Nourrice, il l’embrasse.}\par
+\noindent Ah vraiment, je ne savais pas cela : et je m’en réjouis pour l’amour de l’un et de l’autre.
 
-Tout doucement, s’il vous plaît.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas\textit{, en le tirant}}
+\noindent Tout doucement, s’il vous plaît.
 
-Je vous assure, que je suis ravi que vous soyez unis ensemble\textit{ (Il fait encore semblant d’embrasser Lucas : et passant dessous ses bras, se jette au cou de sa femme)}. Je la félicite d’avoir un Mari comme vous : et je vous félicite vous, d’avoir une Femme si belle, si sage, et si bien faite, comme elle est.\end{description}
- \begin{description} \item[Lucas\textit{, en le tirant encore}\par
-] 
+\speaker{Sganarelle}
+\noindent Je vous assure, que je suis ravi que vous soyez unis ensemble\textit{ (Il fait encore semblant d’embrasser Lucas : et passant dessous ses bras, se jette au cou de sa femme)}. Je la félicite d’avoir un Mari comme vous : et je vous félicite vous, d’avoir une Femme si belle, si sage, et si bien faite, comme elle est.
 
-Eh testigué, point tant de compliments, je vous supplie.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas\textit{, en le tirant encore}}
+\noindent Eh testigué, point tant de compliments, je vous supplie.
 
-Ne voulez-vous pas que je me réjouisse avec vous, d’un si bel Assemblage ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Ne voulez-vous pas que je me réjouisse avec vous, d’un si bel Assemblage ?
 
-Avec moi, tant qu’il vous plaira : mais avec ma Femme, trêve de sarimonie.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Avec moi, tant qu’il vous plaira : mais avec ma Femme, trêve de sarimonie.
 
-Je prends part, également, au bonheur de tous deux \textit{(Il continue le même jeu)} : et si je vous embrasse pour vous en témoigner ma joie, je l’embrasse de même, pour lui en témoigner aussi.\end{description}
- \begin{description} \item[Lucas\textit{, en le tirant derechef}\par
-] 
+\speaker{Sganarelle}
+\noindent Je prends part, également, au bonheur de tous deux \textit{(Il continue le même jeu)} : et si je vous embrasse pour vous en témoigner ma joie, je l’embrasse de même, pour lui en témoigner aussi.
 
-Ah vartigué, Monsieu le Médecin, que de l’antiponages.\end{description}
-\subsection[{Scène III}]{Scène III}\phantomsection
+\speaker{Lucas\textit{, en le tirant derechef}}
+\noindent Ah vartigué, Monsieu le Médecin, que de l’antiponages.
+
+\section[{Scène III}]{Scène III}\phantomsection
 \label{II03}
-\textit{Sganarelle, Géronte, Lucas, Jacqueline.}\par
- \begin{description} \item[Géronte] 
 
-Monsieur, voici tout à l’heure, ma Fille qu’on va vous amener.\end{description}
- \begin{description} \item[Sganarelle] 
+{\centering\it Sganarelle, Géronte, Lucas, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
 
-Je l’attends, Monsieur, avec toute la Médecine.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Monsieur, voici tout à l’heure, ma Fille qu’on va vous amener.
 
-Où est-elle ?\end{description}
- \begin{description} \item[Sganarelle\textit{, se touchant le front}\par
-] 
+\speaker{Sganarelle}
+\noindent Je l’attends, Monsieur, avec toute la Médecine.
 
-Là-dedans.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Où est-elle ?
 
-Fort bien.\end{description}
- \begin{description} \item[Sganarelle\textit{, En voulant toucher les tétons de la nourrice}\par
-] 
+\speaker{Sganarelle\textit{, se touchant le front}}
+\noindent Là-dedans.
 
-Mais, comme je m’intéresse à toute votre Famille, il faut que j’essaye un peu le Lait de votre Nourrice : et que je visite son Sein.\end{description}
- \begin{description} \item[Lucas\textit{, le tirant, et lui faisant faire la pirouette}\par
-] 
+\speaker{Géronte}
+\noindent Fort bien.
 
-Nanin, nanin, je n’avons que faire de ça.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, En voulant toucher les tétons de la nourrice}}
+\noindent Mais, comme je m’intéresse à toute votre Famille, il faut que j’essaye un peu le Lait de votre Nourrice : et que je visite son Sein.
 
-C’est l’Office du Médecin, de voir les Tétons des Nourrices.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas\textit{, le tirant, et lui faisant faire la pirouette}}
+\noindent Nanin, nanin, je n’avons que faire de ça.
 
-Il gnia Office qui quienne, je sis votte sarviteur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent C’est l’Office du Médecin, de voir les Tétons des Nourrices.
 
-As-tu bien la hardiesse de t’opposer au Médecin ?Hors de là.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Il gnia Office qui quienne, je sis votte sarviteur.
 
-Je me moque de ça.\end{description}
- \begin{description} \item[Sganarelle\textit{, en le regardant de travers}\par
-] 
+\speaker{Sganarelle}
+\noindent As-tu bien la hardiesse de t’opposer au Médecin ?Hors de là.
 
-Je te donnerai la fièvre.\end{description}
- \begin{description} \item[Jacqueline\textit{, prenant Lucas par le bras, et lui faisant aussi faire la pirouette}\par
-] 
+\speaker{Lucas}
+\noindent Je me moque de ça.
 
-Ôte-toi de là, aussi, est-ce que je ne sis pas assez grande pour me défendre moi-même, s’il me fait quelque chose, qui ne soit pas à faire ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle\textit{, en le regardant de travers}}
+\noindent Je te donnerai la fièvre.
 
-Je ne veux pas qu’il te tâte moi.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Jacqueline\textit{, prenant Lucas par le bras, et lui faisant aussi faire la pirouette}}
+\noindent Ôte-toi de là, aussi, est-ce que je ne sis pas assez grande pour me défendre moi-même, s’il me fait quelque chose, qui ne soit pas à faire ?
 
-Fi, le vilain, qui est jaloux de sa Femme.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucas}
+\noindent Je ne veux pas qu’il te tâte moi.
 
-Voici ma fille.\end{description}
-\subsection[{Scène IV}]{Scène IV}\phantomsection
+\speaker{Sganarelle}
+\noindent Fi, le vilain, qui est jaloux de sa Femme.
+
+\speaker{Géronte}
+\noindent Voici ma fille.
+
+\section[{Scène IV}]{Scène IV}\phantomsection
 \label{II04}
-\textit{Lucinde, Valère, Géronte, Lucas, Sganarelle, Jacqueline.}\par
- \begin{description} \item[Sganarelle] 
 
-Est-ce là, la Malade ?\end{description}
- \begin{description} \item[Géronte] 
+{\centering\it Lucinde, Valère, Géronte, Lucas, Sganarelle, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
 
-Oui, je n’ai qu’elle de Fille : et j’aurais tous les regrets du Monde, si elle venait à mourir.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Est-ce là, la Malade ?
 
-Qu’elle s’en garde bien, il ne faut pas qu’elle meure, sans l’Ordonnance du Médecin.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui, je n’ai qu’elle de Fille : et j’aurais tous les regrets du Monde, si elle venait à mourir.
 
-Allons, un Siège.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Qu’elle s’en garde bien, il ne faut pas qu’elle meure, sans l’Ordonnance du Médecin.
 
-Voilà une Malade qui n’est pas tant dégoûtante : et je tiens qu’un Homme bien sain s’en accommoderait assez.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Allons, un Siège.
 
-Vous l’avez fait rire, Monsieur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Voilà une Malade qui n’est pas tant dégoûtante : et je tiens qu’un Homme bien sain s’en accommoderait assez.
 
-Tant mieux, lorsque le Médecin fait rire le Malade, c’est le meilleur signe du Monde. Eh bien, de quoi est-il question ? qu’avez-vous ? quel est le mal que vous sentez ?\end{description}
- \begin{description} \item[Lucinde\textit{ répond par signes, en portant sa main à sa bouche, à sa tête, et sous son menton}\par
-] 
+\speaker{Géronte}
+\noindent Vous l’avez fait rire, Monsieur.
 
-Han, hi, hom, han.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tant mieux, lorsque le Médecin fait rire le Malade, c’est le meilleur signe du Monde. Eh bien, de quoi est-il question ? qu’avez-vous ? quel est le mal que vous sentez ?
 
-Eh ! que dites-vous ?\end{description}
- \begin{description} \item[Lucinde\textit{ continue les mêmes gestes}\par
-] 
+\speaker{Lucinde\textit{ répond par signes, en portant sa main à sa bouche, à sa tête, et sous son menton}}
+\noindent Han, hi, hom, han.
 
-Han, hi, hon, han, han, hi, hom.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Eh ! que dites-vous ?
 
-Quoi ?\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Lucinde\textit{ continue les mêmes gestes}}
+\noindent Han, hi, hon, han, han, hi, hom.
 
-Han, hi, hom.\end{description}
- \begin{description} \item[Sganarelle\textit{, la contrefaisant}\par
-] 
+\speaker{Sganarelle}
+\noindent Quoi ?
 
-Han, hi, hon, han ha. Je ne vous entends point : quel diable de langage est-ce là ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Han, hi, hom.
 
-Monsieur, c’est là, sa Maladie. Elle est devenue muette, sans que jusques ici, on en ait pu savoir la cause : et c’est un Accident qui a fait reculer son Mariage.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, la contrefaisant}}
+\noindent Han, hi, hon, han ha. Je ne vous entends point : quel diable de langage est-ce là ?
 
-Et pourquoi ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Monsieur, c’est là, sa Maladie. Elle est devenue muette, sans que jusques ici, on en ait pu savoir la cause : et c’est un Accident qui a fait reculer son Mariage.
 
-Celui qu’elle doit épouser, veut attendre sa Guérison, pour conclure les choses.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Et pourquoi ?
 
-Et qui est ce Sot-là, qui ne veut pas que sa Femme soit muette ? Plût à Dieu que la mienne eût cette maladie, je me garderais bien de la vouloir guérir.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Celui qu’elle doit épouser, veut attendre sa Guérison, pour conclure les choses.
 
-Enfin, Monsieur, nous vous prions d’employer tous vos soins, pour la soulager de son mal.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Et qui est ce Sot-là, qui ne veut pas que sa Femme soit muette ? Plût à Dieu que la mienne eût cette maladie, je me garderais bien de la vouloir guérir.
 
-Ah ! Ne vous mettez pas en peine. Dites-moi un peu, ce mal l’oppresse-t-il beaucoup ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Enfin, Monsieur, nous vous prions d’employer tous vos soins, pour la soulager de son mal.
 
-Oui, Monsieur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ah ! Ne vous mettez pas en peine. Dites-moi un peu, ce mal l’oppresse-t-il beaucoup ?
 
-Tant mieux. Sent-elle de grandes douleurs ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui, Monsieur.
 
-Fort grandes.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tant mieux. Sent-elle de grandes douleurs ?
 
-C’est fort bien fait. Va-t-elle où vous savez ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Fort grandes.
 
-Oui.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent C’est fort bien fait. Va-t-elle où vous savez ?
 
-Copieusement ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui.
 
-Je n’entends rien à cela.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Copieusement ?
 
-La Matière est-elle louable ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je n’entends rien à cela.
 
-Je ne me connais pas à ces choses.\end{description}
- \begin{description} \item[Sganarelle\textit{, se tournant vers la Malade}\par
-] 
+\speaker{Sganarelle}
+\noindent La Matière est-elle louable ?
 
-Donnez-moi votre Bras. Voilà un Pouls qui marque que votre fille est muette.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je ne me connais pas à ces choses.
 
-Eh ! oui, Monsieur, c’est là son mal: vous l’avez trouvé tout du premier coup.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, se tournant vers la Malade}}
+\noindent Donnez-moi votre Bras. Voilà un Pouls qui marque que votre fille est muette.
 
-Ah, ah.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Géronte}
+\noindent Eh ! oui, Monsieur, c’est là son mal: vous l’avez trouvé tout du premier coup.
 
-Voyez, comme il a deviné sa Maladie.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ah, ah.
 
-Nous autres grands Médecins, nous connaissons d’abord, les choses. Un Ignorant aurait été embarrassé, et vous eût été dire : C’est ceci, c’est cela : mais moi, je touche au but du premier coup, et je vous apprends que votre Fille est Muette.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Jacqueline}
+\noindent Voyez, comme il a deviné sa Maladie.
 
-Oui, mais je voudrais bien que vous me pussiez dire d’où cela vient.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Nous autres grands Médecins, nous connaissons d’abord, les choses. Un Ignorant aurait été embarrassé, et vous eût été dire : C’est ceci, c’est cela : mais moi, je touche au but du premier coup, et je vous apprends que votre Fille est Muette.
 
-Il n’est rien plus aisé. Cela vient de ce qu’elle a perdu la parole.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui, mais je voudrais bien que vous me pussiez dire d’où cela vient.
 
-Fort bien : mais la Cause, s’il vous plaît, qui fait qu’elle a perdu la Parole ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Il n’est rien plus aisé. Cela vient de ce qu’elle a perdu la parole.
 
-Tous nos meilleurs Auteurs vous diront que c’est l’empêchement de l’action de sa Langue.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Fort bien : mais la Cause, s’il vous plaît, qui fait qu’elle a perdu la Parole ?
 
-Mais, encore, vos sentiments sur cet empêchement de l’action de sa langue ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tous nos meilleurs Auteurs vous diront que c’est l’empêchement de l’action de sa Langue.
 
-Aristote là-dessus dit .... de fort belles choses.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Mais, encore, vos sentiments sur cet empêchement de l’action de sa langue ?
 
-Je le crois.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Aristote là-dessus dit .... de fort belles choses.
 
-Ah ! c’était un grand Homme !\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je le crois.
 
-Sans doute.\end{description}
- \begin{description} \item[Sganarelle\textit{, levant son bras depuis le coude}\par
-] 
+\speaker{Sganarelle}
+\noindent Ah ! c’était un grand Homme !
 
-Grand Homme tout à fait : un Homme qui était plus grand que moi, de tout cela. Pour revenir, donc, à notre raisonnement, je tiens que cet empêchement de l’action de sa langue, est causé par de certaines Humeurs qu’entre nous autres, Savants, nous appelons humeurs peccantes, peccantes, c’est-à-dire... humeurs peccantes : d’autant que les vapeurs formées par les exhalaisons des influences qui s’élèvent dans la Région des Maladies, venant... pour ainsi dire... à... Entendez-vous le Latin ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Sans doute.
 
-En aucune façon.\end{description}
- \begin{description} \item[Sganarelle\textit{, se levant avec étonnement}\par
-] 
+\speaker{Sganarelle\textit{, levant son bras depuis le coude}}
+\noindent Grand Homme tout à fait : un Homme qui était plus grand que moi, de tout cela. Pour revenir, donc, à notre raisonnement, je tiens que cet empêchement de l’action de sa langue, est causé par de certaines Humeurs qu’entre nous autres, Savants, nous appelons humeurs peccantes, peccantes, c’est-à-dire... humeurs peccantes : d’autant que les vapeurs formées par les exhalaisons des influences qui s’élèvent dans la Région des Maladies, venant... pour ainsi dire... à... Entendez-vous le Latin ?
 
-Vous n’entendez point le Latin !\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent En aucune façon.
 
-Non.\end{description}
- \begin{description} \item[Sganarelle\textit{, en faisant diverses plaisantes postures}\par
-] 
+\speaker{Sganarelle\textit{, se levant avec étonnement}}
+\noindent Vous n’entendez point le Latin !
 
-Cabricias arci thuram, catalamus, singulariter, nominativo hæc Musa, « la Muse », Bonus, Bona, Bonum, Deus sanctus, estne oratio latinas ? Etiam, « oui », Quare, « pourquoi ? » Quia substantivo, et adjectivum concordat in generi, numerum, et casus.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Non.
 
-Ah ! que n’ai-je étudié !\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Sganarelle\textit{, en faisant diverses plaisantes postures}}
+\noindent Cabricias arci thuram, catalamus, singulariter, nominativo hæc Musa, « la Muse », Bonus, Bona, Bonum, Deus sanctus, estne oratio latinas ? Etiam, « oui », Quare, « pourquoi ? » Quia substantivo, et adjectivum concordat in generi, numerum, et casus.
 
-L’habile homme que velà !\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Géronte}
+\noindent Ah ! que n’ai-je étudié !
 
-Oui, ça est si biau, que je n’y entends goutte.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Jacqueline}
+\noindent L’habile homme que velà !
 
-Or ces vapeurs, dont je vous parle, venant à passer du côté gauche, où est le Foie, au côté Droit, où est le cœur, il se trouve que le Poumon que nous appelons en Latin {\itshape Armyan}, ayant communication avec le Cerveau, que nous nommons en Grec nasmus, par le moyen de la Veine Cave, que nous appelons en Hébreu {\itshape Cubile}, rencontre, en son chemin, lesdites vapeurs qui remplissent les ventricules de l’Omoplate ; et parce que lesdites vapeurs.... comprenez bien ce Raisonnement je vous prie : et parce que lesdites vapeurs ont une certaine malignité… Écoutez bien ceci, je vous conjure.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucas}
+\noindent Oui, ça est si biau, que je n’y entends goutte.
 
-Oui.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Or ces vapeurs, dont je vous parle, venant à passer du côté gauche, où est le Foie, au côté Droit, où est le cœur, il se trouve que le Poumon que nous appelons en Latin {\itshape Armyan}, ayant communication avec le Cerveau, que nous nommons en Grec nasmus, par le moyen de la Veine Cave, que nous appelons en Hébreu {\itshape Cubile}, rencontre, en son chemin, lesdites vapeurs qui remplissent les ventricules de l’Omoplate ; et parce que lesdites vapeurs.... comprenez bien ce Raisonnement je vous prie : et parce que lesdites vapeurs ont une certaine malignité… Écoutez bien ceci, je vous conjure.
 
-Ont une certaine malignité qui est causée ... Soyez attentif, s’il vous plaît.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui.
 
-Je le suis.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ont une certaine malignité qui est causée ... Soyez attentif, s’il vous plaît.
 
-Qui est causée par l’âcreté des humeurs, engendrées dans la concavité du Diaphragme, il arrive que ces vapeurs .... Ossabandus, nequeys, nequer, potarinum, quipsa milus. Voilà justement, ce qui fait que votre Fille est muette.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Géronte}
+\noindent Je le suis.
 
-Ah que ça est bian dit, notte Homme !\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Sganarelle}
+\noindent Qui est causée par l’âcreté des humeurs, engendrées dans la concavité du Diaphragme, il arrive que ces vapeurs .... Ossabandus, nequeys, nequer, potarinum, quipsa milus. Voilà justement, ce qui fait que votre Fille est muette.
 
-Que n’ai-je la langue aussi bian pendue !\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Jacqueline}
+\noindent Ah que ça est bian dit, notte Homme !
 
-On ne peut pas mieux raisonner sans doute. Il n’y a qu’une seule chose qui m’a choqué. C’est l’endroit du Foie et du Cœur. Il me semble que vous les placez autrement qu’ils ne sont. Que le Cœur est du côté gauche, et le Foie du côté droit.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Que n’ai-je la langue aussi bian pendue !
 
-Oui, cela était, autrefois, ainsi ; mais nous avons changé tout cela, et nous faisons maintenant la Médecine d’une Méthode toute nouvelle.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent On ne peut pas mieux raisonner sans doute. Il n’y a qu’une seule chose qui m’a choqué. C’est l’endroit du Foie et du Cœur. Il me semble que vous les placez autrement qu’ils ne sont. Que le Cœur est du côté gauche, et le Foie du côté droit.
 
-C’est ce que je ne savais pas : et je vous demande pardon de mon ignorance.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Oui, cela était, autrefois, ainsi ; mais nous avons changé tout cela, et nous faisons maintenant la Médecine d’une Méthode toute nouvelle.
 
-Il n’y a point de mal: et vous n’êtes pas obligé d’être aussi habile que nous.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent C’est ce que je ne savais pas : et je vous demande pardon de mon ignorance.
 
-Assurément : mais Monsieur, que croyez-vous qu’il faille faire à cette maladie ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Il n’y a point de mal: et vous n’êtes pas obligé d’être aussi habile que nous.
 
-Ce que je crois, qu’il faille faire ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Assurément : mais Monsieur, que croyez-vous qu’il faille faire à cette maladie ?
 
-Oui.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ce que je crois, qu’il faille faire ?
 
-Mon avis est qu’on la remette sur son Lit : et qu’on lui fasse prendre pour Remède, quantité de Pain trempé dans du Vin.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui.
 
-Pourquoi cela, Monsieur ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Mon avis est qu’on la remette sur son Lit : et qu’on lui fasse prendre pour Remède, quantité de Pain trempé dans du Vin.
 
-Parce qu’il y a dans le Vin et le Pain, mêlés ensemble, une Vertu sympathique, qui fait parler. Ne voyez-vous pas bien qu’on ne donne autre chose aux Perroquets : et qu’ils apprennent à parler en mangeant de cela ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Pourquoi cela, Monsieur ?
 
-Cela est vrai, ah ! le grand Homme ! vite, quantité de Pain et de Vin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Parce qu’il y a dans le Vin et le Pain, mêlés ensemble, une Vertu sympathique, qui fait parler. Ne voyez-vous pas bien qu’on ne donne autre chose aux Perroquets : et qu’ils apprennent à parler en mangeant de cela ?
 
-Je reviendrai voir sur le soir, en quel état elle sera.
+\speaker{Géronte}
+\noindent Cela est vrai, ah ! le grand Homme ! vite, quantité de Pain et de Vin.
 
-\textit{(À la nourrice.) }Doucement vous. Monsieur, voilà une nourrice à laquelle il faut que je fasse quelques petits Remèdes.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Sganarelle}
+\noindent Je reviendrai voir sur le soir, en quel état elle sera.\par
+\textit{(À la nourrice.) }Doucement vous. Monsieur, voilà une nourrice à laquelle il faut que je fasse quelques petits Remèdes.
 
-Qui, moi ? Je me porte le mieux du Monde.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Jacqueline}
+\noindent Qui, moi ? Je me porte le mieux du Monde.
 
-Tant pis Nourrice, tant pis. Cette grande santé est à craindre : et il ne sera mauvais de vous faire quelque petite Saignée amiable, de vous donner quelque petit Clystère dulcifiant.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Sganarelle}
+\noindent Tant pis Nourrice, tant pis. Cette grande santé est à craindre : et il ne sera mauvais de vous faire quelque petite Saignée amiable, de vous donner quelque petit Clystère dulcifiant.
 
-Mais, Monsieur, voilà une mode que je ne comprends point. Pourquoi s’aller faire saigner, quand on n’a point de maladie ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Géronte}
+\noindent Mais, Monsieur, voilà une mode que je ne comprends point. Pourquoi s’aller faire saigner, quand on n’a point de maladie ?
 
-Il n’importe, la Mode en est salutaire : et comme on boit pour la Soif à venir, il faut se faire, aussi, saigner pour la maladie à venir.\end{description}
- \begin{description} \item[Jacqueline\textit{, en se retirant}\par
-] 
+\speaker{Sganarelle}
+\noindent Il n’importe, la Mode en est salutaire : et comme on boit pour la Soif à venir, il faut se faire, aussi, saigner pour la maladie à venir.
 
-Ma fi, je me moque de ça ; et je ne veux point faire de mon corps une Boutique d’Apothicaire.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Jacqueline\textit{, en se retirant}}
+\noindent Ma fi, je me moque de ça ; et je ne veux point faire de mon corps une Boutique d’Apothicaire.
 
-Vous êtes rétive aux Remèdes : mais nous saurons vous soumettre à la Raison.
+\speaker{Sganarelle}
+\noindent Vous êtes rétive aux Remèdes : mais nous saurons vous soumettre à la Raison.\par
+\textit{(Parlant à Géronte.) }Je vous donne le bonjour.
 
-\textit{(Parlant à Géronte.) }Je vous donne le bonjour.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Attendez un peu, s’il vous plaît.
 
-Attendez un peu, s’il vous plaît.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Que voulez-vous faire ?
 
-Que voulez-vous faire ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Vous donner de l’Argent, Monsieur.
 
-Vous donner de l’Argent, Monsieur.\end{description}
- \begin{description} \item[Sganarelle\textit{, tendant sa main derrière, pardessous sa robe, tandis que Géronte ouvre sa bourse}\par
-] 
+\speaker{Sganarelle\textit{, tendant sa main derrière, pardessous sa robe, tandis que Géronte ouvre sa bourse}}
+\noindent Je n’en prendrai pas, Monsieur.
 
-Je n’en prendrai pas, Monsieur.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Monsieur ....
 
-Monsieur ....\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Point du tout.
 
-Point du tout.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Un petit moment.
 
-Un petit moment.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent En aucune façon.
 
-En aucune façon.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent De grâce.
 
-De grâce.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Vous vous moquez.
 
-Vous vous moquez.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Voilà qui est fait.
 
-Voilà qui est fait.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je n’en ferai rien.
 
-Je n’en ferai rien.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Eh !
 
-Eh !\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ce n’est pas l’Argent qui me fait agir.
 
-Ce n’est pas l’Argent qui me fait agir.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je le crois.
 
-Je le crois.\end{description}
- \begin{description} \item[Sganarelle\textit{, après avoir pris l’argent}\par
-] 
+\speaker{Sganarelle\textit{, après avoir pris l’argent}}
+\noindent Cela est-il de poids ?
 
-Cela est-il de poids ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui, Monsieur.
 
-Oui, Monsieur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je ne suis pas un Médecin mercenaire.
 
-Je ne suis pas un Médecin mercenaire.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je le sais bien.
 
-Je le sais bien.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent L’intérêt ne me gouverne point.
 
-L’intérêt ne me gouverne point.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Je n’ai pas cette pensée.
 
-Je n’ai pas cette pensée.\end{description}
-\subsection[{Scène V}]{Scène V}\phantomsection
+\section[{Scène V}]{Scène V}\phantomsection
 \label{II05}
-\textit{Sganarelle, Léandre.}\par
- \begin{description} \item[Sganarelle\textit{, Regardant son argent}\par
-] 
 
-Ma foi, cela ne va pas mal, et pourvu que...\end{description}
- \begin{description} \item[Léandre] 
+{\centering\it Sganarelle, Léandre.\par}\nobreakpage\bigskip\nobreakpage
 
-Monsieur, il y a longtemps que je vous attends : et je viens implorer votre assistance.\end{description}
- \begin{description} \item[Sganarelle\textit{, lui prenant le poignet}\par
-] 
+\speaker{Sganarelle\textit{, Regardant son argent}}
+\noindent Ma foi, cela ne va pas mal, et pourvu que...
 
-Voilà un pouls qui est fort mauvais.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Monsieur, il y a longtemps que je vous attends : et je viens implorer votre assistance.
 
-Je ne suis point Malade, Monsieur ; et ce n’est pas pour cela, que je viens à vous.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, lui prenant le poignet}}
+\noindent Voilà un pouls qui est fort mauvais.
 
-Si vous n’êtes pas Malade, que Diable ne le dites-vous donc ?\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Je ne suis point Malade, Monsieur ; et ce n’est pas pour cela, que je viens à vous.
 
-Non, pour vous dire la chose en deux mots, je m’appelle Léandre, qui suis amoureux de Lucinde, que vous venez de visiter : et comme, par la mauvaise humeur, de son Père, toute sorte d’accès m’est fermé auprès d’elle, Je me hasarde à vous prier de vouloir servir mon amour : et de me donner lieu d’exécuter un Stratagème que j’ai trouvé, pour lui pouvoir dire deux mots, d’où dépendent, absolument, mon bonheur, et ma vie.\end{description}
- \begin{description} \item[Sganarelle\textit{, Paraissant en colère}\par
-] 
+\speaker{Sganarelle}
+\noindent Si vous n’êtes pas Malade, que Diable ne le dites-vous donc ?
 
-Pour qui me prenez-vous ? Comment oser vous adresser à moi, pour vous servir dans votre amour, et vouloir ravaler la Dignité de Médecin, à des Emplois de cette nature ?\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Non, pour vous dire la chose en deux mots, je m’appelle Léandre, qui suis amoureux de Lucinde, que vous venez de visiter : et comme, par la mauvaise humeur, de son Père, toute sorte d’accès m’est fermé auprès d’elle, Je me hasarde à vous prier de vouloir servir mon amour : et de me donner lieu d’exécuter un Stratagème que j’ai trouvé, pour lui pouvoir dire deux mots, d’où dépendent, absolument, mon bonheur, et ma vie.
 
-Monsieur, ne faites point de bruit.\end{description}
- \begin{description} \item[Sganarelle\textit{, en le faisant reculer}\par
-] 
+\speaker{Sganarelle\textit{, Paraissant en colère}}
+\noindent Pour qui me prenez-vous ? Comment oser vous adresser à moi, pour vous servir dans votre amour, et vouloir ravaler la Dignité de Médecin, à des Emplois de cette nature ?
 
-J’en veux faire moi, vous êtes un impertinent.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Monsieur, ne faites point de bruit.
 
-Eh ! Monsieur doucement.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, en le faisant reculer}}
+\noindent J’en veux faire moi, vous êtes un impertinent.
 
-Un mal avisé.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Eh ! Monsieur doucement.
 
-De grâce.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Un mal avisé.
 
-Je vous apprendrai que je ne suis point Homme à cela : et que c’est une insolence extrême...\end{description}
- \begin{description} \item[Léandre\textit{, tirant une bourse qu’il lui donne}\par
-] 
+\speaker{Léandre}
+\noindent De grâce.
 
-Monsieur.\end{description}
- \begin{description} \item[Sganarelle\textit{, tenant la Bourse}\par
-] 
+\speaker{Sganarelle}
+\noindent Je vous apprendrai que je ne suis point Homme à cela : et que c’est une insolence extrême...
 
-De vouloir m’employer... je ne parle pas pour vous : car vous êtes honnête Homme, et je serais ravi de vous rendre service. Mais il y a de certains Impertinents au Monde, qui viennent prendre les Gens pour ce qu’ils ne sont pas : et je vous avoue que cela me met en colère.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre\textit{, tirant une bourse qu’il lui donne}}
+\noindent Monsieur.
 
-Je vous demande pardon, Monsieur, de la liberté que...\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, tenant la Bourse}}
+\noindent De vouloir m’employer... je ne parle pas pour vous : car vous êtes honnête Homme, et je serais ravi de vous rendre service. Mais il y a de certains Impertinents au Monde, qui viennent prendre les Gens pour ce qu’ils ne sont pas : et je vous avoue que cela me met en colère.
 
-Vous vous moquez : de quoi est-il question ?\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Je vous demande pardon, Monsieur, de la liberté que...
 
-Vous saurez, donc, Monsieur, que cette Maladie que vous voulez guérir, est une feinte Maladie. Les Médecins ont raisonné là-dessus, comme il faut ; et ils n’ont pas manqué de dire, que cela procédait, qui, du Cerveau, qui, des Entrailles, qui, de la Rate, qui, du Foie. Mais il est certain que l’Amour en est la véritable Cause : et que Lucinde n’a trouvé cette Maladie, que pour se délivrer d’un Mariage, dont elle était importunée. Mais, de crainte qu’on ne nous voie ensemble, retirons-nous d’ici : et je vous dirai en marchant, ce que je souhaite de vous.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Vous vous moquez : de quoi est-il question ?
 
-Allons, Monsieur, vous m’avez donné pour votre amour, une Tendresse qui n’est pas concevable : et j’y perdrai toute ma Médecine, ou la Malade crèvera, ou bien elle sera à vous.\end{description}
-\section[{Acte III}]{Acte III}\phantomsection
-\label{III}\renewcommand{\leftmark}{Acte III}
+\speaker{Léandre}
+\noindent Vous saurez, donc, Monsieur, que cette Maladie que vous voulez guérir, est une feinte Maladie. Les Médecins ont raisonné là-dessus, comme il faut ; et ils n’ont pas manqué de dire, que cela procédait, qui, du Cerveau, qui, des Entrailles, qui, de la Rate, qui, du Foie. Mais il est certain que l’Amour en est la véritable Cause : et que Lucinde n’a trouvé cette Maladie, que pour se délivrer d’un Mariage, dont elle était importunée. Mais, de crainte qu’on ne nous voie ensemble, retirons-nous d’ici : et je vous dirai en marchant, ce que je souhaite de vous.
 
-\subsection[{Scène I}]{Scène I}\phantomsection
+\speaker{Sganarelle}
+\noindent Allons, Monsieur, vous m’avez donné pour votre amour, une Tendresse qui n’est pas concevable : et j’y perdrai toute ma Médecine, ou la Malade crèvera, ou bien elle sera à vous.
+\chapterclose
+
+
+\chapteropen
+
+\chapter[{Acte III}]{Acte III}
+\renewcommand{\leftmark}{Acte III}\phantomsection
+\label{III}
+
+
+\chaptercont
+
+\section[{Scène I}]{Scène I}\phantomsection
 \label{III01}
-\textit{Sganarelle, Léandre.}\par
- \begin{description} \item[Léandre] 
 
-Il me semble que je ne suis pas mal ainsi, pour un Apothicaire : et comme le Père ne m’a guère vu, ce changement d’Habit, et de Perruque, est assez capable, je crois, de me déguiser à ses yeux.\end{description}
- \begin{description} \item[Sganarelle] 
+{\centering\it Sganarelle, Léandre.\par}\nobreakpage\bigskip\nobreakpage
 
-Sans doute.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Il me semble que je ne suis pas mal ainsi, pour un Apothicaire : et comme le Père ne m’a guère vu, ce changement d’Habit, et de Perruque, est assez capable, je crois, de me déguiser à ses yeux.
 
-Tout ce que je souhaiterais, serait de savoir cinq ou six grands Mots de Médecine, pour parer mon Discours, et me donner l’air d’habile Homme.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Sans doute.
 
-Allez, allez, tout cela n’est pas nécessaire. Il suffit de l’Habit : et je n’en sais pas plus que vous.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Tout ce que je souhaiterais, serait de savoir cinq ou six grands Mots de Médecine, pour parer mon Discours, et me donner l’air d’habile Homme.
 
-Comment ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Allez, allez, tout cela n’est pas nécessaire. Il suffit de l’Habit : et je n’en sais pas plus que vous.
 
-Diable emporte, si j’entends rien en Médecine. Vous êtes honnête Homme : et je veux bien me confier à vous, comme vous vous confiez à moi.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Comment ?
 
-Quoi, vous n’êtes pas effectivement...\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Diable emporte, si j’entends rien en Médecine. Vous êtes honnête Homme : et je veux bien me confier à vous, comme vous vous confiez à moi.
 
-Non, vous dis-je, ils m’ont fait Médecin malgré mes Dents. Je ne m’étais jamais mêlé d’être si savant que cela : et toutes mes Études n’ont été que jusqu’en sixième. Je ne sais point sur quoi cette imagination leur est venue : mais quand j’ai vu qu’à toute force, ils voulaient que je fusse Médecin, je me suis résolu de l’être, aux Dépens de qui il appartiendra. Cependant, vous ne sauriez croire comment l’erreur s’est répandue : et de quelle façon, chacun est endiablé à me croire habile Homme. On me vient chercher de tous les côtés : et si les choses vont toujours de même, je suis d’avis de m’en tenir, toute ma vie, à la Médecine. Je trouve que c’est le Métier le meilleur de tous : car soit qu’on fasse bien, ou soit qu’on fasse mal, on est toujours payé de même sorte. La méchante Besogne ne retombe jamais sur notre Dos : et nous taillons, comme il nous plaît, sur l’Étoffe où nous travaillons. Un Cordonnier en faisant des Souliers, ne saurait gâter un morceau de Cuir, qu’il n’en paye les Pots cassés : mais ici, l’on peut gâter un Homme sans, qu’il en coûte rien. Les Bévues ne sont point pour nous : et c’est toujours, la faute de celui qui meurt. Enfin le bon de cette Profession, est qu’il y a parmi les Morts, une honnêteté, une discrétion la plus grande du Monde : jamais on n’en voit se plaindre du Médecin qui l’a tué.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Léandre}
+\noindent Quoi, vous n’êtes pas effectivement...
 
-Il est vrai que les morts sont fort honnêtes Gens, sur cette matière.\end{description}
- \begin{description} \item[Sganarelle\textit{, voyant des hommes qui viennent vers lui}\par
-] 
+\speaker{Sganarelle}
+\noindent Non, vous dis-je, ils m’ont fait Médecin malgré mes Dents. Je ne m’étais jamais mêlé d’être si savant que cela : et toutes mes Études n’ont été que jusqu’en sixième. Je ne sais point sur quoi cette imagination leur est venue : mais quand j’ai vu qu’à toute force, ils voulaient que je fusse Médecin, je me suis résolu de l’être, aux Dépens de qui il appartiendra. Cependant, vous ne sauriez croire comment l’erreur s’est répandue : et de quelle façon, chacun est endiablé à me croire habile Homme. On me vient chercher de tous les côtés : et si les choses vont toujours de même, je suis d’avis de m’en tenir, toute ma vie, à la Médecine. Je trouve que c’est le Métier le meilleur de tous : car soit qu’on fasse bien, ou soit qu’on fasse mal, on est toujours payé de même sorte. La méchante Besogne ne retombe jamais sur notre Dos : et nous taillons, comme il nous plaît, sur l’Étoffe où nous travaillons. Un Cordonnier en faisant des Souliers, ne saurait gâter un morceau de Cuir, qu’il n’en paye les Pots cassés : mais ici, l’on peut gâter un Homme sans, qu’il en coûte rien. Les Bévues ne sont point pour nous : et c’est toujours, la faute de celui qui meurt. Enfin le bon de cette Profession, est qu’il y a parmi les Morts, une honnêteté, une discrétion la plus grande du Monde : jamais on n’en voit se plaindre du Médecin qui l’a tué.
 
-Voilà des gens qui ont la mine de me venir consulter. Allez toujours m’attendre auprès du Logis de votre maîtresse.\end{description}
-\subsection[{Scène II}]{Scène II}\phantomsection
+\speaker{Léandre}
+\noindent Il est vrai que les morts sont fort honnêtes Gens, sur cette matière.
+
+\speaker{Sganarelle\textit{, voyant des hommes qui viennent vers lui}}
+\noindent Voilà des gens qui ont la mine de me venir consulter. Allez toujours m’attendre auprès du Logis de votre maîtresse.
+
+\section[{Scène II}]{Scène II}\phantomsection
 \label{III02}
-\textit{Thibaut, Perrin, Sganarelle.}\par
- \begin{description} \item[Thibaut] 
 
-Monsieu, je venons vous charcher, mon Fils Perrin et moi.\end{description}
- \begin{description} \item[Sganarelle] 
+{\centering\it Thibaut, Perrin, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
 
-Qu’y a-t-il ?\end{description}
- \begin{description} \item[Thibaut] 
+\speaker{Thibaut}
+\noindent Monsieu, je venons vous charcher, mon Fils Perrin et moi.
 
-Sa pauvre mère, qui a nom Parette est dans un lit, Malade, il y a six mois.\end{description}
- \begin{description} \item[Sganarelle\textit{, tendant la main, comme pour recevoir de l’Argent}\par
-] 
+\speaker{Sganarelle}
+\noindent Qu’y a-t-il ?
 
-Que voulez-vous que j’y fasse ?\end{description}
- \begin{description} \item[Thibaut] 
+\speaker{Thibaut}
+\noindent Sa pauvre mère, qui a nom Parette est dans un lit, Malade, il y a six mois.
 
-Je voudrions, Monsieu, que vous nous baillissiez quelque petite drôlerie pour la garir.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, tendant la main, comme pour recevoir de l’Argent}}
+\noindent Que voulez-vous que j’y fasse ?
 
-Il faut voir de quoi est-ce qu’elle est Malade.\end{description}
- \begin{description} \item[Thibaut] 
+\speaker{Thibaut}
+\noindent Je voudrions, Monsieu, que vous nous baillissiez quelque petite drôlerie pour la garir.
 
-Alle est malade d’Hypocrisie, Monsieu.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Il faut voir de quoi est-ce qu’elle est Malade.
 
-D’Hypocrisie ?\end{description}
- \begin{description} \item[Thibaut] 
+\speaker{Thibaut}
+\noindent Alle est malade d’Hypocrisie, Monsieu.
 
-Oui, c’est-à-dire qu’alle est enflée par tout, et l’an dit que c’est quantité de sériosités qu’alle a dans le Corps, et que son Foie, son Ventre, ou sa Rate, comme vous voudrais l’appeler, au glieu de faire du sang, ne fait plus que de L’iau. Alle a de deux jours l’un, la fièvre quotiguenne, avec des lassitules et des douleurs dans les Mufles des jambes. On entend dans sa Gorge, des Fleumes qui sont tout prêts à l’étouffer : parfois, il lui prend des Syncoles, et des Conversions, que je crayons qu’alle est passée. J’avons dans notte Village, un Apothicaire, révérence parler, qui li a donné je ne sai combien d’Histoires : et il m’en coûte plus d’eune douzaine de bons écus, en Lavements, ne v’s en déplaise, en Apostumes, qu’on li a fait prendre, en Infections de Jacinthe, et en Portions Cordales. Mais tout ça, comme dit l’autre, n’a été que de l’Onguent miton mitaine. Il velait li bailler d’eune certaine Drogue que l’on appelle du vin Amétile : mais j’ai-s-eu peur, franchement, que ça l’envoyît à patres, et l’an dit que ces gros médecins tuont je ne sai combien de Monde, avec cette Invention-là.\end{description}
- \begin{description} \item[Sganarelle\textit{, tendant toujours la main, et la branlant, comme pour signe qu’il demande de l’Argent}\par
-] 
+\speaker{Sganarelle}
+\noindent D’Hypocrisie ?
 
-Venons au fait, mon ami, venons au fait.\end{description}
- \begin{description} \item[Thibaut] 
+\speaker{Thibaut}
+\noindent Oui, c’est-à-dire qu’alle est enflée par tout, et l’an dit que c’est quantité de sériosités qu’alle a dans le Corps, et que son Foie, son Ventre, ou sa Rate, comme vous voudrais l’appeler, au glieu de faire du sang, ne fait plus que de L’iau. Alle a de deux jours l’un, la fièvre quotiguenne, avec des lassitules et des douleurs dans les Mufles des jambes. On entend dans sa Gorge, des Fleumes qui sont tout prêts à l’étouffer : parfois, il lui prend des Syncoles, et des Conversions, que je crayons qu’alle est passée. J’avons dans notte Village, un Apothicaire, révérence parler, qui li a donné je ne sai combien d’Histoires : et il m’en coûte plus d’eune douzaine de bons écus, en Lavements, ne v’s en déplaise, en Apostumes, qu’on li a fait prendre, en Infections de Jacinthe, et en Portions Cordales. Mais tout ça, comme dit l’autre, n’a été que de l’Onguent miton mitaine. Il velait li bailler d’eune certaine Drogue que l’on appelle du vin Amétile : mais j’ai-s-eu peur, franchement, que ça l’envoyît à patres, et l’an dit que ces gros médecins tuont je ne sai combien de Monde, avec cette Invention-là.
 
-Le fait est, Monsieu, que je venons vous prier de nous dire ce qu’il faut que je fassions.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, tendant toujours la main, et la branlant, comme pour signe qu’il demande de l’Argent}}
+\noindent Venons au fait, mon ami, venons au fait.
 
-Je ne vous entends point du tout.\end{description}
- \begin{description} \item[Perrin] 
+\speaker{Thibaut}
+\noindent Le fait est, Monsieu, que je venons vous prier de nous dire ce qu’il faut que je fassions.
 
-Monsieu, ma Mère est Malade, et velà deux Écus que je vous apportons, pour nous bailler queuque Remède.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je ne vous entends point du tout.
 
-Ah ! je vous entends, vous. Voilà un Garçon qui parle clairement, qui s’explique comme il faut. Vous dites que votre Mère est malade d’Hydropisie, qu’elle est enflée par tout le corps, qu’elle a la Fièvre, avec des Douleurs dans les jambes : et qu’il lui prend, parfois, des Syncopes, et des Convulsions, c’est-à-dire des Évanouissements.\end{description}
- \begin{description} \item[Perrin] 
+\speaker{Perrin}
+\noindent Monsieu, ma Mère est Malade, et velà deux Écus que je vous apportons, pour nous bailler queuque Remède.
 
-Eh oui, Monsieu, c’est justement ça.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ah ! je vous entends, vous. Voilà un Garçon qui parle clairement, qui s’explique comme il faut. Vous dites que votre Mère est malade d’Hydropisie, qu’elle est enflée par tout le corps, qu’elle a la Fièvre, avec des Douleurs dans les jambes : et qu’il lui prend, parfois, des Syncopes, et des Convulsions, c’est-à-dire des Évanouissements.
 
-J’ai compris d’abord, vos paroles. Vous avez un père qui ne sait ce qu’il dit. Maintenant, vous me demandez un remède ?\end{description}
- \begin{description} \item[Perrin] 
+\speaker{Perrin}
+\noindent Eh oui, Monsieu, c’est justement ça.
 
-Oui, Monsieu.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent J’ai compris d’abord, vos paroles. Vous avez un père qui ne sait ce qu’il dit. Maintenant, vous me demandez un remède ?
 
-Un Remède pour la guérir ?\end{description}
- \begin{description} \item[Perrin] 
+\speaker{Perrin}
+\noindent Oui, Monsieu.
 
-C’est comme je l’entendons.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Un Remède pour la guérir ?
 
-Tenez, voilà un morceau de Formage, qu’il faut que vous lui fassiez prendre.\end{description}
- \begin{description} \item[Perrin] 
+\speaker{Perrin}
+\noindent C’est comme je l’entendons.
 
-Du fromage, Monsieu ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tenez, voilà un morceau de Formage, qu’il faut que vous lui fassiez prendre.
 
-Oui, c’est un Formage préparé, où il entre de l’Or, du Coral, et des Perles, et quantité d’autres choses précieuses.\end{description}
- \begin{description} \item[Perrin] 
+\speaker{Perrin}
+\noindent Du fromage, Monsieu ?
 
-Monsieu, je vous sommes bien obligés : et j’allons li faire prendre ça tout à l’heure.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Oui, c’est un Formage préparé, où il entre de l’Or, du Coral, et des Perles, et quantité d’autres choses précieuses.
 
-Allez. Si elle meurt, ne manquez pas de la faire enterrer du mieux que vous pourrez.\end{description}
-\subsection[{Scène III}]{Scène III}\phantomsection
+\speaker{Perrin}
+\noindent Monsieu, je vous sommes bien obligés : et j’allons li faire prendre ça tout à l’heure.
+
+\speaker{Sganarelle}
+\noindent Allez. Si elle meurt, ne manquez pas de la faire enterrer du mieux que vous pourrez.
+
+\section[{Scène III}]{Scène III}\phantomsection
 \label{III03}
-\textit{Jacqueline, Sganarelle, Lucas.}\par
- \begin{description} \item[Sganarelle] 
 
-Voici la belle Nourrice. Ah Nourrice de mon cœur, je suis ravi de cette rencontre : et votre vue est la Rhubarbe, la Casse et le Séné qui purgent toute la Mélancolie de mon Âme.\end{description}
- \begin{description} \item[Jacqueline] 
+{\centering\it Jacqueline, Sganarelle, Lucas.\par}\nobreakpage\bigskip\nobreakpage
 
-Par ma figué, Monsieu le Médecin, ça est trop bian dit pour moi : et je n’entends rien à tout votte latin.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Voici la belle Nourrice. Ah Nourrice de mon cœur, je suis ravi de cette rencontre : et votre vue est la Rhubarbe, la Casse et le Séné qui purgent toute la Mélancolie de mon Âme.
 
-Devenez malade, Nourrice, je vous prie, devenez malade pour l’amour de moi. J’aurais toutes les joies du monde, de vous guérir.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Par ma figué, Monsieu le Médecin, ça est trop bian dit pour moi : et je n’entends rien à tout votte latin.
 
-Je sis votte sarvante, j’aime bian mieux qu’an ne me guérisse pas.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Devenez malade, Nourrice, je vous prie, devenez malade pour l’amour de moi. J’aurais toutes les joies du monde, de vous guérir.
 
-Que je vous plains, belle Nourrice, d’avoir un mari jaloux et fâcheux comme celui que vous avez !\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Je sis votte sarvante, j’aime bian mieux qu’an ne me guérisse pas.
 
-Que velez-vous, Monsieu, c’est pour la Pénitence de mes Fautes : et là où la Chèvre est liée, il faut bian qu’alle y broute.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Que je vous plains, belle Nourrice, d’avoir un mari jaloux et fâcheux comme celui que vous avez !
 
-Comment, un Rustre comme cela ! Un Homme qui vous observe toujours, et ne veut pas que Personne vous parle !\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Que velez-vous, Monsieu, c’est pour la Pénitence de mes Fautes : et là où la Chèvre est liée, il faut bian qu’alle y broute.
 
-Hélas ! vous n’avez rien vu encore : et ce n’est qu’un petit échantillon de sa mauvaise humeur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Comment, un Rustre comme cela ! Un Homme qui vous observe toujours, et ne veut pas que Personne vous parle !
 
-Est-il possible, et qu’un Homme ait l’Âme assez basse, pour maltraiter une Personne comme vous ? Ah que j’en sais, belle Nourrice, et qui ne sont pas loin d’ici, qui se tiendraient heureux de baiser, seulement, les petits bouts de vos Petons. Pourquoi faut-il qu’une Personne si bien faite, soit tombée en de telles mains : et qu’un franc Animal, un Brutal, un Stupide, un Sot ... ? Pardonnez-moi, Nourrice, si je parle ainsi de votre mari.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Hélas ! vous n’avez rien vu encore : et ce n’est qu’un petit échantillon de sa mauvaise humeur.
 
-Eh, Monsieu, je sai bien qu’il mérite tous ces Noms-là.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Est-il possible, et qu’un Homme ait l’Âme assez basse, pour maltraiter une Personne comme vous ? Ah que j’en sais, belle Nourrice, et qui ne sont pas loin d’ici, qui se tiendraient heureux de baiser, seulement, les petits bouts de vos Petons. Pourquoi faut-il qu’une Personne si bien faite, soit tombée en de telles mains : et qu’un franc Animal, un Brutal, un Stupide, un Sot ... ? Pardonnez-moi, Nourrice, si je parle ainsi de votre mari.
 
-Oui, sans doute, Nourrice, il les mérite : et il mériterait encore, que vous lui missiez quelque Chose sur la Tête, pour le punir des Soupçons qu’il a.\end{description}
- \begin{description} \item[Jacqueline] 
+\speaker{Jacqueline}
+\noindent Eh, Monsieu, je sai bien qu’il mérite tous ces Noms-là.
 
-Il est bien vrai, que si je n’avais, devant les yeux, que son intérêt, il pourrait m’obliger à queuque étrange chose.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Oui, sans doute, Nourrice, il les mérite : et il mériterait encore, que vous lui missiez quelque Chose sur la Tête, pour le punir des Soupçons qu’il a.
 
-Ma Foi, vous ne feriez pas mal, de vous venger de lui, avec quelqu’un. C’est un Homme, je vous le dis, qui mérite bien cela : et si j’étais assez heureux, belle Nourrice, pour être choisi pour...\textit{En cet endroit, tous deux apercevant Lucas qui était derrière eux, et entendait leur Dialogue, chacun se retire de son côté, mais le Médecin d’une manière fort plaisante.} \end{description}
-\subsection[{Scène IV}]{Scène IV}\phantomsection
+\speaker{Jacqueline}
+\noindent Il est bien vrai, que si je n’avais, devant les yeux, que son intérêt, il pourrait m’obliger à queuque étrange chose.
+
+\speaker{Sganarelle}
+\noindent Ma Foi, vous ne feriez pas mal, de vous venger de lui, avec quelqu’un. C’est un Homme, je vous le dis, qui mérite bien cela : et si j’étais assez heureux, belle Nourrice, pour être choisi pour...\par
+         \textit{En cet endroit, tous deux apercevant Lucas qui était derrière eux, et entendait leur Dialogue, chacun se retire de son côté, mais le Médecin d’une manière fort plaisante.}\par
+
+\section[{Scène IV}]{Scène IV}\phantomsection
 \label{III04}
-\textit{Géronte, Lucas.}\par
- \begin{description} \item[Géronte] 
 
-Holà ! Lucas, n’as-tu point vu ici, notre Médecin ?\end{description}
- \begin{description} \item[Lucas] 
+{\centering\it Géronte, Lucas.\par}\nobreakpage\bigskip\nobreakpage
 
-Et oui, de par tous les Diantres, je l’ai vu, et ma Femme aussi.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Holà ! Lucas, n’as-tu point vu ici, notre Médecin ?
 
-Où est-ce, donc, qu’il peut être ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Et oui, de par tous les Diantres, je l’ai vu, et ma Femme aussi.
 
-Je ne sais : mais je voudrais qu’il fût à tous les Guebles.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Où est-ce, donc, qu’il peut être ?
 
-Va-t’en voir un peu, ce que fait ma Fille.\end{description}
-\subsection[{Scène V}]{Scène V}\phantomsection
+\speaker{Lucas}
+\noindent Je ne sais : mais je voudrais qu’il fût à tous les Guebles.
+
+\speaker{Géronte}
+\noindent Va-t’en voir un peu, ce que fait ma Fille.
+
+\section[{Scène V}]{Scène V}\phantomsection
 \label{III05}
-\textit{Sganarelle, Léandre, Géronte.}\par
- \begin{description} \item[Géronte] 
 
-Ah ! Monsieur, je demandais où vous étiez.\end{description}
- \begin{description} \item[Sganarelle] 
+{\centering\it Sganarelle, Léandre, Géronte.\par}\nobreakpage\bigskip\nobreakpage
 
-Je m’étais amusé dans votre Cour, à expulser le superflu de la Boisson. Comment se porte la Malade ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Ah ! Monsieur, je demandais où vous étiez.
 
-Un peu plus mal, depuis votre Remède.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Je m’étais amusé dans votre Cour, à expulser le superflu de la Boisson. Comment se porte la Malade ?
 
-Tant mieux. C’est signe qu’il opère.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Un peu plus mal, depuis votre Remède.
 
-Oui, mais en opérant, je crains qu’il ne l’étouffe.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tant mieux. C’est signe qu’il opère.
 
-Ne vous mettez pas en peine : j’ai des Remèdes qui se moquent de tout, et je l’attends à l’Agonie.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Oui, mais en opérant, je crains qu’il ne l’étouffe.
 
-Qui est cet homme-là, que vous amenez ?\end{description}
- \begin{description} \item[Sganarelle\textit{, faisant des signes avec la main que c’est un Apothicaire}\par
-] 
+\speaker{Sganarelle}
+\noindent Ne vous mettez pas en peine : j’ai des Remèdes qui se moquent de tout, et je l’attends à l’Agonie.
 
-C’est...\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Qui est cet homme-là, que vous amenez ?
 
-Quoi ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle\textit{, faisant des signes avec la main que c’est un Apothicaire}}
+\noindent C’est...
 
-Celui ....\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Quoi ?
 
-Eh.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Celui ....
 
-Qui...\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Eh.
 
-Je vous entends.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Qui...
 
-Votre fille en aura besoin.\end{description}
-\subsection[{Scène VI}]{Scène VI}\phantomsection
+\speaker{Géronte}
+\noindent Je vous entends.
+
+\speaker{Sganarelle}
+\noindent Votre fille en aura besoin.
+
+\section[{Scène VI}]{Scène VI}\phantomsection
 \label{III06}
-\textit{Jacqueline, Lucinde, Géronte, Léandre, Sganarelle.}\par
- \begin{description} \item[Jacqueline] 
 
-Monsieu, velà votre Fille qui veut un peu marcher.\end{description}
- \begin{description} \item[Sganarelle] 
+{\centering\it Jacqueline, Lucinde, Géronte, Léandre, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
 
-Cela lui fera du bien. Allez-vous-en, Monsieur l’Apothicaire, tâter un peu son Pouls, afin que je raisonne tantôt, avec vous, de sa maladie.\textit{ (En cet endroit, il tire Géronte à un bout du théâtre, et lui passant un bras sur les épaules, lui rabat la main sous le menton, avec laquelle il le fait retourner vers lui, lorsqu’il veut regarder ce que sa fille et l’apothicaire font ensemble, lui tenant, cependant, le discours suivant pour l’amuser.) } 
+\speaker{Jacqueline}
+\noindent Monsieu, velà votre Fille qui veut un peu marcher.
 
-Monsieur, c’est une grande et subtile Question entre les Doctes, de savoir si les Femmes sont plus faciles à guérir que les Hommes ? Je vous prie d’écouter ceci, s’il vous plaît. Les uns disent que non, les autres disent que oui : et moi je dis que oui, et non. D’autant que l’incongruité des Humeurs opaques, qui se rencontrent au Tempérament naturel des Femmes, étant cause que la Partie Brutale veut toujours prendre empire sur la Sensitive, on voit que l’inégalité de leurs opinions, dépend du Mouvement oblique, du Cercle de la Lune : et comme le Soleil qui darde ses Rayons sur la Concavité de la Terre, trouve...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Sganarelle}
+\noindent Cela lui fera du bien. Allez-vous-en, Monsieur l’Apothicaire, tâter un peu son Pouls, afin que je raisonne tantôt, avec vous, de sa maladie.\par
+         \textit{ (En cet endroit, il tire Géronte à un bout du théâtre, et lui passant un bras sur les épaules, lui rabat la main sous le menton, avec laquelle il le fait retourner vers lui, lorsqu’il veut regarder ce que sa fille et l’apothicaire font ensemble, lui tenant, cependant, le discours suivant pour l’amuser.) }\par
+\noindent Monsieur, c’est une grande et subtile Question entre les Doctes, de savoir si les Femmes sont plus faciles à guérir que les Hommes ? Je vous prie d’écouter ceci, s’il vous plaît. Les uns disent que non, les autres disent que oui : et moi je dis que oui, et non. D’autant que l’incongruité des Humeurs opaques, qui se rencontrent au Tempérament naturel des Femmes, étant cause que la Partie Brutale veut toujours prendre empire sur la Sensitive, on voit que l’inégalité de leurs opinions, dépend du Mouvement oblique, du Cercle de la Lune : et comme le Soleil qui darde ses Rayons sur la Concavité de la Terre, trouve...
 
-Non, je ne suis point du tout capable de changer de sentiment.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Non, je ne suis point du tout capable de changer de sentiment.
 
-Voilà ma fille qui parle. Ô grande Vertu du Remède !Ô admirable Médecin !Que je vous suis obligé, Monsieur, de cette guérison merveilleuse : et que puis-je faire pour vous, après un tel service ?\end{description}
- \begin{description} \item[Sganarelle\textit{, se promenant sur le Théâtre et s’essuyant le Front}\par
-] 
+\speaker{Géronte}
+\noindent Voilà ma fille qui parle. Ô grande Vertu du Remède !Ô admirable Médecin !Que je vous suis obligé, Monsieur, de cette guérison merveilleuse : et que puis-je faire pour vous, après un tel service ?
 
-Voilà une maladie qui m’a bien donné de la peine !\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Sganarelle\textit{, se promenant sur le Théâtre et s’essuyant le Front}}
+\noindent Voilà une maladie qui m’a bien donné de la peine !
 
-Oui, mon Père, j’ai recouvré la parole : mais je l’ai recouvrée pour vous dire, que je n’aurai jamais d’autre époux que Léandre, et que c’est inutilement que vous voulez me donner Horace.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Oui, mon Père, j’ai recouvré la parole : mais je l’ai recouvrée pour vous dire, que je n’aurai jamais d’autre époux que Léandre, et que c’est inutilement que vous voulez me donner Horace.
 
-Mais...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Mais...
 
-Rien n’est capable d’ébranler la Résolution que j’ai prise.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Rien n’est capable d’ébranler la Résolution que j’ai prise.
 
-Quoi....\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Quoi....
 
-Vous m’opposerez en vain de belles Raisons.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Vous m’opposerez en vain de belles Raisons.
 
-Si...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Si...
 
-Tous vos Discours ne serviront de rien.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Tous vos Discours ne serviront de rien.
 
-Je...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Je...
 
-C’est une chose où je suis déterminée.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent C’est une chose où je suis déterminée.
 
-Mais...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Mais...
 
-Il n’est Puissance Paternelle, qui me puisse obliger à me marier malgré moi.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Il n’est Puissance Paternelle, qui me puisse obliger à me marier malgré moi.
 
-J’ai...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent J’ai...
 
-Vous avez beau faire tous vos efforts.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Vous avez beau faire tous vos efforts.
 
-Il...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Il...
 
-Mon cœur ne saurait se soumettre à cette tyrannie.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Mon cœur ne saurait se soumettre à cette tyrannie.
 
-La...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent La...
 
-Et je me jetterai plutôt dans un Convent que d’épouser un Homme que je n’aime point.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Et je me jetterai plutôt dans un Convent que d’épouser un Homme que je n’aime point.
 
-Mais...\end{description}
- \begin{description} \item[Lucinde\textit{, Parlant d’un ton de voix à étourdir}\par
-] 
+\speaker{Géronte}
+\noindent Mais...
 
-Non. En aucune façon. Point d’affaire. Vous perdez le temps. Je n’en ferai rien. Cela est résolu.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde\textit{, Parlant d’un ton de voix à étourdir}}
+\noindent Non. En aucune façon. Point d’affaire. Vous perdez le temps. Je n’en ferai rien. Cela est résolu.
 
-Ah ! quelle impétuosité de paroles, il n’y a pas moyen d’y résister. Monsieur, je vous prie de la faire redevenir muette.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Géronte}
+\noindent Ah ! quelle impétuosité de paroles, il n’y a pas moyen d’y résister. Monsieur, je vous prie de la faire redevenir muette.
 
-C’est une chose qui m’est impossible. Tout ce que je puis faire pour votre service, est de vous rendre sourd, si vous voulez.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Sganarelle}
+\noindent C’est une chose qui m’est impossible. Tout ce que je puis faire pour votre service, est de vous rendre sourd, si vous voulez.
 
-Je vous remercie. Penses-tu donc...\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Je vous remercie. Penses-tu donc...
 
-Non, toutes vos raisons ne gagneront rien sur mon Âme.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Lucinde}
+\noindent Non, toutes vos raisons ne gagneront rien sur mon Âme.
 
-Tu épouseras Horace, dès ce soir.\end{description}
- \begin{description} \item[Lucinde] 
+\speaker{Géronte}
+\noindent Tu épouseras Horace, dès ce soir.
 
-J’épouserai plutôt la mort.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucinde}
+\noindent J’épouserai plutôt la mort.
 
-Mon Dieu, arrêtez-vous, laissez-moi médicamenter cette Affaire. C’est une Maladie qui la tient : et je sais le Remède qu’il y faut apporter.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Sganarelle}
+\noindent Mon Dieu, arrêtez-vous, laissez-moi médicamenter cette Affaire. C’est une Maladie qui la tient : et je sais le Remède qu’il y faut apporter.
 
-Serait-il possible, Monsieur, que vous pussiez, aussi, guérir cette Maladie d’Esprit ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Géronte}
+\noindent Serait-il possible, Monsieur, que vous pussiez, aussi, guérir cette Maladie d’Esprit ?
 
-Oui, laissez-moi faire, j’ai des Remèdes pour tout : et notre Apothicaire nous servira pour cette Cure.
+\speaker{Sganarelle}
+\noindent Oui, laissez-moi faire, j’ai des Remèdes pour tout : et notre Apothicaire nous servira pour cette Cure.\par
+\textit{(Il appelle l’apothicaire et lui parle.) }Un mot. Vous voyez que l’ardeur qu’elle a pour ce Léandre, est tout à fait contraire aux volontés du Père, qu’il n’y a point de temps à perdre, que les Humeurs sont fort aigries, et qu’il est nécessaire de trouver promptement un Remède à ce Mal qui pourrait empirer par le retardement. Pour moi, je n’y en vois qu’un seul, qui est une prise de Fuite purgative, que vous mêlerez comme il faut, avec deux Drachmes de Matrimonium en Pilules. Peut-être fera-t-elle quelque difficulté à prendre ce Remède : mais comme vous êtes habile Homme dans votre métier, c’est à vous de l’y résoudre, et de lui faire avaler la chose du mieux que vous pourrez. Allez-vous-en lui faire faire un petit tour de Jardin, afin de préparer les Humeurs, tandis que j’entretiendrai ici son Père : mais surtout, ne perdez point de temps. Au Remède, vite, au Remède spécifique.
 
-\textit{(Il appelle l’apothicaire et lui parle.) }Un mot. Vous voyez que l’ardeur qu’elle a pour ce Léandre, est tout à fait contraire aux volontés du Père, qu’il n’y a point de temps à perdre, que les Humeurs sont fort aigries, et qu’il est nécessaire de trouver promptement un Remède à ce Mal qui pourrait empirer par le retardement. Pour moi, je n’y en vois qu’un seul, qui est une prise de Fuite purgative, que vous mêlerez comme il faut, avec deux Drachmes de Matrimonium en Pilules. Peut-être fera-t-elle quelque difficulté à prendre ce Remède : mais comme vous êtes habile Homme dans votre métier, c’est à vous de l’y résoudre, et de lui faire avaler la chose du mieux que vous pourrez. Allez-vous-en lui faire faire un petit tour de Jardin, afin de préparer les Humeurs, tandis que j’entretiendrai ici son Père : mais surtout, ne perdez point de temps. Au Remède, vite, au Remède spécifique.\end{description}
-\subsection[{Scène VII}]{Scène VII}\phantomsection
+\section[{Scène VII}]{Scène VII}\phantomsection
 \label{III07}
-\textit{Géronte, Sganarelle.}\par
- \begin{description} \item[Géronte] 
 
-Quelles Drogues, Monsieur, sont celles que vous venez de dire ? Il me semble que je ne les ai jamais ouï nommer.\end{description}
- \begin{description} \item[Sganarelle] 
+{\centering\it Géronte, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
 
-Ce sont Drogues dont on se sert dans les nécessités urgentes.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Quelles Drogues, Monsieur, sont celles que vous venez de dire ? Il me semble que je ne les ai jamais ouï nommer.
 
-Avez-vous jamais vu, une Insolence pareille à la sienne ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ce sont Drogues dont on se sert dans les nécessités urgentes.
 
-Les Filles sont quelquefois un peu têtues.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Avez-vous jamais vu, une Insolence pareille à la sienne ?
 
-Vous ne sauriez croire comme elle est affolée de ce Léandre.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Les Filles sont quelquefois un peu têtues.
 
-La Chaleur du Sang, fait cela dans les jeunes Esprits.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Vous ne sauriez croire comme elle est affolée de ce Léandre.
 
-Pour moi, dès que j’ai eu découvert la violence de cet Amour, j’ai su tenir toujours ma Fille renfermée.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent La Chaleur du Sang, fait cela dans les jeunes Esprits.
 
-Vous avez fait sagement.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Pour moi, dès que j’ai eu découvert la violence de cet Amour, j’ai su tenir toujours ma Fille renfermée.
 
-Et j’ai bien empêché qu’ils n’aient eu communication ensemble.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Vous avez fait sagement.
 
-Fort bien.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Et j’ai bien empêché qu’ils n’aient eu communication ensemble.
 
-Il serait arrivé quelque folie, si j’avais souffert qu’ils se fussent vus.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Fort bien.
 
-Sans doute.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Il serait arrivé quelque folie, si j’avais souffert qu’ils se fussent vus.
 
-Et je crois qu’elle aurait été fille à s’en aller avec lui.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Sans doute.
 
-C’est prudemment raisonné.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Et je crois qu’elle aurait été fille à s’en aller avec lui.
 
-On m’avertit qu’il fait tous ses efforts pour lui parler.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent C’est prudemment raisonné.
 
-Quel Drôle.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent On m’avertit qu’il fait tous ses efforts pour lui parler.
 
-Mais il perdra son temps.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Quel Drôle.
 
-Ah, ah.\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Mais il perdra son temps.
 
-Et j’empêcherai bien qu’il ne la voie.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Ah, ah.
 
-Il n’a pas affaire à un Sot, et vous savez des Rubriques, qu’il ne sait pas. Plus fin que vous n’est pas bête.\end{description}
-\subsection[{Scène VIII}]{Scène VIII}\phantomsection
+\speaker{Géronte}
+\noindent Et j’empêcherai bien qu’il ne la voie.
+
+\speaker{Sganarelle}
+\noindent Il n’a pas affaire à un Sot, et vous savez des Rubriques, qu’il ne sait pas. Plus fin que vous n’est pas bête.
+
+\section[{Scène VIII}]{Scène VIII}\phantomsection
 \label{III08}
-\textit{Lucas, Géronte, Sganarelle.}\par
- \begin{description} \item[Lucas] 
 
-Ah palsanguenne, Monsieu, vaici bian du tintamarre, votte Fille s’en est enfuie avec son Liandre, c’était lui qui était l’Apothicaire, et velà Monsieu le Médecin, qui a fait cette belle Opération-là.\end{description}
- \begin{description} \item[Géronte] 
+{\centering\it Lucas, Géronte, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
 
-Comment, m’assassiner de la façon. Allons, un Commissaire, et qu’on empêche qu’il ne sorte. Ah Traître, je vous ferai punir par la justice.\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Ah palsanguenne, Monsieu, vaici bian du tintamarre, votte Fille s’en est enfuie avec son Liandre, c’était lui qui était l’Apothicaire, et velà Monsieu le Médecin, qui a fait cette belle Opération-là.
 
-Ah par ma fi, Monsieu le Médecin, vous serez pendu, ne bougez de là seulement.\end{description}
-\subsection[{Scène IX}]{Scène IX}\phantomsection
+\speaker{Géronte}
+\noindent Comment, m’assassiner de la façon. Allons, un Commissaire, et qu’on empêche qu’il ne sorte. Ah Traître, je vous ferai punir par la justice.
+
+\speaker{Lucas}
+\noindent Ah par ma fi, Monsieu le Médecin, vous serez pendu, ne bougez de là seulement.
+
+\section[{Scène IX}]{Scène IX}\phantomsection
 \label{III09}
-\textit{Martine, Sganarelle, Lucas.}\par
- \begin{description} \item[Martine] 
 
-Ah ! mon Dieu, que j’ai eu de peine à trouver ce Logis : dites-moi un peu des Nouvelles du Médecin que je vous ai donné.\end{description}
- \begin{description} \item[Lucas] 
+{\centering\it Martine, Sganarelle, Lucas.\par}\nobreakpage\bigskip\nobreakpage
 
-Le velà, qui va être pendu.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Ah ! mon Dieu, que j’ai eu de peine à trouver ce Logis : dites-moi un peu des Nouvelles du Médecin que je vous ai donné.
 
-Quoi, mon mari pendu, hélas, et qu’a-t-il fait pour cela ?\end{description}
- \begin{description} \item[Lucas] 
+\speaker{Lucas}
+\noindent Le velà, qui va être pendu.
 
-Il a fait enlever la Fille de notte Maître.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Quoi, mon mari pendu, hélas, et qu’a-t-il fait pour cela ?
 
-Hélas ! mon cher mari, est-il bien vrai qu’on te va pendre ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Lucas}
+\noindent Il a fait enlever la Fille de notte Maître.
 
-Tu vois, ah.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Hélas ! mon cher mari, est-il bien vrai qu’on te va pendre ?
 
-Faut-il que tu te laisses mourir en présence de tant de Gens ?\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Tu vois, ah.
 
-Que veux-tu que j’y fasse ?\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Faut-il que tu te laisses mourir en présence de tant de Gens ?
 
-Encore, si tu avais achevé de couper notre Bois, je prendrais quelque consolation.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Que veux-tu que j’y fasse ?
 
-Retire-toi de là, tu me fends le cœur.\end{description}
- \begin{description} \item[Martine] 
+\speaker{Martine}
+\noindent Encore, si tu avais achevé de couper notre Bois, je prendrais quelque consolation.
 
-Non, je veux demeurer pour t’encourager à la Mort : et je ne te quitterai point, que je ne t’aie vu pendu.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Retire-toi de là, tu me fends le cœur.
 
-Ah.\end{description}
-\subsection[{Scène X}]{Scène X}\phantomsection
+\speaker{Martine}
+\noindent Non, je veux demeurer pour t’encourager à la Mort : et je ne te quitterai point, que je ne t’aie vu pendu.
+
+\speaker{Sganarelle}
+\noindent Ah.
+
+\section[{Scène X}]{Scène X}\phantomsection
 \label{III10}
-\textit{Géronte, Sganarelle, Martine, Lucas.}\par
- \begin{description} \item[Géronte] 
 
-Le Commissaire viendra bientôt, et l’on s’en va vous mettre en lieu, où l’on me répondra de vous.\end{description}
- \begin{description} \item[Sganarelle\textit{, le chapeau à la main}\par
-] 
+{\centering\it Géronte, Sganarelle, Martine, Lucas.\par}\nobreakpage\bigskip\nobreakpage
 
-Hélas, cela ne se peut-il point changer en quelques coups de bâton ?\end{description}
- \begin{description} \item[Géronte] 
+\speaker{Géronte}
+\noindent Le Commissaire viendra bientôt, et l’on s’en va vous mettre en lieu, où l’on me répondra de vous.
 
-Non, non, la Justice en ordonnera .... Mais que vois-je ?\end{description}
-\subsection[{Scène XI et DERNIÈRE.}]{Scène XI{\itshape  et DERNIÈRE.}}\phantomsection
+\speaker{Sganarelle\textit{, le chapeau à la main}}
+\noindent Hélas, cela ne se peut-il point changer en quelques coups de bâton ?
+
+\speaker{Géronte}
+\noindent Non, non, la Justice en ordonnera .... Mais que vois-je ?
+
+\section[{Scène XI et DERNIÈRE.}]{Scène XI{\itshape  et DERNIÈRE.}}\phantomsection
 \label{III11}
-\textit{Léandre, Lucinde, Jacqueline, Lucas, Géronte, Sganarelle, Martine.}\par
- \begin{description} \item[Léandre] 
 
-Monsieur, je viens faire paraître Léandre à vos yeux, et remettre Lucinde en votre pouvoir, nous avons eu dessein de prendre la fuite nous deux, et de nous aller marier ensemble : mais cette entreprise a fait place à un procédé plus honnête : je ne prétends point vous voler votre Fille, et ce n’est que de votre main que je veux la recevoir : ce que je vous dirai, Monsieur, c’est que je viens tout à l’heure de recevoir des lettres, par où j’apprends que mon oncle est mort, et que je suis héritier de tous ses biens.\end{description}
- \begin{description} \item[Géronte] 
+{\centering\it Léandre, Lucinde, Jacqueline, Lucas, Géronte, Sganarelle, Martine.\par}\nobreakpage\bigskip\nobreakpage
 
-Monsieur, votre Vertu m’est tout à fait considérable, et je vous donne ma Fille, avec la plus grande joie du Monde.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Léandre}
+\noindent Monsieur, je viens faire paraître Léandre à vos yeux, et remettre Lucinde en votre pouvoir, nous avons eu dessein de prendre la fuite nous deux, et de nous aller marier ensemble : mais cette entreprise a fait place à un procédé plus honnête : je ne prétends point vous voler votre Fille, et ce n’est que de votre main que je veux la recevoir : ce que je vous dirai, Monsieur, c’est que je viens tout à l’heure de recevoir des lettres, par où j’apprends que mon oncle est mort, et que je suis héritier de tous ses biens.
 
-La Médecine l’a échappé belle !\end{description}
- \begin{description} \item[Martine] 
+\speaker{Géronte}
+\noindent Monsieur, votre Vertu m’est tout à fait considérable, et je vous donne ma Fille, avec la plus grande joie du Monde.
 
-Puisque tu ne seras point pendu, rends-moi grâce d’être Médecin : car c’est moi qui t’ai procuré cet Honneur.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent La Médecine l’a échappé belle !
 
-Oui, c’est toi qui m’as procuré je ne sais combien de coups de Bâton.\end{description}
- \begin{description} \item[Léandre] 
+\speaker{Martine}
+\noindent Puisque tu ne seras point pendu, rends-moi grâce d’être Médecin : car c’est moi qui t’ai procuré cet Honneur.
 
-L’effet en est trop beau, pour en garder du ressentiment.\end{description}
- \begin{description} \item[Sganarelle] 
+\speaker{Sganarelle}
+\noindent Oui, c’est toi qui m’as procuré je ne sais combien de coups de Bâton.
 
-Soit, je te pardonne ces coups de Bâton, en faveur de la Dignité où tu m’as élevé : mais prépare-toi désormais à vivre dans un grand respect avec un Homme de ma conséquence, et songe que la Colère d’un Médecin est plus à craindre qu’on ne peut croire.\end{description}
+\speaker{Léandre}
+\noindent L’effet en est trop beau, pour en garder du ressentiment.
+
+\speaker{Sganarelle}
+\noindent Soit, je te pardonne ces coups de Bâton, en faveur de la Dignité où tu m’as élevé : mais prépare-toi désormais à vivre dans un grand respect avec un Homme de ma conséquence, et songe que la Colère d’un Médecin est plus à craindre qu’on ne peut croire.
+\chapterclose
+
  
 
 
@@ -2610,17 +2681,19 @@ Soit, je te pardonne ces coups de Bâton, en faveur de la Dignité où tu m’as
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
   Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
@@ -2641,20 +2714,7 @@ Soit, je te pardonne ces coups de Bâton, en faveur de la Dignité où tu m’as
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}
