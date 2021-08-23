@@ -32,7 +32,8 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav
@@ -67,7 +68,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{1pt} % 1pt allow better vertical justification
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -93,13 +94,12 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
 \usepackage{enumitem} % <list>
-\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -110,8 +110,11 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
+\usepackage{poetry} % <l>, bad for theater
 \usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
@@ -130,33 +133,11 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
-
-% TOTEST
-% \usepackage{hypcap} % links in caption ?
-% \usepackage{marginnote}
-% TESTED
-% \usepackage{background} % doesn’t work with xetek
-% \usepackage{bookmark} % prefers the hyperref hack \phantomsection
-% \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
-% \usepackage{DejaVuSans} % override too much, was for for symbols
-% \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
-% \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
-% \usepackage{flushend} % bad for last notes, supposed flush end of columns
-% \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
-% \usepackage{helvet} % not for XeLaTeX
-% \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
-% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
-% \usepackage{sectsty} % \chapterfont OBSOLETE
-% \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
-% \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
 \defaultfontfeatures{
   % Mapping=tex-text, % no effect seen
@@ -175,15 +156,28 @@
 \def\elbibl{Stefan Zweig. 1936. \emph{Une Conscience contre la violence}}
 \def\elabstract{%
  
-\epigraph{\noindent La postérité ne pourra pas comprendre que nous ayons dû retomber dans de pareilles ténèbres après avoir connu la lumière.\par
-}{
+\begin{epigraph}
+\noindent La postérité ne pourra pas comprendre que nous ayons dû retomber dans de pareilles ténèbres après avoir connu la lumière.\par
+
 \bibl{Sébastien Castellion, 1562, \emph{De arte dubitandi}.}
-}
+\end{epigraph}
 
  \vfill
 
 }
 \def\elsource{ \href{http://palimpsestes.fr/textes\_divers/z/zweig/Consciencecontreviolence.pdf}{\dotuline{Palimpseste.fr}}\footnote{\href{http://palimpsestes.fr/textes\_divers/z/zweig/Consciencecontreviolence.pdf}{\url{http://palimpsestes.fr/textes\_divers/z/zweig/Consciencecontreviolence.pdf}}} }
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Stefan Zweig\par}\bigskip
+  {\Large 1936\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Une Conscience contre la violence}\par
+\bigskip\emph{Castellion contre Calvin}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -230,6 +224,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -281,6 +283,7 @@
   \let\LettrineFontHook\oldLFH
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
+\newcommand{\lnatt}[1]{\reversemarginpar\marginpar[\sffamily\scriptsize #1]{}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
 \newcommand\name[1]{#1}
 \newcommand\orig[1]{#1}
@@ -289,7 +292,7 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
@@ -304,25 +307,30 @@
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+
+\newcommand{\bibl}[1]{{\smallskip\setlength{\RaggedLeftLeftskip}{2em plus \leftskip}\RaggedLeft\normalsize\normalfont #1\par\medskip}}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
+\newcommand{\docAuthor}[1]{{\large\bigskip #1 \par\bigskip}}
+\newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
+\newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
-
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1\par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily #1\par}\bigskip}
+\newcommand{\stagesp}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily #1\par\endgroup} % left margin, better than list envs
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
 \newenvironment{citbibl}{\ifvmode\hfill\fi}{\ifvmode\par\fi }
-\newenvironment{docAuthor}{\ifvmode\vskip4pt\fontsize{16pt}{18pt}\selectfont\fi\itshape}{\ifvmode\par\fi }
-\newenvironment{docDate}{}{\ifvmode\par\fi }
-\newenvironment{docImprint}{\vskip6pt}{\ifvmode\par\fi }
-\newenvironment{docTitle}{\vskip6pt\bfseries\fontsize{18pt}{22pt}\selectfont}{\par }
 \newenvironment{msHead}{\vskip6pt}{\par}
 \newenvironment{msItem}{\vskip6pt}{\par}
-\newenvironment{titlePart}{}{\par }
 
 
 % environments for block containers
@@ -348,14 +356,19 @@
 {\def\@noitemerr
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
+\newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+\newenvironment{epigraph}{\leftskip1.5\parindent \sffamily\large}{\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
-% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
- % epigraph pack
-\setlength{\epigraphrule}{0pt}
-\setlength{\epigraphwidth}{0.8\textwidth}
-% \renewcommand{\epigraphflush}{center} ? dont work
+\newenvironment{titlePage}
+  {\Centering}
+  {}
+
+
+
+
+
 
 % table () is preceded and finished by custom command
 \newcommand{\tableopen}[1]{%
@@ -422,14 +435,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -437,20 +458,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -461,7 +479,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -469,6 +487,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -512,7 +533,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{2pt} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -533,6 +554,7 @@
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -600,11 +622,7 @@
 \newcommand\chapo{{%
   \vspace*{-3em}
   \centering\parindent0pt % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
-  \smallskip
-  {\large\eldate\par}
-  \bigskip
-  {\Large\eltitle}
+  \eltitlepage
   \bigskip
   {\color{rubric}\hline\par}
   \bigskip
@@ -615,13 +633,8 @@
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
-  \bigskip
-  {\Large\eldate\par}
-  \bigskip
-  \bigskip
-  {\LARGE \eltitle}
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
   {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
   \vfill\null
@@ -656,7 +669,8 @@
 \bigskip
 
 \pagestyle{main} % after style
-
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
   
 \chapteropen
 
@@ -664,10 +678,11 @@
 \renewcommand{\leftmark}{Introduction}
 
 
-\epigraph{\noindent Celui qui tombe obstiné en son courage, qui, pour quelque danger de la mort voisine, ne relâche aucun point de son assurance, qui regarde encore, en rendant l’âme, son ennemi d’une vue ferme et dédaigneuse, il est battu, non pas de nous, mais de la fortune ; il est tué, non pas vaincu : les plus vaillants sont parfois les plus infortunés. Aussi y a-t-il des pertes triomphantes à l’envi des victoires…\par
-}{
+\begin{epigraph}
+\noindent Celui qui tombe obstiné en son courage, qui, pour quelque danger de la mort voisine, ne relâche aucun point de son assurance, qui regarde encore, en rendant l’âme, son ennemi d’une vue ferme et dédaigneuse, il est battu, non pas de nous, mais de la fortune ; il est tué, non pas vaincu : les plus vaillants sont parfois les plus infortunés. Aussi y a-t-il des pertes triomphantes à l’envi des victoires…\par
+
 \bibl{Montaigne}
-}
+\end{epigraph}
 
 
 \chaptercont
@@ -1127,10 +1142,11 @@ Mais où est Calvin en cette heure d’épouvante ? Il a préféré rester dans
 \renewcommand{\leftmark}{Le manifeste de la tolérance}
 
 
-\epigraph{\noindent Chercher la vérité et la dire, telle qu’on la pense, n’est jamais criminel. On ne saurait imposer à personne une conviction. Les convictions sont libres.\par
-}{
+\begin{epigraph}
+\noindent Chercher la vérité et la dire, telle qu’on la pense, n’est jamais criminel. On ne saurait imposer à personne une conviction. Les convictions sont libres.\par
+
 \bibl{Sébastien Castellion}
-}
+\end{epigraph}
 
 
 \chaptercont
@@ -1594,12 +1610,11 @@ La réponse de Castellion à Théodore de Bèze est remplie d’une tristesse pr
 
 \noindent Il est vraiment inouï qu’un langage aussi poignant, aussi profondément humain n’ait pas été entendu. Mais l’une des absurdités de la nature de l’homme est que les idéologues voués à une seule doctrine sont complètement insensibles à tout ce qui n’est pas elle. Et comme l’étroitesse de la pensée engendre l’injustice dans l’action, il en résulte un fanatisme qui ne laisse point place à la tolérance et à l’esprit de conciliation. Cet appel émouvant d’un homme qui ne désire que la paix et n’a pas la moindre ambition d’imposer ses idées à qui que ce soit ne fait aucune impression sur Calvin. Il le repousse comme une \emph{monstruosité}. Et aussitôt commence une nouvelle offensive à l’aide de tous les gaz asphyxiants de l’ironie et de la haine. On invente un autre mensonge, le plus perfide de tous, pour jeter la suspicion, ou tout au moins le ridicule, sur Castellion. Alors que tous les divertissements théâtraux sont considérés comme un péché et strictement interdits au peuple genevois, on fait jouer au séminaire de Genève par les disciples de Calvin une \emph{pieuse} comédie où Castellion est représenté, sous le nom transparent de \foreign{parvo Castello}, dans le rôle de premier serviteur de Satan, à qui l’on met dans la bouche les vers suivants :\par
 
-
-\begin{verse}
-Quant à moi, un chacun je sers\\
-Pour argent en prose ou en vers\\
-Aussi ne vis-je d’autre chose…\\
-\end{verse}
+\begin{poem}
+Quant à moi, un chacun je sers \\
+Pour argent en prose ou en vers \\
+Aussi ne vis-je d’autre chose… \\-
+\end{poem}
 
 \noindent Ainsi on ose lancer contre cet homme, qui a toujours vécu dans une pauvreté apostolique, l’odieuse calomnie qu’il vend sa plume et ne défend la doctrine de la tolérance qu’en qualité d’agitateur payé des papistes. Mais, que ce soit vrai ou faux, peu importe à la haine des calvinistes, une seule pensée les anime : obtenir le renvoi de Castellion de l’Université, faire brûler ses ouvrages et lui-même si possible.\par
 Aussi, c’est avec la plus grande joie qu’ils accueillent la découverte à Genève, lors d’une perquisition, d’un livre que deux bourgeois ont été surpris en train de lire et qui – chose criminelle – ne porte pas l’imprimatur de Calvin. Sur la couverture de cet opuscule intitulé \emph{Conseil à la France désolée}, ni le nom de l’auteur ni le lieu de l’impression ne sont indiqués. Cela sent déjà l’hérésie. Les deux bourgeois sont traînés devant le Consistoire. Par peur de la torture, ils déclarent que l’ouvrage leur a été prêté par un neveu de Castellion. C’est assez pour que les chasseurs se précipitent avec une ardeur fanatique sur la trace toute fraîche qui les mènera enfin à la proie tant désirée.\par
@@ -1659,15 +1674,16 @@ Cette mort fait s’écrouler la calomnie : ses concitoyens reconnaissent, trop
 \renewcommand{\leftmark}{Les extrêmes se touchent}
 
 
-\epigraph{Le temps est trouble, le temps se éclaircira\\
-Après la pluie l’on attend le beau temps\\
-Après noises et grands divers contents\\
-\\
-Paix adviendra et malheur cessera.\\
-Mais entre deux que mal l’on souffrira\\
-}{
+\begin{epigraph}
+\spl{Le temps est trouble, le temps se éclaircira}
+\spl{Après la pluie l’on attend le beau temps}
+\spl{Après noises et grands divers contents}
+\spl{}
+\spl{Paix adviendra et malheur cessera.}
+\spl{Mais entre deux que mal l’on souffrira}
+
 \bibl{Chanson de Marguerite d’Autriche}
-}
+\end{epigraph}
 
 
 \chaptercont
