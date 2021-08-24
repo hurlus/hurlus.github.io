@@ -22,6 +22,10 @@ blockquote {
   font-size: 1.6rem;
 }
 
+p.p {
+  text-align: justify;
+}
+
 blockquote {
   color: #6d6d6d;
 }
@@ -29,6 +33,8 @@ blockquote {
 p.label {
   color: var(--rubric);
   text-align: center;
+  font-weight: 900;
+  margin: 2rem 0;
 }
 
 a {
@@ -40,7 +46,7 @@ a:hover {
 }
 
 .inner {
-  width: 100ex;
+  width: 80ex;
 }
 
 #container {
