@@ -3,12 +3,32 @@
 
 @import "{{ site.theme }}";
 
+:root{
+  --rubric: #961e00;
+}
+
 * {
 
 }
 
 body {
   background: #fff;
+  color: #000;
+  font-size: 15pt;
+}
+
+p.label,
+blockquote {
+  font-size: 1.6rem;
+}
+
+blockquote {
+  color: #6d6d6d;
+}
+
+p.label {
+  color: var(--rubric);
+  text-align: center;
 }
 
 a {
