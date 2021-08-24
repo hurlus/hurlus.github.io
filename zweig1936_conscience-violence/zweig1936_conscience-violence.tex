@@ -126,6 +126,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -309,8 +310,8 @@
 % commands, blocks
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-
-\newcommand{\bibl}[1]{{\smallskip\setlength{\RaggedLeftLeftskip}{2em plus \leftskip}\RaggedLeft\normalsize\normalfont #1\par\medskip}}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -357,7 +358,8 @@
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
-\newenvironment{epigraph}{\leftskip1.5\parindent \sffamily\large}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
@@ -508,6 +510,7 @@
 \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
 \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
+\setsansfont{Roboto Light} % seen, problem if not set
 \ifav
   \setmainfont[
     ItalicFont={Roboto Light Italic},
@@ -1727,10 +1730,9 @@ La doctrine calviniste a perdu plus vite qu’on ne le pensait son intolérance 
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
   Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
   En page de garde, on peut ajouter une date, un lieu, un nom ;
   comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
+  pour suivre le voyage du texte. Qui sait, un jour, il vous reviendra ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
@@ -1741,14 +1743,13 @@ La doctrine calviniste a perdu plus vite qu’on ne le pensait son intolérance 
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 
