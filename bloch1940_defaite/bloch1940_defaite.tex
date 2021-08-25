@@ -32,18 +32,14 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -67,7 +63,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -93,12 +89,12 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -110,9 +106,12 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{poetry} % <l>, bad for theater
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -123,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -130,41 +130,40 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
 
-% TOTEST
-% \usepackage{hypcap} % links in caption ?
-% \usepackage{marginnote}
-% TESTED
-% \usepackage{background} % doesn’t work with xetek
-% \usepackage{bookmark} % prefers the hyperref hack \phantomsection
-% \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
-% \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
-% \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
-% \usepackage{flushend} % bad for last notes, supposed flush end of columns
-% \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
-% \usepackage{helvet} % not for XeLaTeX
-% \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
-% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
-% \usepackage{sectsty} % \chapterfont OBSOLETE
-% \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
-% \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
-
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ L'étrange défaite }\\ \medskip
-\textit{ Témoignage écrit en 1940 }}
+\title{\textbf{ L'étrange défaite }\par
+\medskip
+\textit{ Témoignage écrit en 1940 }\par
+}
 \date{1940}
 \author{Marc Bloch}
 \def\elbibl{Marc Bloch. 1940. \emph{L'étrange défaite}}
 \def\elsource{Marc Bloch. \emph{L'Étrange défaite}. Témoignage écrit en 1940.}
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Marc Bloch\par}\bigskip
+  {\Large 1940\par}\bigskip
+  {\LARGE
+\bigskip\textbf{L'étrange défaite}\par
+\bigskip\emph{Témoignage écrit en 1940}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -187,11 +186,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -216,6 +210,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -267,6 +269,7 @@
   \let\LettrineFontHook\oldLFH
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
+\newcommand{\lnatt}[1]{\reversemarginpar\marginpar[\sffamily\scriptsize #1]{}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
 \newcommand\name[1]{#1}
 \newcommand\orig[1]{#1}
@@ -275,12 +278,14 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -288,28 +293,34 @@
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
+\newcommand{\docAuthor}[1]{{\large\bigskip #1 \par\bigskip}}
+\newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
+\newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1\par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily #1\par}\bigskip}
+\newcommand{\stagesp}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily #1\par\endgroup} % left margin, better than list envs
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
 \newenvironment{citbibl}{\ifvmode\hfill\fi}{\ifvmode\par\fi }
-\newenvironment{docAuthor}{\ifvmode\vskip4pt\fontsize{16pt}{18pt}\selectfont\fi\itshape}{\ifvmode\par\fi }
-\newenvironment{docDate}{}{\ifvmode\par\fi }
-\newenvironment{docImprint}{\vskip6pt}{\ifvmode\par\fi }
-\newenvironment{docTitle}{\vskip6pt\bfseries\fontsize{18pt}{22pt}\selectfont}{\par }
 \newenvironment{msHead}{\vskip6pt}{\par}
 \newenvironment{msItem}{\vskip6pt}{\par}
-\newenvironment{titlePart}{}{\par }
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -331,11 +342,23 @@
 {\def\@noitemerr
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
+\newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{titlePage}
+  {\Centering}
+  {}
+
+
+
+
+
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -368,8 +391,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -402,14 +423,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -417,20 +446,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -441,7 +467,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -449,6 +475,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -464,21 +493,23 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -492,7 +523,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -502,10 +533,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -513,6 +545,7 @@
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -526,8 +559,8 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [display]{}{}{}{}
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -579,34 +612,25 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
-  \smallskip
-  {\large\eldate}\par
+  \centering\parindent0pt % no vskip ()
+  \eltitlepage
   \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  {\color{rubric}\hline}
   \bigskip
-  {\color{rubric}\hline\par}
-  \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\bfseries{\elauthor}}\par
-  \bigskip
-  {\Large\eldate}\par
-  \bigskip
-  \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -636,17 +660,20 @@
 \bigskip
 
 \pagestyle{main} % after style
-
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
   
 \chapteropen
-\chapter[{Chapitre premier}]{Chapitre premier}\renewcommand{\leftmark}{Chapitre premier}
+
+\chapter[{Chapitre premier}]{Chapitre premier}
+\renewcommand{\leftmark}{Chapitre premier}
 
 
 \chaptercont
 \noindent   Ces pages seront-elles jamais publiées ? Je ne sais. Il est probable, en tout cas, que, de longtemps, elles ne pourront être connues, sinon sous le manteau, en dehors de mon entourage immédiat. Je me suis cependant décidé à les écrire. L’effort sera rude : combien il me semblerait plus commode de céder aux conseils de la fatigue et du découragement ! Mais un témoignage ne vaut que fixé dans sa première fraîcheur et je ne puis me persuader que celui-ci doive être tout à fait inutile. Un jour viendra, tôt ou tard, j’en ai la ferme espérance, où la France verra de nouveau s’épanouir, sur son vieux sol béni déjà de tant de moissons, la liberté de pensée et de jugement. Alors les dossiers cachés s’ouvriront ; les brumes, qu’autour du plus atroce effondrement de notre histoire commencent, dès maintenant, à accumuler tantôt l’ignorance et tantôt la mauvaise foi, se lèveront peu à peu ; et, peut-être les chercheurs occupés à les percer trouveront-ils quelque profit à feuilleter, s’ils le savent découvrir, ce procès-verbal de l’an 1940.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Je n’écris pas ici mes souvenirs. Les petites aventures personnelles d’un soldat, parmi beaucoup, importent, en ce moment, assez peu et nous avons d’autres soucis que de rechercher le chatouillement du pittoresque ou de l’humour. Mais un témoin a besoin d’un état civil. Avant même de faire le point   de ce que j’ai pu voir, il convient de dire avec quels yeux l’ai vu.\par
@@ -666,7 +693,7 @@ Mais cette occupation même n’eut qu’un temps. Réduit dorénavant, jour apr
 Combien il fut inattendu, rien ne le montrera mieux qu’un petit souvenir personnel. Je m’étais rendu le 9 à Paris, pour gagner, le lendemain matin, de bonne heure, Meaux. Là je devais me procurer, auprès du Service des Carburants de l’état-major général, quelques carnets de ces bons d’essence qui, distribués aux unités par mes soins, leur servaient à opérer réglementairement leurs perceptions. A mon arrivée à Meaux, j’ignorais encore tout des événements de la nuit. Ces messieurs du G.Q.G. furent naturellement fort étonnés de voir apparaître, en une pareille conjoncture, pour une mission si peu guerrière, un officier venu tout exprès d’une des armées du front de Belgique. Après quelques minutes de quiproquo, je compris enfin les raisons de cet accueil un peu gêné : juste à temps pour me précipiter à la gare, traverser Paris et, y ayant pris d’assaut un train invraisemblablement bondé, rejoindre enfin mon poste.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Ce que furent les trois semaines qui suivirent, je me suis promis de ne pas le raconter ici en détail. Il sera temps, tout à l’heure, d’en tirer les leçons. Quelques images, choisies parmi la foule de celles qui se pressent à ma mémoire, suffiront à jalonner   le cours de ces journées et de ces nuits, toutes remplies par la grande tragédie de la campagne du Nord.\par
@@ -692,31 +719,33 @@ Essayer de m’enfuir vers l’ouest — à supposer qu’il me fût encore poss
 Je passai ainsi une douzaine de jours à Rennes. Sans cesse, dans la rue, au restaurant, à l’hôtel même, j’y coudoyais des officiers allemands, partagé chaque fois entre le poignant chagrin de voir les villes de mon pays livrées à l’envahisseur, la surprise d’une cohabitation pacifique avec des hommes que j’aurais abordés, quelques jours plus tôt, seulement revolver au poing, le malicieux plaisir, enfin, de jouer, sans qu’ils s’en doutassent, un bon tour à ces messieurs. A vrai dire, cette dernière satisfaction n’était pas elle-même sans mélange. Il y a toujours, à mon goût, une certaine gêne à vivre dans le   mensonge ; et bien que celui-là eût, je crois, aisément trouvé grâce devant les plus sévères casuistes, je m’étonnais parfois de réussir à le soutenir avec tant de persévérance. Les trains une fois rétablis, je gagnai Angers, où j’ai des amis ; puis, de là, par la route, Guéret et les miens. De ces doux moments de la « revoyure », comme disait si bien notre vieux langage, on ne trouvera rien ici. Pour en parler, ils font trop fort bondir mon cœur. Que le silence soit sur eux !\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent On voit donc comment se circonscrit mon expérience. J’entends de cette guerre-ci ; car la précédente n’aura à intervenir que comme fond de tableau. J’ai participé au travail et à la vie d’états-majors d’un rang assez élevé. Je n’ai certes pas su tout ce qui s’y faisait. Il m’est arrivé parfois, on s’en rendra compte, d’ignorer jusqu’aux renseignements les plus nécessaires à mon service propre. Mais j’ai pu observer, au jour le jour, les méthodes et les hommes. Je n’ai, par contre, jamais vu de près, moi-même, le combat. Avec la troupe, je n’ai eu que de trop rares contacts. Là-dessus, force m’est de m’en remettre, avant tout, à d’autres témoignages, que j’ai été bien placé pour recueillir et peser. C’est assez, sans doute, sinon pour remplacer la vision directe, dont rien n’égale jamais, si les yeux sont bons, l’authenticité ni la saveur humaine, du moins pour justifier certaines réflexions. Aussi bien, nul ne saurait prétendre avoir tout contemplé ou tout connu. Que chacun dise franchement ce qu’il a à dire ; la vérité naîtra de ces sincérités convergentes.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 
 \begin{center}
-\noindent \centerline{* *}
+* *
 \end{center}
 
 \chapterclose
 
 
 \chapteropen
-\chapter[{Chapitre II}]{Chapitre II}\renewcommand{\leftmark}{Chapitre II}
+
+\chapter[{Chapitre II}]{Chapitre II}
+\renewcommand{\leftmark}{Chapitre II}
 
 
 \chaptercont
 
 \begin{center}
-\noindent \centerline{La déposition d’un vaincu}\par
+La déposition d’un vaincu\par
 \end{center}
 
 \noindent   Nous venons de subir une incroyable défaite. A qui la faute ? Au régime parlementaire, à la troupe, aux Anglais, à la cinquième colonne, répondent nos généraux. A tout le monde, en somme, sauf à eux. Que le père Joffre était donc plus sage ! « Je ne sais pas, disait-il, si c’est moi qui ai gagné la bataille de la Marne. Mais il y a une chose que je sais bien : si elle avait été perdue, elle l’aurait été par moi. » Sans doute entendait-il surtout rappeler, par là, qu’un chef est responsable de tout ce qui se fait sous ses ordres. Peu importe qu’il n’ait pas eu lui-même l’initiative de chaque décision, qu’il n’ait pas connu chaque action. Parce qu’il est le chef et a accepté de l’être, il lui appartient de prendre à son compte, dans le mal comme dans le bien, les résultats. La grande vérité que cet homme simple exprimait si simplement prend cependant aujourd’hui un sens encore plus plein. Au retour de la campagne, il n’était guère, dans mon entourage, d’officier qui en doutât ; quoi que l’on pense des causes profondes du désastre, la cause directe — qui demandera elle-même à être expliquée — fut l’incapacité du commandement \footnote{ Au surplus, c’est le général Weygand, ancien directeur du Centre des hautes études militaires, ancien généralissime, qui l’a dit, le 25 mai 1940 ({\itshape Les Documents secrets de l’État-Major général français}, p. 140) : « La France a commis l’immense erreur d’entrer en guerre n’ayant ni le matériel qu’il fallait, {\itshape ni la doctrine militaire qu’il fallait} [Juillet 1942.]}.   Je crains bien que ce propos, par sa brutalité, ne choque, chez beaucoup, des préjugés puissamment enracinés. Notre presse, presque tout entière, et tout ce qu’il y a, dans notre littérature, de foncièrement académique, ont répandu dans notre opinion le culte du convenu. Un général est, par nature, un grand général ; et lorsqu’il a mené son armée à la débâcle, il arrive qu’on le récompense par un cordon de la Légion d’honneur. Ainsi s’imagine-t-on, sans doute, entretenir, par un voile pudiquement jeté sur les pires erreurs, la confiance de la nation ; alors qu’en réalité on ne fait que semer, parmi les exécutants, un dangereux agacement. Mais il y a plus, et peut-être, plus respectable.\par
@@ -739,7 +768,7 @@ Un remède existe, il est vrai, simple et bien connu. Il suffit d’établir, pa
 Honnêtes, éminemment désireux de bien faire, profondément patriotes, plus déliés aussi d’esprit, pour la plupart, que la masse polytechnicienne ou saint-cyrienne, dont ils sont issus, parfois même véritablement brillants, les officiers d’état-major constituent donc, dans leur ensemble, un corps digne d’estime. Il est pourtant indiscutable que par eux-mêmes ou par les chefs sortis d’eux, ils nous ont conduits à la défaite. Pourquoi ? Avant de chercher à l’expliquer, mieux vaudra, sans doute, tâcher de décrire comment.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Je ne prétends nullement écrire ici une histoire critique de la guerre, ni même de la campagne du Nord. Les documents, pour cela, me manquent ; et aussi, la compétence technique. Mais il est, dès maintenant, des constatations trop claires pour qu’on hésite à les formuler, sans plus attendre.\par
@@ -761,7 +790,7 @@ Il serait certainement peu équitable de borner aux échelons supérieurs les ob
 Cette guerre a donc été faite de perpétuelles surprises. Il en résulta, sur le plan moral, des conséquences qui semblent avoir été fort graves. Je vais toucher, ici, à un sujet délicat et sur lequel, on le sait, je n’ai le droit que d’avoir des impressions un peu lointaines. Mais il importe que certaines choses soient dites, brutalement, s’il le faut. L’homme est ainsi bâti qu’il se bande à affronter un danger prévu, au lieu où il l’a prévu, beaucoup plus aisément qu’il ne supportera jamais le brusque surgissement d’une menace de mort, au détour d’un chemin prétendument paisible. J’ai vu naguère, après la Marne, une troupe qui, la veille, était montée bravement en ligne, sous un affreux bombardement, succomber à la panique, parce que trois obus étaient tombés, sans blesser personne, le long d’une route, au bord de laquelle on venait de former les faisceaux, pendant la corvée d’eau. « Nous sommes partis parce que les Allemands étaient là » : j’ai entendu plusieurs fois ces mots, en mai et juin derniers. Traduisez : là où nous ne les attendions point, où rien ne nous avait permis de supposer que nous devions les attendre. En sorte que certaines défaillances, qui, je le crains, ne sont guère niables, ont eu leur principale origine dans le battement trop lent auquel on avait dressé les cerveaux. Nos soldats ont été vaincus, ils se sont, en quelque mesure, beaucoup trop facilement laissé vaincre, avant tout parce que nous pensions en retard.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Les rencontres avec l’ennemi n’ont pas seulement été trop souvent, par le lieu et l’heure, inattendues. Elles se produisaient aussi, pour la plupart, et se   produisirent surtout avec une fréquence croissante, d’une façon à laquelle ni les chefs ni, par suite, les troupes ne s’étaient préparés. On aurait bien admis de se canarder, à longueur de journée, de tranchée à tranchée — fût-ce, comme nous le faisions jadis, dans l’Argonne, à quelques mètres de distance. On eût jugé naturel de se chiper, de temps à autre, un petit poste. On se serait senti fort capable de repousser, de pied ferme, un assaut, derrière des barbelés, même plus ou moins démolis sous les « minen » ; ou de partir soi-même à l’attaque, héroïquement, vers des positions déjà pilonnées — bien qu’imparfaitement peut-être — par l’artillerie. Le tout, réglé par les états-majors, sur de belles idées de manœuvres, longuement, savamment mûries, de part et d’autre. Il paraissait beaucoup plus effrayant de se heurter, soudain, à quelques chars, en rase campagne. Les Allemands, eux, couraient un peu partout, à travers les chemins. Tâtant le terrain, ils s’arrêtaient là où la résistance s’avérait trop forte. S’ils tapaient « dans du mou », ils fonçaient au contraire, exploitant, après coup, leurs gains pour monter une manœuvre appropriée, ou plutôt, selon toute apparence, choisissant alors dans la multitude des plans que, conformément au méthodique opportunisme, si caractéristique de l’esprit hitlérien, ils avaient, d’avance, tenus en réserve. Ils croyaient à l’action et à l’imprévu. Nous avions donné notre foi à l’immobilité et au déjà fait.\par
@@ -769,7 +798,7 @@ Rien de plus significatif à cet égard, que les derniers épisodes de la campag
 Est-ce à dire qu’à ce moment même — celui, exactement, où Pétain annonça qu’il demandait l’ar­mistice — toute défense fût devenue — impossible ? Plus d’un officier pensait le contraire. Parmi les jeunes, surtout : car, depuis que les événements s’étaient précipités, une frontière de plus en plus tranchée tendait à séparer les générations. Mais les chefs n’appartenaient malheureusement pas à celle qui jouissait des artères cérébrales les plus souples. Je pense encore aujourd’hui que nos « jusqu’au­ boutistes », comme on disait en 1918, n’avaient pas tort. Ils rêvaient d’une guerre modernisée, d’une chouannerie contre chars et détachements motorisés. Quelques-uns même, si je ne me trompe, en avaient dressé les plans, qui doivent dormir maintenant dans leurs dossiers. La motocyclette, dont l’ennemi faisait un si grand et bon usage, ne circule vite et sans trop d’accidents que sur d’honnêtes chaussées ; même le véhicule à chenillettes se déplace sur le macadam moins lentement qu’en pleins champs ; le canon ou le tracteur du type normal n’admet pas d’autres voies. C’est pourquoi, fidèles à leur programme de rapidité, les Allemands, de plus en plus, lançaient leurs éléments de contact à peu près exclusivement sur routes. Il n’était donc nul besoin de se garder par des   positions allongées sur plusieurs centaines de kilomètres, presque impossibles à garnir et terriblement faciles à repérer. Quel mal, au contraire, n’auraient pas fait aux envahisseurs quelques îlots de résistance, bien placés auprès des itinéraires routiers, bien camouflés, suffisamment mobiles et pourvus de quelques mitrailleuses et de quelques canons antitanks, voire de modestes 75 ! Quand j’aperçus, dans Rennes, la colonne allemande, qui, composée, pour une très large part, de motocyclistes, défilait paisiblement sur le boulevard Sévigné, je sentis se réveiller en moi de vieux réflexes de fantassin : bien inutilement, car nous n’avions sous la main que nos secrétaires ou les hommes du Parc d’Essence, les uns comme les autres, dès le début de la campagne, absurdement démunis d’armes. Il eût été pourtant bien tentant de l’attendre, la maudite colonne, au coin de quelques boqueteaux, dans ce pays breton, si favorable aux embûches ; fût-ce seulement avec le modeste matériel d’une compagnie d’engins. Puis, une fois le premier effet de désarroi obtenu, on aurait vite regagné le « bled » pour recommencer plus loin. Je suis bien sûr que les trois quarts de nos soldats se seraient promptement passionnés au jeu. Hélas ! les règlements n’avaient rien prévu de pareil.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Cette guerre accélérée, il lui fallait, naturellement, son matériel. Les Allemands se l’étaient donné. La France non, ou, du moins, pas en suffisance. On l’a dit et redit : nous n’avons pas eu assez de chars, pas assez d’avions, pas assez de camions, de motos ou de tracteurs et, par là, nous avons été empêchés, dès le principe, de mener les opérations comme il eût convenu de le faire. Cela est vrai, incontestablement et il n’est pas moins certain que de cette lamentable et fatale pénurie, les causes ne furent pas toutes   d’ordre spécifiquement militaire \footnote{Je me rends mieux compte aujourd’hui que ce matériel, certainement insuffisant, ne manquait cependant point autant qu’on l’a dit. Il manquait sur le front. Mais nous avions, à l’arrière, des chars immobilisés dans les magasins et des avions qui ne volèrent jamais. Les uns comme les autres, parfois, en pièces détachées. Que se passa-t-il à Villacoublay, lors de l’avance de l’armée allemande sur Paris ? Est-il exact que, comme on me l’a dit, il fallut détruire sur le terrain, un grand nombre d’avions, faute d’aviateurs capables de leur faire prendre l’air ? Ce dernier trait ne me paraît point invraisemblable. Je connais un aviateur civil, dûment mobilisé, qui, durant toute la guerre, n’a jamais été autorisé à monter un avion militaire.}. Nous saurons, là-dessus aussi, le moment venu, ne rien taire. Les fautes des uns, cependant, n’excusent point celles des autres et le haut commandement aurait mauvais gré, pour sa part, à plaider l’innocence.\par
@@ -777,12 +806,12 @@ Passons, si l’on veut, condamnation sur le crime stratégique, qui voua les tr
 }.\par
 
 \begin{center}
-\noindent \centerline{}\par
+\par
 \end{center}
 
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent On a raconté que Hitler, avant d’établir ses plans de combat, s’était entouré d’experts en psychologie. J’ignore si le trait est authentique. Il ne paraît pas incroyable. Certainement, l’attaque aérienne, telle que les Allemands la pratiquèrent avec tant de brio, attestait une connaissance très poussée de la sensibilité nerveuse et des moyens de l’ébranler. Qui, l’ayant une fois entendu, oubliera jamais le sifflement des avions « piquant » vers le sol, qu’ils s’apprêtaient à couvrir de bombes ? Ce long cri strident n’effrayait pas seulement par son association avec des images de mort et de ruines. En lui-même, par ses qualités, si j’ose dire, proprement acoustiques, il crispait l’être tout entier et le préparait à la panique. Or, il semble bien avoir été volontairement rendu plus intense à l’aide d’appareils vibrants appropriés. C’est que le bombardement par avions n’avait pas été conçu, par les Allemands, uniquement comme un procédé de destruction et de massacre. Si serrés qu’on en imagine les points de chute, des projectiles   ne réussissent jamais à atteindre qu’un nombre d’hommes relativement faible. Un choc des nerfs, au contraire, peut se propager fort loin et anémier la capacité de résistance des troupes, sur de vastes espaces. Tel était, sans nul doute, un des principaux objets que se proposait le commandement ennemi, en lançant sur nous, vague après vague, son aviation. Le résultat ne répondit que trop bien à ses espérances.\par
@@ -792,7 +821,7 @@ Le bombardement aérien n’est probablement pas, en soi, plus réellement dange
 Les projectiles tombent de très haut et semblent, à tort, en tomber tout droit. Le jeu combiné du poids et de l’altitude leur imprime un élan visiblement formidable, auquel les obstacles les plus solides paraissent incapables de résister. Il y a, dans une pareille direction d’attaque, doublée d’une pareille force, quelque chose d’inhumain. Comme devant un cataclysme de la nature, le troupier courbe la tête sous ce déchaînement, incline à se croire absolument sans défense. (En réalité, un fossé, même « un plat ventre », exécuté à temps, protègent fort bien des éclats, généralement moins nombreux que ceux d’un bon obus. Toute réserve faite, bien entendu, des coups directs de la bombe. Mais, qu’il s’agisse d’aviation ou d’artillerie, il y a, comme disent les vieux soldats, « beaucoup de place à côté »). Les bruits sont odieux, sauvages, énervants à l’extrême : tant le sifflement, intentionnellement accru, dont je parlais à l’instant, que la détonation par où tout le corps est secoué dans ses moelles. Cette déflagration même, brassant l’air ambiant avec une violence inouïe, impose à l’esprit une image de déchirement, que confirme trop bien le spectacle des cadavres abominablement déchiquetés et enlaidis, jusqu’à l’horreur, par les traces des gaz échappés à l’explosion. Or, l’homme, qui redoute toujours de mourir, ne supporte jamais plus mal l’idée de sa fin que s’il s’y ajoute la menace d’un écharpement total de son être physique ; l’instinct de conservation n’a peut-être pas de forme plus illogique que celle-là ; mais aucune, non plus, qui soit plus profondément enracinée. Probablement, si la guerre véritable avait duré davantage, nos armées auraient-elles fini par acquérir, vis-à-vis des affres du bombardement par avions, un peu de cette accoutumance qui est un   des éléments presque indispensables de toute résistance au péril. Le raisonnement eût montré que, terribles assurément, les effets matériels n’en sont pourtant pas sans égal. Dans une guerre de vitesse, les calculs de la psychologie allemande devaient nécessairement toucher juste. Quelles gorges chaudes cependant, dans nos états-majors, si on avait seulement émis l’hypothèse qu’on pût tirer de leur laboratoire, pour les consulter sur la stratégie, quelques savants bizarrement occupés à mesurer des sensations !\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Dans quelle mesure est-il loisible de parler du désordre des états-majors ? Outre que les habitudes variaient, naturellement, beaucoup selon les groupes ou les chefs, le terme même est d’emploi délicat. Car il y a plus d’une espèce d’ordre et, par suite, de désordre. Tous les états-majors que j’ai connus avaient, parfois jusqu’à une agaçante minutie, le culte du beau « papier ». Il faut que les écritures soient disposées avec beaucoup de netteté. Les formules de style obéissent aux lois d’une tradition rigoureuse. Dans les tableaux, les chiffres s’alignent par colonnes, comme à la parade. Les dossiers sont soigneusement classés ; les pièces, au départ, comme à l’arrivée, dûment enregistrées. C’est là, en somme, ce qu’on pourrait appeler la forme bureaucratique de l’ordre. Rien de plus naturel que de la voir fleurir chez des hommes dressés, en temps de paix, à un genre de vie lui-même éminemment bureaucratique. Je suis très loin de la mépriser : elle force les esprits à la clarté ; elle épargne les pertes de temps. Il est dommage seulement que cet estimable souci de la propreté, dans les écrits, ne s’étende pas toujours aux locaux. Je n’ai jamais rien vu de plus sale ni de plus fétide que la demeure où travaillait un   certain état-major de secteur fortifié ; et l’adjudant de compagnie, qui aurait laissé s’accumuler, dans ses chambrées, la moitié de la poussière qui couvrait, à Bohain, nos tables et nos armoires, n’aurait pas fait long feu dans son grade. Il est vrai que je sais telles antichambres de ministères, très civils, qui ne présentent pas un aspect plus attrayant. Mais ce n’est pas une excuse. M’accusera-t-on de m’attacher à des vétilles ? Je n’apprécie guère, je l’avoue, le négligé dans les choses ; il passe aisément à l’intelligence. Voilà une utile réforme à proposer au « redressement » français.\par
@@ -810,7 +839,7 @@ Dès le début des opérations actives, le P.C. de l’armée avait été transf
 Aussi bien, par quel miracle les ordres seraient-ils   parvenus à temps alors que l’armée, trop souvent, ne savait où toucher ses divers corps ? Un jour que le Corps de Cavalerie avait fait mouvement, l’officier de liaison du Parc d’Essence alla, comme à l’ordinaire, prendre contact avec ces bons clients. A son retour chez nous, je le menai au troisième bureau. Il me paraissait sage de m’assurer si nos grands tacticiens connaissaient, bien exactement, le site du nouveau P.C. Vérification faite, il fallut constater un décalage d’une trentaine de kilomètres entre l’emplacement réel et le point qu’ils avaient déjà marqué au fusain sur la carte. J’entends encore le « merci », jeté du bout des lèvres, qui récompensa notre intervention. Mêmes incertitudes, dans les liaisons latérales. J’eus, un peu plus tard, besoin de dépêcher Lachamp à l’état-major des forces britanniques. L’affaire était d’importance : il ne s’agissait de rien moins que de la destruction des dépôts de Lille. Où trouver le Quartier Général de lord Gort ? Franchissant, une fois de plus, la porte redoutable du troisième bureau, j’allai le demander. B... me répondit, sans sourciller, qu’on n’en savait rien. Heureusement, je réussis à mettre la main sur un bout de papier qui traînait dans les environs et, entre autres indications de nature analogue, portait celle-là. Nos camarades étaient moins mal informés qu’ils ne le supposaient eux-mêmes. Mais, qu’un officier, chargé des opérations, ait pu supporter une minute l’idée d’être, faute d’une indication topographique élémentaire, privé de tout moyen de communiquer avec le commandement des troupes alliées, appelées à combattre immédiatement à notre gauche, et qu’il n’ait pas craint d’avouer froidement cette ignorance même prétendue, le trait en dit long sur les conditions de travail qui nous étaient imposées.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent « Les Anglais », d’ailleurs, avons-nous su jamais organiser notre coopération avec eux ? Nulle part,   la fatale insuffisance de nos liaisons, au sens plein du mot, n’apparut sous un jour plus cruel.\par
@@ -837,7 +866,7 @@ Un jour, donc, prenant mon courage à deux mains, je demandai audience à notre 
 Pendant la campagne, un officier supérieur de notre état-major qui avait déjà eu auparavant quelques contacts avec les Britanniques, fut notre agent ordinaire auprès de leur Q.G. Intelligent et d’esprit beaucoup plus large que la plupart de ses pairs, il   fit, j’en suis persuadé, non seulement de son mieux, mais mieux qu’aucun autre n’aurait pu faire. Mais il n’avait jamais vécu dans l’intimité de nos alliés ; au moment même, il n’y vivait point, passant le plus clair de son temps à courir de P.C. en P.C. Surtout, les circonstances étaient plus que jamais défavorables à l’établissement d’une confiance qui eût pu résister aux événements seulement si elle avait eu pour elle un long enracinement. Une alliance véritable est une création continue ; elle ne s’écrit pas sur le papier ; elle ne subsiste que par une multiplicité de petits rapports humains, dont le total fait un lien solide. Nous l’avions, à la I\textsuperscript{re} Armée, beaucoup trop oublié. Nous souffrîmes durement de notre négligence \footnote{ Sur ces insuffisances de liaison, entre nos forces et le Corps Expéditionnaire, voir l’intervention de Churchill au comité de guerre franco- britannique du 22 mai et son télégramme du 24. {\itshape (Les Documents secrets de l’État-Major général} français, p. 57 et 132, juillet 1942.)}.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent J’avais, je l’ai dit, passé, lors de mon arrivée à l’armée, quelques jours à son 2\textsuperscript{e} bureau, qui est celui des renseignements. Par la suite, mes efforts pour nous procurer une liste, précise et à jour, des dépôts d’essence belges me mirent en rapport aussi avec les 2\textsuperscript{es} bureaux du groupe d’armées et du G.Q.G. J’aurais d’ailleurs été un piètre historien si je n’avais toujours porté un intérêt particulièrement vif à ces questions d’information et de témoignage. Mais, précisément parce que j’étais un historien, les méthodes en usage autour de moi ne tardèrent pas à m’inspirer de cruelles inquiétudes.\par
@@ -852,7 +881,7 @@ Notre 2\textsuperscript{e} bureau, nous le savions bien, n’était pas un modè
 }\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Les erreurs de méthode de notre deuxième bureau et de bien d’autres services, dans l’ensemble des armées, n’étaient certainement pas, pour la plupart, passées inaperçues de nos chefs, et je suis persuadé que, parmi ceux-ci ou dans leur entourage immédiat, il se trouvait plus d’un esprit trop juste pour ne pas les condamner, dans son for intérieur, avec sévérité. Comment se fait-il, cependant, qu’elles n’aient presque jamais provoqué une sanction, voire un simple déplacement ? « On ne sait plus punir dans l’armée française », disaient, parfois, mes jeunes camarades de l’active. Formule, sans doute, un peu brutale. Mais la crise d’autorité qu’elle exprimait n’est pas contestable. Elle demande, seulement, à être analysée de plus près.\par
@@ -866,7 +895,7 @@ A droit ou à tort, l’armée française ne l’avait donc pas oublié et peut-
 Car la mollesse du commandement eut son origine avant tout, je crois, dans des habitudes contractées durant la paix. La manie paperassière y fut pour beaucoup. Ce chef de 2\textsuperscript{e} bureau, qui omit de transmettre au seul officier intéressé un renseignement de première importance, supposez-le, pour un instant, à la tête d’un grand service, dans une entreprise privée. Que se serait-il passé ? Le patron, j’imagine, l’aurait fait appeler, lui aurait dit, toutes portes closes, ses quatre vérités, enfin l’aurait   réexpédié à son travail, avec un « ne recommencez pas » bien senti. Et il n’aurait probablement pas recommencé. Prenez maintenant le cas, tel que je l’ai vu en réalité ; si j’avais cru pouvoir obtenir d’abord de mon supérieur immédiat, puis du chef d’État-major, puis du général d’Armée lui-même qu’une observation fût adressée à l’officier coupable, il m’aurait fallu leur soumettre une note écrite. Pis encore, cette note, selon les sacro-saintes règles hiérarchiques, n’aurait pu avoir d’autre destinataire que le commandant du Corps d’Armée lui-même : car, d’échelon en échelon, on ne correspond qu’entre chefs. L’affaire eût revêtu, dans ces conditions, une gravité telle que tout le monde me déconseillait de m’y lancer ; d’édulcoration en édulcoration, mon papier serait resté en panne, au bout du compte, si jamais il y avait abordé, sur une auguste table. Ajoutez la peur des « histoires », le souci de diplomatie qui, chez des hommes en mal d’avancement devient une seconde nature, la peur de mécontenter un puissant d’aujourd’hui ou de demain. Il fut décidé un jour sur ma proposition que l’allocation en essence d’un Corps d’Armée serait diminuée, celle d’un autre augmentée d’autant. D’où deux notes de service parallèles. L’avis de retranchement, le sous-chef d’état-major qui remplaçait alors le chef, le fit signer par le général Blanchard ; il se réserva, par contre, la signature du papier, qui, au second Corps d’Armée, annonçait d’agréables facilités de consommation. Ainsi paraissait-il n’être pour rien dans la mauvaise nouvelle, pour tout dans la bonne. C’est de la sorte qu’on soigne sa carrière. On la compromet en grondant ou, du moins, quand on n’a pas le cœur bien trempé, on craint, à tort quelquefois, de la compromettre ainsi. La routine, enfin, est, par essence, accommodante. On s’était accoutumé, durant de longues années de bureaucratie, à beaucoup d’insuffisances, qui prenaient rarement un caractère tragique. Les temps changèrent. Non les mœurs. Pour   faire court, ce serait sans doute assez de dire que les états-majors du temps de paix n’étaient pas une bonne école pour le caractère. On ne le vit que trop, de toutes façons\footnote{ Il y a, d’ailleurs là, un gros problème. Nul texte ne le pose avec plus d’éclat que le tome premier des {\itshape Mémoires} de Joffre. On n’y trouvera pas seulement l’étonnante liste des généraux qu’il fallut relever de leur poste dans les premiers mois de la guerre (par exemple, de la mobilisation au 6 septembre 1914, la moitié au moins des commandants de divisions d’infanterie active, la moitié exactement des commandants de divisions de cavalerie). La remarque de Joffre à propos d’un général de corps d’armée : « Il avait fait preuve d’incapacité à passer de la mentalité du temps de paix à la mentalité du temps de guerre », elle vaut, évidemment, pour la plupart des chefs ainsi « limogés », pour près de la moitié, en somme, des chefs du temps de paix. Mais alors, qu’est-ce donc que l’éducation militaire, si elle prépare à tout, sauf à la guerre ? [Juillet 1942.1}.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Un vieux dicton militaire décrit les sentiments mutuels de deux officiers gravissant ensemble les degrés de la hiérarchie : « Lieutenants, amis. Capitaines, camarades. Commandants, collègues. Colonels, rivaux. Généraux, ennemis. » Les discordes des grands chefs, dont on s’entretenait parfois, autour de moi à mots couverts, le lecteur se doute bien que j’ai été mal placé pour en parler savamment. Attisées par les clientèles qui, fatalement, ourdissent autour de chaque « patron » tout un réseau de dévouements et d’intrigues, le déplorable foisonnement des organes du commandement ne leur avait que trop bien préparé le terrain. Avons-nous jamais compris, dans l’armée française, que plus l’ordre ou le renseignement ont à traverser de sédiments successifs, plus ils risquent de ne pas arriver à temps ; que, pis encore, là où le nombre de chefs superposés est trop grand, la responsabilité se dilue entre eux   au point de cesser d’être vivement sentie par aucun ? Cette tare de notre bureaucratie militaire sévissait à tous les niveaux. J’ai déjà indiqué que si, dans le service de l’essence, nous avions observé, à la lettre, le règlement, un escalier à triple degré eût séparé, des exécutants, le représentant de l’Armée. Entre le commandant d’un régiment d’infanterie et la division, l’état-major de l’infanterie divisionnaire fait écran : « organe de retardement », disions-nous, au temps où j’étais moi-même fantassin. Je serais étonné si le surnom avait, depuis, perdu sa raison d’être. Plus haut, il y avait l’Armée ; le Groupe d’Armées, simple instrument de coordination stratégique, en principe, mais qui souvent tenta de sortir de ce rôle ; le Commandement du Théâtre d’opérations du Nord-Est, chargé de la conduite de la guerre sur tout le front français, Alpes exceptées ; le Commandement en chef des Forces Terrestres enfin. Lorsque s’opéra le partage des attributions entre les deux derniers échelons — ou, pour user de termes humains, entre l’état-major Georges et l’état-major Gamelin — j’assistais à un exposé sur la nouvelle organisation du G.Q.G. Le conférencier s’exprimait aussi clairement que possible. Je ne fus pourtant pas le seul à ne tirer de son discours qu’une conclusion un peu nette : on allait, inévitablement, au chaos et aux perpétuels chevauchements. Divers échos, venus, par la suite, à mes oreilles, m’ont montré que nous n’avions pas tort. Encore comptions-nous sans ce troisième embryon d’état-major, caché dans les plus intimes replis du temple : le cabinet militaire du généralissime !\par
@@ -884,7 +913,7 @@ Ce furent également mes enquêtes sur les ressources en essence qui m’enseign
 Je devais le voir, plus clairement encore et dans des circonstances beaucoup plus tragiques, quand il s’agit de reconstituer, en Normandie, avec les rescapés des Flandres, un semblant de forces armées. Nous n’avons pas seulement, à ce moment-là, passé incessamment, de général en général, qui parfois changeaient dans le cours de la même journée et dont chacun, aussitôt pris son commandement, s’empressait de défaire ce que son prédécesseur avait commencé. Par-dessus nos têtes et à nos dépens, ou plutôt aux dépens du pays, se poursuivait l’âpre querelle du G.Q.G. et du Ministère. Nous dépendions, en principe, du second, du moins au début ; car la   Normandie, censée province fort éloignée du front (qui pourtant, dès lors, était sur la Somme), n’appartenait pas à la zone des armées. Mais, c’était le G.Q.G. qui devait nous utiliser. Sans que j’aie besoin d’y insister, on devine bien que ce duel n’aida pas à hâter notre regroupement ni notre réarmement. L’ennemi était, littéralement, aux portes de la cité et déjà plus qu’à ses portes. Les partis n’avaient pas, pour autant, fait taire leurs discordes. Non point partis politiques, en l’espèce. Partis militaires et, par là même, plus coupables encore.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Le courage personnel est, chez qui choisit la carrière des armes, la plus obligatoire de toutes les vertus professionnelles : si indispensable, en vérité, à la bonne conscience du groupe, qu’il y est de règle de la tenir pour allant de soi. Je suis certain que la grande majorité des officiers de l’active a été fidèle à cette brave tradition. S’il y eut, çà et là, des exceptions — j’en ai connu une ou deux durant la dernière guerre ; j’ai cru en retrouver quelques-unes durant celle-ci — elles n’atteignent en rien l’honneur de la collectivité. Elles prouvent simplement que l’habit ne réussit pas toujours à faire le moine, et aussi qu’il est partout des êtres assez dépourvus d’imagination pour adopter un métier sans se représenter à quoi il engage : celui de soldat, par exemple, sans réaliser qu’un jour, peut-être, la vie de garnison devra céder le pas à la guerre. Ces faibles sont, au fond, avant tout, de pauvres gens qui se sont trompés. Reste qu’il est, dans le mépris du danger, bien des nuances et des degrés. Mais comment en parler un peu longuement, sans blesser, dans nos mémoires, de secrètes pudeurs ? Quiconque a vu le feu le sait bien : aux âmes les mieux trempées il arrive parfois de ne dompter qu’à grand-peine la peur : tandis qu’à   d’autres moments, chez le même homme, l’indifférence semble s’établir sans le moindre effort, comme un produit spontané de l’action nécessaire, de l’habitude ou, simplement, du bon équilibre cérébral.\par
@@ -894,7 +923,7 @@ Les cadres subalternes ou moyens de la troupe étaient faits, pour une fraction 
 J’ai déjà suffisamment insisté sur les effets de la surprise. Le mot ne doit pas être entendu que dans son sens purement stratégique. Les pires paralysies du caractère eurent leur origine dans l’état de stupéfaction et de scandale où un rythme de guerre inopiné jeta des hommes préparés, par leurs éducateurs, à une tout autre image du combat. Ce choc psychologique n’épargna pas les officiers de troupes. Mais,   nulle part les ravages n’en furent plus visibles que dans certains services de demi-arrière : étapes, places, états-majors territoriaux. Là, comme partout, quelques âmes vigoureuses se raidirent contre l’épreuve : je sais tel commandant d’étapes, mutilé de l’autre guerre, qui s’offrit comme volontaire pour chercher à dégager un détachement de chars. Ailleurs, malheureusement le repli, sans doute inévitable, prit trop souvent des allures de fuite et, parfois, devança l’événement. Le G.Q.G. dut renvoyer à son poste le général commandant une région militaire ; ce chef avait abandonné sa ville, sans ordre, pour la belle raison qu’à son avis l’ennemi n’en était plus assez loin. De pareilles faiblesses, dont ce n’est pas le seul exemple, méritent assurément le blâme. Sans doute appellent-elles aussi quelque pitié. Dans une autre ambiance, les mêmes personnages se seraient peut-être très honorablement montrés. Là où le sort les avait placés, leur besogne quotidienne prolongeait celle du temps de paix et l’atmosphère mentale avait une odeur poussiéreuse de bureau ou de chefferie. Il était convenu, surtout, qu’on n’était pas sur le front. L’ennemi rompit le contrat. Que n’avait-on mieux expliqué, par avance, à ces honnêtes serviteurs, un peu trop vieillis, pour la plupart, sous le harnois, comment, dans une guerre de vivacité, l’arrière risque toujours de devenir l’avant ?\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Le terrible fut que ce désarroi gagna des milieux beaucoup plus chargés de responsabilités. Nous sommes plusieurs à avoir pu en noter, avec horreur, les affreux progrès, presque au jour le jour, chez quelques-uns des officiers qui occupaient les charges les plus considérables de l’état-major ; chez ceux, notamment, à qui revenait, en propre, le gouvernement des opérations. Les premiers symptômes du mal étaient des signes encore tout extérieurs : yeux   hagards, barbes mal rasées, nervosité qui, d’une agitation fébrile, pour de petites choses, passait brusquement aux feintes d’une impossible sérénité. Quand un chef commence à dire : « A quoi bon ? », gare aux exécutants ! Puis ce fut la marée montante d’un désespoir qui, au lieu d’aiguillonner à l’action, semblait chercher son refuge dans une sorte de paresse somnolente. Je n’ai guère connu de spectacle plus démoralisant que certains affalements dans les fauteuils du troisième bureau. Bien entendu, on se raccrochait, par moment, aux plus invraisemblables illusions, surtout quand l’initiative du salut paraissait devoir venir d’autres que nous. Toute une journée durant, à Attiches, on s’enivra ainsi de l’image d’une secourable armée qui, disait-on, avançait, « à marches forcées », sur Arras et Bapaume. On n’en retombait ensuite que plus bas dans l’atonie de la volonté. L’exemple de celle-ci venait de très haut. « Faites ce que vous voudrez, mon général. Mais, au moins, faites quelque chose. » Ainsi, un de mes camarades entendit un jour, à Lens, un des commandants de corps d’armée interpeller, en ces termes, le général Blanchard.\par
@@ -904,7 +933,7 @@ Je fus réveillé, au petit matin, par le bruit d’une porte qui se refermait, 
 Reconnaissons-le bien, en effet, dans cette expression pour une fois sans détour, le spectre qui a jeté son ombre affreuse sur l’agonie de nos armées de Flandre. Pis encore : sur l’agonie de toutes les armées françaises. « Capitulation » : le mot est de ceux qu’un vrai chef ne prononce jamais, fût-ce en confidence ; qu’il ne pense même jamais. Pas plus qu’il n’annonce à ses troupes, comme devait le faire, le 17 juin, un maréchal jusque-là chargé de tant de gloire, son dessein de solliciter « la cessation des hostilités », avant, bien avant, d’être, à quelques conditions que ce fût, assuré de l’obtenir. Quand un camarade, dont la bravoure était, entre toutes, éclatante, eut écouté, comme moi, ce discours tristement fameux, il me dit : « Nous sommes l’un et l’autre, sans doute, assez sûrs de nous-mêmes. Nous le sentons pourtant bien qu’un rude effort nous sera maintenant nécessaire pour ne pas céder à l’instinct qui nous portera à éviter, beaucoup plus que par le passé,   de nous exposer. Car, est-il idée plus agaçante que de mourir au dernier matin d’une guerre ! De quel cœur le soldat moyen, désormais, va-t-il pouvoir se battre ? » Être un vrai chef, c’est, avant tout peut-être, savoir serrer les dents ; c’est insuffler aux autres cette confiance que nul ne peut donner s’il ne la possède lui-même ; c’est refuser, jusqu’au bout, de désespérer de son propre génie ; c’est accepter, enfin, pour ceux que l’on commande en même temps que pour soi, plutôt que l’inutile honte, le sacrifice fécond. Jadis, des hommes qui n’étaient ni des sots, ni, devant le péril personnel, des lâches, avaient eux aussi trop promptement succombé devant l’infortune. A leur mémoire, l’histoire militaire ne réserve que mépris. « Depuis que j’ai regardé autour de moi, je comprends l’état d’âme de Dupont à Baylen et Bazaine à Metz. » C’est de la bouche d’un jeune officier d’active que, vers la fin de mai, j’ai recueilli ces mots terribles. Mais sans doute était-ce, plutôt, Bazaine qu’il fallait dire ; s’il est vrai, comme l’événement a semblé le prouver, que, dans cet ultime renoncement à tout effort, le découragement eut pour alliés l’esprit de parti et les basses ambitions politiques. En 1940, Bazaine a réussi.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Pour que le chef puisse se roidir contre l’épreuve, il lui faut, avant toute chose, dans un corps non surmené, un cerveau sain. Bazaine n’était pas seulement un politicien. C’était, aussi, un homme usé. Dans le rapide effondrement des ressorts moraux, dans notre commandement, une mauvaise hygiène de travail fut pour beaucoup. Dès les premiers jours de Valenciennes, alors que la situation, sérieuse sans doute, n’avait encore rien qui justifiât le moindre affolement, nous avons vu, non sans effroi, plusieurs officiers, que leurs fonctions appelaient aux décisions les plus graves, passer des nuits blanches, manger à la hâte, sans heures fixes, et, dans le   courant du jour, errant de bureau en bureau ou papillonnant d’affaire en affaire, manquer à se réserver les moments de réflexion posée dont eût pu naître le salut. Probablement, en martyrisant leur guenille, croyaient-ils faire preuve de stoïcisme, de même qu’en courant de droite et de gauche, ils se donnaient l’illusion de l’activité. C’était oublier que la guenille se venge toujours et que, sans un emploi du temps bien réglé, il n’est pas d’activité vraiment féconde. On a toujours, dès les périodes les plus calmes, accepté trop aisément, dans les états-majors, une atmosphère de perpétuel dérangement. Il eût fallu, au contraire, s’y dresser, par avance, à l’organisation des heures, qui, dans la bataille, ne saurait assurément être bien rigoureuse, mais n’en doit pas moins demeurer l’idéal. Nous avons souvent entendu vanter, dans les milieux militaires, le légendaire sommeil du père Joffre. Que ne l’a-t-on mieux imité ?\par
@@ -929,20 +958,22 @@ Mais, sans doute, nos chefs n’auraient‑ils pas, avec autant de coupable comp
 
 
 \chapteropen
-\chapter[{Chapitre III}]{Chapitre III}\renewcommand{\leftmark}{Chapitre III}
+
+\chapter[{Chapitre III}]{Chapitre III}
+\renewcommand{\leftmark}{Chapitre III}
 
 
 \chaptercont
 
 \begin{center}
-\noindent \centerline{Examen de conscience d’un français}\par
+Examen de conscience d’un français\par
 \end{center}
 
 \noindent   Dans une nation, jamais aucun corps professionnel n’est, à lui seul, totalement responsable de ses propres actes. Pour qu’une pareille autonomie morale soit possible, la solidarité collective a trop de puissance. Les états-majors ont travaillé avec les instruments que le pays leur avait fournis. Ils ont vécu dans une ambiance psychologique qu’ils n’avaient pas tout entière créée. Ils étaient eux-mêmes ce que les milieux humains dont ils tiraient leur origine les avaient faits et ce que l’ensemble de la communauté française leur avait permis d’être. C’est pourquoi, ayant dit de son mieux, à la mesure de son expérience, ce qu’il a cru voir des vices de notre commandement militaire et de leur part, dans la défaite, un honnête homme ne saurait, sans se donner l’impression d’une sorte de trahison, en rester là. L’équité veut que le témoignage du soldat se prolonge en un examen de conscience du Français.\par
 Certes, je n’aborde pas, de gaîté de cœur, cette partie de ma tâche. Français, je vais être contraint, parlant de mon pays, de ne pas en parler qu’en bien ; il est dur de devoir découvrir les faiblesses d’une mère douloureuse. Historien, je sais mieux que quiconque les difficultés d’une analyse qui, pour ne pas demeurer trop imparfaite, devrait remonter jusqu’aux ramifications causales les plus lointaines, les plus complexes et, dans l’état actuel des sciences humaines, les plus cachées. Qu’importent ici, cependant, de petits scrupules personnels ? Mes enfants,   qui liront ce bilan, les amis inconnus, sous les yeux desquels il tombera peut-être un jour, comment accepter qu’ils puissent lui reprocher d’avoir biaisé avec le vrai et, sévère pour certaines erreurs, d’avoir gardé complaisamment le silence sur trop d’autres fautes où tout citoyen eut sa part ?\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Les combattants sont rarement satisfaits de l’arrière. Il faut un cœur singulièrement large, quand on couche à la dure, pour pardonner aux compagnons des jours passés leurs lits bien douillets et, sous la mitraille, pour évoquer, sans amertume, la fructueuse sécurité des boutiques que les chalands n’ont pas désertées ou les paisibles charmes du café de province, dont les terrasses ne connaissent de la guerre que les méditations stratégiques. La bataille s’achève-t-elle en désastre ? C’est alors que la brèche, entre les deux moitiés de la nation, menace d’être la plus durable. Le troupier, conscient de ses propres sacrifices, refuse de se tenir pour responsable de leur inutilité. Ses chefs, qui redoutent son jugement, l’encouragent à chercher les coupables partout ailleurs que dans l’armée. Ainsi naît la fatale légende du coup de poignard dans le dos, propice aux redressements à rebours et aux pronunciamientos. Les pages qui précèdent l’ont assez montré : tous les anciens soldats de 1940 ne sont pas disposés a écouter ces semeurs de discorde. Mais force est de reconnaître que l’arrière aussi a beaucoup péché.\par
@@ -958,7 +989,7 @@ Me trompé-je ? Vais-je, à mon tour, céder à la tentation qui porte les homm
 Je ne sais quelle part ce souci d’économiser le sang des jeunes put avoir dans le singulier retard mis à lever et instruire les recrues. Au moment de la débâcle, la classe 1940, dans sa majorité, venait à peine d’être appelée ; elle n’avait encore reçu, pratiquement, aucune instruction. Quant aux adolescents un peu moins âgés et dont beaucoup ne demandaient qu’à suivre les traces de leurs aînés, dans la plupart des villes, rien n’avait été tenté pour leur préparation militaire. De cette invraisemblable négligence quels furent les responsables ? le   commandement ou le gouvernement politique ? (Mais si les états-majors avaient insisté, n’auraient-ils pas enlevé la décision ? ) Sur les motifs, je ne suis pas mieux renseigné. Faut-il croire que l’interminable période d’attente, presque sans pertes, avait fait oublier à nos chefs la nécessité de tenir tout prêts les renforts dont, la bataille venue, ils devaient éprouver un si urgent besoin ? Tel n’aurait pas été, en ce cas, un des effets les moins désastreux de cette longue « pourriture de la guerre », comme disaient les Allemands, qui nous en ont consciemment offert le fallacieux bénéfice. « Nous avons trop d’hommes », disait un officier à un de mes collègues, qui, renvoyé comme père de famille, demandait à rester sous les drapeaux. Craignait-on de manquer d’armes ? Ou enfin, hanté par le souvenir de cette infortunée classe seize, que, les larmes aux yeux, nous avions vu naguère précipitée, presque au sortir de l’enfance, dans la fournaise de la Somme, a-t-on, comme j’en formais l’hypothèse à l’instant, cédé aux conseils d’une pitié un peu molle ? Il est sûr, en tout cas, qu’à nos dirigeants et, sans doute, à nos classes dirigeantes, quelque chose a manqué de l’implacable héroïsme de la patrie en danger.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent A dire vrai, ce mot de classes dirigeantes ne va pas sans équivoque. Dans la France de 1939, la haute bourgeoisie se plaignait volontiers d’avoir perdu tout pouvoir. Elle exagérait beaucoup. Appuyé sur la finance et la presse, le régime des « notables » n’était pas si « fini » que cela. Mais il est certain que les maîtres d’antan avaient cessé de détenir le monopole des leviers de commande. A côté d’eux, sinon les salariés en masse, du moins les chefs des principaux syndicats comptaient parmi les puissances de la République. On l’avait bien   vu, en 1938, par l’usage qu’un ministre, munichois entre les munichois, sut faire de leur truchement pour répandre dans l’opinion un esprit de panique, favorable à ses propres faiblesses. Or, les défaillances du syndicalisme ouvrier n’ont pas été, dans cette guerre-ci, plus niables que celles des états-majors.\par
@@ -989,7 +1020,7 @@ A un universitaire, on pardonnera d’attribuer une assez large part de responsa
 Est-ce dépit d’amoureux ? Historien, j’inclinerai à être particulièrement sévère à l’enseignement de l’histoire. Ce n’est pas l’École de Guerre seulement qui arme mal pour l’action. Non certes que, dans nos lycées, on puisse lui reprocher de négliger le monde contemporain. Il lui accorde, au contraire, une place sans cesse plus exclusive. Mais, justement, parce qu’il ne veut plus regarder que le présent, ou le très proche passé, il se rend incapable de les expliquer : tel un océanographe qui, refusant de lever les yeux vers les astres, sous prétexte qu’ils sont trop loin de la mer, ne saurait plus trouver la cause des marées. Le passé a beau ne pas commander le présent tout entier. Sans lui, le présent demeure inintelligible. Pis encore peut-être : se privant, délibérément, d’un champ de vision et de comparaison assez large, notre pédagogie historique ne réussit plus à donner, aux esprits qu’elle prétend former, le sens du différent ni celui du changement. Ainsi notre politique rhénane, après 1918, s’est fondée sur une image périmée de l’Europe. Elle persistait à croire vivant ce mort : le séparatisme allemand. Ainsi, nos diplomates ont obstinément mis leur foi dans les Habsbourg, ces fantômes décolorés pour albums de salons bien pensants ; on craint les   Hohenzollern plus que Hitler. Autant de faire-part de décès qu’une histoire véritable n’aurait pas omis d’envoyer. Attachés, en outre, presque sans exceptions, aux manifestations les plus superficielles de la vie des peuples, qui sont aussi, aux époques voisines de nous, les plus aisées à saisir, nos programmes scolaires entretiennent l’obsession du politique. Ils reculent, pudiquement, devant toute analyse sociale. Par là, ils manquent à en suggérer le goût. Qu’on veuille bien ne pas m’accuser de beaucoup trop demander à un B. A. de collège ou d’école primaire ! Je ne crois nullement plus difficile d’intéresser un enfant aux vicissitudes d’une technique, voire aux apparentes étrangetés d’une civilisation ancienne ou lointaine, qu’à un changement de ministère ; et ce n’est certes pas dans un manuel selon mon cœur que j’ai vu congrument exposer à des élèves de neuvième comment la monarchie de juillet avait, à la « pairie héréditaire », substitué la « pairie à vie ». N’y avait-il pas mieux à apprendre à ces marmots : rien de plus humain, de plus capable de frapper utilement leur malléable imagination, de plus instructif pour leur dressage de futur citoyen de la France et de la planète. Ici aussi, nous réclamons, toutes fenêtres désormais ouvertes, un grand balayage de l’atmosphère. Ce sera là tâche des jeunes. Pour réformer la préparation intellectuelle du pays, comme le commandement de ses armées, nous comptons sur eux, beaucoup plutôt que sur les cinq académies, les plus hautes autorités de l’Université ou le Conseil supérieur de la Guerre.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent On charge de tous les péchés notre régime politique d’avant guerre. Je ne suis point, pour ma part, tenté d’en dire beaucoup de bien. Que le parlementarisme ait trop souvent favorisé l’intrigue, aux dépens de l’intelligence ou du dévouement. Il me   suffit, pour en être persuadé, de regarder autour de moi. Les hommes qui nous gouvernent aujourd’hui sont, pour la plupart, issus de ces marécages. S’ils renient maintenant les mœurs qui les ont faits ce qu’ils sont, ce n’est que ruse de vieux renards. L’infidèle employé, qui s’est ouvert un coffre-fort, ne laisse pas traîner ses fausses clefs : il aurait bien trop peur qu’un plus malin que lui ne les ramassât, pour le dépouiller, à son tour, du butin.\par
@@ -1004,7 +1035,7 @@ Cependant un régime, quelle que soit la force de résistance propre acquise par
 Surtout, notre mécanisme politique souffrait, jusqu’à en être littéralement coincé, du grand malentendu des Français.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent Il est bon, il est sain que, dans un pays libre, les philosophies sociales contraires se combattent librement. Il est, dans l’état présent de nos sociétés, inévitable que les diverses classes aient des intérêts opposés et prennent conscience de leurs antagonismes. Le malheur de la patrie commence quand la légitimité de ces heurts n’est pas comprise.\par
@@ -1019,7 +1050,7 @@ Or, ces partis pris, les états-majors ne les partageaient que trop bien. Non qu
 Mais le fait est là : et nous pouvons maintenant en mesurer les résultats. Mal instruits des ressources infinies d’un peuple resté beaucoup plus sain que des leçons empoisonnées ne les avaient inclinés à le croire, incapables, par dédain comme par routine, d’en appeler à temps à ses réserves profondes, nos chefs ne se sont pas seulement laissé battre. Ils ont estimé très tôt naturel d’être battus. En déposant, avant l’heure, les armes, ils ont assuré le succès d’une faction. Quelques-uns, certes, cherchèrent, avant tout, dans le coup d’État, le moyen de masquer leur faute. D’autres cependant, dans le haut commandement, presque tous dans les rangs de l’armée étaient loin de poursuivre consciemment d’aussi égoïstes desseins. Ils n’ont accepté le désastre que la rage au cœur. Ils l’ont accepté, cependant trop tôt, parce qu’ils lui trouvaient ces atroces consolations : écraser, sous les ruines de la France, un   régime honni ; plier les genoux devant le châtiment que le destin avait envoyé à une nation coupable.\par
 
 \begin{center}
-\noindent \centerline{*}\par
+*\par
 \end{center}
 
 \noindent J’appartiens à une génération qui a mauvaise conscience. De la dernière guerre, c’est vrai, nous étions revenus bien fatigués. Nous avions aussi, après ces quatre ans d’oisiveté combattante, grande hâte de reprendre sur l’établi, où nous les avions laissés envahir par la rouille, les outils de nos divers métiers ; nous voulions, par des bouchées doubles, rattraper le travail perdu. Telles sont nos excuses. Je ne crois plus, depuis longtemps, qu’elles suffisent à nous blanchir.\par
@@ -1029,19 +1060,21 @@ Les échanges économiques n’obéissent pas aux mêmes lois, selon que les cou
 Je n’étale pas ces remords par délectation morose. L’expérience ne m’a point appris qu’un péché confessé fût, pour cela, moins lourd à porter. Je pense à ceux qui me liront : à mes fils, certainement, à d’autres,   peut-être, un jour, parmi les jeunes. Je leur demande de réfléchir aux fautes de leurs aînés. Peu importe qu’ils les jugent avec l’implacable sévérité des âmes encore fraîches, ou leur réservent un peu de cette indulgence amusée, dont les générations montantes accordent volontiers au vieil âge le dédaigneux bénéfice. L’essentiel est qu’ils les connaissent, pour les éviter.\par
 Nous nous trouvons aujourd’hui dans cette situation affreuse que le sort de la France a cessé de dépendre des Français. Depuis que les armes, que nous ne tenions pas d’une poigne assez solide, nous sont tombées des mains, l’avenir de notre pays et de notre civilisation fait l’enjeu d’une lutte où, pour la plupart, nous ne sommes plus que des spectateurs un peu humiliés. Qu’adviendra-t-il de nous si, par mal aventure, la Grande-Bretagne doit être, à son tour, vaincue ? Notre redressement national en sera, à coup sûr, longuement retardé. Retardé seulement, j’en ai la conviction. Les ressorts profonds de notre peuple sont intacts et prêts à rebondir. Ceux du nazisme, par contre, ne sauraient supporter toujours la tension croissante, jusqu’à l’infini, que les maîtres présents de l’Allemagne prétendent leur imposer. Enfin, les régimes « venus dans les fourgons de l’étranger » ont bien pu jouir, parfois chez nous, d’une certaine durée. Ce n’a jamais été, face aux dégoûts d’une fière nation, que le répit du condamné. N’apercevons-nous pas déjà que la plaie de l’occupation mord, chaque jour, plus cruellement dans nos chairs. L’apparente bonhomie du début ne trompe plus personne. Pour juger l’hitlérisme, il suffit, à notre opinion, de le regarder vivre. Mais combien j’aime mieux évoquer l’image d’une victoire anglaise ! Je ne sais quand l’heure sonnera où, grâce à nos Alliés, nous pourrons reprendre en main nos propres destinées. Verrons-nous alors des fractions du territoire se libérer les unes après les autres ? Se former, vague après vague,   des armées de volontaires, empressées à suivre le nouvel appel de la Patrie en danger ? Un gouvernement autonome poindre quelque part, puis faire tache d’huile ? Ou bien un élan total nous soulèvera-t-il soudain ? Un vieil historien roule ces images dans sa tête. Entre elles, sa pauvre science ne lui permet pas de choisir. Je le dis franchement : je souhaite, en tout cas, que nous ayons encore du sang à verser : même si cela doit être celui d’êtres qui me sont chers (je ne parle pas du mien, auquel je n’attache pas tant de prix). Car il n’est pas de salut sans une part de sacrifice ; ni de liberté nationale qui puisse être pleine, si on n’a travaillé à la conquérir soi-même.\par
 Ce n’est pas aux hommes de mon âge qu’il appartiendra de reconstruire la patrie. La France de la défaite aura eu un gouvernement de vieillards. Cela est tout naturel. La France d’un nouveau printemps devra être la chose des jeunes. Sur leurs aînés de l’ancienne guerre, ils possèderont le triste privilège de ne pas avoir à se garer de la paresse de la victoire. Quel que puisse être le succès final, l’ombre du grand désastre de 1940 n’est pas près de s’effacer. Peut-être est-ce une bonne chose d’être ainsi contraints de travailler dans la rage ? Je n’aurai pas l’outrecuidance de leur tracer un programme. Ils en tireront eux-mêmes les lois du fond de leur cerveau et de leur cœur. Ils en adapteront les contours aux leçons des événements. Nous les supplions seulement d’éviter la sécheresse des régimes qui, par rancune ou orgueil, prétendent dominer les foules, sans les instruire ni communier avec elles. Notre peuple mérite qu’on se fie à lui et qu’on le mette dans la confidence. Nous attendons d’eux aussi que, tout en faisant du neuf, beaucoup de neuf, ils ne rompent point les liens avec notre authentique patrimoine qui n’est point ou qui, du moins, n’est pas tout entier là où de prétendus apôtres de la tradition le veulent mettre. Hitler disait un jour, à Rauschning : « Nous avons raison de   spéculer plutôt sur les vices que sur les vertus des hommes. La Révolution française en appelait à la vertu. Mieux vaudra que nous fassions le contraire. » On pardonnera à un Français, c’est-à-dire à un homme civilisé — car c’est tout un — s’il préfère, à cet enseignement, celui de la Révolution, et de Montesquieu : « Dans un État populaire, il faut un ressort, qui est la vertu. » Qu’importe si la tâche est ainsi rendue plus difficile ! Un peuple libre et dont les buts sont nobles, court un double risque. Mais, est-ce à des soldats qu’il faut, sur un champ de bataille, conseiller la peur de l’aventure ?\par
-{\raggedleft \noindent Guéret-Fougères (Creuse) : juillet-septembre 1940.}
+{\raggedleft Guéret-Fougères (Creuse) : juillet-septembre 1940.}
 \chapterclose
 
 \backmatter 
 \chapteropen
-\chapter[{Le testament de Marc Bloch}]{Le testament de Marc Bloch\protect\footnotemark }\renewcommand{\leftmark}{Le testament de Marc Bloch}
+
+\chapter[{Le testament de Marc Bloch}]{Le testament de Marc Bloch\protect\footnotemark }
+\renewcommand{\leftmark}{Le testament de Marc Bloch}
 
 \footnotetext{\noindent Ce texte avait été confié par Marc Bloch aux siens tandis qu’il menait la vie clandestine. Nous en connaissons peu d’une beauté d’âme et d’écriture aussi parfaite.\par
 Quatre ans après avoir écrit ce Témoignage qu’on vient de lire, un an après ces dernières volontés où il se résumait en une forme de diamant, Marc Bloch tombait sous les balles nazies.
 }
 
 \chaptercont
-\noindent Clermont-Ferrand, le 18 mars 1943.\par
+Clermont-Ferrand, le 18 mars 1943.\par
 Où que je doive mourir, en France ou sur la terre étrangère et à quelque moment que ce soit, je laisse à ma chère femme ou, à son défaut, à mes enfants le soin de régler mes obsèques, comme ils le jugeront bon. Ce seront des obsèques purement civiles : les miens savent bien que je n’en aurais pas voulu d’autres. Mais je souhaite que, ce jour-là — soit à la maison mortuaire, soit au cimetière — un ami accepte de donner lecture des quelques mots que voici :\par
 Je n’ai point demandé que, sur ma tombe fussent récitées les prières hébraïques, dont les cadences, pourtant, accompagnèrent, vers leur dernier repos, tant de mes ancêtres et mon père lui-même. Je me suis, toute ma vie durant, efforcé, de mon mieux, vers une sincérité totale de l’expression et de l’esprit. Je tiens la complaisance envers le mensonge, de quelques prétextes qu’elle puisse se parer, pour la pire lèpre de l’âme. Comme un beaucoup plus grand que moi, je souhaiterais volontiers que, pour toute devise, on gravât sur ma pierre tombale ces simples mots : {\itshape Dilexit veritatem}. C’est pourquoi il m’était impossible d’admettre qu’en cette heure des suprêmes adieux, où tout homme a pour devoir de se résumer soi-même, aucun appel fût fait en mon nom, aux effusions d’une orthodoxie, dont je ne reconnais point le credo. \par
 Mais il me serait plus odieux encore que dans cet acte de probité personne pût rien voir qui ressemblât à un lâche reniement. J’affirme donc, s’il le faut, face à la mort, que je suis né Juif ; que je n’ai jamais songé à m’en défendre ni trouvé aucun motif d’être tenté de le faire. Dans un monde assailli par la plus atroce barbarie, la généreuse tradition des prophètes hébreux, que le christianisme, en ce qu’il eut de plus pur, reprit pour l’élargir, ne demeure-t-elle pas une de nos meilleures raisons de vivre, de croire et de lutter ? Étranger à tout formalisme confessionnel comme à toute solidarité prétendument raciale, je me suis senti, durant ma vie entière, avant tout et très simplement Français. Attaché à ma patrie par une tradition familiale déjà longue, nourri de son héritage spirituel et de son histoire, incapable, en vérité, d’en concevoir une autre où je puisse respirer à l’aise, je l’ai beaucoup aimée et servie de toutes mes forces. Je n’ai jamais éprouvé que ma qualité de Juif mît à ces sentiments le moindre obstacle. Au cours des deux guerres, il ne m’a pas été donné de mourir pour la France. Du moins, puis-je, en toute sincérité, me rendre ce témoignage : je meurs, comme j’ai vécu, en bon Français.\par
@@ -1066,51 +1099,38 @@ Il sera ensuite — s’il a été possible de s’en procurer le texte — donn
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier,
+  pour suivre le voyage du texte. Qui sait, un jour, il vous reviendra ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

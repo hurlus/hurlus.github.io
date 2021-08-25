@@ -27,9 +27,9 @@
             <br class="lb"/>ou le regard de tes yeux :
             <br class="lb"/>mais sache que de tout cela Dieu t’en fera rendre compte. (<cite class="title">Eccl</cite>.11.9)</p>
   </blockquote>
-  <p class="p noindent">En nous rappelant à nos devoirs, Dieu rend la vie morne.</p>
+  <p class="p">En nous rappelant à nos devoirs, Dieu rend la vie morne.</p>
   <blockquote class="quote">
-    <p class="p">Mieux vaut ouïr tancer un sage,
+    <p class="p noindent">Mieux vaut ouïr tancer un sage,
             <br class="lb"/>que chanter un fol. (<cite class="title">Eccl</cite>.7.5)</p>
   </blockquote>
   <p class="label">Épicurisme</p>

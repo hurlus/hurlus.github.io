@@ -70,11 +70,11 @@
   <blockquote class="quote">
     <p class="p noindent">Je connais un homme en Jésus-Christ <em>[lui-même]</em>, qui fut ravi il y a quatorze ans (si ce fut avec son corps, ou sans son corps, je ne sais, Dieu le sait), qui fut ravi, dis-je, jusqu’au troisième ciel <em>[…]</em> il y entendit des paroles ineffables, qu’il n’est pas permis à un homme de rapporter. Je pourrais me glorifier en parlant d’un tel homme ; mais pour moi, je ne veux me glorifier que dans mes faiblesses et dans mes afflictions. (2 Co 12.2-5)</p>
   </blockquote>
-  <p class="p noindent">Il se vexe quand on le prend pour un fou.</p>
+  <p class="p">Il se vexe quand on le prend pour un fou.</p>
   <blockquote class="quote">
     <p class="p noindent">Je vous le dis encore une fois : « que personne ne me juge fou ; ou au moins souffrez-moi comme fou, et permettez-moi de me glorifier un peu » (2 Co 11.16)</p>
   </blockquote>
-  <p class="p noindent">Il se vante.</p>
+  <p class="p">Il se vante.</p>
   <blockquote class="quote">
     <p class="p noindent">J’ai été battu de verges par trois fois, j’ai été lapidé une fois, j’ai fait naufrage trois fois, j’ai passé un jour et une nuit au fond de la mer […] (2 Co 11.25)</p>
   </blockquote>
