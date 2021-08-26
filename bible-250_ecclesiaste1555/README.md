@@ -29,7 +29,7 @@
   </blockquote>
   <p class="p">En nous rappelant à nos devoirs, Dieu rend la vie morne.</p>
   <blockquote class="quote">
-    <p class="p noindent">Mieux vaut ouïr tancer un sage,
+    <p class="p">Mieux vaut ouïr tancer un sage,
             <br class="lb"/>que chanter un fol. (<cite class="title">Eccl</cite>.7.5)</p>
   </blockquote>
   <p class="label">Épicurisme</p>

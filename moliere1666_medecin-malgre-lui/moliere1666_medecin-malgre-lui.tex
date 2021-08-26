@@ -32,18 +32,14 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -95,11 +91,11 @@
 
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
 \usepackage{enumitem} % <list>
-\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -126,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -138,28 +135,6 @@
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-
-
-% TOTEST
-% \usepackage{hypcap} % links in caption ?
-% \usepackage{marginnote}
-% TESTED
-% \usepackage{background} % doesn’t work with xetek
-% \usepackage{bookmark} % prefers the hyperref hack \phantomsection
-% \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
-% \usepackage{DejaVuSans} % override too much, was for for symbols
-% \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
-% \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
-% \usepackage{flushend} % bad for last notes, supposed flush end of columns
-% \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
-% \usepackage{helvet} % not for XeLaTeX
-% \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
-% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
-% \usepackage{sectsty} % \chapterfont OBSOLETE
-% \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
-% \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
-% \usepackage{verse} % not enough control on indent, poetry is better
 
 \defaultfontfeatures{
   % Mapping=tex-text, % no effect seen
@@ -174,6 +149,7 @@
 \date{1666}
 \author{Molière}
 \def\elbibl{Molière. 1666. \emph{Le médecin malgré lui}}
+\def\elsource{ \href{https://gallica.bnf.fr/ark:/12148/btv1b86107964/f13.vertical}{\dotuline{Gallica}}\footnote{\href{https://gallica.bnf.fr/ark:/12148/btv1b86107964/f13.vertical}{\url{https://gallica.bnf.fr/ark:/12148/btv1b86107964/f13.vertical}}}, \href{http://www.theatre-classique.fr/pages/programmes/edition.php?t=../documents/MOLIERE\_MEDECINMALGRELUI.xml}{\dotuline{Théâtre Classique par Paul Fièvre}}\footnote{\href{http://www.theatre-classique.fr/pages/programmes/edition.php?t=../documents/MOLIERE\_MEDECINMALGRELUI.xml}{\url{http://www.theatre-classique.fr/pages/programmes/edition.php?t=../documents/MOLIERE\_MEDECINMALGRELUI.xml}}}, \href{https://obvil.sorbonne-universite.fr/corpus/moliere/moliere\_medecinmalgrelui}{\dotuline{OBVIL (Sorbonne Université)}}\footnote{\href{https://obvil.sorbonne-universite.fr/corpus/moliere/moliere\_medecinmalgrelui}{\url{https://obvil.sorbonne-universite.fr/corpus/moliere/moliere\_medecinmalgrelui}}}. }
 \def\eltitlepage{%
 {\centering\parindent0pt
   {\LARGE\addfontfeature{LetterSpace=25}\bfseries Molière\par}\bigskip
@@ -290,6 +266,7 @@
   \let\LettrineFontHook\oldLFH
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
+\newcommand{\lnatt}[1]{\reversemarginpar\marginpar[\sffamily\scriptsize #1]{}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
 \newcommand\name[1]{#1}
 \newcommand\orig[1]{#1}
@@ -313,28 +290,30 @@
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
+\newcommand{\docAuthor}[1]{{\large\bigskip #1 \par\bigskip}}
+\newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
+\newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
-\newcommand{\speaker}[1]{\medskip{\centering #1\par\nopagebreak}} % supposed bottom
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
 \newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
-
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
 \newenvironment{citbibl}{\ifvmode\hfill\fi}{\ifvmode\par\fi }
-\newenvironment{docAuthor}{\ifvmode\vskip4pt\fontsize{16pt}{18pt}\selectfont\fi\itshape}{\ifvmode\par\fi }
-\newenvironment{docDate}{}{\ifvmode\par\fi }
-\newenvironment{docImprint}{\vskip6pt}{\ifvmode\par\fi }
-\newenvironment{docTitle}{\vskip6pt\bfseries\fontsize{18pt}{22pt}\selectfont}{\par }
 \newenvironment{msHead}{\vskip6pt}{\par}
 \newenvironment{msItem}{\vskip6pt}{\par}
-\newenvironment{titlePart}{}{\par }
 
 
 % environments for block containers
@@ -360,16 +339,23 @@
 {\def\@noitemerr
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
+\newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
-% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
- % epigraph pack
-\setlength{\epigraphrule}{0pt}
-\setlength{\epigraphwidth}{0.8\textwidth}
-% \renewcommand{\epigraphflush}{center} ? dont work
+\newenvironment{titlePage}
+  {\Centering}
+  {}
+
+
+
+
+
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -504,21 +490,24 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -542,10 +531,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -553,6 +543,7 @@
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -567,7 +558,7 @@
 
 \titleformat{name=\section}
   [display]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -622,7 +613,7 @@
   \centering\parindent0pt % no vskip ()
   \eltitlepage
   \bigskip
-  {\color{rubric}\hline\par}
+  {\color{rubric}\hline}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
@@ -634,7 +625,7 @@
   \centering\parindent0pt
   \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
@@ -676,27 +667,27 @@
 
 \bigbreak
 
-\castItem{\textbf{Sganarelle}, mari de Martine.}
+\castItem{\textbf{Sganarelle}. Mari de Martine.}
 
-\castItem{\textbf{Martine}, femme de Sganarelle.}
+\castItem{\textbf{Martine}. Femme de Sganarelle.}
 
-\castItem{\textbf{Monsieur Robert}, voisin de Sganarelle.}
+\castItem{\textbf{M. Robert}. Voisin de Sganarelle.}
 
-\castItem{\textbf{Valère}, domestique de Géronte.}
+\castItem{\textbf{Valère}. Domestique de Géronte.}
 
-\castItem{\textbf{Lucas}, mari de Jacqueline.}
+\castItem{\textbf{Lucas}. Mari de Jacqueline.}
 
-\castItem{\textbf{Géronte}, père de Lucinde.}
+\castItem{\textbf{Géronte}. Père de Lucinde.}
 
-\castItem{\textbf{Jacqueline}, nourrice chez Géronte, et femme de Lucas.}
+\castItem{\textbf{Jacqueline}. Nourrice chez Géronte, et femme de Lucas.}
 
-\castItem{\textbf{Lucinde}, fille de Géronte.}
+\castItem{\textbf{Lucinde}. Fille de Géronte.}
 
-\castItem{\textbf{Léandre}, amant de Lucinde.}
+\castItem{\textbf{Léandre}. Amant de Lucinde.}
 
-\castItem{\textbf{Thibaut}, père de Perrin.}
+\castItem{\textbf{Thibaut}. Père de Perrin.]}
 
-\castItem{\textbf{Perrin}, fils de Thibaut, paysan.}
+\castItem{\textbf{Perrin}. Fils de Thibaut, paysan.]}
 \bigbreak
 
 
@@ -707,7 +698,7 @@ du ROI}
 
 \noindent Par Grace \& Privilège du Roy, donné à Paris le 8. Jour d’Octobre 1666, signé par le Roy en son Conseil GUITONNEAU. Il est permis à JEAN BAPTISTE POCQUELIN DE MOLIÈRE, Comédien de la Troupe de notre très Cher et très Amé Frère Unique le Duc d’Orléans, de faire imprimer, vendre \& débiter une Comédie par lui composée, Intitulée \emph{Le Médecin malgré lui}, pendant sept années : \& défenses sont faites à tous autres de l’imprimer, ni vendre d’autre Édition que celle de l’Exposant, ou de ceux qui auront droit de lui, à peine de quinze cens livre d’amande, confiscation des Exemplaires, \& de tous autres dépens, dommages, \& intérêts, comme il est porté plus amplement par lesdites Lettres.\par
 {\itshape Registré sur le Livre de la Communauté. Signé PIGET. Syndic}\par
-Et ledit sieur de MOLIÈRE, a cédé \&transporté son droit de Privilège à JEAN RIBOU, Marchand Libraire à Paris, pour en jouir suivant l’accord entre eux.\par
+Et ledit sieur de MOLIÈRE, a cédé \& transporté son droit de Privilège à JEAN RIBOU, Marchand Libraire à Paris, pour en jouir suivant l’accord entre eux.\par
 {\itshape Achevé d’imprimer pour la première fois, le 24. Décembre 1666.}
 
 \mainmatter
@@ -725,453 +716,462 @@ Et ledit sieur de MOLIÈRE, a cédé \&transporté son droit de Privilège à JE
 \section[{Scène I}]{Scène I}\phantomsection
 \label{I01}
 
-{\centering\it Sganarelle, Martine, \\
-Paraissant sur le théâtre en se querellant.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Sganarelle}, \MakeUppercase{Martine}.}
+\stageblock{Paraissant sur le théâtre en se querellant.}
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Non je te dis que je n’en veux rien faire : et que c’est à moi de parler, et d’être le Maître.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Et je te dis moi, que je veux que tu vives à ma fantaisie : et que je ne me suis point mariée avec toi, pour souffrir tes fredaines.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ô la grande fatigue que d’avoir une Femme : et qu’Aristote a bien raison, quand il dit qu’une Femme est pire qu’un Démon !
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Voyez un peu l’habile Homme, avec son benêt d’Aristote.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui, habile Homme, trouve-moi un Faiseur de fagots, qui sache, comme moi, raisonner des choses, qui ait servi six ans, un fameux Médecin, et qui ait su dans son jeune âge, son Rudiment par cœur.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Peste du Fou fieffé.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Peste de la Carogne.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Que maudit soit l’heure, et le jour, où je m’avisai d’aller dire oui.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Que maudit soit le Bec cornu de Notaire, qui me fit signer ma ruine.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent C’est bien à toi, vraiment, à te plaindre de cette affaire : devrais-tu être un seul moment, sans rendre grâce au Ciel de m’avoir pour ta Femme, et méritais-tu d’épouser une personne comme moi ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il est vrai que tu me fis trop d’honneur : et que j’eus lieu de me louer la première nuit de nos Noces. Hé ! morbleu, ne me fais point parler là-dessus, je dirais de certaines choses...
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Quoi ? que dirais-tu ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Baste, laissons là ce Chapitre, il suffit que nous savons ce que nous savons : et que tu fus bien heureuse de me trouver.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Qu’appelles-tu bien heureuse, de te trouver un homme qui me réduit à l’Hôpital, un Débauché, un Traître qui me mange tout ce que j’ai ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tu as menti, j’en bois une partie.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Qui me vend, pièce à pièce, tout ce qui est dans le Logis.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est vivre de Ménage.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Qui m’a ôté jusqu’au Lit que j’avais.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tu t’en lèveras plus matin.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Enfin, qui ne laisse aucun meuble dans toute la maison.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent On en déménage plus aisément.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Et qui du matin jusqu’au soir, ne fait que jouer, et que boire.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est pour ne me point ennuyer.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Et que veux-tu pendant ce temps, que je fasse avec ma famille ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tout ce qu’il te plaira.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent J’ai quatre pauvres petits Enfants sur les bras.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Mets-les à terre.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Qui me demandent à toute heure, du pain.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Donne-leur le fouet, quand j’ai bien bu, et bien mangé, je veux que tout le monde soit saoul dans ma maison.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Et tu prétends ivrogne, que les choses aillent toujours de même ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma Femme, allons tout doucement, s’il vous plaît.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Que j’endure éternellement, tes insolences, et tes débauches ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ne nous emportons point ma Femme.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Et que je ne sache pas trouver le moyen de te ranger à ton devoir ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma Femme, vous savez que je n’ai pas l’âme endurante : et que j’ai le bras assez bon.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Je me moque de tes menaces.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma petite Femme, ma mie, votre peau vous démange, à votre ordinaire.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Je te montrerai bien que je ne te crains nullement.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma chère Moitié, vous avez envie de me dérober quelque chose.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Crois-tu que je m’épouvante de tes paroles ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Doux Objet de mes vœux, je vous frotterai les oreilles.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Ivrogne que tu es.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous battrai.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Sac à vin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous rosserai.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Infâme.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous étrillerai.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Traître, insolent, trompeur, lâche, coquin, pendard, gueux, bélitre, fripon, maraud, voleur....
 
-\speaker{Sganarelle}
-         \textit{Il prend un bâton, et lui en donne.}\par
+\speaker{\surname{Sganarelle}.}
+\stageblock{Il prend un bâton, et lui en donne.}
 \noindent Ah ! vous en voulez, donc.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Ah, ah, ah, ah.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Voilà le vrai moyen de vous apaiser.
 
 \section[{Scène II}]{Scène II}\phantomsection
 \label{I02}
 
-{\centering\it MONSIEUR Robert, Sganarelle, Martine.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{MONSIEUR \MakeUppercase{Robert}, \MakeUppercase{Sganarelle}, \MakeUppercase{Martine}.}
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Holà, holà, holà, fi qu’est ceci ? Quelle infamie, peste soit le Coquin, de battre ainsi sa Femme.
 
-\speaker{Martine\textit{, les mains sur les côtés, lui parle en le faisant reculer, et à la fin, lui donne un soufflet}}
+\speaker{\surname{Martine}.}
+\stageblock{Les mains sur les côtés, lui parle en le faisant reculer, et à la fin, lui donne un soufflet}
 \noindent Et je veux qu’il me batte, moi.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Ah ! j’y consens de tout mon cœur.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent De quoi vous mêlez-vous ?
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent J’ai tort.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Est-ce là votre affaire ?
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Vous avez raison.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Voyez un peu cet Impertinent, qui veut empêcher les Maris de battre leurs Femmes.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Je me rétracte.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Qu’avez-vous à voir là-dessus ?
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Rien.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Est-ce à vous, d’y mettre le nez ?
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Non.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Mêlez-vous de vos affaires.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Je ne dis plus mot.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Il me plaît d’être battue.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent D’accord.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Ce n’est pas à vos dépens.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Il est vrai.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Et vous êtes un Sot, de venir vous fourrer où vous n’avez que faire.
 
-\speaker{M. Robert}
-         \textit{Il passe ensuite, vers le Mari, qui, pareillement, lui parle toujours, en le faisant reculer : le frappe avec le même Bâton, et le met en fuite, il dit à la fin.}\par
+\speaker{M. \surname{Robert}.}
+\stageblock{Il passe ensuite, vers le Mari, qui, pareillement, lui parle toujours, en le faisant reculer : le frappe avec le même Bâton, et le met en fuite, il dit à la fin.}
 \noindent Compère, je vous demande pardon de tout mon cœur, faites, rossez, battez, comme il faut, votre Femme, je vous aiderai si vous le voulez ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il ne me plaît pas, moi.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Ah ! c’est une autre chose.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je la veux battre, si je le veux : et ne la veux pas battre, si je ne le veux pas.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Fort bien.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est ma Femme, et non pas la vôtre.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Sans doute.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous n’avez rien à me commander.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent D’accord.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je n’ai que faire de votre aide.
 
-\speaker{M. Robert}
+\speaker{M. \surname{Robert}.}
 \noindent Très volontiers.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Et vous êtes un Impertinent, de vous ingérer des affaires d’autrui : apprenez que Cicéron dit, qu’entre l’arbre et le doigt, il ne faut point mettre l’écorce.\par
 Ensuite il revient vers sa femme, et lui dit, en lui pressant la main, Ô çà faisons la paix nous deux. Touche là.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Oui ! après m’avoir ainsi battue !
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Cela n’est rien, touche.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Je ne veux pas.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Eh !
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Non.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma petite Femme.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Point.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Allons, te dis-je.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Je n’en ferai rien.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Viens, viens, viens.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Non, je veux être en colère.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Fi, c’est une bagatelle, allons, allons.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Laisse-moi là.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Touche, te dis-je.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Tu m’as trop maltraitée.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Eh bien va, je te demande pardon, mets là, ta main.
 
-\speaker{Martine}
-         \textit{Je te pardonne ; (elle dit le reste bas}\par
-\noindent ) mais tu le payeras.
+\speaker{\surname{Martine}.}
+\noindent Je te pardonne ;\par
+\stageblock{elle dit le reste bas}
+\noindent mais tu le payeras.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tu es une Folle, de prendre garde à cela. Ce sont petites choses qui sont, de temps en temps, nécessaires dans l’Amitié : et cinq ou six coups de bâton, entre Gens qui s’aiment, ne font que ragaillardir l’Affection. Va je m’en vais au Bois : et je te promets, aujourd’hui, plus d’un cent de Fagots.
 
 \section[{Scène III}]{Scène III}\phantomsection
 \label{I03}
 
 
-\speaker{Martine\textit{, seule}}
+\speaker{\surname{Martine}.}
+\stageblock{Seule.}
 \noindent Va, quelque mine que je fasse, je n’oublie pas mon ressentiment : et je brûle en moi-même, de trouver les moyens de te punir des coups que tu me donnes. Je sais bien qu’une femme a toujours dans les mains, de quoi se venger d’un Mari : mais c’est une punition trop délicate pour mon Pendard. Je veux une vengeance qui se fasse un peu mieux sentir : et ce n’est pas contentement, pour l’injure que j’ai reçue.
 
 \section[{Scène IV}]{Scène IV}\phantomsection
 \label{I04}
 
-{\centering\it Valère, Lucas, Martine.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Valère}, \MakeUppercase{Lucas}, \MakeUppercase{Martine}.}
 \par
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Parguenne, j’avons pris là, tous deux, une guèble de commission : et je ne sais pas moi, ce que je pensons attraper.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Que veux-tu mon pauvre Nourricier ? il faut bien obéir à notre Maître : et puis, nous avons intérêt, l’un et l’autre, à la santé de sa Fille, notre maîtresse, et, sans doute, son Mariage différé par sa Maladie, nous vaudrait quelque récompense. Horace qui est libéral, a bonne part aux prétentions qu’on peut avoir sur sa Personne : et quoiqu’elle ait fait voir de l’amitié pour un certain Léandre, tu sais bien que son père n’a jamais, voulu consentir à le recevoir pour son Gendre.
 
-\speaker{Martine\textit{, Rêvant à part elle}}
+\speaker{\surname{Martine}.}
+\stageblock{Rêvant à part elle}
 \noindent Ne puis-je point trouver quelque invention pour me venger ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Mais quelle fantaisie s’est-il boutée là dans la tête, puisque les médecins y avont tous pardu leur latin ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent On trouve quelquefois, à force de chercher, ce qu’on ne trouve pas d’abord : et souvent, en de simples lieux ....
 
-\speaker{Martine}
-\noindent Oui, il faut que je m’en venge à quelque prix que ce soit : ces coups de bâton me reviennent au cœur, je ne les saurais digérer, et… \textit{(Elle dit tout ceci en rêvant : de sorte que ne prenant pas garde à ces deux Hommes, elle les heurte en se retournant, et leur dit)} Ah ! Messieurs, je vous demande pardon, je ne vous voyais pas : et cherchais dans ma tête quelque chose qui m’embarrasse.
+\speaker{\surname{Martine}.}
+\noindent Oui, il faut que je m’en venge à quelque prix que ce soit : ces coups de bâton me reviennent au cœur, je ne les saurais digérer, et…\par
+\stageblock{Elle dit tout ceci en rêvant : de sorte que ne prenant pas garde à ces deux Hommes, elle les heurte en se retournant, et leur dit}
+\noindent Ah ! Messieurs, je vous demande pardon, je ne vous voyais pas : et cherchais dans ma tête quelque chose qui m’embarrasse.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Chacun a ses soins dans le Monde : et nous cherchons aussi, ce que nous voudrions bien trouver.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Serait-ce quelque chose, où je vous puisse aider ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Cela se pourrait faire, et nous tâchons de rencontrer quelque habile Homme, quelque Médecin particulier, qui pût donner quelque soulagement à la Fille de notre Maître, attaquée d’une Maladie qui lui a ôté, tout d’un coup, l’usage de la langue. Plusieurs Médecins ont déjà épuisé toute leur Science après elle : mais on trouve, parfois, des gens avec des Secrets admirables, de certains Remèdes particuliers, qui font le plus souvent, ce que les autres n’ont su faire, et c’est là, ce que nous cherchons.
 
-\speaker{Martine}
-         \textit{Elle dit ces premières lignes bas.}\par
-\noindent Ah ! que le Ciel m’inspire une admirable invention pour me venger de mon Pendard. \textit{(Haut.)} Vous ne pouviez jamais, vous mieux adresser, pour rencontrer ce que vous cherchez ; et nous avons ici, un Homme, le plus merveilleux Homme du monde, pour les Maladies désespérées.
+\speaker{\surname{Martine}.}
+\stageblock{Elle dit ces premières lignes bas.}
+\noindent Ah ! que le Ciel m’inspire une admirable invention pour me venger de mon Pendard.\par
+\stageblock{Haut.}
+\noindent Vous ne pouviez jamais, vous mieux adresser, pour rencontrer ce que vous cherchez ; et nous avons ici, un Homme, le plus merveilleux Homme du monde, pour les Maladies désespérées.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Et de grâce, où pouvons-nous le rencontrer ?
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Vous le trouverez, maintenant, vers ce petit Lieu que voilà, qui s’amuse à couper du Bois.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Un Médecin qui coupe du Bois !
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Qui s’amuse à cueillir des Simples, voulez-vous dire ?
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Non, c’est un Homme extraordinaire, qui se plaît à cela, fantasque, bizarre, quinteux, et que vous ne prendriez jamais, pour ce qu’il est. Il va vêtu d’une façon extravagante, affecte, quelquefois, de paraître ignorant, tient sa Science renfermée, et ne fuit rien tant tous les jours, que d’exercer les merveilleux Talents qu’il a eus du Ciel, pour la Médecine.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent C’est une chose admirable, que tous les grands Hommes ont toujours du Caprice, quelque petit Grain de Folie, mêlé à leur Science.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent La Folie de celui-ci, est plus grande qu’on ne peut croire : car elle va, parfois, jusqu’à vouloir être battu, pour demeurer d’accord de sa capacité ; Et je vous donne avis que vous n’en viendrez point à bout, qu’il n’avouera jamais, qu’il est Médecin, s’il se le met en fantaisie, que vous ne preniez, chacun, un Bâton, et ne le réduisiez à force de coups, à vous confesser à la fin, ce qu’il vous cachera d’abord. C’est ainsi que nous en usons, quand nous avons besoin de lui.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Voilà une étrange folie !
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Il est vrai : mais après cela, vous verrez qu’il fait des merveilles.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Comment s’appelle-t-il ?
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Il s’appelle Sganarelle : mais il est aisé à connaître. C’est un homme qui a une large Barbe noire, et qui porte une fraise, avec un Habit jaune et vert.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Un habit jaune et vert ! C’est donc, le médecin des Paroquets.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Mais est-il bien vrai, qu’il soit si habile, que vous le dites ?
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Comment ! C’est un Homme qui fait des Miracles. Il y a six mois, qu’une Femme fut abandonnée de tous les autres Médecins. On la tenait morte, il y avait déjà six heures : et l’on se disposait à l’ensevelir, lorsqu’on y fit venir de force, l’Homme dont nous parlons. Il lui mit, l’ayant vue, une petite goutte de je ne sais quoi dans la Bouche : et dans le même instant, Elle se leva de son Lit, et se mit, aussitôt, à se promener dans sa Chambre, comme si de rien n’eût été.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Ah !
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Il fallait que ce fût quelque goutte d’Or potable.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Cela pourrait bien être. Il n’y a pas trois semaines, encore, qu’un jeune Enfant de douze ans, tomba du haut du Clocher, en bas, et se brisa, sur le pavé, la Tête, les Bras et les Jambes. On n’y eut pas plus tôt, amené notre Homme, qu’il le frotta par tout le Corps, d’un certain Onguent qu’il sait faire ; et l’Enfant, aussitôt, se leva sur ses pieds, et courut jouer à la fossette.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Ah !
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Il faut que cet Homme-là, ait la Médecine Universelle.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Qui en doute ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Testigué, velà justement, l’Homme qu’il nous faut : allons vite le charcher.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Nous vous remercions du plaisir que vous nous faites.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Mais souvenez-vous bien au moins, de l’avertissement que je vous ai donné.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Eh ! morguenne, laissez-nous faire, s’il ne tient qu’à battre, la Vache est à nous.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Nous sommes bien heureux d’avoir fait cette rencontre : et j’en conçois, pour moi, la meilleure espérance du Monde.
 
 \section[{Scène V}]{Scène V}\phantomsection
 \label{I05}
 
-{\centering\it Sganarelle, Valère, Lucas.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Sganarelle}, \MakeUppercase{Valère}, \MakeUppercase{Lucas}.}
 \par
 
-\speaker{Sganarelle\textit{. Entre sur le Théâtre en chantant, et tenant une Bouteille}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Entre sur le Théâtre en chantant, et tenant une Bouteille}
 \noindent La, la, la.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent J’entends quelqu’un qui chante, et qui coupe du Bois.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent La, la, la... Ma foi, c’est assez travaillé pour un coup : prenons un peu d’haleine.\par
 Il boit, et dit après avoir bu. Voilà du bois qui est salé, comme tous les Diables.\par
 \spl{Qu’ils sont doux}
@@ -1184,310 +1184,319 @@ Il boit, et dit après avoir bu. Voilà du bois qui est salé, comme tous les Di
 \spl{Pourquoi vous videz-vous ?}
 \noindent Allons, morbleu, il ne faut point engendrer de mélancolie.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Le voilà lui-même.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Je pense que vous dites vrai : et que j’avons bouté le nez dessus.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Voyons de près.
 
-\speaker{Sganarelle\textit{, les apercevant, les regarde en se tournant vers l’un, et puis vers l’autre, et, abaissant sa voix, dit,}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Les apercevant, les regarde en se tournant vers l’un, et puis vers l’autre, et, abaissant sa voix, dit,}
 \noindent Ah ! ma petite friponne, que je t’aime, mon petit bouchon.\par
 Mon sort… ferait… bien des… jaloux,\par
 Si…\par
 Que diable, à qui en veulent ces Gens-là ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent C’est lui assurément.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Le velà tout craché, comme on nous l’a défiguré.
 
-\speaker{Sganarelle\textit{, à part}}
-         \textit{Ici il pose sa Bouteille à terre, et Valère se baissant pour le saluer, comme il croit que c’est à dessein de la prendre, il la met de l’autre côté : ensuite de quoi, Lucas faisant la même chose, il la reprend, et la tient contre son Estomac avec divers gestes, qui font un grand jeu de théâtre.}\par
+\speaker{\surname{Sganarelle}\textit{, à part}}
+\stageblock{Ici il pose sa Bouteille à terre, et Valère se baissant pour le saluer, comme il croit que c’est à dessein de la prendre, il la met de l’autre côté : ensuite de quoi, Lucas faisant la même chose, il la reprend, et la tient contre son Estomac avec divers gestes, qui font un grand jeu de théâtre.}
 \noindent Ils consultent en me regardant. Quel dessein auraient-ils ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, n’est-ce pas vous qui vous appelez Sganarelle ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Eh quoi ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Je vous demande, si ce n’est pas vous, qui se nomme Sganarelle.
 
-\speaker{Sganarelle\textit{, se tournant vers Valère, puis vers Lucas}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Se tournant vers \surname{Valère}, puis vers \surname{Lucas}}
 \noindent Oui, et non, selon ce que vous lui voulez.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Nous ne voulons que lui faire toutes les civilités que nous pourrons.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent En ce cas, c’est moi, qui se nomme Sganarelle.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, nous sommes ravis de vous voir. On nous a adressés à vous, pour ce que nous cherchons : et nous venons implorer votre aide, dont nous avons besoin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Si c’est quelque chose, Messieurs, qui dépende de mon petit Négoce, je suis tout prêt à vous rendre service.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, c’est trop de grâce que vous nous faites : mais, Monsieur, couvrez-vous, s’il vous plaît, le Soleil pourrait vous incommoder.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Monsieu, boutez dessus.
 
-\speaker{Sganarelle\textit{, bas}}
+\speaker{\surname{Sganarelle}\textit{, bas}}
 \noindent Voici des Gens bien pleins de cérémonie.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, il ne faut pas trouver étrange que nous venions à vous : les habiles Gens sont toujours recherchés, et nous sommes instruits de votre capacité.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il est vrai, Messieurs, que je suis le premier Homme du Monde, pour faire des fagots.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Ah ! Monsieur...
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je n’y épargne aucune chose, et les fais d’une façon qu’il n’y a rien à dire.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, ce n’est pas cela, dont il est question.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Mais, aussi, je les vends cent dix sols, le cent.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Ne parlons point de cela, s’il vous plaît.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous promets, que je ne saurais les donner à moins.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, nous savons les choses.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Si vous savez les choses, vous savez que je les vends cela.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, c’est se moquer que...
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je ne me moque point, je n’en puis rien rabattre.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Parlons d’autre façon, de grâce.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous en pourrez trouver autre part, à moins : il y a Fagots, et Fagots. Mais pour ceux que je fais...
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Eh ! Monsieur, laissons là, ce discours.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous jure que vous ne les auriez pas, s’il s’en fallait un double.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Eh fi.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Non, en conscience, vous en payerez cela. Je vous parle sincèrement, et ne suis pas Homme à surfaire.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Faut-il, Monsieur, qu’une personne comme vous s’amuse à ces grossières feintes ? s’abaisse à parler de la sorte ? qu’un Homme si savant, un fameux Médecin, comme vous êtes, veuille se déguiser aux yeux du Monde, et tenir enterrés les beaux Talents qu’il a ?
 
-\speaker{Sganarelle\textit{, à part}}
+\speaker{\surname{Sganarelle}\textit{, à part}}
 \noindent Il est fou.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent De grâce, Monsieur, ne dissimulez point avec nous.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Comment ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Tout ce Tripotage ne sart de rian, je savons, çen que je savons.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Quoi donc, que me voulez-vous dire ? pour qui me prenez-vous ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Pour ce que vous êtes, pour un grand Médecin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Médecin, vous-même : je ne le suis point, et ne l’ai jamais été.
 
-\speaker{Valère\textit{, bas}}
+\speaker{\surname{Valère}.}
+\stageblock{Bas}
 \noindent Voilà sa folie qui le tient.\par
-\textit{(Haut.)} Monsieur, ne veuillez point nier les choses davantage : et n’en venons point, s’il vous plaît, à de fâcheuses extrémités.
+\stageblock{Haut.}
+\noindent Monsieur, ne veuillez point nier les choses davantage : et n’en venons point, s’il vous plaît, à de fâcheuses extrémités.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent À quoi, donc ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent À de certaines choses, dont nous serions marris.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Parbleu, venez-en à tout ce qu’il vous plaira, je ne suis point Médecin : et ne sais ce que vous me voulez dire.
 
-\speaker{Valère\textit{, bas}}
+\speaker{\surname{Valère}.}
+\stageblock{Bas.}
 \noindent Je vois bien qu’il faut se servir du remède.\par
-\textit{(Haut.)} Monsieur, encore un coup, je vous prie d’avouer ce que vous êtes.
+\stageblock{Haut.}
+\noindent Monsieur, encore un coup, je vous prie d’avouer ce que vous êtes.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Et testigué, ne lantiponez point davantage : et confessez à la franquette, que v’êtes Médecin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent J’enrage.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent À quoi bon nier ce qu’on sait ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Pourquoi toutes ces fraimes-là ? à quoi est-ce que ça vous sart ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Messieurs, en un mot, autant qu’en deux mille, je vous dis, que je ne suis point Médecin.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Vous n’êtes point Médecin ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Non.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent V’n’estes pas Médecin ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Non, vous dis-je.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Puisque vous le voulez, il faut s’y résoudre.\par
-         \textit{Ils prennent un bâton, et le frappent.}\par
+\stageblock{Ils prennent un bâton, et le frappent.}
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah ! ah ! ah ! Messieurs, je suis tout ce qu’il vous plaira.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Pourquoi, Monsieur, nous obligez-vous à cette violence ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent À quoi bon, nous bailler la peine de vous battre ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Je vous assure que j’en ai tous les regrets du monde.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Par ma figué, j’en sis fâché, franchement.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Que Diable est ceci, Messieurs, de grâce, est-ce pour rire, ou si tous deux, vous extravaguez, de vouloir que je sois Médecin ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Quoi ? vous ne vous rendez pas encore : et vous vous défendez d’être Médecin ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Diable emporte, si je le suis.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Il n’est pas vrai qu’ous sayez Médecin ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Non, la peste m’étouffe !\par
-\textit{(Là ils recommencent de le battre.)} Ah, ah. Eh bien, Messieurs, oui, puisque vous le voulez, je suis Médecin, je suis Médecin, Apothicaire encore, si vous le trouvez bon. J’aime mieux consentir à tout, que de me faire assommer.
+\stageblock{Là ils recommencent de le battre.}
+\noindent Ah, ah. Eh bien, Messieurs, oui, puisque vous le voulez, je suis Médecin, je suis Médecin, Apothicaire encore, si vous le trouvez bon. J’aime mieux consentir à tout, que de me faire assommer.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Ah ! voilà qui va bien, Monsieur, je suis ravi de vous voir raisonnable.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Vous me boutez la joie au cœur, quand je vous vois parler comme ça.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Je vous demande pardon de toute mon âme.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Je vous demandons excuse, de la libarté que j’avons prise.
 
-\speaker{Sganarelle\textit{, à part}}
+\speaker{\surname{Sganarelle}\textit{, à part}}
 \noindent Ouais, serait-ce bien moi qui me tromperais, et serais-je devenu Médecin, sans m’en être aperçu ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur, vous ne vous repentirez pas de nous montrer ce que vous êtes : et vous verrez assurément, que vous en serez satisfait.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Mais, Messieurs, dites-moi, ne vous trompez-vous point vous-mêmes ? Est-il bien assuré que je sois Médecin ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Oui, par ma figué.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tout de bon ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Sans doute.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Diable emporte, si je le savais !
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Comment ? Vous êtes le plus habile Médecin du Monde.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah ! ah !
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Un Médecin, qui a guari, je ne sais combien de Maladies.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tudieu !
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Une Femme était tenue pour morte, il y avait six heures ; elle était prête à ensevelir, lorsqu’avec une goutte de quelque chose, vous la fîtes revenir, et marcher d’abord, par la chambre.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Peste !
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Un petit Enfant de douze ans, se laissit choir du haut d’un clocher, de quoi il eut la Tête, les Jambes, et les bras cassés : et vous, avec je ne sai quel Onguent, vous fîtes qu’aussitôt, il se relevit sur ses pieds, et s’en fut jouer à la fossette.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Diantre !
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Enfin, Monsieur, vous aurez contentement avec nous : et vous gagnerez ce que vous voudrez, en vous laissant conduire où nous prétendons vous mener.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je gagnerai ce que je voudrai ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Oui.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah ! je suis Médecin, sans contredit : Je l’avais oublié, mais je m’en ressouviens. De quoi est-il question ? où faut-il se transporter ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Nous vous conduirons. Il est question d’aller voir une Fille, qui a perdu la parole.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma foi, je ne l’ai pas trouvée.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Il aime à rire. Allons, Monsieur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Sans une Robe de Médecin ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Nous en prendrons une.
 
-\speaker{Sganarelle\textit{, présentant sa Bouteille à Valère}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Présentant sa Bouteille à Valère}
 \noindent Tenez cela vous : voilà où je mets mes juleps.\par
-\textit{(Puis se tournant vers Lucas en crachant.)} Vous, marchez là-dessus, par ordonnance du médecin.
+\stageblock{Puis se tournant vers Lucas en crachant.}
+\noindent Vous, marchez là-dessus, par ordonnance du médecin.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Palsanguenne, velà un Médecin qui me plaît ; je pense qu’il réussira ; car il est Bouffon.
 \chapterclose
 
@@ -1504,660 +1513,691 @@ Que diable, à qui en veulent ces Gens-là ?
 \section[{Scène I}]{Scène I}\phantomsection
 \label{II01}
 
-{\centering\it Géronte, Valère, Lucas, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Géronte}, \MakeUppercase{Valère}, \MakeUppercase{Lucas}, \MakeUppercase{Jacqueline}.}
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Oui, Monsieur, je crois que vous serez satisfait : et nous vous avons amené le plus grand Médecin du Monde.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Oh morguenne, il faut tirer l’échelle après ceti-là : et tous les autres, ne sont pas daignes de li déchausser ses souillez.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent C’est un Homme qui a fait des Cures merveilleuses.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Qui a gari des Gens qui estiants morts.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Il est un peu capricieux, comme je vous ai dit : et parfois, il a des moments où son esprit s’échappe, et ne paraît pas ce qu’il est.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Oui, il aime à bouffonner, et l’an dirait par fois, ne v’s en déplaise qu’il a quelque petit coup de hache à la Tête.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Mais dans le fond, il est toute Science : et bien souvent, il dit des choses tout à fait relevées.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Quand il s’y boute, il parle tout fin drait, comme s’il lisait dans un livre.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Sa réputation s’est déjà répandue ici : et tout le Monde vient à lui.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je meurs d’envie de le voir, faites-le-moi vite venir.
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Je le vais quérir.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Par ma fi, Monsieu, ceti-ci fera justement ce qu’ant fait les autres. Je pense que ce sera queussi queumi : et la meilleure Médeçaine, que l’an pourrait bailler à votre fille, ce serait, selon moi, un biau et bon mari, pour qui elle eût de l’amiqué.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Ouais, Nourrice, Ma mie, vous vous mêlez de bien des choses.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Taisez-vous, notre Ménagère Jaquelaine : ce n’est pas à vous, à bouter là votre nez.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Je vous dis et vous douze, que tous ces Médecins n’y feront rian que de l’iau claire, que votre Fille a besoin d’autre chose, que de Ribarbe, et de sené, et qu’un Mari est une emplâtre qui garit tous les maux des Filles.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Est-elle en état, maintenant, qu’on s’en voulût charger, avec l’infirmité qu’elle a ? Et lorsque j’ai été dans le dessein de la marier, ne s’est-elle pas opposée à mes volontés ?
 
-\speaker{Jacqueline}
-\noindent Je le crois bian, vous li vouilliez bailler cun homme qu’alle n’aime point. Que ne preniais-vous ce Monsieu Liandre, qui li touchait au cœur ?Alle aurait été fort obéissante : et je m’en vas gager qu’il la prendrait li, comme alle est, si vous la li vouillais donner.
+\speaker{\surname{Jacqueline}.}
+\noindent Je le crois bian, vous li vouilliez bailler cun homme qu’alle n’aime point. Que ne preniais-vous ce Monsieu Liandre, qui li touchait au cœur ? Alle aurait été fort obéissante : et je m’en vas gager qu’il la prendrait li, comme alle est, si vous la li vouillais donner.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Ce Léandre n’est pas ce qu’il lui faut : il n’a pas du Bien comme l’autre.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Il a un oncle qui est si riche, dont il est hériquié.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Tous ces Biens à venir, me semblent autant de Chansons. Il n’est rien tel que ce qu’on tient : et l’on court grand risque de s’abuser, lorsque l’on compte sur le bien qu’un autre vous garde. La mort n’a pas toujours les oreilles ouvertes aux vœux et aux prières de Messieurs les héritiers : et l’on a le temps d’avoir les dents longues, lorsqu’on attend, pour vivre, le trépas de quelqu’un.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Enfin, j’ai, toujours, ouï dire, qu’en Mariage, comme ailleurs, Contentement passe Richesse. Les Bères et les Mères ant cette maudite couteume, de demander toujours, Qu’a-t-il ? et : Qu’a-t-elle ? et le compère Biarre, a marié sa fille Simonette, au gros Thomas, pour un quarquié de Vaigne qu’il avait davantage que le jeune Robin, où alle avait bouté son amiquié : et velà que la pauvre Creiature en est devenue jaune comme un Coing, et n’a point profité tout depuis ce temps-là. C’est un bel exemple pour vous, Monsieu ; on n’a que son plaisir en ce Monde : et j’aimerais mieux, bailler à ma Fille, un bon Mari qui li fût agriable, que toutes les Rentes de la Biausse.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Peste ! Madame la Nourrice, comme vous dégoisez ! Taisez-vous, je vous prie, vous prenez trop de soin, et vous échauffez votre Lait.
 
-\speaker{Lucas}
-         \textit{En disant ceci, il frappe sur la poitrine à Géronte.}\par
+\speaker{\surname{Lucas}.}
+\stageblock{En disant ceci, il frappe sur la poitrine à Géronte.}
 \noindent Morgué, tais-toi, T’es cune impartinante. Monsieu n’a que faire de tes discours, et il sait ce qu’il a à faire. Mêle-toi de donner à téter à ton Enfant, sans tant faire la raisonneuse. Monsieu est le Père de sa Fille ; et il est bon et sage, pour voir ce qu’il li faut.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Tout doux, Oh, tout doux.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Monsieu, je veux un peu la mortifier : et ly apprendre le respect qu’alle vous doit.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, mais ces gestes ne sont pas nécessaires.
 
 \section[{Scène II}]{Scène II}\phantomsection
 \label{II02}
 
-{\centering\it Valère, Sganarelle, Géronte, Lucas, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Valère}, \MakeUppercase{Sganarelle}, \MakeUppercase{Géronte}, \MakeUppercase{Lucas}, \MakeUppercase{Jacqueline}.}
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Monsieur préparez-vous, voici notre Médecin qui entre.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Monsieur, je suis ravi de vous voir chez moi : et nous avons grand besoin de vous.
 
-\speaker{Sganarelle\textit{, en Robe de Médecin, avec un Chapeau des plus pointus}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{En Robe de Médecin, avec un Chapeau des plus pointus.}
 \noindent Hippocrate dit .... que nous nous couvrions tous deux.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Hippocrate dit cela ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Dans quel Chapitre, s’il vous plaît ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Dans son Chapitre des Chapeaux.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Puisque Hippocrate le dit, il le faut faire.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Monsieur le Médecin, ayant appris les merveilleuses choses...
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent À qui parlez-vous, de grâce ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent À vous.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je ne suis pas Médecin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous n’êtes pas Médecin ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Non vraiment.
 
-\speaker{Sganarelle}
-         \textit{Il prend ici un bâton, et le bat, comme on l’a battu.}\par
+\speaker{\surname{Sganarelle}.}
+\stageblock{Il prend ici un bâton, et le bat, comme on l’a battu.}
 \noindent Tout de bon ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Tout de bon. Ah ! ah ! ah !
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous êtes Médecin, maintenant, je n’ai jamais eu d’autres Licences.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Quel diable d’homme m’avez-vous là amené ?
 
-\speaker{Valère}
+\speaker{\surname{Valère}.}
 \noindent Je vous ai bien dit que c’était un Médecin goguenard.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, Mais je l’enverrais promener avec ses goguenarderies.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Ne prenez pas garde à ça, Monsieu, ce n’est que pour rire.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Cette raillerie ne me plaît pas.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Monsieur, je vous demande pardon de la liberté que j’ai prise.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Monsieur, je suis votre serviteur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je suis fâché...
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Cela n’est rien.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Des coups de bâton ....
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Il n’y a pas de mal.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Que j’ai eu l’honneur de vous donner.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Ne parlons plus de cela. Monsieur, j’ai une Fille qui est tombée dans une étrange Maladie.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je suis ravi, Monsieur, que votre Fille ait besoin de moi : et je souhaiterais de tout mon cœur, que vous en eussiez besoin, aussi, vous et toute votre Famille, pour vous témoigner l’envie que j’ai de vous servir.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je vous suis obligé de ces sentiments.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous assure que c’est du meilleur de mon âme, que je vous parle.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent C’est trop d’honneur que vous me faites.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Comment s’appelle votre Fille ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Lucinde.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Lucinde ! Ah beau nom à médicamenter ! Lucinde !
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je m’en vais voir un peu ce qu’elle fait.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Qui est cette grande femme-là ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent C’est la nourrice d’un petit Enfant que j’ai.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Peste ! le joli Meuble que voilà. Ah Nourrice, charmante Nourrice, ma Médecine est la très humble Esclave de votre Nourricerie ; et je voudrais bien être le petit Poupon fortuné, qui tétât le Lait de vos bonnes grâces.\par
-         \textit{Il lui porte la main sur le sein.}\par
+\stageblock{Il lui porte la main sur le sein.}
 \noindent Tous mes Remèdes ; toute ma Science, toute ma Capacité est à votre service, et...
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Avec votte parmission, Monsieu le Médecin, laissez là ma Femme, je vous prie.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Quoi, est-elle votre Femme ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Oui.
 
-\speaker{Sganarelle}
-         \textit{. Il fait semblant d’embrasser Lucas : et se tournant du côté de la Nourrice, il l’embrasse.}\par
+\speaker{\surname{Sganarelle}.}
+\stageblock{. Il fait semblant d’embrasser Lucas : et se tournant du côté de la Nourrice, il l’embrasse.}
 \noindent Ah vraiment, je ne savais pas cela : et je m’en réjouis pour l’amour de l’un et de l’autre.
 
-\speaker{Lucas\textit{, en le tirant}}
+\speaker{\surname{Lucas}.}
+\stageblock{En le tirant.}
 \noindent Tout doucement, s’il vous plaît.
 
-\speaker{Sganarelle}
-\noindent Je vous assure, que je suis ravi que vous soyez unis ensemble\textit{ (Il fait encore semblant d’embrasser Lucas : et passant dessous ses bras, se jette au cou de sa femme)}. Je la félicite d’avoir un Mari comme vous : et je vous félicite vous, d’avoir une Femme si belle, si sage, et si bien faite, comme elle est.
+\speaker{\surname{Sganarelle}.}
+\noindent Je vous assure, que je suis ravi que vous soyez unis ensemble.\par
+\stageblock{Il fait encore semblant d’embrasser Lucas : et passant dessous ses bras, se jette au cou de sa femme}
+\noindent Je la félicite d’avoir un Mari comme vous : et je vous félicite vous, d’avoir une Femme si belle, si sage, et si bien faite, comme elle est.
 
-\speaker{Lucas\textit{, en le tirant encore}}
+\speaker{\surname{Lucas}.}
+\stageblock{En le tirant encore.}
 \noindent Eh testigué, point tant de compliments, je vous supplie.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ne voulez-vous pas que je me réjouisse avec vous, d’un si bel Assemblage ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Avec moi, tant qu’il vous plaira : mais avec ma Femme, trêve de sarimonie.
 
-\speaker{Sganarelle}
-\noindent Je prends part, également, au bonheur de tous deux \textit{(Il continue le même jeu)} : et si je vous embrasse pour vous en témoigner ma joie, je l’embrasse de même, pour lui en témoigner aussi.
+\speaker{\surname{Sganarelle}.}
+\noindent Je prends part, également, au bonheur de tous deux :\par
+\stageblock{Il continue le même jeu}
+\noindent et si je vous embrasse pour vous en témoigner ma joie, je l’embrasse de même, pour lui en témoigner aussi.
 
-\speaker{Lucas\textit{, en le tirant derechef}}
+\speaker{\surname{Lucas}.}
+\stageblock{En le tirant derechef.}
 \noindent Ah vartigué, Monsieu le Médecin, que de l’antiponages.
 
 \section[{Scène III}]{Scène III}\phantomsection
 \label{II03}
 
-{\centering\it Sganarelle, Géronte, Lucas, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Sganarelle}, \MakeUppercase{Géronte}, \MakeUppercase{Lucas}, \MakeUppercase{Jacqueline}.}
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Monsieur, voici tout à l’heure, ma Fille qu’on va vous amener.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je l’attends, Monsieur, avec toute la Médecine.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Où est-elle ?
 
-\speaker{Sganarelle\textit{, se touchant le front}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Se touchant le front.}
 \noindent Là-dedans.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Fort bien.
 
-\speaker{Sganarelle\textit{, En voulant toucher les tétons de la nourrice}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{En voulant toucher les tétons de la nourrice.}
 \noindent Mais, comme je m’intéresse à toute votre Famille, il faut que j’essaye un peu le Lait de votre Nourrice : et que je visite son Sein.
 
-\speaker{Lucas\textit{, le tirant, et lui faisant faire la pirouette}}
+\speaker{\surname{Lucas}.}
+\stageblock{Le tirant, et lui faisant faire la pirouette.}
 \noindent Nanin, nanin, je n’avons que faire de ça.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est l’Office du Médecin, de voir les Tétons des Nourrices.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Il gnia Office qui quienne, je sis votte sarviteur.
 
-\speaker{Sganarelle}
-\noindent As-tu bien la hardiesse de t’opposer au Médecin ?Hors de là.
+\speaker{\surname{Sganarelle}.}
+\noindent As-tu bien la hardiesse de t’opposer au Médecin ? Hors de là.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Je me moque de ça.
 
-\speaker{Sganarelle\textit{, en le regardant de travers}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{En le regardant de travers.}
 \noindent Je te donnerai la fièvre.
 
-\speaker{Jacqueline\textit{, prenant Lucas par le bras, et lui faisant aussi faire la pirouette}}
+\speaker{\surname{Jacqueline}.}
+\stageblock{Prenant \surname{Lucas} par le bras, et lui faisant aussi faire la pirouette.}
 \noindent Ôte-toi de là, aussi, est-ce que je ne sis pas assez grande pour me défendre moi-même, s’il me fait quelque chose, qui ne soit pas à faire ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Je ne veux pas qu’il te tâte moi.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Fi, le vilain, qui est jaloux de sa Femme.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Voici ma fille.
 
 \section[{Scène IV}]{Scène IV}\phantomsection
 \label{II04}
 
-{\centering\it Lucinde, Valère, Géronte, Lucas, Sganarelle, Jacqueline.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Lucinde}, \MakeUppercase{Valère}, \MakeUppercase{Géronte}, \MakeUppercase{Lucas}, \MakeUppercase{Sganarelle}, \MakeUppercase{Jacqueline}.}
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Est-ce là, la Malade ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, je n’ai qu’elle de Fille : et j’aurais tous les regrets du Monde, si elle venait à mourir.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Qu’elle s’en garde bien, il ne faut pas qu’elle meure, sans l’Ordonnance du Médecin.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Allons, un Siège.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Voilà une Malade qui n’est pas tant dégoûtante : et je tiens qu’un Homme bien sain s’en accommoderait assez.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Vous l’avez fait rire, Monsieur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tant mieux, lorsque le Médecin fait rire le Malade, c’est le meilleur signe du Monde. Eh bien, de quoi est-il question ? qu’avez-vous ? quel est le mal que vous sentez ?
 
-\speaker{Lucinde\textit{ répond par signes, en portant sa main à sa bouche, à sa tête, et sous son menton}}
+\speaker{\surname{Lucinde}.}
+\stageblock{Répond par signes, en portant sa main à sa bouche, à sa tête, et sous son menton.}
 \noindent Han, hi, hom, han.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Eh ! que dites-vous ?
 
-\speaker{Lucinde\textit{ continue les mêmes gestes}}
+\speaker{\surname{Lucinde}.}
+\stageblock{Continue les mêmes gestes.}
 \noindent Han, hi, hon, han, han, hi, hom.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Quoi ?
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Han, hi, hom.
 
-\speaker{Sganarelle\textit{, la contrefaisant}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{La contrefaisant.}
 \noindent Han, hi, hon, han ha. Je ne vous entends point : quel diable de langage est-ce là ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Monsieur, c’est là, sa Maladie. Elle est devenue muette, sans que jusques ici, on en ait pu savoir la cause : et c’est un Accident qui a fait reculer son Mariage.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Et pourquoi ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Celui qu’elle doit épouser, veut attendre sa Guérison, pour conclure les choses.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Et qui est ce Sot-là, qui ne veut pas que sa Femme soit muette ? Plût à Dieu que la mienne eût cette maladie, je me garderais bien de la vouloir guérir.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Enfin, Monsieur, nous vous prions d’employer tous vos soins, pour la soulager de son mal.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah ! Ne vous mettez pas en peine. Dites-moi un peu, ce mal l’oppresse-t-il beaucoup ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, Monsieur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tant mieux. Sent-elle de grandes douleurs ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Fort grandes.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est fort bien fait. Va-t-elle où vous savez ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Copieusement ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je n’entends rien à cela.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent La Matière est-elle louable ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je ne me connais pas à ces choses.
 
-\speaker{Sganarelle\textit{, se tournant vers la Malade}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Se tournant vers la Malade.}
 \noindent Donnez-moi votre Bras. Voilà un Pouls qui marque que votre fille est muette.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Eh ! oui, Monsieur, c’est là son mal: vous l’avez trouvé tout du premier coup.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah, ah.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Voyez, comme il a deviné sa Maladie.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Nous autres grands Médecins, nous connaissons d’abord, les choses. Un Ignorant aurait été embarrassé, et vous eût été dire : C’est ceci, c’est cela : mais moi, je touche au but du premier coup, et je vous apprends que votre Fille est Muette.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, mais je voudrais bien que vous me pussiez dire d’où cela vient.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il n’est rien plus aisé. Cela vient de ce qu’elle a perdu la parole.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Fort bien : mais la Cause, s’il vous plaît, qui fait qu’elle a perdu la Parole ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tous nos meilleurs Auteurs vous diront que c’est l’empêchement de l’action de sa Langue.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Mais, encore, vos sentiments sur cet empêchement de l’action de sa langue ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Aristote là-dessus dit .... de fort belles choses.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je le crois.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah ! c’était un grand Homme !
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Sans doute.
 
-\speaker{Sganarelle\textit{, levant son bras depuis le coude}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Levant son bras depuis le coude.}
 \noindent Grand Homme tout à fait : un Homme qui était plus grand que moi, de tout cela. Pour revenir, donc, à notre raisonnement, je tiens que cet empêchement de l’action de sa langue, est causé par de certaines Humeurs qu’entre nous autres, Savants, nous appelons humeurs peccantes, peccantes, c’est-à-dire... humeurs peccantes : d’autant que les vapeurs formées par les exhalaisons des influences qui s’élèvent dans la Région des Maladies, venant... pour ainsi dire... à... Entendez-vous le Latin ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent En aucune façon.
 
-\speaker{Sganarelle\textit{, se levant avec étonnement}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Se levant avec étonnement.}
 \noindent Vous n’entendez point le Latin !
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Non.
 
-\speaker{Sganarelle\textit{, en faisant diverses plaisantes postures}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{En faisant diverses plaisantes postures.}
 \noindent Cabricias arci thuram, catalamus, singulariter, nominativo hæc Musa, « la Muse », Bonus, Bona, Bonum, Deus sanctus, estne oratio latinas ? Etiam, « oui », Quare, « pourquoi ? » Quia substantivo, et adjectivum concordat in generi, numerum, et casus.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Ah ! que n’ai-je étudié !
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent L’habile homme que velà !
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Oui, ça est si biau, que je n’y entends goutte.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Or ces vapeurs, dont je vous parle, venant à passer du côté gauche, où est le Foie, au côté Droit, où est le cœur, il se trouve que le Poumon que nous appelons en Latin {\itshape Armyan}, ayant communication avec le Cerveau, que nous nommons en Grec nasmus, par le moyen de la Veine Cave, que nous appelons en Hébreu {\itshape Cubile}, rencontre, en son chemin, lesdites vapeurs qui remplissent les ventricules de l’Omoplate ; et parce que lesdites vapeurs.... comprenez bien ce Raisonnement je vous prie : et parce que lesdites vapeurs ont une certaine malignité… Écoutez bien ceci, je vous conjure.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ont une certaine malignité qui est causée ... Soyez attentif, s’il vous plaît.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je le suis.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Qui est causée par l’âcreté des humeurs, engendrées dans la concavité du Diaphragme, il arrive que ces vapeurs .... Ossabandus, nequeys, nequer, potarinum, quipsa milus. Voilà justement, ce qui fait que votre Fille est muette.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Ah que ça est bian dit, notte Homme !
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Que n’ai-je la langue aussi bian pendue !
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent On ne peut pas mieux raisonner sans doute. Il n’y a qu’une seule chose qui m’a choqué. C’est l’endroit du Foie et du Cœur. Il me semble que vous les placez autrement qu’ils ne sont. Que le Cœur est du côté gauche, et le Foie du côté droit.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui, cela était, autrefois, ainsi ; mais nous avons changé tout cela, et nous faisons maintenant la Médecine d’une Méthode toute nouvelle.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent C’est ce que je ne savais pas : et je vous demande pardon de mon ignorance.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il n’y a point de mal: et vous n’êtes pas obligé d’être aussi habile que nous.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Assurément : mais Monsieur, que croyez-vous qu’il faille faire à cette maladie ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ce que je crois, qu’il faille faire ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Mon avis est qu’on la remette sur son Lit : et qu’on lui fasse prendre pour Remède, quantité de Pain trempé dans du Vin.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Pourquoi cela, Monsieur ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Parce qu’il y a dans le Vin et le Pain, mêlés ensemble, une Vertu sympathique, qui fait parler. Ne voyez-vous pas bien qu’on ne donne autre chose aux Perroquets : et qu’ils apprennent à parler en mangeant de cela ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Cela est vrai, ah ! le grand Homme ! vite, quantité de Pain et de Vin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je reviendrai voir sur le soir, en quel état elle sera.\par
-\textit{(À la nourrice.) }Doucement vous. Monsieur, voilà une nourrice à laquelle il faut que je fasse quelques petits Remèdes.
+\stageblock{À la nourrice.}
+\noindent Doucement vous. Monsieur, voilà une nourrice à laquelle il faut que je fasse quelques petits Remèdes.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Qui, moi ? Je me porte le mieux du Monde.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tant pis Nourrice, tant pis. Cette grande santé est à craindre : et il ne sera mauvais de vous faire quelque petite Saignée amiable, de vous donner quelque petit Clystère dulcifiant.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Mais, Monsieur, voilà une mode que je ne comprends point. Pourquoi s’aller faire saigner, quand on n’a point de maladie ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il n’importe, la Mode en est salutaire : et comme on boit pour la Soif à venir, il faut se faire, aussi, saigner pour la maladie à venir.
 
-\speaker{Jacqueline\textit{, en se retirant}}
+\speaker{\surname{Jacqueline}.}
+\stageblock{En se retirant.}
 \noindent Ma fi, je me moque de ça ; et je ne veux point faire de mon corps une Boutique d’Apothicaire.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous êtes rétive aux Remèdes : mais nous saurons vous soumettre à la Raison.\par
-\textit{(Parlant à Géronte.) }Je vous donne le bonjour.
+\stageblock{Parlant à Géronte.}
+\noindent Je vous donne le bonjour.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Attendez un peu, s’il vous plaît.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Que voulez-vous faire ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Vous donner de l’Argent, Monsieur.
 
-\speaker{Sganarelle\textit{, tendant sa main derrière, pardessous sa robe, tandis que Géronte ouvre sa bourse}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Tendant sa main derrière, pardessous sa robe, tandis que Géronte ouvre sa bourse.}
 \noindent Je n’en prendrai pas, Monsieur.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Monsieur ....
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Point du tout.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Un petit moment.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent En aucune façon.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent De grâce.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous vous moquez.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Voilà qui est fait.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je n’en ferai rien.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Eh !
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ce n’est pas l’Argent qui me fait agir.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je le crois.
 
-\speaker{Sganarelle\textit{, après avoir pris l’argent}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Après avoir pris l’argent.}
 \noindent Cela est-il de poids ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, Monsieur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je ne suis pas un Médecin mercenaire.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je le sais bien.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent L’intérêt ne me gouverne point.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je n’ai pas cette pensée.
 
 \section[{Scène V}]{Scène V}\phantomsection
 \label{II05}
 
-{\centering\it Sganarelle, Léandre.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Sganarelle}, \MakeUppercase{Léandre}.}
 
-\speaker{Sganarelle\textit{, Regardant son argent}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Regardant son argent.}
 \noindent Ma foi, cela ne va pas mal, et pourvu que...
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Monsieur, il y a longtemps que je vous attends : et je viens implorer votre assistance.
 
-\speaker{Sganarelle\textit{, lui prenant le poignet}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Lui prenant le poignet.}
 \noindent Voilà un pouls qui est fort mauvais.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Je ne suis point Malade, Monsieur ; et ce n’est pas pour cela, que je viens à vous.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Si vous n’êtes pas Malade, que Diable ne le dites-vous donc ?
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Non, pour vous dire la chose en deux mots, je m’appelle Léandre, qui suis amoureux de Lucinde, que vous venez de visiter : et comme, par la mauvaise humeur, de son Père, toute sorte d’accès m’est fermé auprès d’elle, Je me hasarde à vous prier de vouloir servir mon amour : et de me donner lieu d’exécuter un Stratagème que j’ai trouvé, pour lui pouvoir dire deux mots, d’où dépendent, absolument, mon bonheur, et ma vie.
 
-\speaker{Sganarelle\textit{, Paraissant en colère}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Paraissant en colère.}
 \noindent Pour qui me prenez-vous ? Comment oser vous adresser à moi, pour vous servir dans votre amour, et vouloir ravaler la Dignité de Médecin, à des Emplois de cette nature ?
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Monsieur, ne faites point de bruit.
 
-\speaker{Sganarelle\textit{, en le faisant reculer}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{En le faisant reculer.}
 \noindent J’en veux faire moi, vous êtes un impertinent.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Eh ! Monsieur doucement.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Un mal avisé.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent De grâce.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je vous apprendrai que je ne suis point Homme à cela : et que c’est une insolence extrême...
 
-\speaker{Léandre\textit{, tirant une bourse qu’il lui donne}}
+\speaker{\surname{Léandre}.}
+\stageblock{Tirant une bourse qu’il lui donne.}
 \noindent Monsieur.
 
-\speaker{Sganarelle\textit{, tenant la Bourse}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Tenant la Bourse.}
 \noindent De vouloir m’employer... je ne parle pas pour vous : car vous êtes honnête Homme, et je serais ravi de vous rendre service. Mais il y a de certains Impertinents au Monde, qui viennent prendre les Gens pour ce qu’ils ne sont pas : et je vous avoue que cela me met en colère.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Je vous demande pardon, Monsieur, de la liberté que...
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous vous moquez : de quoi est-il question ?
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Vous saurez, donc, Monsieur, que cette Maladie que vous voulez guérir, est une feinte Maladie. Les Médecins ont raisonné là-dessus, comme il faut ; et ils n’ont pas manqué de dire, que cela procédait, qui, du Cerveau, qui, des Entrailles, qui, de la Rate, qui, du Foie. Mais il est certain que l’Amour en est la véritable Cause : et que Lucinde n’a trouvé cette Maladie, que pour se délivrer d’un Mariage, dont elle était importunée. Mais, de crainte qu’on ne nous voie ensemble, retirons-nous d’ici : et je vous dirai en marchant, ce que je souhaite de vous.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Allons, Monsieur, vous m’avez donné pour votre amour, une Tendresse qui n’est pas concevable : et j’y perdrai toute ma Médecine, ou la Malade crèvera, ou bien elle sera à vous.
 \chapterclose
 
@@ -2174,492 +2214,500 @@ Que diable, à qui en veulent ces Gens-là ?
 \section[{Scène I}]{Scène I}\phantomsection
 \label{III01}
 
-{\centering\it Sganarelle, Léandre.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Sganarelle}, \MakeUppercase{Léandre}.}
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Il me semble que je ne suis pas mal ainsi, pour un Apothicaire : et comme le Père ne m’a guère vu, ce changement d’Habit, et de Perruque, est assez capable, je crois, de me déguiser à ses yeux.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Sans doute.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Tout ce que je souhaiterais, serait de savoir cinq ou six grands Mots de Médecine, pour parer mon Discours, et me donner l’air d’habile Homme.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Allez, allez, tout cela n’est pas nécessaire. Il suffit de l’Habit : et je n’en sais pas plus que vous.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Comment ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Diable emporte, si j’entends rien en Médecine. Vous êtes honnête Homme : et je veux bien me confier à vous, comme vous vous confiez à moi.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Quoi, vous n’êtes pas effectivement...
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Non, vous dis-je, ils m’ont fait Médecin malgré mes Dents. Je ne m’étais jamais mêlé d’être si savant que cela : et toutes mes Études n’ont été que jusqu’en sixième. Je ne sais point sur quoi cette imagination leur est venue : mais quand j’ai vu qu’à toute force, ils voulaient que je fusse Médecin, je me suis résolu de l’être, aux Dépens de qui il appartiendra. Cependant, vous ne sauriez croire comment l’erreur s’est répandue : et de quelle façon, chacun est endiablé à me croire habile Homme. On me vient chercher de tous les côtés : et si les choses vont toujours de même, je suis d’avis de m’en tenir, toute ma vie, à la Médecine. Je trouve que c’est le Métier le meilleur de tous : car soit qu’on fasse bien, ou soit qu’on fasse mal, on est toujours payé de même sorte. La méchante Besogne ne retombe jamais sur notre Dos : et nous taillons, comme il nous plaît, sur l’Étoffe où nous travaillons. Un Cordonnier en faisant des Souliers, ne saurait gâter un morceau de Cuir, qu’il n’en paye les Pots cassés : mais ici, l’on peut gâter un Homme sans, qu’il en coûte rien. Les Bévues ne sont point pour nous : et c’est toujours, la faute de celui qui meurt. Enfin le bon de cette Profession, est qu’il y a parmi les Morts, une honnêteté, une discrétion la plus grande du Monde : jamais on n’en voit se plaindre du Médecin qui l’a tué.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Il est vrai que les morts sont fort honnêtes Gens, sur cette matière.
 
-\speaker{Sganarelle\textit{, voyant des hommes qui viennent vers lui}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Voyant des hommes qui viennent vers lui.}
 \noindent Voilà des gens qui ont la mine de me venir consulter. Allez toujours m’attendre auprès du Logis de votre maîtresse.
 
 \section[{Scène II}]{Scène II}\phantomsection
 \label{III02}
 
-{\centering\it Thibaut, Perrin, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Thibaut}, \MakeUppercase{Perrin}, \MakeUppercase{Sganarelle}.}
 
-\speaker{Thibaut}
+\speaker{\surname{Thibaut}.}
 \noindent Monsieu, je venons vous charcher, mon Fils Perrin et moi.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Qu’y a-t-il ?
 
-\speaker{Thibaut}
+\speaker{\surname{Thibaut}.}
 \noindent Sa pauvre mère, qui a nom Parette est dans un lit, Malade, il y a six mois.
 
-\speaker{Sganarelle\textit{, tendant la main, comme pour recevoir de l’Argent}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Tendant la main, comme pour recevoir de l’Argent.}
 \noindent Que voulez-vous que j’y fasse ?
 
-\speaker{Thibaut}
+\speaker{\surname{Thibaut}.}
 \noindent Je voudrions, Monsieu, que vous nous baillissiez quelque petite drôlerie pour la garir.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il faut voir de quoi est-ce qu’elle est Malade.
 
-\speaker{Thibaut}
+\speaker{\surname{Thibaut}.}
 \noindent Alle est malade d’Hypocrisie, Monsieu.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent D’Hypocrisie ?
 
-\speaker{Thibaut}
+\speaker{\surname{Thibaut}.}
 \noindent Oui, c’est-à-dire qu’alle est enflée par tout, et l’an dit que c’est quantité de sériosités qu’alle a dans le Corps, et que son Foie, son Ventre, ou sa Rate, comme vous voudrais l’appeler, au glieu de faire du sang, ne fait plus que de L’iau. Alle a de deux jours l’un, la fièvre quotiguenne, avec des lassitules et des douleurs dans les Mufles des jambes. On entend dans sa Gorge, des Fleumes qui sont tout prêts à l’étouffer : parfois, il lui prend des Syncoles, et des Conversions, que je crayons qu’alle est passée. J’avons dans notte Village, un Apothicaire, révérence parler, qui li a donné je ne sai combien d’Histoires : et il m’en coûte plus d’eune douzaine de bons écus, en Lavements, ne v’s en déplaise, en Apostumes, qu’on li a fait prendre, en Infections de Jacinthe, et en Portions Cordales. Mais tout ça, comme dit l’autre, n’a été que de l’Onguent miton mitaine. Il velait li bailler d’eune certaine Drogue que l’on appelle du vin Amétile : mais j’ai-s-eu peur, franchement, que ça l’envoyît à patres, et l’an dit que ces gros médecins tuont je ne sai combien de Monde, avec cette Invention-là.
 
-\speaker{Sganarelle\textit{, tendant toujours la main, et la branlant, comme pour signe qu’il demande de l’Argent}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Tendant toujours la main, et la branlant, comme pour signe qu’il demande de l’Argent.}
 \noindent Venons au fait, mon ami, venons au fait.
 
-\speaker{Thibaut}
+\speaker{\surname{Thibaut}.}
 \noindent Le fait est, Monsieu, que je venons vous prier de nous dire ce qu’il faut que je fassions.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je ne vous entends point du tout.
 
-\speaker{Perrin}
+\speaker{\surname{Perrin}.}
 \noindent Monsieu, ma Mère est Malade, et velà deux Écus que je vous apportons, pour nous bailler queuque Remède.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah ! je vous entends, vous. Voilà un Garçon qui parle clairement, qui s’explique comme il faut. Vous dites que votre Mère est malade d’Hydropisie, qu’elle est enflée par tout le corps, qu’elle a la Fièvre, avec des Douleurs dans les jambes : et qu’il lui prend, parfois, des Syncopes, et des Convulsions, c’est-à-dire des Évanouissements.
 
-\speaker{Perrin}
+\speaker{\surname{Perrin}.}
 \noindent Eh oui, Monsieu, c’est justement ça.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent J’ai compris d’abord, vos paroles. Vous avez un père qui ne sait ce qu’il dit. Maintenant, vous me demandez un remède ?
 
-\speaker{Perrin}
+\speaker{\surname{Perrin}.}
 \noindent Oui, Monsieu.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Un Remède pour la guérir ?
 
-\speaker{Perrin}
+\speaker{\surname{Perrin}.}
 \noindent C’est comme je l’entendons.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tenez, voilà un morceau de Formage, qu’il faut que vous lui fassiez prendre.
 
-\speaker{Perrin}
+\speaker{\surname{Perrin}.}
 \noindent Du fromage, Monsieu ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui, c’est un Formage préparé, où il entre de l’Or, du Coral, et des Perles, et quantité d’autres choses précieuses.
 
-\speaker{Perrin}
+\speaker{\surname{Perrin}.}
 \noindent Monsieu, je vous sommes bien obligés : et j’allons li faire prendre ça tout à l’heure.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Allez. Si elle meurt, ne manquez pas de la faire enterrer du mieux que vous pourrez.
 
 \section[{Scène III}]{Scène III}\phantomsection
 \label{III03}
 
-{\centering\it Jacqueline, Sganarelle, Lucas.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Jacqueline}, \MakeUppercase{Sganarelle}, \MakeUppercase{Lucas}.}
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Voici la belle Nourrice. Ah Nourrice de mon cœur, je suis ravi de cette rencontre : et votre vue est la Rhubarbe, la Casse et le Séné qui purgent toute la Mélancolie de mon Âme.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Par ma figué, Monsieu le Médecin, ça est trop bian dit pour moi : et je n’entends rien à tout votte latin.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Devenez malade, Nourrice, je vous prie, devenez malade pour l’amour de moi. J’aurais toutes les joies du monde, de vous guérir.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Je sis votte sarvante, j’aime bian mieux qu’an ne me guérisse pas.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Que je vous plains, belle Nourrice, d’avoir un mari jaloux et fâcheux comme celui que vous avez !
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Que velez-vous, Monsieu, c’est pour la Pénitence de mes Fautes : et là où la Chèvre est liée, il faut bian qu’alle y broute.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Comment, un Rustre comme cela ! Un Homme qui vous observe toujours, et ne veut pas que Personne vous parle !
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Hélas ! vous n’avez rien vu encore : et ce n’est qu’un petit échantillon de sa mauvaise humeur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Est-il possible, et qu’un Homme ait l’Âme assez basse, pour maltraiter une Personne comme vous ? Ah que j’en sais, belle Nourrice, et qui ne sont pas loin d’ici, qui se tiendraient heureux de baiser, seulement, les petits bouts de vos Petons. Pourquoi faut-il qu’une Personne si bien faite, soit tombée en de telles mains : et qu’un franc Animal, un Brutal, un Stupide, un Sot ... ? Pardonnez-moi, Nourrice, si je parle ainsi de votre mari.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Eh, Monsieu, je sai bien qu’il mérite tous ces Noms-là.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui, sans doute, Nourrice, il les mérite : et il mériterait encore, que vous lui missiez quelque Chose sur la Tête, pour le punir des Soupçons qu’il a.
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Il est bien vrai, que si je n’avais, devant les yeux, que son intérêt, il pourrait m’obliger à queuque étrange chose.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ma Foi, vous ne feriez pas mal, de vous venger de lui, avec quelqu’un. C’est un Homme, je vous le dis, qui mérite bien cela : et si j’étais assez heureux, belle Nourrice, pour être choisi pour...\par
-         \textit{En cet endroit, tous deux apercevant Lucas qui était derrière eux, et entendait leur Dialogue, chacun se retire de son côté, mais le Médecin d’une manière fort plaisante.}\par
+\stageblock{En cet endroit, tous deux apercevant Lucas qui était derrière eux, et entendait leur Dialogue, chacun se retire de son côté, mais le Médecin d’une manière fort plaisante.}
 
 \section[{Scène IV}]{Scène IV}\phantomsection
 \label{III04}
 
-{\centering\it Géronte, Lucas.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Géronte}, \MakeUppercase{Lucas}.}
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Holà ! Lucas, n’as-tu point vu ici, notre Médecin ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Et oui, de par tous les Diantres, je l’ai vu, et ma Femme aussi.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Où est-ce, donc, qu’il peut être ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Je ne sais : mais je voudrais qu’il fût à tous les Guebles.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Va-t’en voir un peu, ce que fait ma Fille.
 
 \section[{Scène V}]{Scène V}\phantomsection
 \label{III05}
 
-{\centering\it Sganarelle, Léandre, Géronte.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Sganarelle}, \MakeUppercase{Léandre}, \MakeUppercase{Géronte}.}
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Ah ! Monsieur, je demandais où vous étiez.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Je m’étais amusé dans votre Cour, à expulser le superflu de la Boisson. Comment se porte la Malade ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Un peu plus mal, depuis votre Remède.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tant mieux. C’est signe qu’il opère.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Oui, mais en opérant, je crains qu’il ne l’étouffe.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ne vous mettez pas en peine : j’ai des Remèdes qui se moquent de tout, et je l’attends à l’Agonie.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Qui est cet homme-là, que vous amenez ?
 
-\speaker{Sganarelle\textit{, faisant des signes avec la main que c’est un Apothicaire}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Faisant des signes avec la main que c’est un Apothicaire.}
 \noindent C’est...
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Quoi ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Celui ....
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Eh.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Qui...
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je vous entends.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Votre fille en aura besoin.
 
 \section[{Scène VI}]{Scène VI}\phantomsection
 \label{III06}
 
-{\centering\it Jacqueline, Lucinde, Géronte, Léandre, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Jacqueline}, \MakeUppercase{Lucinde}, \MakeUppercase{Géronte}, \MakeUppercase{Léandre}, \MakeUppercase{Sganarelle}.}
 
-\speaker{Jacqueline}
+\speaker{\surname{Jacqueline}.}
 \noindent Monsieu, velà votre Fille qui veut un peu marcher.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Cela lui fera du bien. Allez-vous-en, Monsieur l’Apothicaire, tâter un peu son Pouls, afin que je raisonne tantôt, avec vous, de sa maladie.\par
-         \textit{ (En cet endroit, il tire Géronte à un bout du théâtre, et lui passant un bras sur les épaules, lui rabat la main sous le menton, avec laquelle il le fait retourner vers lui, lorsqu’il veut regarder ce que sa fille et l’apothicaire font ensemble, lui tenant, cependant, le discours suivant pour l’amuser.) }\par
+\stageblock{En cet endroit, il tire Géronte à un bout du théâtre, et lui passant un bras sur les épaules, lui rabat la main sous le menton, avec laquelle il le fait retourner vers lui, lorsqu’il veut regarder ce que sa fille et l’apothicaire font ensemble, lui tenant, cependant, le discours suivant pour l’amuser.}
 \noindent Monsieur, c’est une grande et subtile Question entre les Doctes, de savoir si les Femmes sont plus faciles à guérir que les Hommes ? Je vous prie d’écouter ceci, s’il vous plaît. Les uns disent que non, les autres disent que oui : et moi je dis que oui, et non. D’autant que l’incongruité des Humeurs opaques, qui se rencontrent au Tempérament naturel des Femmes, étant cause que la Partie Brutale veut toujours prendre empire sur la Sensitive, on voit que l’inégalité de leurs opinions, dépend du Mouvement oblique, du Cercle de la Lune : et comme le Soleil qui darde ses Rayons sur la Concavité de la Terre, trouve...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Non, je ne suis point du tout capable de changer de sentiment.
 
-\speaker{Géronte}
-\noindent Voilà ma fille qui parle. Ô grande Vertu du Remède !Ô admirable Médecin !Que je vous suis obligé, Monsieur, de cette guérison merveilleuse : et que puis-je faire pour vous, après un tel service ?
+\speaker{\surname{Géronte}.}
+\noindent Voilà ma fille qui parle. Ô grande Vertu du Remède ! Ô admirable Médecin ! Que je vous suis obligé, Monsieur, de cette guérison merveilleuse : et que puis-je faire pour vous, après un tel service ?
 
-\speaker{Sganarelle\textit{, se promenant sur le Théâtre et s’essuyant le Front}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Se promenant sur le Théâtre et s’essuyant le Front.}
 \noindent Voilà une maladie qui m’a bien donné de la peine !
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Oui, mon Père, j’ai recouvré la parole : mais je l’ai recouvrée pour vous dire, que je n’aurai jamais d’autre époux que Léandre, et que c’est inutilement que vous voulez me donner Horace.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Mais...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Rien n’est capable d’ébranler la Résolution que j’ai prise.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Quoi....
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Vous m’opposerez en vain de belles Raisons.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Si...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Tous vos Discours ne serviront de rien.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent C’est une chose où je suis déterminée.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Mais...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Il n’est Puissance Paternelle, qui me puisse obliger à me marier malgré moi.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent J’ai...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Vous avez beau faire tous vos efforts.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Il...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Mon cœur ne saurait se soumettre à cette tyrannie.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent La...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Et je me jetterai plutôt dans un Convent que d’épouser un Homme que je n’aime point.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Mais...
 
-\speaker{Lucinde\textit{, Parlant d’un ton de voix à étourdir}}
+\speaker{\surname{Lucinde}.}
+\stageblock{Parlant d’un ton de voix à étourdir.}
 \noindent Non. En aucune façon. Point d’affaire. Vous perdez le temps. Je n’en ferai rien. Cela est résolu.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Ah ! quelle impétuosité de paroles, il n’y a pas moyen d’y résister. Monsieur, je vous prie de la faire redevenir muette.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est une chose qui m’est impossible. Tout ce que je puis faire pour votre service, est de vous rendre sourd, si vous voulez.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Je vous remercie. Penses-tu donc...
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent Non, toutes vos raisons ne gagneront rien sur mon Âme.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Tu épouseras Horace, dès ce soir.
 
-\speaker{Lucinde}
+\speaker{\surname{Lucinde}.}
 \noindent J’épouserai plutôt la mort.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Mon Dieu, arrêtez-vous, laissez-moi médicamenter cette Affaire. C’est une Maladie qui la tient : et je sais le Remède qu’il y faut apporter.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Serait-il possible, Monsieur, que vous pussiez, aussi, guérir cette Maladie d’Esprit ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui, laissez-moi faire, j’ai des Remèdes pour tout : et notre Apothicaire nous servira pour cette Cure.\par
-\textit{(Il appelle l’apothicaire et lui parle.) }Un mot. Vous voyez que l’ardeur qu’elle a pour ce Léandre, est tout à fait contraire aux volontés du Père, qu’il n’y a point de temps à perdre, que les Humeurs sont fort aigries, et qu’il est nécessaire de trouver promptement un Remède à ce Mal qui pourrait empirer par le retardement. Pour moi, je n’y en vois qu’un seul, qui est une prise de Fuite purgative, que vous mêlerez comme il faut, avec deux Drachmes de Matrimonium en Pilules. Peut-être fera-t-elle quelque difficulté à prendre ce Remède : mais comme vous êtes habile Homme dans votre métier, c’est à vous de l’y résoudre, et de lui faire avaler la chose du mieux que vous pourrez. Allez-vous-en lui faire faire un petit tour de Jardin, afin de préparer les Humeurs, tandis que j’entretiendrai ici son Père : mais surtout, ne perdez point de temps. Au Remède, vite, au Remède spécifique.
+\stageblock{Il appelle l’apothicaire et lui parle.}
+\noindent Un mot. Vous voyez que l’ardeur qu’elle a pour ce Léandre, est tout à fait contraire aux volontés du Père, qu’il n’y a point de temps à perdre, que les Humeurs sont fort aigries, et qu’il est nécessaire de trouver promptement un Remède à ce Mal qui pourrait empirer par le retardement. Pour moi, je n’y en vois qu’un seul, qui est une prise de Fuite purgative, que vous mêlerez comme il faut, avec deux Drachmes de Matrimonium en Pilules. Peut-être fera-t-elle quelque difficulté à prendre ce Remède : mais comme vous êtes habile Homme dans votre métier, c’est à vous de l’y résoudre, et de lui faire avaler la chose du mieux que vous pourrez. Allez-vous-en lui faire faire un petit tour de Jardin, afin de préparer les Humeurs, tandis que j’entretiendrai ici son Père : mais surtout, ne perdez point de temps. Au Remède, vite, au Remède spécifique.
 
 \section[{Scène VII}]{Scène VII}\phantomsection
 \label{III07}
 
-{\centering\it Géronte, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Géronte}, \MakeUppercase{Sganarelle}.}
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Quelles Drogues, Monsieur, sont celles que vous venez de dire ? Il me semble que je ne les ai jamais ouï nommer.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ce sont Drogues dont on se sert dans les nécessités urgentes.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Avez-vous jamais vu, une Insolence pareille à la sienne ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Les Filles sont quelquefois un peu têtues.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Vous ne sauriez croire comme elle est affolée de ce Léandre.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent La Chaleur du Sang, fait cela dans les jeunes Esprits.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Pour moi, dès que j’ai eu découvert la violence de cet Amour, j’ai su tenir toujours ma Fille renfermée.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Vous avez fait sagement.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Et j’ai bien empêché qu’ils n’aient eu communication ensemble.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Fort bien.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Il serait arrivé quelque folie, si j’avais souffert qu’ils se fussent vus.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Sans doute.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Et je crois qu’elle aurait été fille à s’en aller avec lui.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent C’est prudemment raisonné.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent On m’avertit qu’il fait tous ses efforts pour lui parler.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Quel Drôle.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Mais il perdra son temps.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah, ah.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Et j’empêcherai bien qu’il ne la voie.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Il n’a pas affaire à un Sot, et vous savez des Rubriques, qu’il ne sait pas. Plus fin que vous n’est pas bête.
 
 \section[{Scène VIII}]{Scène VIII}\phantomsection
 \label{III08}
 
-{\centering\it Lucas, Géronte, Sganarelle.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Lucas}, \MakeUppercase{Géronte}, \MakeUppercase{Sganarelle}.}
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Ah palsanguenne, Monsieu, vaici bian du tintamarre, votte Fille s’en est enfuie avec son Liandre, c’était lui qui était l’Apothicaire, et velà Monsieu le Médecin, qui a fait cette belle Opération-là.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Comment, m’assassiner de la façon. Allons, un Commissaire, et qu’on empêche qu’il ne sorte. Ah Traître, je vous ferai punir par la justice.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Ah par ma fi, Monsieu le Médecin, vous serez pendu, ne bougez de là seulement.
 
 \section[{Scène IX}]{Scène IX}\phantomsection
 \label{III09}
 
-{\centering\it Martine, Sganarelle, Lucas.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Martine}, \MakeUppercase{Sganarelle}, \MakeUppercase{Lucas}.}
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Ah ! mon Dieu, que j’ai eu de peine à trouver ce Logis : dites-moi un peu des Nouvelles du Médecin que je vous ai donné.
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Le velà, qui va être pendu.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Quoi, mon mari pendu, hélas, et qu’a-t-il fait pour cela ?
 
-\speaker{Lucas}
+\speaker{\surname{Lucas}.}
 \noindent Il a fait enlever la Fille de notte Maître.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Hélas ! mon cher mari, est-il bien vrai qu’on te va pendre ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Tu vois, ah.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Faut-il que tu te laisses mourir en présence de tant de Gens ?
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Que veux-tu que j’y fasse ?
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Encore, si tu avais achevé de couper notre Bois, je prendrais quelque consolation.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Retire-toi de là, tu me fends le cœur.
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Non, je veux demeurer pour t’encourager à la Mort : et je ne te quitterai point, que je ne t’aie vu pendu.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Ah.
 
 \section[{Scène X}]{Scène X}\phantomsection
 \label{III10}
 
-{\centering\it Géronte, Sganarelle, Martine, Lucas.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Géronte}, \MakeUppercase{Sganarelle}, \MakeUppercase{Martine}, \MakeUppercase{Lucas}.}
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Le Commissaire viendra bientôt, et l’on s’en va vous mettre en lieu, où l’on me répondra de vous.
 
-\speaker{Sganarelle\textit{, le chapeau à la main}}
+\speaker{\surname{Sganarelle}.}
+\stageblock{Le chapeau à la main.}
 \noindent Hélas, cela ne se peut-il point changer en quelques coups de bâton ?
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Non, non, la Justice en ordonnera .... Mais que vois-je ?
 
-\section[{Scène XI et DERNIÈRE.}]{Scène XI{\itshape  et DERNIÈRE.}}\phantomsection
+\section[{Scène XI et DERNIÈRE.}]{Scène XI {\itshape et DERNIÈRE.}}\phantomsection
 \label{III11}
 
-{\centering\it Léandre, Lucinde, Jacqueline, Lucas, Géronte, Sganarelle, Martine.\par}\nobreakpage\bigskip\nobreakpage
+\stagescene{\MakeUppercase{Léandre}, \MakeUppercase{Lucinde}, \MakeUppercase{Jacqueline}, \MakeUppercase{Lucas}, \MakeUppercase{Géronte}, \MakeUppercase{Sganarelle}, \MakeUppercase{Martine}.}
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent Monsieur, je viens faire paraître Léandre à vos yeux, et remettre Lucinde en votre pouvoir, nous avons eu dessein de prendre la fuite nous deux, et de nous aller marier ensemble : mais cette entreprise a fait place à un procédé plus honnête : je ne prétends point vous voler votre Fille, et ce n’est que de votre main que je veux la recevoir : ce que je vous dirai, Monsieur, c’est que je viens tout à l’heure de recevoir des lettres, par où j’apprends que mon oncle est mort, et que je suis héritier de tous ses biens.
 
-\speaker{Géronte}
+\speaker{\surname{Géronte}.}
 \noindent Monsieur, votre Vertu m’est tout à fait considérable, et je vous donne ma Fille, avec la plus grande joie du Monde.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent La Médecine l’a échappé belle !
 
-\speaker{Martine}
+\speaker{\surname{Martine}.}
 \noindent Puisque tu ne seras point pendu, rends-moi grâce d’être Médecin : car c’est moi qui t’ai procuré cet Honneur.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Oui, c’est toi qui m’as procuré je ne sais combien de coups de Bâton.
 
-\speaker{Léandre}
+\speaker{\surname{Léandre}.}
 \noindent L’effet en est trop beau, pour en garder du ressentiment.
 
-\speaker{Sganarelle}
+\speaker{\surname{Sganarelle}.}
 \noindent Soit, je te pardonne ces coups de Bâton, en faveur de la Dignité où tu m’as élevé : mais prépare-toi désormais à vivre dans un grand respect avec un Homme de ma conséquence, et songe que la Colère d’un Médecin est plus à craindre qu’on ne peut croire.
 \chapterclose
 
@@ -2686,10 +2734,9 @@ Que diable, à qui en veulent ces Gens-là ?
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
   Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
   En page de garde, on peut ajouter une date, un lieu, un nom ;
   comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
+  pour suivre le voyage du texte. Qui sait, un jour, il vous reviendra ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
@@ -2700,14 +2747,13 @@ Que diable, à qui en veulent ces Gens-là ?
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 
