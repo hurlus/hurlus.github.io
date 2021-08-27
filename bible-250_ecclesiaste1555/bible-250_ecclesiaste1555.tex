@@ -32,18 +32,14 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -95,11 +91,11 @@
 
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
 \usepackage{enumitem} % <list>
-\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -126,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -187,7 +184,7 @@ ou le regard de tes yeux : \\
 mais sache que de tout cela Dieu t’en fera rendre compte. (\hyperref[Eccl.11.9]{\dotuline{\emph{Eccl}.11.9)}}
  \end{quoteblock}
 
- \noindent En nous rappelant à nos devoirs, Dieu rend la vie morne.\par
+ En nous rappelant à nos devoirs, Dieu rend la vie morne.\par
  
 \begin{quoteblock}
  Mieux vaut ouïr tancer un sage, \\
@@ -401,8 +398,10 @@ par Sébastien Castellion \\
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -411,12 +410,12 @@ par Sébastien Castellion \\
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
-\newcommand{\speaker}[1]{\medskip{\centering\sffamily #1\par\nopagebreak}} % supposed bottom
-\newcommand{\stagescene}[1]{{\centering\sffamily #1\par}\bigskip}
-\newcommand{\stagesp}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily #1\par\endgroup} % left margin, better than list envs
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
 \newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
-\newcommand{\trailer}[1]{{\centering\bigskip #1\par}} % sp/l
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
@@ -449,24 +448,22 @@ par Sébastien Castellion \\
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
 \newenvironment{titlePage}
-  {\centering}
+  {\Centering}
   {}
 
 
 
-  % \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
- % epigraph pack
-\setlength{\epigraphrule}{0pt}
-\setlength{\epigraphwidth}{0.8\textwidth}
-% \renewcommand{\epigraphflush}{center} ? dont work
 
 
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -601,21 +598,24 @@ par Sébastien Castellion \\
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -639,10 +639,11 @@ par Sébastien Castellion \\
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -650,6 +651,7 @@ par Sébastien Castellion \\
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -664,7 +666,7 @@ par Sébastien Castellion \\
 
 \titleformat{name=\section}
   [display]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -719,7 +721,7 @@ par Sébastien Castellion \\
   \centering\parindent0pt % no vskip ()
   \eltitlepage
   \bigskip
-  {\color{rubric}\hline\par}
+  {\color{rubric}\hline}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
@@ -731,7 +733,7 @@ par Sébastien Castellion \\
   \centering\parindent0pt
   \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
@@ -1008,8 +1010,8 @@ par Sébastien Castellion \\
 \phantomsection
 \label{Eccl.3.11}\noindent\hangindent=2\parindent\pn{11} Il fait bien tout en son temps, \par
 \noindent\hangindent=2\parindent et leur a tellement mis la vie\footnoteA{Ailleurs, Castellion traduit le même mot hébreu par « à tout jamais » (Ps.28.9), « toujours » (Ps.41.13), ou « de tous temps en tous temps » (ps.106.48) ; comme c’est entendu désormais, et déjà dans \emph{les Septantes} (qui met \foreign{aion}, \emph{l’éternité}, dans le cœur des hommes). Il n’a en tous cas pas repris l’interprétation de \emph{la Vulgate} \emph{« et \emph{mundum} tradidit disputationi eorum »}, qui donne dans les mots de Sacy cet étrange : \emph{« et il a livré le \emph{monde} à leurs disputes »}, ou bien dans Calvin-Bèze 1588 : « aussi a-t-il mis le \emph{monde} dans leur cœur ». Ce verset équivoque concentre tout le paradoxe d’un Dieu bon, qui fait tout au mieux et à temps, sans que l’on puisse en pénétrer la raison (\hyperref[Eccl.8.17]{\dotuline{8.17}}), car notre désir est infini, cet infini que Dieu a inscrit en nous et qui nous rend à jamais insatisfait. En choisissant de mettre \emph{la vie} au cœur, et non une abstraction dans la tête, Castellion garde à Qohélet une expression personnelle, vécue, existentielle (au risque du faux-sens). Mais est-ce qu’un concept métaphysique aurait apporté ici à l’essentiel qu’un paroissien de tous les jours voudrait savoir ?} au cœur, \par
-\noindent\hangindent=2\parindent que\footnote{de toute leur vie.} depuis le commencement jusqu’à la fin \par
-\noindent\hangindent=2\parindent les hommes ne peuvent trouver\footnote{par quelle cause et raison il fait ce qu’il fait.} que c’est que fait Dieu.\par
+\noindent\hangindent=2\parindent que \footnote{de toute leur vie.}depuis le commencement jusqu’à la fin \par
+\noindent\hangindent=2\parindent les hommes ne peuvent trouver \footnote{par quelle cause et raison il fait ce qu’il fait.}que c’est que fait Dieu.\par
 \bigbreak
 \phantomsection
 \label{Eccl.3.12}\noindent\hangindent=2\parindent\pn{12} Je sais qu’il n’y a point de bien en eux, \par
@@ -1046,7 +1048,7 @@ par Sébastien Castellion \\
 \phantomsection
 \label{Eccl.3.19}\noindent\hangindent=2\parindent\pn{19} Car il en prend tout ainsi d’un homme que d’une bête : \par
 \noindent\hangindent=2\parindent comme elle meurt, aussi fait-il, \par
-\noindent\hangindent=2\parindent et ont tous deux un même esprit\footnote{« souffle de vie »}, \par
+\noindent\hangindent=2\parindent et ont tous deux un même esprit\footnoteA{« souffle de vie »}, \par
 \noindent\hangindent=2\parindent et n’y a rien en quoi l’homme surmonte la bête, \par
 \noindent\hangindent=2\parindent vu que tous deux ne valent rien.\par
 \phantomsection
@@ -1366,7 +1368,7 @@ par Sébastien Castellion \\
 \phantomsection
 \label{Eccl.7.15}\noindent\hangindent=2\parindent\pn{15} Je vois tout en mon âge, pour néant qu’il soit : \par
 \noindent\hangindent=2\parindent il y a tel innocent, qui périt en son innocence : \par
-\noindent\hangindent=2\parindent et y a tel méchant qui dure en sa mauvaitie\footnote{« malice »}.\par
+\noindent\hangindent=2\parindent et y a tel méchant qui dure en sa mauvaitie\footnoteA{« malice »}.\par
 \phantomsection
 \label{Eccl.7.16}\noindent\hangindent=2\parindent\pn{16} Ne sois ni trop innocent, \par
 \noindent\hangindent=2\parindent ni trop sage, \par
@@ -1461,7 +1463,7 @@ par Sébastien Castellion \\
 \noindent\hangindent=2\parindent car qui lui donnera à connaître l’avenir ?\par
 \phantomsection
 \label{Eccl.8.8}\noindent\hangindent=2\parindent\pn{8} Ainsi qu’un homme ne  peut être maître du vent \par
-\noindent\hangindent=2\parindent et l’atenir\footnote{« retenir »}, \par
+\noindent\hangindent=2\parindent et l’atenir\footnoteA{« retenir »}, \par
 \noindent\hangindent=2\parindent ni faire à sa guise du jour de la mort, \par
 \noindent\hangindent=2\parindent ni jouir de la guerre, \par
 \noindent\hangindent=2\parindent ainsi ne peut méchanceté délivrer son maître.\par
@@ -1529,7 +1531,7 @@ par Sébastien Castellion \\
 \noindent\hangindent=2\parindent en mon  esprit toute cette matière, \par
 \noindent\hangindent=2\parindent c’est que les justes et sages, et leurs faits, \par
 \noindent\hangindent=2\parindent sont en la main de Dieu : \par
-\noindent\hangindent=2\parindent tellement que les hommes ne savent si l’on est\footnote{à-savoir de Dieu, par ce qui advient, vu que souvent les bons sont mal a leur aise, et les mauvais sont a leur aise, et qu’aussi bien meurt bon que mauvais.} aimé ou haï, \par
+\noindent\hangindent=2\parindent tellement que les hommes ne savent si l’on est \footnote{à-savoir de Dieu, par ce qui advient, vu que souvent les bons sont mal a leur aise, et les mauvais sont a leur aise, et qu’aussi bien meurt bon que mauvais.}aimé ou haï, \par
 \noindent\hangindent=2\parindent vu qu’ils voient évidemment qu’autant en est des uns que des autres.\par
 \phantomsection
 \label{Eccl.9.2}\noindent\hangindent=2\parindent\pn{2} Autant en prend du juste que de l’injuste, \par
@@ -1542,7 +1544,7 @@ par Sébastien Castellion \\
 \label{Eccl.9.3}\noindent\hangindent=2\parindent\pn{3} C’est un mauvais cas en tout ce qui se fait sous le soleil, \par
 \noindent\hangindent=2\parindent que comme la fortune de tous est tout une, \par
 \noindent\hangindent=2\parindent ainsi ont les hommes le cœur plein de mauvaitie \par
-\noindent\hangindent=2\parindent et forcennerie\footnote{de \emph{forcené}, « folie, fureur »}, durant leur vie, \par
+\noindent\hangindent=2\parindent et forcennerie\footnoteA{de \emph{forcené}, « folie, fureur »}, durant leur vie, \par
 \noindent\hangindent=2\parindent puis s’en vont trouver les morts.\par
 \bigbreak
 \phantomsection
@@ -1596,7 +1598,7 @@ par Sébastien Castellion \\
 \phantomsection
 \label{Eccl.9.12}\noindent\hangindent=2\parindent\pn{12} Car les hommes ne savent point leur temps : \par
 \noindent\hangindent=2\parindent et comme les poissons se prennent  au cauteleux filé, \par
-\noindent\hangindent=2\parindent et les oiseaux aux lacs\footnote{« lacets »}, \par
+\noindent\hangindent=2\parindent et les oiseaux aux lacs\footnoteA{« lacets »}, \par
 \noindent\hangindent=2\parindent ainsi les hommes sont enfilés au temps d’adversité, \par
 \noindent\hangindent=2\parindent et accablés au dépourvu.\par
 
@@ -1682,7 +1684,7 @@ par Sébastien Castellion \\
 \noindent\hangindent=2\parindent lèvres de fol gâtent leur maître.\par
 \phantomsection
 \label{Eccl.10.13}\noindent\hangindent=2\parindent\pn{13} Le commencement de ses propos n’est que folie, \par
-\noindent\hangindent=2\parindent et la fin n’est qu’une malheureuse forcennerie\footnote{de \emph{forcené}, « folie, fureur »}.\par
+\noindent\hangindent=2\parindent et la fin n’est qu’une malheureuse forcennerie\footnoteA{de \emph{forcené}, « folie, fureur »}.\par
 \phantomsection
 \label{Eccl.10.14}\noindent\hangindent=2\parindent\pn{14} Quelque causer que fassent les fols, \par
 \noindent\hangindent=2\parindent l’homme ne sait ce qui est avenir, \par
@@ -1855,10 +1857,9 @@ par Sébastien Castellion \\
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
   Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
   En page de garde, on peut ajouter une date, un lieu, un nom ;
   comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
+  pour suivre le voyage du texte. Qui sait, un jour, il vous reviendra ?
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
@@ -1869,14 +1870,13 @@ par Sébastien Castellion \\
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 

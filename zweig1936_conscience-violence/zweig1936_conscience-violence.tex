@@ -36,15 +36,10 @@
     marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -96,6 +91,7 @@
 
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
@@ -311,7 +307,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -321,9 +317,9 @@
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
-\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1\par\nopagebreak}} % supposed bottom
-\newcommand{\stagescene}[1]{{\Centering\sffamily #1\par}\bigskip}
-\newcommand{\stagesp}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily #1\par\endgroup} % left margin, better than list envs
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
 \newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
@@ -373,6 +369,7 @@
 
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -507,22 +504,24 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\setsansfont{Roboto Light} % seen, problem if not set
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -546,10 +545,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -572,7 +572,7 @@
 
 \titleformat{name=\section}
   [display]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -627,7 +627,7 @@
   \centering\parindent0pt % no vskip ()
   \eltitlepage
   \bigskip
-  {\color{rubric}\hline\par}
+  {\color{rubric}\hline}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
@@ -639,7 +639,7 @@
   \centering\parindent0pt
   \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
@@ -1163,7 +1163,7 @@ Mais où est Calvin en cette heure d’épouvante ? Il a préféré rester dans
 \begin{quoteblock}
 \noindent « Je n’aime pas beaucoup les condamnations à mort, même quand elles sont méritées, et ce qui m’effraie, c’est l’exemple qu’on donne. C’est pourquoi je ne puis approuver en aucune façon qu’on exécute les faux docteurs. »\end{quoteblock}
 
-\noindent Puis, dans une formule d’une brièveté remarquable, il ajoute :\par
+Puis, dans une formule d’une brièveté remarquable, il ajoute :\par
 
 \begin{quoteblock}
 \noindent « Les hérétiques ne peuvent être ni réprimés ni empêchés par aucune force extérieure. Par quoi il faut agir et besogner avec eux par autres moyens que par sévérité de glaive : il y faut procéder par la parole de Dieu. L’hérésie est une affaire spirituelle, qui ne peut être lavée par aucun feu ni aucune eau terrestre. »\end{quoteblock}
@@ -1246,7 +1246,7 @@ Il semble qu’ainsi on ait trouvé la véritable définition de l’hérétique
 \begin{quoteblock}
 \noindent « Si, déclare Castellion, en cette cité ou région, tu es estimé vrai fidèle, en la prochaine tu seras estimé hérétique. Tellement que si quelqu’un aujourd’hui veut vivre, il lui est nécessaire d’avoir autant de fois et religions qu’il est de cités ou de sectes. »\end{quoteblock}
 
-\noindent Et c’est ainsi qu’il en arrive à cette affirmation hardie :\par
+Et c’est ainsi qu’il en arrive à cette affirmation hardie :\par
 
 \begin{quoteblock}
 \noindent « Après avoir souvent cherché que c’est d’un hérétique, je n’en trouve autre chose, sinon que nous estimons hérétiques tous ceux qui ne s’accordent avec nous, en notre opinion. »\end{quoteblock}
@@ -1261,7 +1261,7 @@ Il semble qu’ainsi on ait trouvé la véritable définition de l’hérétique
 \begin{quoteblock}
 \noindent « Les hommes étant enflés de cette science, ou plutôt de cette fausse opinion de science, méprisent hautainement les autres, et s’ensuit, tantôt après, cet orgueil, cruauté et persécution, en sorte que nul ne veut plus endurer l’autre, s’il est discordant en quelque chose avec lui, comme s’il n’y avait pas aujourd’hui quasi autant d’opinions que d’hommes. Toutefois, il n’y a aucune secte, laquelle ne condamne toutes les autres et ne veuille régner toute seule. De là viennent bannissements, exils, emprisonnements, brûlements, gibets, et cette misérable rage de supplices et de tourments qu’on exerce journellement, à cause de quelques opinions déplaisantes aux grands, et mêmement de choses inconnues. »\end{quoteblock}
 
-\noindent C’est l’intolérance qui produit\par
+C’est l’intolérance qui produit\par
 
 \begin{quoteblock}
 \noindent « cette rage cruelle et brutale à exercer cruauté, en sorte qu’on voit d’aucuns être tellement enflammés par telles calomnies qu’ils sont comme enragés et forcenés s’ils voient quelqu’un de ceux qu’on fait mourir être premièrement étranglé, et non pas rôti, tout vif, à petit feu. »\end{quoteblock}
@@ -1449,7 +1449,7 @@ Puis Castellion met Calvin dans l’impossibilité de justifier son acte en invo
 \begin{quoteblock}
 \noindent « Ne forçons personne ! Car la contrainte n’a jamais rendu personne meilleur ! Ceux qui veulent imposer aux gens une croyance agissent aussi stupidement que celui qui voudrait obliger un malade à prendre de la nourriture en la lui enfonçant dans la bouche au moyen d’un bâton. »\end{quoteblock}
 
-\noindent Que l’oppression des hérétiques prenne fin une fois pour toutes !\par
+Que l’oppression des hérétiques prenne fin une fois pour toutes !\par
 
 \begin{quoteblock}
 \noindent « Défends à tes magistrats, Calvin, le droit à la violence et aux persécutions ! Accorde à chacun la liberté de parler et d’écrire, comme le veut saint Paul, lorsqu’il reconnaît à tous le droit de prophétie, et tu verras bientôt ce que peut en ce monde la vérité libérée. »\end{quoteblock}
