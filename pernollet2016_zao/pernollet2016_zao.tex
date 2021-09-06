@@ -72,7 +72,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -145,19 +145,21 @@
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
 \title{\textbf{ Zao }\par
+\medskip
+\textit{ Histoire courte }\par
 }
 \date{2016}
 \author{Richard Pernollet}
 \def\elbibl{Richard Pernollet. 2016. \emph{Zao}}
 \def\elabstract{%
  
-\labelblock{Avertissement de l’édition}
-
- \noindent L’auteur étant bien vivant, ce texte est protégé par le droit d’auteur. Il a exprimé l’intention que l’“œuvre“ de son esprit (ce sont les termes de la loi, pas du tout les siens) soit librement communicable et partageable, mais sans profit commercial, en gardant le nom de l’auteur, et sans modification. Le choix de cette \href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}{\dotuline{license CC BY-NC-ND}}\footnote{\href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}{\url{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}}} n’est pas seulement l’effet d’opinions politiques, elle est aussi conséquente avec son esthétique. Son texte a été longtemps mûri, puis jeté tout d’un trait, il témoigne d’un moment, signé, daté, et localisé : \emph{Lille, octobre 2016}. Ce texte est un morceau de temps libre qui ne peut plus être modifié ; de son temps à lui et personne d’autre ; son temps, il ne le vend pas, il le partage.\par
- 
 \labelblock{Chapeau de l’auteur}
 
- \noindent Encore une histoire de fin du monde, des enfants survivent dans un bois au milieu de cabanes. Ils se rendent compte soudain que leur maître Zao a disparu. Un des grands est désigné pour aller le chercher au lac, mais il se fait surprendre par la nuit. En fait, tout le monde le pressent, Zao avait annoncé qu’un jour il disparaîtrait.
+ \noindent Encore une histoire de fin du monde, des enfants survivent dans un bois au milieu de cabanes. Ils se rendent compte soudain que leur maître Zao a disparu. Un des grands est désigné pour aller le chercher au lac, mais il se fait surprendre par la nuit. En fait, tout le monde le pressent, Zao avait annoncé qu’un jour il disparaîtrait.\par
+ 
+\labelblock{Avertissement de l’édition}
+
+ \noindent L’auteur étant bien vivant, ce texte est protégé par le droit d’auteur. Il a exprimé l’intention que l’“œuvre“ de son esprit (ce sont les termes de la loi, pas du tout les siens) soit librement communicable et partageable, mais sans profit commercial, en gardant le nom de l’auteur, et sans modification. Le choix de cette \href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}{\dotuline{license CC BY-NC-ND}}\footnote{\href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}{\url{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr}}} n’est pas seulement l’effet d’opinions politiques, elle est aussi conséquente avec son esthétique. Son texte a été longtemps mûri, puis jeté tout d’un trait, il témoigne d’un moment, signé, daté. Ce texte est un morceau de temps libre qui ne peut plus être modifié ; de son temps à lui et personne d’autre. Ce temps, il ne le vend pas, il le partage.
  \vfill
 
 }
@@ -168,6 +170,7 @@
   {\Large 2016\par}\bigskip
   {\LARGE
 \bigskip\textbf{Zao}\par
+\bigskip\emph{Histoire courte}\par
 
   }
 }
@@ -315,9 +318,9 @@
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
-\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1\par\nopagebreak}} % supposed bottom
-\newcommand{\stagescene}[1]{{\Centering\sffamily #1\par}\bigskip}
-\newcommand{\stagesp}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily #1\par\endgroup} % left margin, better than list envs
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
 \newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
@@ -504,7 +507,8 @@
 %%%%%%%%%
 % \linespread{0.90} % too compact, keep font natural
 \ifav % A5
-
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
   \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
@@ -867,10 +871,9 @@ JE RAMENAIS LA TÊTE DE ZAO AU CAMP !\par
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée, ou déposée dans une boîte à livres.
   En page de garde, on peut ajouter une date, un lieu, un nom ;
-  comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, il vous reviendra ?
+  comme une fiche de bibliothèque en papier qui enregistre \emph{les voyages de la brochure}.
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
