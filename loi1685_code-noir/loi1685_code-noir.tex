@@ -32,18 +32,14 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -67,7 +63,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -76,7 +72,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -93,8 +89,9 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
@@ -109,9 +106,12 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{poetry} % <l>, bad for theater
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -122,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -129,33 +130,11 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
-
-% TOTEST
-% \usepackage{hypcap} % links in caption ?
-% \usepackage{marginnote}
-% TESTED
-% \usepackage{background} % doesn’t work with xetek
-% \usepackage{bookmark} % prefers the hyperref hack \phantomsection
-% \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
-% \usepackage{DejaVuSans} % override too much, was for for symbols
-% \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
-% \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
-% \usepackage{flushend} % bad for last notes, supposed flush end of columns
-% \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
-% \usepackage{helvet} % not for XeLaTeX
-% \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
-% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
-% \usepackage{sectsty} % \chapterfont OBSOLETE
-% \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
-% \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
 \defaultfontfeatures{
   % Mapping=tex-text, % no effect seen
@@ -165,8 +144,10 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Code noir }\\ \medskip
-\textit{ Édit du Roy, servant de règlement pour le Gouvernement et l’Administration de Justice \& la Police des Isles Françoises de l’Amérique, \& pour la Discipline et le Commerce des Nègres \& Esclaves dans ledit Pays }}
+\title{\textbf{ Code noir }\par
+\medskip
+\textit{ Édit du Roy, servant de règlement pour le Gouvernement et l’Administration de Justice \& la Police des Isles Françoises de l’Amérique, \& pour la Discipline et le Commerce des Nègres \& Esclaves dans ledit Pays }\par
+}
 \date{1685}
 \author{Lois}
 \def\elbibl{Lois. 1685. \emph{Code noir}}
@@ -189,7 +170,7 @@
  (VIII) Déclarons nos Sujets qui ne sont pas de la Religion Catholique, Apostolique \& Romaine incapables de contracter à l’avenir aucuns \textbf{mariages} valables. Déclarons \textbf{bâtards} les enfants qui naîtront de telles conjonctions
  \end{quoteblock}
 
- \noindent Pour notre époque où deux tiers des enfants naissent entre concubins, on ne mesure pas que le monopole catholique de l’administration du mariage est un arrêt de mort sociale pour les autres confessions. Se marier sous la loi juive ou réformée, c’est n’avoir que des \emph{réputés} bâtards qui n’étaient pas seulement réprouvés, mais aussi qui ne pouvaient plus défendre leur droit à héritage, et donc risquaient d’être écartés de toute propriété. Le génie français n’est pas de terroriser les hérétiques en les brûlant mais de les araser discrètement, doucement et lentement, jusqu’à ce qu’ils ne soient plus qu’humiliation et cendres.\par
+ \noindent Pour notre époque où deux tiers des enfants naissent entre concubins, on ne mesure pas que le monopole catholique de l’administration du mariage est un arrêt de mort sociale pour les autres confessions. Se marier sous la loi juive ou réformée, c’est n’avoir que des \emph{réputés} bâtards qui n’étaient pas seulement réprouvés, mais surtout, ils ne pouvaient plus défendre leur droit à héritage devant une justice, et donc risquaient d’être écartés de toute propriété. Le génie français n’est pas de terroriser les hérétiques en les brûlant mais de les araser discrètement, doucement et lentement, jusqu’à ce qu’ils ne soient plus qu’humiliation et cendres.\par
  La Réforme menace le pouvoir, non seulement parmi les maîtres, mais surtout si elle se diffuse parmi les \emph{nègres} (ou \emph{esclave}, c’est synonyme dans ce texte).\par
  
 \begin{quoteblock}
@@ -207,7 +188,7 @@
  (XLVII) Ne pourront être saisis \& vendus séparément, le Mari \& la Femme \& leurs enfants impubères, s’ils sont tous sous la puissance du même Maître
  \end{quoteblock}
 
- \noindent Un \emph{meuble instruit} n’a aucune propriété, même son corps, mais puisqu’il faut bien qu’il soit une âme, qui vivra après la mort, alors un roi très chrétien se doit d’administrer son droit au paradis. Le premier devoir de l’esclave ici-bas est de croître et se multiplier (pour le bien de son maître). Les îles françaises de 1685 organisent déjà ce que connaîtront les État-Unis après 1807 et la répression de la traite des esclaves par les anglais : une économie d’\emph{élevage}, et plus seulement de capture, car l’anglais domine déjà les mers. Le code noir organise la \emph{reproduction} des esclaves, selon une interprétation astucieuse du dogme sacré du mariage.\par
+ \noindent Un \emph{meuble instruit} n’a aucune propriété, même son corps, mais puisqu’il faut bien qu’il soit une âme, qui vivra après la mort, alors un roi très chrétien se doit d’administrer son droit au paradis. Le premier devoir de l’esclave ici-bas est de croître et se multiplier (pour le bien de son maître). Les îles françaises de 1685 organisent déjà ce que connaîtront les État-Unis après 1807  : une économie d’\emph{élevage}, et plus seulement de capture, car l’anglais domine déjà les mers et entrave le commerce triangulaire. Le code noir organise la \emph{reproduction} des esclaves, selon une interprétation astucieuse du dogme sacré du mariage.\par
  
 \begin{quoteblock}
  \noindent (X) Lesdites solennités […] pour les mariages, seront observées tant à l’égard des personnes libres que des esclaves, sans néanmoins que le \textbf{consentement} du père \& de la mère de l’esclave y soit nécessaire, mais celui du Maître seulement.\par
@@ -227,12 +208,24 @@
  \bigbreak
  \noindent Ce voyage assez désagréable dans les idées claires et distinctes de la France d’alors devrait convaincre que l’esclavage est l’affaire de tous.\par
  Un blanc bourgeois mâle n’a pas à demander pardon de ce qu’il n’a pas fait, et demander pardon à qui d’ailleurs ? Personne n’est maudit jusqu’à la quinzième génération, pas plus les coupables que les victimes. Déjà du temps de Louis XIV, la responsabilité était personnelle.\par
- Par contre, un blanc, nous, tous, devons comprendre et digérer ce que cette culture française a fait, et peut refaire, avec cette langue assez subtile pour instituer légalement l’injustice la plus odieuse. En chinois, la \emph{France} se dit \emph{Fàguó} \zh{法国 }« loi-pays ; la nation de la loi » (l’Allemagne est dîte \emph{Déguó} \zh{德国 }« morale-pays »). La langue chinoise a donc son concept de la France, la loi serait son essence. Elle y enfouit en tous cas ses plus belles intentions, et surtout comme ici, son ordure.\par
+ Par contre, un blanc, nous, tous, devons comprendre et digérer ce que cette culture française a fait, et peut refaire, avec cette langue assez subtile pour instituer légalement l’injustice la plus odieuse, en toute bonne conscience de grand style et bonne rationalité.\par
  \vfill\null
  \newpage
 
 }
 \def\elsource{ \href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\dotuline{Assemblée Nationale}}\footnote{\href{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}{\url{https://www.assemblee-nationale.fr/histoire/esclavage/code-noir.pdf}}} }
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Lois\par}\bigskip
+  {\Large 1685\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Code noir}\par
+\bigskip\emph{Édit du Roy, servant de règlement pour le Gouvernement et l’Administration de Justice \& la Police des Isles Françoises de l’Amérique, \& pour la Discipline et le Commerce des Nègres \& Esclaves dans ledit Pays}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -279,6 +272,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -330,6 +331,7 @@
   \let\LettrineFontHook\oldLFH
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
+\newcommand{\lnatt}[1]{\reversemarginpar\marginpar[\sffamily\scriptsize #1]{}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
 \newcommand\name[1]{#1}
 \newcommand\orig[1]{#1}
@@ -338,7 +340,7 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
@@ -353,24 +355,30 @@
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
+\newcommand{\docAuthor}[1]{{\large\bigskip #1 \par\bigskip}}
+\newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
+\newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
 \newenvironment{citbibl}{\ifvmode\hfill\fi}{\ifvmode\par\fi }
-\newenvironment{docAuthor}{\ifvmode\vskip4pt\fontsize{16pt}{18pt}\selectfont\fi\itshape}{\ifvmode\par\fi }
-\newenvironment{docDate}{}{\ifvmode\par\fi }
-\newenvironment{docImprint}{\vskip6pt}{\ifvmode\par\fi }
-\newenvironment{docTitle}{\vskip6pt\bfseries\fontsize{18pt}{22pt}\selectfont}{\par }
 \newenvironment{msHead}{\vskip6pt}{\par}
 \newenvironment{msItem}{\vskip6pt}{\par}
-\newenvironment{titlePart}{}{\par }
 
 
 % environments for block containers
@@ -396,12 +404,23 @@
 {\def\@noitemerr
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
+\newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
-\newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
+\newenvironment{titlePage}
+  {\Centering}
+  {}
+
+
+
+
+
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -434,8 +453,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -468,14 +485,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -483,20 +508,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -507,7 +529,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -515,6 +537,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -530,21 +555,24 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -558,7 +586,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -568,10 +596,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -579,6 +608,7 @@
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -592,8 +622,8 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [display]{}{}{}{}
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -645,34 +675,25 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
-  \smallskip
-  {\large\eldate}\par
+  \centering\parindent0pt % no vskip ()
+  \eltitlepage
   \bigskip
-  {\Large\selectfont{\eltitle}}\par
-  \bigskip
-  {\color{rubric}\hline\par}
+  {\color{rubric}\hline}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\bfseries{\elauthor}}\par
-  \bigskip
-  {\Large\eldate}\par
-  \bigskip
-  \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -702,13 +723,14 @@
 \bigskip
 
 \pagestyle{main} % after style
-
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
   
 \labelblock{Donné à Versailles au mois de Mars 1685.}
 
 \noindent Louis, par la grâce de Dieu, Roy de France \& de Navarre : À tous présents \& à venir : Salut. Comme nous devons également nos soins à tous les Peuples que la divine Providence a mis sous notre obéissance, Nous avons bien voulu faire examiner en notre présence les mémoires qui nous ont été envoyés par nos officiers de nos Îles de l’Amérique, par lesquels ayant été informé du besoin qu’ils ont de notre autorité \& de notre justice pour y maintenir la discipline de l’Église Catholique, Apostolique \& Romaine, \& pour y régler ce qui concerne l’État \& la qualité des Esclaves dans lesdites Îles ; \& désirant y pourvoir \& leur faire connaître qu’encore qu’ils habitent des climats infiniment éloignés de notre séjour ordinaire, nous leur sommes toujours présent non seulement par l’étendue de notre puissance, mais encore par la promptitude de notre application à les soutenir dans leurs nécessités. À ces causes de l’avis de notre Conseil \& de notre Certaine science, pleine puissance \& autorité Royale, nous avons dit, statué \& ordonné, disons, statuons et ordonnons, voulons \& nous plaît ce qui ensuit.\par
 \bigbreak
-\noindent \labelchar{{\scshape Article} I.} Voulons \& entendons que l’Édit du feu Roi de glorieuse mémoire, notre très honoré Seigneur \& Père, du 23 avril 1615, soit exécuté dans nos Îles ; ce faisant, enjoignons à tous nos Officiers de chasser hors de nos Îles tous les Juifs qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien. Nous commandons d’en sortir dans trois mois à compter du jour de la publication des Présentes, à peine de confiscation de corps \& de biens.\par
+\labelchar{{\scshape Article} I.} Voulons \& entendons que l’Édit du feu Roi de glorieuse mémoire, notre très honoré Seigneur \& Père, du 23 avril 1615, soit exécuté dans nos Îles ; ce faisant, enjoignons à tous nos Officiers de chasser hors de nos Îles tous les Juifs qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien. Nous commandons d’en sortir dans trois mois à compter du jour de la publication des Présentes, à peine de confiscation de corps \& de biens.\par
 \labelchar{II.} Tous les Esclaves qui seront dans nos Îles seront baptisés \& instruits dans la Religion Catholique, Apostolique \& Romaine. Enjoignons aux Habitants qui achèteront des Nègres nouvellement arrivés d’en avertir les Gouverneur \& Intendant desdites Îles dans huitaine au plus tard, à peine d’amende arbitraire, lesquels donneront les ordres nécessaires pour les faire instruire \& baptiser dans le temps convenable.\par
 \labelchar{III.} Interdisons tout exercice Public d’autre Religion que la Catholique, Apostolique \& Romaine ; voulons que les contrevenants soient punis comme rebelles \& désobéissants à nos Commandements, Défendons toutes assemblées pour cet effet, lesquelles nous déclarons conventicules, illicites \& séditieuses, sujets à la même peine qui aura lieu, même contre les Maîtres qui les permettront \& souffriront à l’égard de leurs Esclaves.\par
 \labelchar{IV.} Ne seront préposés aucuns Commandeurs à la direction des Nègres, qui ne fassent profession de la Religion Catholique, Apostolique \& Romaine, à peine de confiscation desdits Nègres contre les Maîtres qui les auront préposés \& de punition arbitraire Contre les commandeurs qui auront accepté ladite direction.\par
@@ -792,11 +814,9 @@ SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Sou
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée, ou déposée dans une boîte à livres.
   En page de garde, on peut ajouter une date, un lieu, un nom ;
-  comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
+  comme une fiche de bibliothèque en papier qui enregistre \emph{les voyages de la brochure}.
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
@@ -807,14 +827,13 @@ SI DONNONS EN MANDEMENT à nos Amés \& Féaux les Gens tenant notre Conseil Sou
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 

@@ -19,8 +19,8 @@
           Ne sont données ici que les lettres attestées de Paul de Tarse, en ordre chronologique, 
           les autres épîtres reconnues par le canon biblique apportent peu à la doctrine.
           Paul écrivait en grec (du très mauvais selon Nietzsche).
-          Il est ici dans un français somptueux, la traduction de Sacy (1667), 
-          dite aussi <cite class="title">Bible de Port Royal</cite> — un haut lieu parisien de réflexion 
+          Il est ici dans un français somptueux, la traduction de Sacy (1613–1684), 
+          dite aussi <cite class="title">Bible de Port Royal</cite> (1667) — un haut lieu parisien de réflexion 
           linguistique et religieuse (Racine, Pascal, Arnault…).
           Pourquoi celle-là et pas une autre ? Parce qu’elle témoigne d’un moment rare en français,
           où le style servait la religion. Depuis les Lumières et la Révolution, le talent littéraire
@@ -30,7 +30,7 @@
           Ce français est parfois beaucoup plus intelligent que le grec initial, liant par exemple 
           des énumérations brutes et parfois énigmatiques, dans la progression d’une phrase qui lui donne du sens.
           Si quelqu’un veut absolument goûter l’effet du grec de Paul dans une langue actuelle, 
-          il peut essayer une traduction de Darby (1800, 1882), un prédicateur anglais qui a rendu
+          il peut essayer une traduction de Darby (1800–1882), un prédicateur anglais qui a rendu
           la <cite class="title">Bible</cite> le plus littéralement possible en anglais, mais aussi en allemand, et 
           en français. Le résultat demande une tournure d’esprit un peu masochiste pour se plaire au texte.
           Sacy, plus fidèle à Paul – « la lettre tue, et l’esprit donne la vie » (2 Co 3.6) — s’explique ainsi  :
@@ -78,7 +78,7 @@
   <blockquote class="quote">
     <p class="p noindent">J’ai été battu de verges par trois fois, j’ai été lapidé une fois, j’ai fait naufrage trois fois, j’ai passé un jour et une nuit au fond de la mer […] (2 Co 11.25)</p>
   </blockquote>
-  <p class="p noindent">Et il insiste régulièrement pour se justifier de ne rien coûter, il ne prêche par intérêt matériel.</p>
+  <p class="p noindent">Et il insiste régulièrement pour se justifier de ne rien coûter, il ne prêche par par intérêt matériel.</p>
   <blockquote class="quote">
     <p class="p noindent">Et lorsque je demeurais parmi vous, et que j’étais dans la nécessité, je n’ai été a charge à personne (2 Cor 11.9)</p>
   </blockquote>
@@ -90,7 +90,7 @@
   </blockquote>
   <p class="p noindent">
           Il est étrange de lire dans ce texte comment les idées de peu de monde, et 
-          même les lubies d’un seul personnage, ont pu prendre corps et constituer une religion.
+          même les lubies d’un seul personnage, ont pu prendre corps et constituer une religion universelle.
           La force de l’impulsion initiale de ce texte est toujours présente dans les sociétés
           qui s’en sont réclamées, même chez les incroyants.
           Le trait le plus marquant du complexe chrétien est sans doute politique.
@@ -100,8 +100,20 @@
           et elle console des humbles par une grandeur imaginaire, remise au jour où Dieu reviendra.
           Nous ne craignons plus Dieu ou autres fictions, mais nous mourrons encore, 
           et nos grands sont devenus fous, ils pensent trouver le secret de leur immortalité
-          (il n’y en aura pas pour tout le monde). Ils refusent de s’incliner devant une divinité qui nous 
-          dépasse, et qui pourtant n’est pas infinie, notre pauvre planète qui souffre.
-          
+          (et il n’y en aura pas pour tout le monde). Qu’ils ne croient pas à des dieux bien anciens, pourquoi pas,
+          mais qu’ils croient leur science plus intelligente est subtile que les milliards d’années de la vie,
+          qu’ils ne comprennent pas leur misère, qu’ils ne s’inclinent pas devant une planète qui les dépasse et
+          qui est indispensable aux autres,
+          et qu’ils entraînent le monde dans leur chute ;
+          nous n’avons pas la joie mauvaise de l’apocalypse des aztèques ou des maïas, nous ne pouvant pas l’accepter.
+          On ne se console pas en leur souhaitant une réincarnation humiliante ;
+          nous sommes juste révoltés qu’ils se moquent aussi ouvertement de leur propre conscience.
+          Nous ne pouvons pas nous empêcher de penser qu’ils ont une âme pareille à la nôtre,
+          et cela nous a été appris par le christianisme (même si bien d’autres cultures le savent aussi bien).
+          Nul n’est bon par nature, le bien est un effort perpétuel devant lequel nous sommes tous égaux.
         </p>
+  <blockquote class="quote">
+          Car encore que ma conscience ne me
+          reproche rien, je ne suis pas justifié pour cela (1 Co 4.4)
+        </blockquote>
 </article>

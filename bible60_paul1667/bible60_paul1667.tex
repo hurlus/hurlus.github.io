@@ -32,18 +32,14 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -76,7 +72,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -93,13 +89,13 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
 \usepackage{enumitem} % <list>
-\usepackage{epigraph} % <epigraph>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
 \usepackage{fancyhdr}
@@ -112,7 +108,9 @@
 \usepackage{lipsum} % generate text for testing
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
+\usepackage{poetry} % <l>, bad for theater
 \usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
@@ -124,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -131,33 +130,11 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
-
-% TOTEST
-% \usepackage{hypcap} % links in caption ?
-% \usepackage{marginnote}
-% TESTED
-% \usepackage{background} % doesn’t work with xetek
-% \usepackage{bookmark} % prefers the hyperref hack \phantomsection
-% \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
-% \usepackage{DejaVuSans} % override too much, was for for symbols
-% \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
-% \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
-% \usepackage{flushend} % bad for last notes, supposed flush end of columns
-% \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
-% \usepackage{helvet} % not for XeLaTeX
-% \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
-% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
-% \usepackage{sectsty} % \chapterfont OBSOLETE
-% \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
-% \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
 
 \defaultfontfeatures{
   % Mapping=tex-text, % no effect seen
@@ -179,8 +156,8 @@
 \labelblock{Préface hurlue}
 
  \noindent  Les lettres de Paul de Tarse (ou \emph{Épîtres de saint Paul apôtre}) sont parmi les textes les plus lus depuis des siècles. Elles continuent d’influencer des chrétiens, spécialement les évangélistes, qui y trouvent une inspiration pour leurs cérémonies, leur vie sexuelle, le statut des femmes, ou la collecte de fonds. Il n’est pas nécessaire de croire à un texte pour s’y intéresser. Ce sont les premiers écrits chrétiens, avant les évangiles, un témoignage de l’inspiration initiale de cette religion. C’est aussi un document très vivant sur la société gréco-romaine. \par
-  Ne sont données ici que les lettres attestées de Paul de Tarse, en ordre chronologique, les autres épîtres reconnues par le canon biblique apportent peu à la doctrine. Paul écrivait en grec (du très mauvais selon Nietzsche). Il est ici dans un français somptueux, la traduction de Sacy (1667), dite aussi \emph{Bible de Port Royal} — un haut lieu parisien de réflexion linguistique et religieuse (Racine, Pascal, Arnault…). Pourquoi celle-là et pas une autre ? Parce qu’elle témoigne d’un moment rare en français, où le style servait la religion. Depuis les Lumières et la Révolution, le talent littéraire s’est moins souvent occupé de la Bible. \par
-  Ce français est parfois beaucoup plus intelligent que le grec initial, liant par exemple des énumérations brutes et parfois énigmatiques, dans la progression d’une phrase qui lui donne du sens. Si quelqu’un veut absolument goûter l’effet du grec de Paul dans une langue actuelle, il peut essayer une traduction de Darby (1800, 1882), un prédicateur anglais qui a rendu la \emph{Bible} le plus littéralement possible en anglais, mais aussi en allemand, et en français. Le résultat demande une tournure d’esprit un peu masochiste pour se plaire au texte. Sacy, plus fidèle à Paul – « la lettre tue, et l’esprit donne la vie » (2 Co 3.6) — s’explique ainsi  : \par
+  Ne sont données ici que les lettres attestées de Paul de Tarse, en ordre chronologique, les autres épîtres reconnues par le canon biblique apportent peu à la doctrine. Paul écrivait en grec (du très mauvais selon Nietzsche). Il est ici dans un français somptueux, la traduction de Sacy (1613–1684), dite aussi \emph{Bible de Port Royal} (1667) — un haut lieu parisien de réflexion linguistique et religieuse (Racine, Pascal, Arnault…). Pourquoi celle-là et pas une autre ? Parce qu’elle témoigne d’un moment rare en français, où le style servait la religion. Depuis les Lumières et la Révolution, le talent littéraire s’est moins souvent occupé de la Bible. \par
+  Ce français est parfois beaucoup plus intelligent que le grec initial, liant par exemple des énumérations brutes et parfois énigmatiques, dans la progression d’une phrase qui lui donne du sens. Si quelqu’un veut absolument goûter l’effet du grec de Paul dans une langue actuelle, il peut essayer une traduction de Darby (1800–1882), un prédicateur anglais qui a rendu la \emph{Bible} le plus littéralement possible en anglais, mais aussi en allemand, et en français. Le résultat demande une tournure d’esprit un peu masochiste pour se plaire au texte. Sacy, plus fidèle à Paul – « la lettre tue, et l’esprit donne la vie » (2 Co 3.6) — s’explique ainsi  : \par
  
 \begin{quoteblock}
  \noindent On ne voyait pas qu’on pût garder l’exactitude littérale dans la traduction de Saint Paul, sans la rendre si obscure en plusieurs endroits que l’on n’aurait pu y rien comprendre.\par
@@ -200,19 +177,19 @@
 \bibl{}
  \end{quoteblock}
 
- \noindent Il se vexe quand on le prend pour un fou.\par
+ Il se vexe quand on le prend pour un fou.\par
  
 \begin{quoteblock}
  \noindent Je vous le dis encore une fois : « que personne ne me juge fou ; ou au moins souffrez-moi comme fou, et permettez-moi de me glorifier un peu » (2 Co 11.16)
  \end{quoteblock}
 
- \noindent Il se vante.\par
+ Il se vante.\par
  
 \begin{quoteblock}
  \noindent J’ai été battu de verges par trois fois, j’ai été lapidé une fois, j’ai fait naufrage trois fois, j’ai passé un jour et une nuit au fond de la mer […] (2 Co 11.25)
  \end{quoteblock}
 
- \noindent Et il insiste régulièrement pour se justifier de ne rien coûter, il ne prêche par intérêt matériel.\par
+ \noindent Et il insiste régulièrement pour se justifier de ne rien coûter, il ne prêche par par intérêt matériel.\par
  
 \begin{quoteblock}
  \noindent Et lorsque je demeurais parmi vous, et que j’étais dans la nécessité, je n’ai été a charge à personne (2 Cor 11.9)
@@ -224,9 +201,25 @@
  \noindent Si toute une Église étant assemblée en un lieu, tous parlent diverses langues, et que des infidèles, ou des hommes qui ne savent que leur propre langue, entrent dans cette assemblée, ne diront-ils pas que vous êtes des insensés ? (1 Co 14.23)
  \end{quoteblock}
 
- \noindent  Il est étrange de lire dans ce texte comment les idées de peu de monde, et même les lubies d’un seul personnage, ont pu prendre corps et constituer une religion. La force de l’impulsion initiale de ce texte est toujours présente dans les sociétés qui s’en sont réclamées, même chez les incroyants. Le trait le plus marquant du complexe chrétien est sans doute politique. \par
-  Par la peur de la mort, la religion humilie les grands sous Dieu et devant les humbles ; et elle console des humbles par une grandeur imaginaire, remise au jour où Dieu reviendra. Nous ne craignons plus Dieu ou autres fictions, mais nous mourrons encore, et nos grands sont devenus fous, ils pensent trouver le secret de leur immortalité (il n’y en aura pas pour tout le monde). Ils refusent de s’incliner devant une divinité qui nous dépasse, et qui pourtant n’est pas infinie, notre pauvre planète qui souffre. 
+ \noindent  Il est étrange de lire dans ce texte comment les idées de peu de monde, et même les lubies d’un seul personnage, ont pu prendre corps et constituer une religion universelle. La force de l’impulsion initiale de ce texte est toujours présente dans les sociétés qui s’en sont réclamées, même chez les incroyants. Le trait le plus marquant du complexe chrétien est sans doute politique. \par
+  Par la peur de la mort, la religion humilie les grands sous Dieu et devant les humbles ; et elle console des humbles par une grandeur imaginaire, remise au jour où Dieu reviendra. Nous ne craignons plus Dieu ou autres fictions, mais nous mourrons encore, et nos grands sont devenus fous, ils pensent trouver le secret de leur immortalité (et il n’y en aura pas pour tout le monde). Qu’ils ne croient pas à des dieux bien anciens, pourquoi pas, mais qu’ils croient leur science plus intelligente est subtile que les milliards d’années de la vie, qu’ils ne comprennent pas leur misère, qu’ils ne s’inclinent pas devant une planète qui les dépasse et qui est indispensable aux autres, et qu’ils entraînent le monde dans leur chute ; nous n’avons pas la joie mauvaise de l’apocalypse des aztèques ou des maïas, nous ne pouvant pas l’accepter. On ne se console pas en leur souhaitant une réincarnation humiliante ; nous sommes juste révoltés qu’ils se moquent aussi ouvertement de leur propre conscience. Nous ne pouvons pas nous empêcher de penser qu’ils ont une âme pareille à la nôtre, et cela nous a été appris par le christianisme (même si bien d’autres cultures le savent aussi bien). Nul n’est bon par nature, le bien est un effort perpétuel devant lequel nous sommes tous égaux. \par
+ 
+\begin{quoteblock}
+\noindent  Car encore que ma conscience ne me reproche rien, je ne suis pas justifié pour cela (1 Co 4.4) \end{quoteblock}
+
  \newpage
+
+}
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Paul de Tarse\par}\bigskip
+  {\Large 50–60\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Lettres de l’apôtre}\par
+\bigskip\emph{traduction Sacy, 1667}\par
+
+  }
+}
 
 }
 
@@ -334,6 +327,7 @@
   \let\LettrineFontHook\oldLFH
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
+\newcommand{\lnatt}[1]{\reversemarginpar\marginpar[\sffamily\scriptsize #1]{}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
 \newcommand\name[1]{#1}
 \newcommand\orig[1]{#1}
@@ -342,7 +336,7 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
@@ -357,25 +351,30 @@
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
+\newcommand{\docAuthor}[1]{{\large\bigskip #1 \par\bigskip}}
+\newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
+\newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\medskip{\raggedleft #1\par}\bigbreak} % supposed bottom
-
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
 \newenvironment{citbibl}{\ifvmode\hfill\fi}{\ifvmode\par\fi }
-\newenvironment{docAuthor}{\ifvmode\vskip4pt\fontsize{16pt}{18pt}\selectfont\fi\itshape}{\ifvmode\par\fi }
-\newenvironment{docDate}{}{\ifvmode\par\fi }
-\newenvironment{docImprint}{\vskip6pt}{\ifvmode\par\fi }
-\newenvironment{docTitle}{\vskip6pt\bfseries\fontsize{18pt}{22pt}\selectfont}{\par }
 \newenvironment{msHead}{\vskip6pt}{\par}
 \newenvironment{msItem}{\vskip6pt}{\par}
-\newenvironment{titlePart}{}{\par }
 
 
 % environments for block containers
@@ -401,16 +400,23 @@
 {\def\@noitemerr
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
+\newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
-% \newenvironment{epigraph}{\parindent0pt\raggedleft\it}{\bigskip}
- % epigraph pack
-\setlength{\epigraphrule}{0pt}
-\setlength{\epigraphwidth}{0.8\textwidth}
-% \renewcommand{\epigraphflush}{center} ? dont work
+\newenvironment{titlePage}
+  {\Centering}
+  {}
+
+
+
+
+
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -476,14 +482,21 @@
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
 \DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -491,20 +504,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -515,7 +525,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -523,6 +533,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -538,21 +551,24 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -566,7 +582,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{2pt} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -576,10 +592,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -587,6 +604,7 @@
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -601,7 +619,7 @@
 
 \titleformat{name=\section}
   [display]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -654,13 +672,9 @@
 \newcommand\chapo{{%
   \vspace*{-3em}
   \centering\parindent0pt % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
-  \smallskip
-  {\large\eldate\par}
+  \eltitlepage
   \bigskip
-  {\Large\eltitle}
-  \bigskip
-  {\color{rubric}\hline\par}
+  {\color{rubric}\hline}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
@@ -669,15 +683,10 @@
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\addfontfeature{LetterSpace=25}\bfseries{\elauthor}\par}
-  \bigskip
-  {\Large\eldate\par}
-  \bigskip
-  \bigskip
-  {\LARGE \eltitle}
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
@@ -710,7 +719,8 @@
 \bigskip
 
 \pagestyle{main} % after style
-
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
   
 \chapteropen
 
@@ -1152,13 +1162,12 @@ si je n’ai point la charité, je ne suis que comme un airain sonnant, ou une c
 \section[{2 Cor 6}]{2 Cor 6}
 
 \noindent \initial{É}{TANT} donc les coopérateurs de Dieu, nous vous exhortons de ne pas recevoir en vain la grâce de Dieu.  \milestone{2}  Car il dit lui-même :\par
-
-\begin{verse}
-Je vous ai exaucé au temps favorable,\\
-et je vous ai aidé au jour du salut.\\
-Voici maintenant le temps favorable ;\\
-voici maintenant le jour du salut.\\
-\end{verse}
+\begin{poem}
+Je vous ai exaucé au temps favorable, \\
+et je vous ai aidé au jour du salut. \\
+Voici maintenant le temps favorable ; \\
+voici maintenant le jour du salut. \\-
+\end{poem}
 \noindent   \milestone{3}  Et nous prenons garde aussi nous-mêmes de ne donner à personne aucun sujet de scandale, afin que notre ministère ne soit point déshonoré.  \milestone{4}  Mais agissant en toutes choses comme des ministres de Dieu, nous nous rendons recommandables par une grande patience\par
 dans les maux, dans les nécessités pressantes, et dans les extrêmes afflictions ;\par
   \milestone{5}  dans les plaies, dans les prisons, dans les séditions, dans les travaux, dans les veilles, dans les jeûnes ;\par
@@ -1432,11 +1441,9 @@ je serai votre Père, et vous serez mes fils et mes filles, dit le Seigneur tout
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée, ou déposée dans une boîte à livres.
   En page de garde, on peut ajouter une date, un lieu, un nom ;
-  comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, vous la retrouverez ?
+  comme une fiche de bibliothèque en papier qui enregistre \emph{les voyages de la brochure}.
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
@@ -1447,14 +1454,13 @@ je serai votre Père, et vous serez mes fils et mes filles, dit le Seigneur tout
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 

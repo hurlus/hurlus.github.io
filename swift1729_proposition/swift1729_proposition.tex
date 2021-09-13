@@ -32,18 +32,14 @@
     outer=12mm,
     top=20mm,
     bottom=15mm,
-    marginparsep=0pt,
+    marginparsep=3pt,
+    marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -67,7 +63,7 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % classical para with no margin
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
 \setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
@@ -76,7 +72,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -93,12 +89,12 @@
 
 \makeatletter % <@@@
 
-
+\usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
-% \usepackage{DejaVuSans} % seems buggy for sffont font for symbols
 \usepackage{enumitem} % <list>
 \usepackage{etoolbox} % patch commands
 \usepackage{fancyvrb}
@@ -110,9 +106,12 @@
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
+\usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
 \usepackage{pdftexcmds} % needed for tests expressions
-\usepackage{polyglossia} % non-break space french punct, bug Warning: "Failed to patch part"
+\usepackage{poetry} % <l>, bad for theater
+\usepackage{polyglossia} % bug Warning: "Failed to patch part"
 \usepackage[%
   indentfirst=false,
   vskip=1em,
@@ -123,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -130,40 +130,37 @@
 \usepackage[fit]{truncate} % used im runing titles
 \usepackage{unicode-math}
 \usepackage[normalem]{ulem} % breakable \uline, normalem is absolutely necessary to keep \emph
-\usepackage{verse} % <l>
 \usepackage{xcolor} % named colors
 \usepackage{xparse} % @ifundefined
 \XeTeXdefaultencoding "iso-8859-1" % bad encoding of xstring
 \usepackage{xstring} % string tests
 \XeTeXdefaultencoding "utf-8"
-\PassOptionsToPackage{hyphens}{url} % before hyperref, which load url package
 
-% TOTEST
-% \usepackage{hypcap} % links in caption ?
-% \usepackage{marginnote}
-% TESTED
-% \usepackage{background} % doesn’t work with xetek
-% \usepackage{bookmark} % prefers the hyperref hack \phantomsection
-% \usepackage[color, leftbars]{changebar} % 2 cols doc, impossible to keep bar left
-% \usepackage[utf8x]{inputenc} % inputenc package ignored with utf8 based engines
-% \usepackage[sfdefault,medium]{inter} % no small caps
-% \usepackage{firamath} % choose firasans instead, firamath unavailable in Ubuntu 21-04
-% \usepackage{flushend} % bad for last notes, supposed flush end of columns
-% \usepackage[stable]{footmisc} % BAD for complex notes https://texfaq.org/FAQ-ftnsect
-% \usepackage{helvet} % not for XeLaTeX
-% \usepackage{multicol} % not compatible with too much packages (longtable, framed, memoir…)
-% \usepackage[default,oldstyle,scale=0.95]{opensans} % no small caps
-% \usepackage{sectsty} % \chapterfont OBSOLETE
-% \usepackage{soul} % \ul for underline, OBSOLETE with XeTeX
-% \usepackage[breakable]{tcolorbox} % text styling gone, footnote hack not kept with breakable
-
+\defaultfontfeatures{
+  % Mapping=tex-text, % no effect seen
+  Scale=MatchLowercase,
+  Ligatures={TeX,Common},
+}
+\newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Modeste proposition pour empêcher les enfants des pauvres d’être à la charge de leurs parents ou de leur pays et pour les rendre utiles au public }}
+\title{\textbf{ Modeste proposition pour empêcher les enfants des pauvres d’être à la charge de leurs parents ou de leur pays et pour les rendre utiles au public }\par
+}
 \date{1729}
 \author{Swift, Jonathan}
 \def\elbibl{Swift, Jonathan. 1729. \emph{Modeste proposition pour empêcher les enfants des pauvres d’être à la charge de leurs parents ou de leur pays et pour les rendre utiles au public}}
 \def\elsource{\href{http://kropot.free.fr/Swift-proposition.htm}{\dotuline{http://kropot.free.fr/Swift-proposition.htm}}\footnote{\href{http://kropot.free.fr/Swift-proposition.htm}{\url{http://kropot.free.fr/Swift-proposition.htm}}}}
+\def\eltitlepage{%
+{\centering\parindent0pt
+  {\LARGE\addfontfeature{LetterSpace=25}\bfseries Swift, Jonathan\par}\bigskip
+  {\Large 1729\par}\bigskip
+  {\LARGE
+\bigskip\textbf{Modeste proposition pour empêcher les enfants des pauvres d’être à la charge de leurs parents ou de leur pays et pour les rendre utiles au public}\par
+
+  }
+}
+
+}
 
 % Default metas
 \newcommand{\colorprovide}[2]{\@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
@@ -186,11 +183,6 @@
 \let\eldate\@date
 
 
-\defaultfontfeatures{
-  % Mapping=tex-text, % no effect seen
-  Scale=MatchLowercase,
-  Ligatures={TeX,Common},
-}
 
 
 % generic typo commands
@@ -215,6 +207,14 @@
   labelwidth=0pt,
 }
 \setlist[enumerate]{
+  label={\arabic*°},
+  labelindent=0.8\listmod,
+  leftmargin=\listmod,
+  labelwidth=0pt,
+}
+% list for big items
+\newlist{decbig}{enumerate}{1}
+\setlist[decbig]{
   label={\bf\color{rubric}\arabic*.},
   labelindent=0.8\listmod,
   leftmargin=\listmod,
@@ -266,6 +266,7 @@
   \let\LettrineFontHook\oldLFH
 }
 \newcommand{\labelchar}[1]{\textbf{\color{rubric} #1}}
+\newcommand{\lnatt}[1]{\reversemarginpar\marginpar[\sffamily\scriptsize #1]{}}
 \newcommand{\milestone}[1]{\autour{\footnotesize\color{rubric} #1}} % <milestone n="4"/>
 \newcommand\name[1]{#1}
 \newcommand\orig[1]{#1}
@@ -274,12 +275,14 @@
 \newcommand\placeName[1]{#1}
 \newcommand{\pn}[1]{\IfSubStr{-—–¶}{#1}% <p n="3"/>
   {\noindent{\bfseries\color{rubric}   ¶  }}
-  {{\footnotesize\autour{ #1}  }}}
+  {{\footnotesize\autour{#1}}}}
 \newcommand\reg{}
 % \newcommand\ref{} % already defined
 \newcommand\sic[1]{#1}
 \newcommand\surname[1]{\textsc{#1}}
 \newcommand\term[1]{\textbf{#1}}
+\newcommand\zh[1]{{\zhfont #1}}
+
 
 \def\mednobreak{\ifdim\lastskip<\medskipamount
   \removelastskip\nopagebreak\medskip\fi}
@@ -287,28 +290,34 @@
   \removelastskip\nopagebreak\bigskip\fi}
 
 % commands, blocks
+
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-\newcommand{\bibl}[1]{{\RaggedLeft{#1}\par\bigskip}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
+\newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
+\newcommand{\docAuthor}[1]{{\large\bigskip #1 \par\bigskip}}
+\newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
+\newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
-\newcommand{\signed}[1]{\bigbreak\filbreak{\raggedleft #1\par}\medskip}
+\newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
+\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
 \newenvironment{borderbox}{}{} % framing content
 \newenvironment{citbibl}{\ifvmode\hfill\fi}{\ifvmode\par\fi }
-\newenvironment{docAuthor}{\ifvmode\vskip4pt\fontsize{16pt}{18pt}\selectfont\fi\itshape}{\ifvmode\par\fi }
-\newenvironment{docDate}{}{\ifvmode\par\fi }
-\newenvironment{docImprint}{\vskip6pt}{\ifvmode\par\fi }
-\newenvironment{docTitle}{\vskip6pt\bfseries\fontsize{18pt}{22pt}\selectfont}{\par }
 \newenvironment{msHead}{\vskip6pt}{\par}
 \newenvironment{msItem}{\vskip6pt}{\par}
-\newenvironment{titlePart}{}{\par }
 
 
 % environments for block containers
-\newenvironment{argument}{\itshape\parindent0pt}{\vskip1.5em}
+\newenvironment{argument}{\itshape\parindent0pt}{\bigskip}
 \newenvironment{biblfree}{}{\ifvmode\par\fi }
 \newenvironment{bibitemlist}[1]{%
   \list{\@biblabel{\@arabic\c@enumiv}}%
@@ -330,11 +339,23 @@
 {\def\@noitemerr
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
+\newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
+\newenvironment{titlePage}
+  {\Centering}
+  {}
+
+
+
+
+
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -367,8 +388,6 @@
 \newcommand\chapterclose{} % maybe useful for multicol settings
 \setcounter{secnumdepth}{-2} % no counters for hierarchy titles
 \setcounter{tocdepth}{5} % deep toc
-\markright{\@title} % ???
-\markboth{\@title}{\@author} % ???
 \renewcommand\tableofcontents{\@starttoc{toc}}
 % toclof format
 % \renewcommand{\@tocrmarg}{0.1em} % Useless command?
@@ -401,14 +420,22 @@
 \setlength\footnotesep{1.5\footnotesep} % footnote separator
 \renewcommand\@makefntext[1]{\parindent 1.5em \noindent \hb@xt@1.8em{\hss{\normalfont\@thefnmark . }}#1} % no superscipt in foot
 \patchcmd{\@footnotetext}{\footnotesize}{\footnotesize\sffamily}{}{} % before scrextend, hyperref
+\DeclareNewFootnote{A}[alph] % for editor notes
+\renewcommand*{\thefootnoteA}{\alphalph{\value{footnoteA}}} % z, aa, ab…
 
+% poem
+\setlength{\poembotskip}{0pt}
+\setlength{\poemtopskip}{0pt}
+\setlength{\poemindent}{0pt}
+\poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
 \def\truncdiv#1#2{((#1-(#2-1)/2)/#2)}
 \def\moduloop#1#2{(#1-\truncdiv{#1}{#2}*#2)}
 \def\modulo#1#2{\number\numexpr\moduloop{#1}{#2}\relax}
 
-% orphans and widows
+% orphans and widows, nowidow package in test
+% from memoir package
 \clubpenalty=9996
 \widowpenalty=9999
 \brokenpenalty=4991
@@ -416,20 +443,17 @@
 \postdisplaypenalty=1549
 \displaywidowpenalty=1602
 \hyphenpenalty=400
-% Copied from Rahtz but not understood
-\def\@pnumwidth{1.55em}
-\def\@tocrmarg {2.55em}
-\def\@dotsep{4.5}
-\emergencystretch 3em
+% report h or v overfull ?
 \hbadness=4000
+\vbadness=4000
+% good to avoid lines too wide
+\emergencystretch 3em
 \pretolerance=750
 \tolerance=2000
-\vbadness=4000
 \def\Gin@extensions{.pdf,.png,.jpg,.mps,.tif}
-% \renewcommand{\@cite}[1]{#1} % biblio
 
+\PassOptionsToPackage{hyphens}{url} % before hyperref and biblatex, which load url package
 \usepackage{hyperref} % supposed to be the last one, :o) except for the ones to follow
-\urlstyle{same} % after hyperref
 \hypersetup{
   % pdftex, % no effect
   pdftitle={\elbibl},
@@ -440,7 +464,7 @@
   bookmarksopen=true,
   bookmarksopenlevel=1,
   pdfstartview=Fit,
-  breaklinks=true, % avoid long links
+  breaklinks=true, % avoid long links, overrided by url package
   pdfpagemode=UseOutlines,    % pdf toc
   hyperfootnotes=true,
   colorlinks=false,
@@ -448,6 +472,9 @@
   % pdfpagelayout=TwoPageRight,
   % linktocpage=true, % NO, toc, link only on page no
 }
+\urlstyle{same} % after hyperref
+
+
 
 \makeatother % /@@@>
 %%%%%%%%%%%%%%
@@ -463,21 +490,24 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -491,7 +521,7 @@
 
 \newenvironment{quotebar}{%
     \def\FrameCommand{{\color{rubric!10!}\vrule width 0.5em} \hspace{0.9em}}%
-    \def\OuterFrameSep{\itemsep} % séparateur vertical
+    \def\OuterFrameSep{0pt} % séparateur vertical
     \MakeFramed {\advance\hsize-\width \FrameRestore}
   }%
   {%
@@ -501,10 +531,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -512,6 +543,7 @@
 
 \renewcommand{\headrulewidth}{\arrayrulewidth}
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
+\renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
 % delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
@@ -525,8 +557,8 @@
 \titlespacing*{\chapter}{0pt}{-2em}{0pt}[0pt]
 
 \titleformat{name=\section}
-  [block]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [display]{}{}{}{}
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -578,34 +610,25 @@
 
 \newcommand\chapo{{%
   \vspace*{-3em}
-  \centering % no vskip ()
-  {\Large\addfontfeature{LetterSpace=25}\bfseries{\elauthor}}\par
-  \smallskip
-  {\large\eldate}\par
+  \centering\parindent0pt % no vskip ()
+  \eltitlepage
   \bigskip
-  {\Large\selectfont{\eltitle}}\par
+  {\color{rubric}\hline}
   \bigskip
-  {\color{rubric}\hline\par}
-  \bigskip
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{\small\color{rubric} {hurlus.fr, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
   \bigskip
 }}
 
 \newcommand\cover{{%
   \thispagestyle{empty}
-  \centering
-  {\LARGE\bfseries{\elauthor}}\par
-  \bigskip
-  {\Large\eldate}\par
-  \bigskip
-  \bigskip
-  {\LARGE\selectfont{\eltitle}}\par
+  \centering\parindent0pt
+  \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
-  {\Large TEXTE LIBRE À PARTICPATION LIBRE\par}
-  \centerline{{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}}\par
+  {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
+  \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
 }}
 
 \begin{document}
@@ -635,7 +658,8 @@
 \bigskip
 
 \pagestyle{main} % after style
-
+\setcounter{footnote}{0}
+\setcounter{footnoteA}{0}
   \noindent C’est un objet de tristesse, pour celui qui traverse cette grande ville ou voyage dans les campagnes, que de voir les rues, les routes et le seuil des masures encombrés de mendiantes, suivies de trois, quatre ou six enfants, tous en guenilles, importunant le passant de leurs mains tendues. Ces mères, plutôt que de travailler pour gagner honnêtement leur vie, sont forcées de passer leur temps à arpenter le pavé, à mendier la pitance de leurs nourrissons sans défense qui, en grandissant, deviendront voleurs faute de trouver du travail, quitteront leur cher Pays natal afin d’aller combattre pour le prétendant d’Espagne, ou partiront encore se vendre aux îles Barbades.\par
 Je pense que chacun s’accorde à reconnaître que ce nombre phénoménal d’enfants pendus aux bras, au dos ou aux talons de leur mère, et fréquemment de leur père, constitue dans le déplorable état présent du royaume une très grande charge supplémentaire ; par conséquent, celui qui trouverait un moyen équitable, simple et peu onéreux de faire participer ces enfants à la richesse commune mériterait si bien de l’intérêt public qu’on lui élèverait pour le moins une statue comme bienfaiteur de la nation.\par
 Mais mon intention n’est pas, loin de là, de m’en tenir aux seuls enfants des mendiants avérés ; mon projet se conçoit à une bien plus vaste échelle et se propose d’englober tous les enfants d’un âge donné dont les parents sont en vérité aussi incapables d’assurer la subsistance que ceux qui nous demandent la charité dans les rues.\par
@@ -687,51 +711,37 @@ D’un cœur sincère, j’affirme n’avoir pas le moindre intérêt personnel 
     Hurlus ? Qu’est-ce.\par
     \bigskip
   }
-  \noindent Des bouquinistes électroniques, pour du texte libre à participation libre,
+  \noindent Des bouquinistes électroniques, pour du texte libre à participations libres,
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faîte pour être possédée, mais pour être lue, et puis donnée.
-  Que circule le texte !
-  En page de garde, on peut ajouter une date, un lieu, un nom ; pour suivre le voyage des idées.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée, ou déposée dans une boîte à livres.
+  En page de garde, on peut ajouter une date, un lieu, un nom ;
+  comme une fiche de bibliothèque en papier qui enregistre \emph{les voyages de la brochure}.
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
-  ou haï, elle a en tous cas pensé qu’il partipait à la formation de notre présent ;
+  ou haï, elle a pensé qu’il partipait à la formation de notre présent ;
   sans le souci de plaire, vendre, ou militer pour une cause.
   \par
 
   L’édition électronique est soigneuse, tant sur la technique
   que sur l’établissement du texte ; mais sans aucune prétention scolaire, au contraire.
   Le but est de s’adresser à tous, sans distinction de science ou de diplôme.
-  Au plus direct ! (possible)
   \par
 
   Cet exemplaire en papier a été tiré sur une imprimante personnelle
    ou une photocopieuse. Tout le monde peut le faire.
   Il suffit de
   télécharger un fichier sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}},
-  d’imprimer, et agrafer ; puis de lire et donner.\par
+  d’imprimer, et agrafer (puis lire et donner).\par
 
   \bigskip
 
   \noindent PS : Les hurlus furent aussi des rebelles protestants qui cassaient les statues dans les églises catholiques. En 1566 démarra la révolte des gueux dans le pays de Lille. L’insurrection enflamma la région jusqu’à Anvers où les gueux de mer bloquèrent les bateaux espagnols.
   Ce fut une rare guerre de libération dont naquit un pays toujours libre : les Pays-Bas.
   En plat pays francophone, par contre, restèrent des bandes de huguenots, les hurlus, progressivement réprimés par la très catholique Espagne.
-  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, cherchons les idoles de l’époque, pour les briser.
+  Cette mémoire d’une défaite est éteinte, rallumons-la. Sortons les livres du culte universitaire, débusquons les idoles de l’époque, pour les démonter.
 \fi
 
-\ifdev % autotext in dev mode
-\fontname\font — \textsc{Les règles du jeu}\par
-(\hyperref[utopie]{\underline{Lien}})\par
-\noindent \initialiv{A}{lors là}\blindtext\par
-\noindent \initialiv{À}{ la bonheur des dames}\blindtext\par
-\noindent \initialiv{É}{tonnez-le}\blindtext\par
-\noindent \initialiv{Q}{ualitativement}\blindtext\par
-\noindent \initialiv{V}{aloriser}\blindtext\par
-\Blindtext
-\phantomsection
-\label{utopie}
-\Blinddocument
-\fi
 \end{document}

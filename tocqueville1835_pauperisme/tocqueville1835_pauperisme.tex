@@ -36,15 +36,10 @@
     marginpar=7mm,
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
-\else\ifav
+\else\ifav % A5
   \documentclass[french,twoside]{book} % ,notitlepage
   \usepackage[%
-    a5paper,
-    inner=25mm,
-    outer=15mm,
-    top=15mm,
-    bottom=15mm,
-    marginparsep=0pt,
+    a5paper
   ]{geometry}
   \usepackage[fontsize=12pt]{scrextend}
 \else% A4 2 cols
@@ -77,7 +72,7 @@
 % before Teinte macros
 
 \usepackage[dvipsnames]{xcolor}
-\definecolor{rubric}{HTML}{800000} % the tonic 0c71c3
+\definecolor{rubric}{HTML}{0c71c3} % the tonic
 \def\columnseprulecolor{\color{rubric}}
 \colorlet{borderline}{rubric!30!} % definecolor need exact code
 \definecolor{shadecolor}{gray}{0.95}
@@ -96,6 +91,7 @@
 
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
+\usepackage{booktabs} % for tables: \toprule, \midrule…
 \usepackage[strict]{changepage} % for modulo 4
 \usepackage{contour} % rounding words
 \usepackage[nodayofweek]{datetime}
@@ -126,6 +122,7 @@
 ]{quoting}
 \usepackage{ragged2e}
 \usepackage{setspace} % \setstretch for <quote>
+\usepackage{scrextend} % KOMA-common, used for addmargin
 \usepackage{tabularx} % <table>
 \usepackage[explicit]{titlesec} % wear titles, !NO implicit
 \usepackage{tikz} % ornaments
@@ -164,7 +161,7 @@
 \begin{quoteblock}
 \noindent Il n’y a rien qui, en général, élève et soutient plus haut l’esprit humain que l’idée des droits. On trouve dans l’idée du droit quelque chose de grand et de viril qui ôte à la demande son caractère suppliant, et place celui qui réclame sur le même niveau que celui qui accorde.\end{quoteblock}
 
- \noindent Tocqueville est un grand esprit, malheureusement.\par
+ Tocqueville est un grand esprit, malheureusement.\par
  \bigbreak
  \noindent Il sait rendre toutes les idées, même celles qu’il conteste, dans leur plus grande force, si bien que ses réfutations en sont d’autant plus brillantes et convaincantes. Qui n’est pas d’accord se sent effacé par la force de ses évidences. Il est l’esprit de la classe dominante, d’hier et de demain : intelligent, mesuré, humain, et donc écrasant de son universalité. N’a-t-on jamais défendu en si peu de mots que ci-dessus, la dignité que donne le droit à la sécurité sociale ?\par
  Qui, à part un socialiste, a su lire dès 1835, le mouvement de l’histoire, l’aliénation de la classe ouvrière, entièrement soumise aux aléas du marché, et pourtant base de la production ?\par
@@ -178,7 +175,7 @@
 \noindent L’aumône individuelle établit des liens précieux entre le riche et le pauvre. Le premier s’intéresse par le bienfait même au sort de celui dont il a entrepris de soulager la misère ; le second, soutenu par des secours qu’il n’avait pas droit d’exiger et que peut-être il n’espérait pas obtenir, se sent attiré par la reconnaissance.\end{quoteblock}
 
  \noindent Où est donc le vice du raisonnement ? Dans une évidence implicite au détour d’une phrase : \emph{« deux nations rivales existent depuis le commencement du monde qu’on appelle les riches et les pauvres »}.\par
- Tocqueville avait pourtant commencé son mémoire par une première partie presque copiée de Rousseau \emph{sur l'origine et les fondements de l'inégalité parmi les hommes} (un autre discours en réponse à une académie) ; expliquant que les riches sont apparus avec la religion de la propriété. Les inégalités ne sont pas de tous les temps mais produites par l’histoire.\par
+ Les riches et les pauvres seraient là de toute éternité, et sans demi-mesures de l’un à l’autre. Tocqueville avait pourtant commencé son mémoire par une première partie presque copiée de Rousseau \emph{sur l'origine et les fondements de l'inégalité parmi les hommes} (un autre discours en réponse à une académie) ; expliquant que les riches sont apparus avec la religion de la propriété. Les inégalités ne sont pas de tous les temps mais produites par l’histoire.\par
  Il aurait dû en conclure que la pauvreté, et les riches, peuvent disparaître ; mais il croit au contraire que cet ordre est éternel et voulu par Dieu. Le pauvre est nécessaire au riche pour le salut de son âme.\par
  Selon Tocqueville, c’est même l’assistance publique qui est la cause de la dépravation des riches qui ne donnent plus. La charité individuelle était \emph{« suffisante au Moyen Age, parce que l’ardeur religieuse lui donnait une immense énergie »}, tandis qu’avec l’assistance publique, \emph{« la loi dépouille le riche d’une partie de son superflu sans le consulter, et il ne voit dans le pauvre qu’un avide étranger appelé par le législateur, au partage de ses biens »}. Et voilà, c’est de la faute au pauvre si le riche n’a plus envie de donner. Le pauvre doit savoir se vendre.\par
  Mais Tocqueville ne se soucie de l’intérêt général que par accident, et avoue en conclusion sa véritable peur.\par
@@ -339,8 +336,8 @@
 % commands, blocks
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
-
-\newcommand{\bibl}[1]{{\smallskip\setlength{\RaggedLeftLeftskip}{2em plus \leftskip}\RaggedLeft\normalsize\normalfont #1\par\medskip}}}
+% \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
+\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -350,9 +347,9 @@
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
-\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1\par\nopagebreak}} % supposed bottom
-\newcommand{\stagescene}[1]{{\Centering\sffamily #1\par}\bigskip}
-\newcommand{\stagesp}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily #1\par\endgroup} % left margin, better than list envs
+\newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
+\newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
+\newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
 \newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
@@ -387,7 +384,8 @@
   {\@latex@warning{Empty `bibitemlist' environment}}%
 \endlist}
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
-\newenvironment{epigraph}{\leftskip1.5\parindent \sffamily\large}{\bigskip}
+% leftskip makes big bugs in Lexmark printing \sffamily
+\newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
 \newenvironment{quoteblock}% may be used for ornaments
   {\begin{quoting}}
   {\end{quoting}}
@@ -401,6 +399,7 @@
 
 
 % table () is preceded and finished by custom command
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 \newcommand{\tableopen}[1]{%
   \ifnum\strcmp{#1}{wide}=0{%
     \begin{center}
@@ -535,21 +534,24 @@
 %%%%%%%%%
 % Fonts %
 %%%%%%%%%
-\usepackage[]{roboto} % SmallCaps, Regular is a bit bold
 % \linespread{0.90} % too compact, keep font natural
-\newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
-\ifav
-  \setmainfont[
-    ItalicFont={Roboto Light Italic},
-  ]{Roboto}
+\ifav % A5
+  \usepackage{DejaVuSans} % correct
+  \setsansfont{DejaVuSans} % seen, if not set, problem with printer
 \else\ifbooklet
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
   \setmainfont[
     ItalicFont={Roboto Light Italic},
   ]{Roboto}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \else
-\setmainfont[
-  ItalicFont={Roboto Italic},
-]{Roboto Light}
+  \usepackage[]{roboto} % SmallCaps, Regular is a bit bold
+  \setmainfont[
+    ItalicFont={Roboto Italic},
+  ]{Roboto Light}
+  \setsansfont{Roboto Light} % seen, if not set, problem with printer
+  \newfontfamily\fontrun[]{Roboto Condensed Light} % condensed runing heads
 \fi\fi
 \renewcommand{\LettrineFontHook}{\bfseries\color{rubric}}
 % \renewenvironment{labelblock}{\begin{center}\bfseries\color{rubric}}{\end{center}}
@@ -573,10 +575,11 @@
   {%
     \savenotes
     \setstretch{0.9}
-    \normalfont
     \begin{quotebar}
+    \smallskip
   }
   {%
+    \smallskip
     \end{quotebar}
     \spewnotes
   }
@@ -599,7 +602,7 @@
 
 \titleformat{name=\section}
   [display]{}{}{}{}
-  [\vbox{\color{rubric}\large\raggedleft\textbf{#1}}]
+  [\vbox{\color{rubric}\large\centering\textbf{#1}}]
 \titlespacing{\section}{0pt}{0pt plus 4pt minus 2pt}{\baselineskip}
 
 \titleformat{name=\subsection}
@@ -654,7 +657,7 @@
   \centering\parindent0pt % no vskip ()
   \eltitlepage
   \bigskip
-  {\color{rubric}\hline\par}
+  {\color{rubric}\hline}
   \bigskip
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\small\color{rubric} {\href{https://hurlus.fr}{\dotuline{hurlus.fr}}}, tiré le \today}\par
@@ -666,7 +669,7 @@
   \centering\parindent0pt
   \eltitlepage
   \vfill\null
-  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline\par}
+  {\color{rubric}\setlength{\arrayrulewidth}{2pt}\hline}
   \vfill\null
   {\Large TEXTE LIBRE À PARTICIPATIONS LIBRES\par}
   \centerline{\href{https://hurlus.fr}{\dotuline{hurlus.fr}}, tiré le \today}\par
@@ -843,7 +846,7 @@ J'habitais alors la maison d’un grand propriétaire du sud de l’Angleterre 
  « Les administrateurs répliquent que la commune n’a en ce moment aucuns travaux à exécuter ; et quant au secours gratuit, il n’est pas dû, disent-ils, parce que les demandeurs trouveraient facilement un emploi de leur industrie chez les particuliers s’ils le voulaient. »
  \end{quoteblock}
 
-\noindent Lord X, avec lequel j’étais venu, me dit :\par
+Lord X, avec lequel j’étais venu, me dit :\par
 
 \begin{quoteblock}
  \noindent « Vous venez de voir dans un cadre étroit une partie des nombreux abus que produit la loi des pauvres. Ce vieillard, qui s’est présenté le premier, a très probablement de quoi vivre, mais il pense qu’il a le droit d’exiger qu’on l’entretienne dans l’aisance, et il ne rougit pas de réclamer la charité publique, qui a perdu aux yeux du peuple son caractère pénible et humiliant. Cette jeune femme, qui paraît honnête et malheureuse, serait certainement secourue par son beau-père si la loi des pauvres n’existait pas, mais l’intérêt fait taire chez ce dernier le cri de la honte, et il se décharge sur le public d’une dette qu’il devrait seul acquitter. Quant à ces jeunes gens qui se sont présentés les derniers, je les connais, ils habitent mon village : ce sont de très dangereux citoyens, et de fait, mauvais sujets ; ils dissipent en peu d’instants dans les cabarets l’argent qu’il gagnent parce qu’ils savent que l’État viendra à leur secours ; ainsi, vous voyez qu’à la première gêne, causée par leur faute, ils s’adressent à nous. »
@@ -857,7 +860,7 @@ J'habitais alors la maison d’un grand propriétaire du sud de l’Angleterre 
  « Elle se déclare enceinte et nomme le père de l’enfant qui doit naître ; cet homme est absent. Le tribunal remet à un autre jour pour le faire citer. »
  \end{quoteblock}
 
-\noindent Lord X me dit :\par
+Lord X me dit :\par
 
 \begin{quoteblock}
  \noindent « Voici encore de funestes effets produits par les mêmes lois. La conséquence la plus directe de la législation sur les pauvres est de mettre à la charge du public l’entretien des enfants abandonnés qui sont les plus nécessiteux de tous les indigents. De là est né le désir de décharger les communes de l’entretien des enfants naturels que leurs parents seraient en état de nourrir. De là aussi cette recherche de la paternité provoquée par les communes et dont la preuve est délaissée à la femme. Car quel autre genre de preuve peut-on se flatter d’obtenir en pareille matière ? En obligeant les communes à se charger des enfants naturels et en leur permettant de rechercher la paternité, afin d’alléger ce poids accablant, nous avons facilité autant qu’il était en nous l’inconduite des femmes dans les basses classes. La grossesse illégitime doit presque toujours améliorer leur situation matérielle. Si le père de l’enfant est riche, elles peuvent se décharger sur lui du soin d’élever le fruit de leurs communes erreurs ; s’il est pauvre, elles confient ce soin à la société : les secours qu’on leur accorde de part ou d’autre dépassent presque toujours les dépenses du nouveau-né. Elles s’enrichissent donc par leurs vices mêmes, et il arrive souvent que la fille qui a été plusieurs fois mère fait un mariage plus avantageux que la jeune vierge qui n’a que ses vertus à offrir. La première a trouvé une sorte de dot dans son infamie. »
@@ -875,7 +878,7 @@ J'entends encore la charité publique ouvrant les écoles aux enfants des pauvre
 
 \astermono
 
-\noindent Résumons en peu de mots tout ce qui précède.\par
+Résumons en peu de mots tout ce qui précède.\par
 La marche progressive de la civilisation moderne augmente graduellement, et dans une proportion plus ou moins rapide, le nombre de ceux qui sont portés à recourir à la charité.\par
 Quel remède apporter à de pareils maux ?\par
 L'aumône légale se présente d’abord à l’esprit, l’aumône légale sous toutes ses formes, tantôt gratuite, tantôt cachée sous la forme d’un salaire, tantôt accidentelle et passagère dans certains temps, tantôt régulière et permanente dans d’autres. Mais un examen approfondi ne tarde pas à démontrer que ce remède, qui semble tout à la fois si naturel et si efficace, est d’un emploi très dangereux ; qu’il n’apporte qu’un soulagement trompeur et momentané aux douleurs individuelles, et qu’il envenime les plaies de la société, quelle que soit la manière dont on l’emploie.\par
@@ -905,10 +908,9 @@ Ici l’horizon s’étend de toutes parts devant moi. Mon sujet s’agrandit ;
   téléchargeable gratuitement sur \href{https://hurlus.fr}{\dotuline{hurlus.fr}}.\par
   \bigskip
   \noindent Cette brochure a été produite par des éditeurs bénévoles.
-  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée.
+  Elle n’est pas faite pour être possédée, mais pour être lue, et puis donnée, ou déposée dans une boîte à livres.
   En page de garde, on peut ajouter une date, un lieu, un nom ;
-  comme une fiche de bibliothèque en papier,
-  pour suivre le voyage du texte. Qui sait, un jour, il vous reviendra ?
+  comme une fiche de bibliothèque en papier qui enregistre \emph{les voyages de la brochure}.
   \par
 
   Ce texte a été choisi parce qu’une personne l’a aimé,
