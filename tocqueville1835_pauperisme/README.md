@@ -7,7 +7,7 @@
 <article xmlns="http://www.w3.org/1999/xhtml">
   <p class="label">Préface hurlue</p>
   <blockquote class="quote">Il n’y a rien qui, en général, élève et soutient plus haut l’esprit humain que l’idée des droits. On trouve dans l’idée du droit quelque chose de grand et de viril qui ôte à la demande son caractère suppliant, et place celui qui réclame sur le même niveau que celui qui accorde.</blockquote>
-  <p class="p">Tocqueville est un grand esprit, malheureusement.</p>
+  <p class="p noindent">Tocqueville est un grand esprit, malheureusement.</p>
   <br class="space "/>
   <p class="p noindent">Il sait rendre toutes les idées, même celles qu’il conteste, dans leur plus grande force, si bien que ses réfutations en sont d’autant plus brillantes et convaincantes. Qui n’est pas d’accord se sent effacé par la force de ses évidences. Il est l’esprit de la classe dominante, d’hier et de demain : intelligent, mesuré, humain, et donc écrasant de son universalité. N’a-t-on jamais défendu en si peu de mots que ci-dessus, la dignité que donne le droit à la sécurité sociale ?</p>
   <p class="p">Qui, à part un socialiste, a su lire dès 1835, le mouvement de l’histoire, l’aliénation de la classe ouvrière, entièrement soumise aux aléas du marché, et pourtant base de la production ?</p>
@@ -25,4 +25,5 @@
   <br class="space "/>
   <p class="p noindent">Cette préface devrait vous avoir définitivement mal tourné l’esprit pour ne pas être séduit par un texte, qui n’en reste pas moins instructif parce qu’il est fort et clair.</p>
   <br class="space vfill"/>
+  <section class="footnotes"/>
 </article>

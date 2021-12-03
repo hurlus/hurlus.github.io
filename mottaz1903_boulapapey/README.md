@@ -15,4 +15,5 @@
   <p class="p"> Dans un pays actuel mondialisé, par contre, cela ne pose aucun problème d’imposer des taxes sur le diesel aux pauvres, sous prétexte d’écologie, et de réprimer les manifestations avec des gaz et le harcèlement judiciaire. Les gilets jaunes français de 2019 n’ont pas trouvé leurs papiers à brûlés, et de toute façon n’aurait pas su coordonner une action froide, cette foule d’individus enragés ne faisait pas encore peuple. </p>
   <p class="label"><span class="sc">Lisez</span> les <em>Bourla-Papey</em></p>
   <p class="p noindent">Ce moment historique a aussi été le sujet d’un roman de Ramuz (1878, 1947) <a href="https://ebooks-bnr.com/ramuz-charles-ferdinand-guerre-aux-papiers/">La Guerre aux Papiers</a> (1942), </p>
+  <section class="footnotes"/>
 </article>

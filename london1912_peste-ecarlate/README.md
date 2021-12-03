@@ -10,4 +10,5 @@
   <p class="p">Que feriez-vous, que penseriez-vous si, notre confort et nos valeurs disparaissaient à jamais ?</p>
   <p class="p">London livre dans cette nouvelle, parue en 1912, un exercice de qualité qui procure à cette nouvelle une fraîcheur peu gâtée par le temps.</p>
   <p class="p">Ce livre est à mettre en miroir avec le célèbre <em>Robinson Crusoé</em> voire avec, le trop récent pour être aux Hurlus, <em>Sa majesté des Mouches</em> pour penser l’Individu et la Société.</p>
+  <section class="footnotes"/>
 </article>

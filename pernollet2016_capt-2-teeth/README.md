@@ -6,11 +6,12 @@
 
 <article xmlns="http://www.w3.org/1999/xhtml">
   <p class="label">Chapeau de l’auteur</p>
-  <p class="p">Au sud de la Thaïlande, une île va disparaître, submergée par les eaux.</p>
+  <p class="p noindent">Au sud de la Thaïlande, une île va disparaître, submergée par les eaux.</p>
   <p class="p">Une vieille femme fait un dernier voyage pour mourir avec elle.</p>
   <p class="p">Le Capitaine Two-Teeth la conduit une nouvelle fois.</p>
   <p class="p">Et, le mal de mer aidant, le passé revient.</p>
   <p class="p">— « Son île ! » – de quel droit pouvait-elle dire « son île » ?</p>
   <p class="label">Avertissement de l’édition</p>
   <p class="p noindent">L’auteur étant bien vivant, ce texte est protégé par le droit d’auteur. Il a exprimé l’intention que l’“œuvre“ de son esprit (ce sont les termes de la loi, pas du tout les siens) soit librement communicable et partageable, mais sans profit commercial, en gardant le nom de l’auteur, et sans modification. Le choix de cette <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.fr">license CC BY-NC-ND</a> n’est pas seulement l’effet d’opinions politiques, elle est aussi conséquente avec son esthétique. Son texte a été longtemps mûri, puis jeté tout d’un trait, il témoigne d’un moment, signé, daté. Ce texte est un morceau de temps libre qui ne peut plus être modifié ; de son temps à lui et personne d’autre. Ce temps, il ne le vend pas, il le partage.</p>
+  <section class="footnotes"/>
 </article>

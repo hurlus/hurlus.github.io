@@ -44,7 +44,7 @@
   <p class="p">En conséquence, même ceux qui connaissent ce texte pourrait trouvé un plaisir nouveau à cette édition libre (quoique scrupuleuse).</p>
   <br class="space "/>
   <section class="footnotes">
-    <aside id="note1" role="note" class="note note">
+    <aside class="_ note note" id="note1" role="note">
       <a class="noteback" href="#note1_">1. </a>
       <a href="https://gallica.bnf.fr/ark:/12148/btv1b86069594">Gallica</a>
     </aside>

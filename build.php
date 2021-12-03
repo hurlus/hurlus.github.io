@@ -79,7 +79,7 @@ class HurlusBuild
   /**
    * Output html
    */
-  public function html($teifile, $dstfile)
+  public static function html($teifile, $dstfile)
   {
     $theme = 'https://oeuvres.github.io/teinte/'; // where to find web assets like css and jslog for html file
     $xsl = dirname(dirname(__FILE__)).'/teinte/tei2html.xsl';

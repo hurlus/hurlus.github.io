@@ -13,4 +13,5 @@
   <p class="p">Le communisme, au sens de K. Marx et F. Engels, est une écologie pleine et entière. C’est l’unité des hommes entre eux et avec la nature. C’est donc la fin de la division en classes, la fin de toute séparation, ce qui nécessite un changement radical du mode de production : une révolution.</p>
   <p class="p noindent right">Xavier Morin.</p>
   <br class="space "/>
+  <section class="footnotes"/>
 </article>

@@ -9,7 +9,7 @@
   <p class="p noindent"> Le <cite class="title">code noir</cite> (1685) est souvent invoqué comme totem, quoique pas toujours analysé. La loi s’écrivait alors dans la langue de Boileau, <q class="quote">« ce que l'on conçoit bien s’énonce clairement »</q>, montrant distinctement et brutalement un ordre social catholique, oppressant avec la bonne conscience de la charité.</p>
   <p class="p">La première question abordée par ce texte n’est pas l’esclavage, mais la persécution des juifs, dès l’article I. Il serait bon de rappeler aux antisémites qui prétendent défendre la mémoire de l’esclavage : il n’y a pas de gagnants dans la course victimaire. Toute hiérarchie, même entre les victimes, produit des inférieurs et des opprimés.</p>
   <blockquote class="quote">
-    <p class="p">Louis, par la grâce de Dieu, Roy de France</p>
+    <p class="p noindent">Louis, par la grâce de Dieu, Roy de France</p>
     <p class="p">(I) enjoignons à tous nos Officiers de chasser hors de nos Îles tous les <b class="bold">Juifs</b> qui y ont établi leur résidence auxquels comme aux ennemis déclarés du nom Chrétien</p>
   </blockquote>
   <p class="p noindent">Dès l’article III, le code noir s’en prend ensuite aux protestants. En 1685, Louis XIV venait de révoquer l’<em>Édit de tolérance</em> promulgué à Nantes par Henri IV en 1598, pour mettre fin aux guerres de religion. Les <em>Isles Françoises de l’Amérique</em> sont l’occasion de commencer le nettoyage religieux, pour en faire un paradis catholique.</p>
@@ -49,4 +49,5 @@
   <p class="p">Un blanc bourgeois mâle n’a pas à demander pardon de ce qu’il n’a pas fait, et demander pardon à qui d’ailleurs ? Personne n’est maudit jusqu’à la quinzième génération, pas plus les coupables que les victimes. Déjà du temps de Louis XIV, la responsabilité était personnelle.</p>
   <p class="p">Par contre, un blanc, nous, tous, devons comprendre et digérer ce que cette culture française a fait, et peut refaire, avec cette langue assez subtile pour instituer légalement l’injustice la plus odieuse, en toute bonne conscience de grand style et bonne rationalité.</p>
   <br class="space "/>
+  <section class="footnotes"/>
 </article>

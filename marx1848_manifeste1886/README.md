@@ -78,4 +78,5 @@
           ainsi que les notes de Engels. Quelques intertitres ont été insérés, pour aider à se repérer
           dans un texte désormais historique, où chaque ligne compte, comme la loi, ou bien <cite class="title">la Bible</cite>.
         </p>
+  <section class="footnotes"/>
 </article>

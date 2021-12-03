@@ -9,4 +9,5 @@
     <p class="p noindent">La postérité ne pourra pas comprendre que nous ayons dû retomber dans de pareilles ténèbres après avoir connu la lumière.</p>
     <div class="bibl">Sébastien Castellion, 1562, <cite class="title">De arte dubitandi</cite>.</div>
   </blockquote>
+  <section class="footnotes"/>
 </article>

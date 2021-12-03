@@ -20,4 +20,5 @@
   <p class="p">Le but de cette publication est de provoquer la réflexion autour des notions de <em>Justice</em> et des <em>Droits</em> mais également d’<em>Égalité</em>, finalement les piliers maîtres de la <em>République</em>. Celles-ci sont trop souvent fantasmées et invoquées plutôt qu’étudiées.</p>
   <p class="p">Ce texte est à mettre en perspective avec <em>Les idées politiques</em> de Maurras et <em>Vers la révision</em> (du procès de Dreyfus) de Clémenceau tous deux en passe d’être publiés aux Hurlus.</p>
   <div class="signed">Xavier Damay</div>
+  <section class="footnotes"/>
 </article>
