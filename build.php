@@ -116,19 +116,22 @@ class HurlusBuild
       }
       $bibl = '';
       $bibl .= ' <a target="_blank" title="Source XML/TEI" class="mime tei" href="https://hurlus.github.io/tei/'.basename($teifile).'">[TEI]</a> ';
-      $bibl .= ' <a target="_blank" title="HTML une page" class="mime html" href="'.$dstpath.'.html">[html]</a> ';
-      $bibl .= ' <a target="_blank" title="Bureautique (LibreOffice, MS.Word)" class="mime docx" href="'.$dstpath.'.docx">[docx]</a> ';
-      $bibl .= ' <a target="_blank" title="Amazon.kindle" class="mime mobi" href="'.$dstpath.'.mobi">[kindle]</a> ';
-      $bibl .= ' <a target="_blank" title="EPUB, pour liseuses et téléphones" class="mime epub" href="'.$dstpath.'.epub">[epub]</a> ';
+      $bibl .= ' <a target="_blank" title="HTML une page" class="mime html" href="' . $dstpath . '.html">[html]</a> ';
+      $bibl .= ' <a target="_blank" title="Bureautique (LibreOffice, MS.Word)" class="mime docx" href="' . $dstpath . '.docx">[docx]</a> ';
+      $bibl .= ' <a target="_blank" title="Amazon.kindle" class="mime mobi" href="' . $dstpath . '.mobi">[kindle]</a> ';
+      $bibl .= ' <a target="_blank" title="EPUB, pour liseuses et téléphones" class="mime epub" href="' . $dstpath . '.epub">[epub]</a> ';
       foreach (glob($exportpath."*.tex") as $exportfile) {
-        $bibl .= ' <a target="_blank" title="LaTeX" class="mime tex" href="'.$dstdir.basename($exportfile).'">[TeX]</a> ';
+        $bibl .= ' <a target="_blank" title="LaTeX" class="mime tex" href="'
+        . $dstdir.basename($exportfile) . '">[TeX]</a> ';
       }
       foreach (glob($exportpath."*.pdf") as $exportfile) {
         if (strpos($exportfile, '_a5') !== false) {
-          $bibl .= ' <a target="_blank" title="PDF à lire, A5 une colonne" class="mime a5" href="'.$dstdir.basename($exportfile).'">[pdf a5]</a> ';
+          $bibl .= ' <a target="_blank" title="PDF à lire, A5 une colonne" class="mime a5" href="'
+          . $dstdir.basename($exportfile) . '">[pdf a5]</a> ';
         }
         else if (strpos($exportfile, '_brochure') !== false) {
-          $bibl .= ' <a target="_blank" title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="mime brochure" href="'.$dstdir.basename($exportfile).'">[brochure]</a> ';
+          $bibl .= ' <a target="_blank" title="Brochure à agrafer, pdf imposé pour imprimante recto/verso" class="mime brochure" href="'
+          .$dstdir.basename($exportfile).'">[brochure]</a> ';
         }
         else {
           $bibl .= ' <a target="_blank" title="PDF à imprimer, A4 2 colonnes" class="mime pdf" href="'.$dstdir.basename($exportfile).'">[pdf]</a> ';
@@ -144,7 +147,8 @@ class HurlusBuild
       fwrite($fopen, ' <em>'.$meta['title'].'</em> ');
       fwrite($fopen, "\n\n");
       // fwrite($fopen, '> ## '.$meta['title']."\n");
-      fwrite($fopen, '> '.str_replace('mime', 'mime48', $bibl)."\n");
+      fwrite($fopen, '<header>'
+        . str_replace('mime', 'mime48', $bibl)."</header>\n");
 
       // get abstract
       $xsl = dirname(dirname(__FILE__)).'/teinte/xsl/abstract.xsl';
