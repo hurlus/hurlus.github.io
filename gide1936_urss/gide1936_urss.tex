@@ -25,7 +25,7 @@
 \fi\fi\fi
 
 \ifbooklet % do not enclose with {}
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
     inner=12mm,
@@ -37,7 +37,7 @@
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav % A5
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     a5paper
   ]{geometry}
@@ -63,8 +63,6 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % 1pt allow better vertical justification
-\setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
 % Colors %
@@ -89,6 +87,9 @@
 
 \makeatletter % <@@@
 
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
+\setlength{\parindent}{1.5em}
+
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage{booktabs} % for tables: \toprule, \midrule…
@@ -102,10 +103,10 @@
 \usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
-\usepackage{framed} % bordering correct with footnote hack
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{relsize} % \smaller \larger (ex: quotes in body and footnotes)
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
@@ -144,8 +145,7 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Retour de l’URSS }\par
-}
+\title{Retour de l’URSS}
 \date{1936}
 \author{Gide, André}
 \def\elbibl{Gide, André. 1936. \emph{Retour de l’URSS}}
@@ -293,7 +293,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft\normalfont #1\par}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -301,12 +301,13 @@
 \newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
+\newcommand{\question}[1]{\bigbreak{\RaggedRight\noindent\emph{#1}\par}\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
 \newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
 \newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
 \newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
-\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\lpar}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
@@ -342,9 +343,15 @@
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
 % leftskip makes big bugs in Lexmark printing \sffamily
 \newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
-\newenvironment{quoteblock}% may be used for ornaments
-  {\begin{quoting}}
+\newenvironment{quoteblock}
+  {\begin{quoting}\setstretch{0.9}} %
   {\end{quoting}}
+\newenvironment{frametext}
+  {\begin{mdframed}[default]} %
+  {\end{mdframed}}
+
+\quotingsetup{vskip=0pt}
+\newcommand{\quoteskip}{\medskip}
 \newenvironment{titlePage}
   {\Centering}
   {}
@@ -394,12 +401,18 @@
 % \renewcommand{\@pnumwidth}{0.5em} % {1.75em}
 \renewcommand{\@cftmaketoctitle}{}
 \setlength{\cftbeforesecskip}{\z@ \@plus.2\p@}
-\renewcommand{\cftchapfont}{}
-\renewcommand{\cftchapdotsep}{\cftdotsep}
-\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
-\renewcommand{\cftchappagefont}{\bfseries}
-\setlength{\cftbeforechapskip}{0em \@plus\p@}
-% \renewcommand{\cftsecfont}{\small\relax}
+
+\@ifclassloaded{article}{%
+  \typeout{class: article}%
+}{%
+  \renewcommand{\cftchapfont}{}
+  \renewcommand{\cftchapdotsep}{\cftdotsep}
+  \renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
+  \renewcommand{\cftchappagefont}{\bfseries}
+  \setlength{\cftbeforechapskip}{0pt}
+  \setlength{\cftchapnumwidth}{1em}
+}
+\renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 % \renewcommand{\cftsubsecfont}{\small\relax}
 \renewcommand{\cftsecdotsep}{\cftdotsep}
@@ -408,7 +421,6 @@
 \setlength{\cftsecindent}{1em}
 \setlength{\cftsubsecindent}{2em}
 \setlength{\cftsubsubsecindent}{3em}
-\setlength{\cftchapnumwidth}{1em}
 \setlength{\cftsecnumwidth}{1em}
 \setlength{\cftsubsecnumwidth}{1em}
 \setlength{\cftsubsubsecnumwidth}{1em}
@@ -427,6 +439,7 @@
 \setlength{\poembotskip}{0pt}
 \setlength{\poemtopskip}{0pt}
 \setlength{\poemindent}{0pt}
+\setlength{\poemmaxlinewd}{\linewidth}
 \poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
@@ -481,7 +494,7 @@
 % </TEI> end %
 %%%%%%%%%%%%%%
 
-
+\setmainlanguage{french}
 %%%%%%%%%%%%%
 % footnotes %
 %%%%%%%%%%%%%
@@ -545,7 +558,6 @@
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 \renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
-% delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
   [display] % shape
   {\vspace{1.5em}\centering} % format
@@ -672,11 +684,9 @@
 {\itshape Toutes portes closes, le soir et tandis que la maison dormait, Déméter prenait Démophoôn, l’enlevait de son berceau douillet et, avec une apparente cruauté, mais en réalité guidée par un immense amour et désireuse d’amener jusqu’à la divinité l’enfant, l’étendait nu sur un ardent lit de braises. J’imagine la grande Déméter penchée, comme sur l’humanité future, sur ce nourrisson radieux. Il supporte l’ardeur des charbons, et cette épreuve le fortifie. En lui, je ne sais quoi de surhumain se prépare, de robuste et d’inespérément glorieux. Ah ! que ne put Démeter poursuivre jusqu’au bout sa tentative hardie et mener à bien son défi ! Mais Métaneire inquiète, raconte la légende, fit irruption dans la chambre de l’expérience, faussement guidée par une maternelle crainte, repoussa la déesse et tout le surhumain qui se forgeait, écarta les braises et, pour sauver l’enfant, perdit le dieu.\par}
 J’ai déclaré, il y a trois ans, mon admiration pour l’URSS, et mon amour. Là-bas une expérience sans précédents était tentée qui nous gonflait le cœur d’espérance et d’où nous attendions un immense progrès, un élan capable d’entraîner l’humanité tout entière. Pour assister à ce renouveau, certes il vaut la peine de vivre, pensais-je, et de donner sa vie pour y aider. Dans nos cœurs et dans nos esprits nous attachions résolument au glorieux destin de l’URSS l’avenir même de la culture ; nous l’avons maintes fois répété. Nous voudrions pouvoir le dire encore. Déjà, avant d’y aller voir, de récentes décisions qui semblaient dénoter un changement d’orientation ne laissaient pas de nous inquiéter.\par
 J’écrivais alors (Octobre 1935) :\par
-
-\begin{quoteblock}
+\quoteskip\begin{quoteblock}
  \noindent « C’est aussi, c’est beaucoup la bêtise et la malhonnêteté des attaques contre l’URSS qui font qu’aujourd’hui nous mettons quelque obstination à la défendre. Eux, les aboyeurs, vont commencer à l’approuver lorsque précisément nous cesserons de le faire ; car ce qu’ils approuveront ce seront ses compromissions, ses transigeances et qui feront dire aux autres : « Vous voyez bien ! » mais par où elle s’écartera du but que d’abord elle poursuivait. Puisse notre regard, en restant fixé sur ce but, ne point être amené, par là même, à se détourner de l’URSS » (\emph{N. R. F.} Mars 1936.)
-\end{quoteblock}
-
+\end{quoteblock}\quoteskip
 \noindent Pourtant, jusqu’à plus ample informé m’entêtant dans la confiance et préférant douter de mon propre jugement, quatre jours après mon arrivée à Moscou je déclarais encore dans mon discours sur la Place Rouge, à l’occasion des funérailles de Gorki : « Le sort de la culture est lié dans nos esprits au destin même de l’URSS Nous la défendrons. »\par
 J’ai toujours professé que le désir de demeurer constant avec soi-même comportait trop souvent un risque d’insincérité ; et j’estime que s’il importe d’être sincère c’est bien lorsque la foi d’un grand nombre, avec la nôtre propre, est engagée.\par
 Si je me suis trompé d’abord, le mieux est de reconnaître au plus tôt mon erreur ; car je suis responsable, ici, de ceux que cette erreur entraîne. Il n’y a pas, en ce cas, amour-propre qui tienne ; et du reste j’en ai fort peu. Il y a des choses plus importantes à mes yeux que moi-même ; plus importantes que l’URSS : c’est l’humanité, c’est son destin, c’est sa culture.\par
@@ -893,7 +903,7 @@ Une autre crainte, celle du « trotzkisme » et de ce qu’on appelle aujourd�
 
 
 \chaptercont
-J’écrivais avant d’aller en URSS:\par
+\noindent J’écrivais avant d’aller en URSS:\par
 Je crois que la valeur d’un écrivain est liée à la force révolutionnaire qui l’anime, ou plus exactement (car je ne suis pas si fou que de ne reconnaître de valeur artistique qu’aux écrivains de gauche) : à sa force d’opposition. Cette force existe aussi bien chez Bossuet, Chateaubriand, ou, de nos jours, Claudel, que chez Molière, Voltaire, Hugo et tant d’autres. Dans notre forme de société, un grand écrivain, un grand artiste, est essentiellement anticonformiste. Il navigue à contre courant. Cela était vrai pour Dante, pour Cervantes, pour Ibsen, pour Gogol… Cela cesse d’être vrai, semble-t-il pour Shakespeare et ses contemporains, dont John Addington Symonds dit excellemment : \emph{What made the playwrights of that epoch so great… was that they (the authors) lived and wrote in fullest sympathy with the whole people} \footnote{« Ce qui fit que l’art dramatique de cette époque s’éleva si haut… c’est que les auteurs vivaient alors et écrivaient en complète sympathie avec tout le peuple. » (\emph{General introduction to the Mermaid Series.})}. Cela n’était sans doute pas vrai pour Sophocle et certainement pas pour Homère, par qui la Grèce même, nous semble-t-il, chantait. Cela cesserait peut-être d’être vrai, du jour où… Mais c’est précisément là ce qui dirige nos regards vers l’URSS avec une interrogation si anxieuse : le triomphe de la révolution permettra-t-elle à ses artistes d’être portés par le courant ? Car la question se pose : qu’adviendra-t-il si l’État social transformé enlève à l’artiste tout motif de protestation ? Que fera l’artiste s’il n’a plus à s’élever contre, plus qu’à se laisser porter ? Sans doute, tant qu’il y a lutte encore et que la victoire n’est pas parfaitement assurée, il pourra peindre cette lutte et, combattant lui-même, aider au triomphe. Mais ensuite…\par
 Voilà ce que je me demandais avant d’aller en URSS.\par
 

@@ -25,7 +25,7 @@
 \fi\fi\fi
 
 \ifbooklet % do not enclose with {}
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
     inner=12mm,
@@ -37,7 +37,7 @@
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav % A5
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     a5paper
   ]{geometry}
@@ -63,8 +63,6 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % 1pt allow better vertical justification
-\setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
 % Colors %
@@ -89,6 +87,9 @@
 
 \makeatletter % <@@@
 
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
+\setlength{\parindent}{1.5em}
+
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage{booktabs} % for tables: \toprule, \midrule…
@@ -102,10 +103,10 @@
 \usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
-\usepackage{framed} % bordering correct with footnote hack
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{relsize} % \smaller \larger (ex: quotes in body and footnotes)
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
@@ -144,10 +145,9 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Zao }\par
+\title{Zao\par
 \medskip
-\textit{ Histoire courte }\par
-}
+\emph{Histoire courte}}
 \date{2016}
 \author{Richard Pernollet}
 \def\elbibl{Richard Pernollet. 2016. \emph{Zao}}
@@ -308,7 +308,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft\normalfont #1\par}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -316,12 +316,13 @@
 \newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
+\newcommand{\question}[1]{\bigbreak{\RaggedRight\noindent\emph{#1}\par}\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
 \newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
 \newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
 \newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
-\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\lpar}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
@@ -357,9 +358,15 @@
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
 % leftskip makes big bugs in Lexmark printing \sffamily
 \newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
-\newenvironment{quoteblock}% may be used for ornaments
-  {\begin{quoting}}
+\newenvironment{quoteblock}
+  {\begin{quoting}\setstretch{0.9}} %
   {\end{quoting}}
+\newenvironment{frametext}
+  {\begin{mdframed}[default]} %
+  {\end{mdframed}}
+
+\quotingsetup{vskip=0pt}
+\newcommand{\quoteskip}{\medskip}
 \newenvironment{titlePage}
   {\Centering}
   {}
@@ -409,12 +416,18 @@
 % \renewcommand{\@pnumwidth}{0.5em} % {1.75em}
 \renewcommand{\@cftmaketoctitle}{}
 \setlength{\cftbeforesecskip}{\z@ \@plus.2\p@}
-\renewcommand{\cftchapfont}{}
-\renewcommand{\cftchapdotsep}{\cftdotsep}
-\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
-\renewcommand{\cftchappagefont}{\bfseries}
-\setlength{\cftbeforechapskip}{0em \@plus\p@}
-% \renewcommand{\cftsecfont}{\small\relax}
+
+\@ifclassloaded{article}{%
+  \typeout{class: article}%
+}{%
+  \renewcommand{\cftchapfont}{}
+  \renewcommand{\cftchapdotsep}{\cftdotsep}
+  \renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
+  \renewcommand{\cftchappagefont}{\bfseries}
+  \setlength{\cftbeforechapskip}{0pt}
+  \setlength{\cftchapnumwidth}{1em}
+}
+\renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 % \renewcommand{\cftsubsecfont}{\small\relax}
 \renewcommand{\cftsecdotsep}{\cftdotsep}
@@ -423,7 +436,6 @@
 \setlength{\cftsecindent}{1em}
 \setlength{\cftsubsecindent}{2em}
 \setlength{\cftsubsubsecindent}{3em}
-\setlength{\cftchapnumwidth}{1em}
 \setlength{\cftsecnumwidth}{1em}
 \setlength{\cftsubsecnumwidth}{1em}
 \setlength{\cftsubsubsecnumwidth}{1em}
@@ -442,6 +454,7 @@
 \setlength{\poembotskip}{0pt}
 \setlength{\poemtopskip}{0pt}
 \setlength{\poemindent}{0pt}
+\setlength{\poemmaxlinewd}{\linewidth}
 \poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
@@ -496,7 +509,7 @@
 % </TEI> end %
 %%%%%%%%%%%%%%
 
-
+\setmainlanguage{french}
 %%%%%%%%%%%%%
 % footnotes %
 %%%%%%%%%%%%%
@@ -560,7 +573,6 @@
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 \renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
-% delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
   [display] % shape
   {\vspace{1.5em}\centering} % format
@@ -742,15 +754,15 @@ Zao disait aussi qu’il nous voyait grandir et qu’un jour, il faudra nous y f
 \section[{— 5 —}]{— 5 —}
 \renewcommand{\leftmark}{— 5 —}
 
-{\itshape ZAO, OÙ ES-TU ?}\par
-{\itshape ZAO, TU ME FAIS CHIER !}\par
-{\itshape MAIS OÙ ES-TU PASSÉ, ZAO ?}\par
+{\itshape ZAO, OÙ ES-TU ?\par}
+{\itshape ZAO, TU ME FAIS CHIER !\par}
+{\itshape MAIS OÙ ES-TU PASSÉ, ZAO ?\par}
 \bigbreak
 \noindent Au camp, il y a des histoires. On est trois garçons à faire bande à part, Lol, Jamel dit Karis et moi Brisbur, des noms de guerre. Les filles se moquent, elles disent qu’on est trop sales.\par
 Zao, quand il est là, rigole.\par
 Il en profite pour nous rappeler qu’il faut nous laver le zizi, les fesses, les pieds, les mains, le visage et tout le haut du corps le soir avant d’aller se coucher. Puis il s’en va. Il est comme ça Zao. Il n’est pas toujours là. Pas toujours avec nous. Peut-être les filles n’ont pas tort, il est réellement parti, Zao, et c’est peut-être aussi ce que je ne veux pas voir. C’est tout. Zao est vieux et s’il est parti, c’est fou.\par
 \bigbreak
-En fait on a tous pensé la même chose en même temps.\par
+\noindent En fait on a tous pensé la même chose en même temps.\par
 L’effet Zao, a dit Yasmine.\par
 Elle, elle est vraiment trop belle. Vraiment.\par
 Zao, je m’excuse, je m’endors, je suis dans l’herbe, je ne vois plus le lac, j’ai pas envie de chercher, je me suis mis à l’écart, je suis tes enseignements, Zao, sur la plage vous avez l’humidité qui remonte, c’est pas bon de coucher sur la plage, à quelques mètres au-dessus vous avez des herbes sèches, faites-en un lit et couchez-vous dessus. Vaut mieux mettre des fois une couverture par terre, ça isole. \emph{Mais dans les herbes, hé hé, il y a aussi les moustiques et c’est là où ça se complique.} Et PANG ! j’en tape un. La vache !\par
@@ -767,11 +779,11 @@ Il ne se retourne pas.\par
 Il regarde le lac.\par
 J’avance jusqu’à lui sur les rochers et viens doucement derrière lui et je dis doucement – ZAO ! Il redresse la tête.\par
 Ses grands yeux tout bleus, son visage tout maigre et sans dents.\par
-{\itshape Ah, c’est toi, Brisbur, dit-il d’un air égaré, qu’est-ce que tu viens faire là ?}\par
+{\itshape Ah, c’est toi, Brisbur, dit-il d’un air égaré, qu’est-ce que tu viens faire là ?\par}
 On te cherche partout, je dis, au camp, Zao.\par
 Pourquoi ça vous inquiète ? Je vous ai dit qu’un jour je partirai, je suis parti. Je voyage en ce moment sur mon point de non-retour.\par
 \bigbreak
-J’hésite un instant.\par
+\noindent J’hésite un instant.\par
 J’hésite à dire à Zao quand même tu déconnes et je dis quand même Zao tu déconnes ! Il me sourit.\par
 Ça a l’air de ne lui faire ni chaud ni froid.\par
 Il est enveloppé dans une couverture orange et sur son crâne tanné deux ou trois mèches de ses cheveux blancs flottent.\par
@@ -783,7 +795,7 @@ Les rives en face sont remplies de roseaux. Des oiseaux passent. Deux pies noire
 \section[{— 7 —}]{— 7 —}
 \renewcommand{\leftmark}{— 7 —}
 
-\noindent {\itshape Les moustiques, ils peuvent avoir des dards gros comme mon pouce, je vous jure, des fois, et ils foncent sur vous, bzz bzz, et pic et pic, et vous, vous vous en sortez avec des boutons gros comme mon poing, hein, et vous viendrez tous pleurer dans mes bras, ah yayaille, ça pique, Zao !}\par
+{\itshape \noindent Les moustiques, ils peuvent avoir des dards gros comme mon pouce, je vous jure, des fois, et ils foncent sur vous, bzz bzz, et pic et pic, et vous, vous vous en sortez avec des boutons gros comme mon poing, hein, et vous viendrez tous pleurer dans mes bras, ah yayaille, ça pique, Zao !\par}
 \bigbreak
 \noindent Écoute, petit, a dit Zao, je vais te dire quelque chose, mais avant tu peux t’asseoir ! Il se retourne sur lui-même, pivote, me fait face en croisant les jambes. Et, levant le doigt avec le lac dans le dos, il dit :\par
 Écoute bien les enseignements de Zao !\par
@@ -812,7 +824,7 @@ Et maintenant je sens que nous allons te perdre, Zao.\par
 Hé, OÙ ES-TU ZAO ?\par
 Je fais presque un demi-tour de lac, je retrouve la trace.\par
 \bigbreak
-Si c’est lui, il a marché dans l’eau.
+\noindent Si c’est lui, il a marché dans l’eau.
 
 \section[{— 9 —}]{— 9 —}
 \renewcommand{\leftmark}{— 9 —}
@@ -834,19 +846,19 @@ Si c’est lui, il a marché dans l’eau.
 \noindent Je retrouve la trace, elle s’enfonce dans les roseaux, c’est un passage où sont passées plusieurs personnes, c’est peut-être nous, il y a plusieurs personnes qui sont passées par là, je suis, et je débouche sur le sentier. Il est à l’ombre, avec les arbres au-dessus qui font voûte. Ce qui fait qu’il est presque comme il était avant, comme il a été pendant longtemps, quand des chars à bœufs devaient passer par là, nous a dit Zao, pour tirer les arbres de la forêt. Il fait presque entièrement le tour du lac. Parfois on le perd quand il manque des arbres. Au milieu, on débouche sur la cascade, le déversoir du lac. J’entends de loin son jet à mesure que j’approche. J’y suis. La cascade tombe depuis un mur de ciment vertigineux. Parfois on voit des chèvres venir s’accrocher là-dessus pour venir brouter les pouces d’herbes.\par
 Et là-dessus il y a mon Zao pendu !\par
 \bigbreak
-MERDE Zao !\par
+\noindent MERDE Zao !\par
 Il s’est pendu !\par
 Il pend à une branche au-dessus de cet abîme avec la tête presque à l’équerre et sa couverture orange qui lui fait comme un poncho. Les oiseaux lui ont déjà piqué les yeux. Ses bras, ses joues, ses jambes portent la marque de coups de becs. Depuis quand il est là ? Je ne réfléchis pas, je monte, grimpe dans l’arbre, avise la branche, me glisse dessus, sous moi je vois le bouillonnement des eaux. J’essaye d’attraper la corde mais dès que je la touche celle-ci balance et d’un seul coup le corps lâche, il se détache et plonge, laissant la tête fixée au nœud (\emph{MERDE} !), et en bas le corps fait plouf en disparaissant dans les remous.
 
 \section[{— 12 —}]{— 12 —}
 \renewcommand{\leftmark}{— 12 —}
 
-J’AI RAMENÉ LA TÊTE À ZAO AU CAMP !\par
+\noindent J’AI RAMENÉ LA TÊTE À ZAO AU CAMP !\par
 \bigbreak
 \noindent Je suis parti avec elle sous le bras et j’ai ramené sa tête au camp. J’ai mis du temps à la détacher, je vous assure, c’était très serré et, n’osant trop la regarder car elle était toute marron, j’ai pensé à son corps. Le courant devait l’emporter. Et je me suis dit, si ça se trouve, avec la rivière, dans dix minutes il est au camp. Comment vont-ils l’exposer sans sa tête coupée ? Et dans mon for intérieur, je ruminais les enseignements de Zao, vous savez je préfère que ce soit les filles qui assurent la direction du camp, ça sera mieux, je vous promets, et en même temps je me disais : est-ce que je le leur dirai ?\par
 J’étais triste.\par
 \bigbreak
-JE RAMENAIS LA TÊTE DE ZAO AU CAMP !\par
+\noindent JE RAMENAIS LA TÊTE DE ZAO AU CAMP !\par
 
 \dateline{Lille, octobre 2016}
  

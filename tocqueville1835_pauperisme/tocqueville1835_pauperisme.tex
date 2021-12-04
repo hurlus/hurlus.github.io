@@ -25,7 +25,7 @@
 \fi\fi\fi
 
 \ifbooklet % do not enclose with {}
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
     inner=12mm,
@@ -37,7 +37,7 @@
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav % A5
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     a5paper
   ]{geometry}
@@ -63,8 +63,6 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % 1pt allow better vertical justification
-\setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
 % Colors %
@@ -89,6 +87,9 @@
 
 \makeatletter % <@@@
 
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
+\setlength{\parindent}{1.5em}
+
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage{booktabs} % for tables: \toprule, \midrule…
@@ -102,10 +103,10 @@
 \usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
-\usepackage{framed} % bordering correct with footnote hack
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{relsize} % \smaller \larger (ex: quotes in body and footnotes)
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
@@ -144,12 +145,11 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Mémoire sur le paupérisme }\par
+\title{Mémoire sur le paupérisme\par
 \medskip
-\textit{ Du développement progressif du paupérisme chez les modernes et des moyens employés pour le combattre }\par
+\emph{Du développement progressif du paupérisme chez les modernes et des moyens employés pour le combattre}\par
 \medskip
-\textit{ Mémoire présenté à la Société académique cherbourgeoise }\par
-}
+\emph{Mémoire présenté à la Société académique cherbourgeoise}}
 \date{1835}
 \author{Alexis de Tocqueville}
 \def\elbibl{Alexis de Tocqueville. 1835. \emph{Mémoire sur le paupérisme}}
@@ -157,32 +157,24 @@
  
 \labelblock{Préface hurlue}
 
- 
-\begin{quoteblock}
-\noindent Il n’y a rien qui, en général, élève et soutient plus haut l’esprit humain que l’idée des droits. On trouve dans l’idée du droit quelque chose de grand et de viril qui ôte à la demande son caractère suppliant, et place celui qui réclame sur le même niveau que celui qui accorde.\end{quoteblock}
-
- Tocqueville est un grand esprit, malheureusement.\par
+ \quoteskip\begin{quoteblock}
+\noindent Il n’y a rien qui, en général, élève et soutient plus haut l’esprit humain que l’idée des droits. On trouve dans l’idée du droit quelque chose de grand et de viril qui ôte à la demande son caractère suppliant, et place celui qui réclame sur le même niveau que celui qui accorde.\end{quoteblock}\quoteskip
+ \noindent Tocqueville est un grand esprit, malheureusement.\par
  \bigbreak
  \noindent Il sait rendre toutes les idées, même celles qu’il conteste, dans leur plus grande force, si bien que ses réfutations en sont d’autant plus brillantes et convaincantes. Qui n’est pas d’accord se sent effacé par la force de ses évidences. Il est l’esprit de la classe dominante, d’hier et de demain : intelligent, mesuré, humain, et donc écrasant de son universalité. N’a-t-on jamais défendu en si peu de mots que ci-dessus, la dignité que donne le droit à la sécurité sociale ?\par
  Qui, à part un socialiste, a su lire dès 1835, le mouvement de l’histoire, l’aliénation de la classe ouvrière, entièrement soumise aux aléas du marché, et pourtant base de la production ?\par
- 
-\begin{quoteblock}
-\noindent Les hommes quittaient la charrue pour prendre la navette et le marteau ; de la chaumière ils passaient dans la manufacture […] La classe industrielle a reçu la mission spéciale et dangereuse de pourvoir à ses risques et périls au bonheur matériel de toutes les autres.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent Les hommes quittaient la charrue pour prendre la navette et le marteau ; de la chaumière ils passaient dans la manufacture […] La classe industrielle a reçu la mission spéciale et dangereuse de pourvoir à ses risques et périls au bonheur matériel de toutes les autres.\end{quoteblock}\quoteskip
  \noindent Cependant Tocqueville n’est pas socialiste, mais libéral. Il comprend bien que l’industrie produit la misère et nécessite une redistribution, mais il trouve aussi les arguments les plus vicieux contre l’\emph{assistanat}. Ses témoignages sur l’assistance publique anglaise de l’époque restent piquants, quoique vus depuis un \emph{Lord}. Il en conclut que le droit à l’assistance publique déprave les âmes et la société, et qu’il vaut mieux lui préférer la charité privée. Plutôt des milliardaires qui donne de bon cœur, qu’une sécurité sociale contraignante et administrative… \par
- 
-\begin{quoteblock}
-\noindent L’aumône individuelle établit des liens précieux entre le riche et le pauvre. Le premier s’intéresse par le bienfait même au sort de celui dont il a entrepris de soulager la misère ; le second, soutenu par des secours qu’il n’avait pas droit d’exiger et que peut-être il n’espérait pas obtenir, se sent attiré par la reconnaissance.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent L’aumône individuelle établit des liens précieux entre le riche et le pauvre. Le premier s’intéresse par le bienfait même au sort de celui dont il a entrepris de soulager la misère ; le second, soutenu par des secours qu’il n’avait pas droit d’exiger et que peut-être il n’espérait pas obtenir, se sent attiré par la reconnaissance.\end{quoteblock}\quoteskip
  \noindent Où est donc le vice du raisonnement ? Dans une évidence implicite au détour d’une phrase : \emph{« deux nations rivales existent depuis le commencement du monde qu’on appelle les riches et les pauvres »}.\par
  Les riches et les pauvres seraient là de toute éternité, et sans demi-mesures de l’un à l’autre. Tocqueville avait pourtant commencé son mémoire par une première partie presque copiée de Rousseau \emph{sur l'origine et les fondements de l'inégalité parmi les hommes} (un autre discours en réponse à une académie) ; expliquant que les riches sont apparus avec la religion de la propriété. Les inégalités ne sont pas de tous les temps mais produites par l’histoire.\par
  Il aurait dû en conclure que la pauvreté, et les riches, peuvent disparaître ; mais il croit au contraire que cet ordre est éternel et voulu par Dieu. Le pauvre est nécessaire au riche pour le salut de son âme.\par
  Selon Tocqueville, c’est même l’assistance publique qui est la cause de la dépravation des riches qui ne donnent plus. La charité individuelle était \emph{« suffisante au Moyen Age, parce que l’ardeur religieuse lui donnait une immense énergie »}, tandis qu’avec l’assistance publique, \emph{« la loi dépouille le riche d’une partie de son superflu sans le consulter, et il ne voit dans le pauvre qu’un avide étranger appelé par le législateur, au partage de ses biens »}. Et voilà, c’est de la faute au pauvre si le riche n’a plus envie de donner. Le pauvre doit savoir se vendre.\par
  Mais Tocqueville ne se soucie de l’intérêt général que par accident, et avoue en conclusion sa véritable peur.\par
- 
-\begin{quoteblock}
-\noindent [L’assistance publique] réduira avec le temps les riches à n’être que les fermiers des pauvres, tarira les sources de l’épargne, arrêtera l’accumulation des capitaux, comprimera l’essor du commerce, engourdira l’activité et l’industrie humaines et finira par amener une révolution violente dans l’État, lorsque le nombre de ceux qui reçoivent l’aumône sera devenu presque aussi grand que le nombre de ceux qui la donnent, et que l’indigent ne pouvant plus tirer des riches appauvris de quoi pourvoir à ses besoins trouvera plus facile de les dépouiller tout à coup de leurs biens que de demander leurs secours.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent [L’assistance publique] réduira avec le temps les riches à n’être que les fermiers des pauvres, tarira les sources de l’épargne, arrêtera l’accumulation des capitaux, comprimera l’essor du commerce, engourdira l’activité et l’industrie humaines et finira par amener une révolution violente dans l’État, lorsque le nombre de ceux qui reçoivent l’aumône sera devenu presque aussi grand que le nombre de ceux qui la donnent, et que l’indigent ne pouvant plus tirer des riches appauvris de quoi pourvoir à ses besoins trouvera plus facile de les dépouiller tout à coup de leurs biens que de demander leurs secours.\end{quoteblock}\quoteskip
  \noindent Donc, si l’assistance publique fonctionne trop bien, elle va appauvrir les riches, qui ne pourront plus alimenter les caisses, et donc les pauvres en colère se mettraient en \emph{Révolution}, contre les riches.\par
  Mais si les riches sont pauvres, pourquoi les pauvres en voudraient à leur propriété ? Et si l’assistance fonctionne, pourquoi les riches craindraient la ruine ? La dénonciation de l’\emph{assistanat} ne se soucie pas vraiment du moral des pauvres ; Tocqueville et ses éternels lecteurs s’inquiètent surtout de leurs privilèges de ne plus se sentir riches s’ils ne peuvent plus donner aux pauvres.\par
  \bigbreak
@@ -337,7 +329,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft\normalfont #1\par}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -345,12 +337,13 @@
 \newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
+\newcommand{\question}[1]{\bigbreak{\RaggedRight\noindent\emph{#1}\par}\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
 \newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
 \newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
 \newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
-\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\lpar}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
@@ -386,9 +379,15 @@
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
 % leftskip makes big bugs in Lexmark printing \sffamily
 \newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
-\newenvironment{quoteblock}% may be used for ornaments
-  {\begin{quoting}}
+\newenvironment{quoteblock}
+  {\begin{quoting}\setstretch{0.9}} %
   {\end{quoting}}
+\newenvironment{frametext}
+  {\begin{mdframed}[default]} %
+  {\end{mdframed}}
+
+\quotingsetup{vskip=0pt}
+\newcommand{\quoteskip}{\medskip}
 \newenvironment{titlePage}
   {\Centering}
   {}
@@ -438,12 +437,18 @@
 % \renewcommand{\@pnumwidth}{0.5em} % {1.75em}
 \renewcommand{\@cftmaketoctitle}{}
 \setlength{\cftbeforesecskip}{\z@ \@plus.2\p@}
-\renewcommand{\cftchapfont}{}
-\renewcommand{\cftchapdotsep}{\cftdotsep}
-\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
-\renewcommand{\cftchappagefont}{\bfseries}
-\setlength{\cftbeforechapskip}{0em \@plus\p@}
-% \renewcommand{\cftsecfont}{\small\relax}
+
+\@ifclassloaded{article}{%
+  \typeout{class: article}%
+}{%
+  \renewcommand{\cftchapfont}{}
+  \renewcommand{\cftchapdotsep}{\cftdotsep}
+  \renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
+  \renewcommand{\cftchappagefont}{\bfseries}
+  \setlength{\cftbeforechapskip}{0pt}
+  \setlength{\cftchapnumwidth}{1em}
+}
+\renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 % \renewcommand{\cftsubsecfont}{\small\relax}
 \renewcommand{\cftsecdotsep}{\cftdotsep}
@@ -452,7 +457,6 @@
 \setlength{\cftsecindent}{1em}
 \setlength{\cftsubsecindent}{2em}
 \setlength{\cftsubsubsecindent}{3em}
-\setlength{\cftchapnumwidth}{1em}
 \setlength{\cftsecnumwidth}{1em}
 \setlength{\cftsubsecnumwidth}{1em}
 \setlength{\cftsubsubsecnumwidth}{1em}
@@ -471,6 +475,7 @@
 \setlength{\poembotskip}{0pt}
 \setlength{\poemtopskip}{0pt}
 \setlength{\poemindent}{0pt}
+\setlength{\poemmaxlinewd}{\linewidth}
 \poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
@@ -525,7 +530,7 @@
 % </TEI> end %
 %%%%%%%%%%%%%%
 
-
+\setmainlanguage{french}
 %%%%%%%%%%%%%
 % footnotes %
 %%%%%%%%%%%%%
@@ -589,7 +594,6 @@
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 \renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
-% delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
   [display] % shape
   {\vspace{1.5em}\centering} % format
@@ -838,34 +842,26 @@ Ainsi la charité légale n’a pas seulement ravi la liberté locomotrice aux p
 \noindent Je ne saurais, je pense, mieux compléter ce triste tableau qu’en transcrivant ici le morceau suivant et que je trouve dans mes notes sur l’Angleterre.\par
 Je parcourais en 1833 la Grande-Bretagne. D'autres étaient frappés de la prospérité intérieure du pays : moi, je songeais à l’inquiétude secrète qui travaillait visiblement l’esprit de tous ses habitants. Je pensais que de grandes misères devaient se cacher sous ce manteau brillant que l’Europe admire. Cette idée me porta à examiner avec une attention toute particulière le paupérisme, cette plaie hideuse et immense qui est attachée à un corps plein de vigueur et de santé.\par
 J'habitais alors la maison d’un grand propriétaire du sud de l’Angleterre ; c’était le temps où les juges de paix se réunissent pour prononcer sur les réclamations que font entendre les pauvres contre leurs communes, ou les communes contre les pauvres. Mon hôte était juge de paix, et je le suivais régulièrement au tribunal. Je trouve dans mes notes de voyage cette peinture de la première audience à laquelle j’assistai ; elle résume en quelques mots et met en relief tout ce qui précède. Je transcris avec une extrême exactitude afin de laisser au tableau le simple cachet de la vérité.\par
-
-\begin{quoteblock}
+\quoteskip\begin{quoteblock}
  \noindent « Le premier individu qui se présente devant les juges de paix est un vieillard ; sa figure est fraîche et vermeille, il est coiffé d’une perruque et couvert d’un excellent habit noir, il a tout l’air d’un rentier, il s’approche pourtant de la barre et réclame avec emportement contre l’injustice des administrateurs de sa commune. Cet homme est un pauvre, et l’on vient de diminuer injustement la part qu’il recevait dans la charité publique. On remet la cause pour entendre les administrateurs de la commune.\par
  « Après ce frais et pétulant vieillard paraît une jeune femme enceinte, dont les vêtements annoncent une pauvreté récente et qui porte sur ses traits flétris l’empreinte des douleurs. Elle expose que son mari est parti, il y a quelques jours pour un voyage de mer, que depuis lors elle n’a reçu de lui ni nouvelles ni secours, elle réclame l’aumône publique, mais l’administrateur des pauvres hésite à la lui accorder. Le beau-père de cette femme est un marchand aisé, il habite la ville même où le tribunal tient ses séances, et on espère aussi qu’il voudra bien, dans l’absence de son fils, se charger de l’entretien de sa belle-fille ; les juges de paix font venir cet homme ; mais il refuse de remplir les devoirs que la nature lui impose et que la loi ne lui commande pas. Les magistrats insistent ; ils cherchent à faire naître le remords ou la compassion dans l’âme égoïste de cet homme, leurs efforts échouent, et la commune est condamnée à payer le secours qu’on réclame.\par
  « Après cette pauvre femme abandonnée, viennent cinq ou six hommes grands et vigoureux. Ils sont dans la force de la jeunesse, leur démarche est ferme et presque insultante. Ils se plaignent des administrateurs de leurs villages qui refusent de leur donner du travail, ou, à défaut de travail, un secours.\par
  « Les administrateurs répliquent que la commune n’a en ce moment aucuns travaux à exécuter ; et quant au secours gratuit, il n’est pas dû, disent-ils, parce que les demandeurs trouveraient facilement un emploi de leur industrie chez les particuliers s’ils le voulaient. »
- \end{quoteblock}
-
-Lord X, avec lequel j’étais venu, me dit :\par
-
-\begin{quoteblock}
+ \end{quoteblock}\quoteskip
+\noindent Lord X, avec lequel j’étais venu, me dit :\par
+\quoteskip\begin{quoteblock}
  \noindent « Vous venez de voir dans un cadre étroit une partie des nombreux abus que produit la loi des pauvres. Ce vieillard, qui s’est présenté le premier, a très probablement de quoi vivre, mais il pense qu’il a le droit d’exiger qu’on l’entretienne dans l’aisance, et il ne rougit pas de réclamer la charité publique, qui a perdu aux yeux du peuple son caractère pénible et humiliant. Cette jeune femme, qui paraît honnête et malheureuse, serait certainement secourue par son beau-père si la loi des pauvres n’existait pas, mais l’intérêt fait taire chez ce dernier le cri de la honte, et il se décharge sur le public d’une dette qu’il devrait seul acquitter. Quant à ces jeunes gens qui se sont présentés les derniers, je les connais, ils habitent mon village : ce sont de très dangereux citoyens, et de fait, mauvais sujets ; ils dissipent en peu d’instants dans les cabarets l’argent qu’il gagnent parce qu’ils savent que l’État viendra à leur secours ; ainsi, vous voyez qu’à la première gêne, causée par leur faute, ils s’adressent à nous. »
- \end{quoteblock}
-
-
+ \end{quoteblock}\quoteskip
 \begin{quoteblock}
  \noindent « L'audience continua. Une jeune femme se présente à la barre, le surveillant des pauvres de sa commune la suit, un enfant l’accompagne ; elle s’approche sans donner le moindre signe d’hésitation, la pudeur ne fait pas même incliner son regard. Le surveillant l’accuse d’avoir eu en commerce illégitime l’enfant qu’elle porte dans ses bras.\par
  « Elle en convient sans peine. Comme elle est indigente, et que l’enfant naturel, si le père restait inconnu, tomberait, avec sa mère, à la charge de la commune, le surveillant la somme de nommer le père ; le tribunal lui fait prêter serment. Elle désigne un paysan du voisinage. Celui-ci, qui est présent à l’audience, reconnaît très complaisamment l’exactitude du fait, et les juges de paix le condamnent à entretenir l’enfant. Le père, la mère se retirent sans que cet incident soulève la moindre émotion dans l’assemblée accoutumée à de semblables spectacles.\par
  « Après cette jeune femme s’en présente une autre. Celle-ci vient volontairement ; elle aborde les magistrats avec la même insouciance effrontée qu’a montrée la première.\par
  « Elle se déclare enceinte et nomme le père de l’enfant qui doit naître ; cet homme est absent. Le tribunal remet à un autre jour pour le faire citer. »
- \end{quoteblock}
-
-Lord X me dit :\par
-
-\begin{quoteblock}
+ \end{quoteblock}\quoteskip
+\noindent Lord X me dit :\par
+\quoteskip\begin{quoteblock}
  \noindent « Voici encore de funestes effets produits par les mêmes lois. La conséquence la plus directe de la législation sur les pauvres est de mettre à la charge du public l’entretien des enfants abandonnés qui sont les plus nécessiteux de tous les indigents. De là est né le désir de décharger les communes de l’entretien des enfants naturels que leurs parents seraient en état de nourrir. De là aussi cette recherche de la paternité provoquée par les communes et dont la preuve est délaissée à la femme. Car quel autre genre de preuve peut-on se flatter d’obtenir en pareille matière ? En obligeant les communes à se charger des enfants naturels et en leur permettant de rechercher la paternité, afin d’alléger ce poids accablant, nous avons facilité autant qu’il était en nous l’inconduite des femmes dans les basses classes. La grossesse illégitime doit presque toujours améliorer leur situation matérielle. Si le père de l’enfant est riche, elles peuvent se décharger sur lui du soin d’élever le fruit de leurs communes erreurs ; s’il est pauvre, elles confient ce soin à la société : les secours qu’on leur accorde de part ou d’autre dépassent presque toujours les dépenses du nouveau-né. Elles s’enrichissent donc par leurs vices mêmes, et il arrive souvent que la fille qui a été plusieurs fois mère fait un mariage plus avantageux que la jeune vierge qui n’a que ses vertus à offrir. La première a trouvé une sorte de dot dans son infamie. »
- \end{quoteblock}
-
+ \end{quoteblock}\quoteskip
 \noindent Je répète que je n’ai rien voulu changer à ce passage de mon journal ; je l’ai reproduit dans les mêmes termes, parce qu’il m’a semblé qu’il rendait avec simplicité et vérité les impressions que je voudrais faire partager au lecteur.\par
 Depuis mon voyage en Angleterre, la loi des pauvres a été modifiée. Beaucoup d’Anglais se flattent que ces changements exerceront une grande influence sur le sort des indigents, sur leur moralité, sur leur nombre. Je voudrais pouvoir partager ces espérances, mais je ne saurais le faire. Les Anglais de nos jours ont consacré de nouveau dans la nouvelle loi le principe admis il y a deux cent cinquante ans par Élisabeth. Comme cette princesse, ils ont imposé à la société l’obligation de nourrir le pauvre. C'en est assez ; tous les abus que j’ai essayé de décrire sont renfermés dans le premier principe comme le plus grand chêne dans le gland qu’un enfant peut cacher dans sa main. Il ne lui faut que du temps pour se développer et pour croître. Vouloir établir une loi qui vienne d’une manière régulière, permanente, uniforme au secours des indigents, sans que le nombre des indigents augmente, sans que leur paresse croisse avec leurs besoins, leur oisiveté avec leurs vices, c’est planter le gland et s’étonner qu’il en paraisse une tige, puis des feuilles, plus tard des fleurs, enfin des fruits qui, se répandant au loin, feront sortir un jour une verte forêt des entrailles de la terre.\par
 \bigbreak
@@ -878,7 +874,7 @@ J'entends encore la charité publique ouvrant les écoles aux enfants des pauvre
 
 \astermono
 
-Résumons en peu de mots tout ce qui précède.\par
+\noindent Résumons en peu de mots tout ce qui précède.\par
 La marche progressive de la civilisation moderne augmente graduellement, et dans une proportion plus ou moins rapide, le nombre de ceux qui sont portés à recourir à la charité.\par
 Quel remède apporter à de pareils maux ?\par
 L'aumône légale se présente d’abord à l’esprit, l’aumône légale sous toutes ses formes, tantôt gratuite, tantôt cachée sous la forme d’un salaire, tantôt accidentelle et passagère dans certains temps, tantôt régulière et permanente dans d’autres. Mais un examen approfondi ne tarde pas à démontrer que ce remède, qui semble tout à la fois si naturel et si efficace, est d’un emploi très dangereux ; qu’il n’apporte qu’un soulagement trompeur et momentané aux douleurs individuelles, et qu’il envenime les plaies de la société, quelle que soit la manière dont on l’emploie.\par

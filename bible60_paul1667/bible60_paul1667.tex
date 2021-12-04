@@ -25,7 +25,7 @@
 \fi\fi\fi
 
 \ifbooklet % do not enclose with {}
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
     inner=12mm,
@@ -37,7 +37,7 @@
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav % A5
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     a5paper
   ]{geometry}
@@ -63,8 +63,6 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % 1pt allow better vertical justification
-\setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
 % Colors %
@@ -89,6 +87,9 @@
 
 \makeatletter % <@@@
 
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
+\setlength{\parindent}{1.5em}
+
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage{booktabs} % for tables: \toprule, \midrule…
@@ -102,10 +103,10 @@
 \usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
-\usepackage{framed} % bordering correct with footnote hack
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{relsize} % \smaller \larger (ex: quotes in body and footnotes)
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
@@ -144,10 +145,9 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Lettres de l’apôtre }\par
+\title{Lettres de l’apôtre\par
 \medskip
-\textit{ traduction Sacy, 1667 }\par
-}
+\emph{traduction Sacy, 1667}}
 \date{50–60}
 \author{Paul de Tarse}
 \def\elbibl{Paul de Tarse. 50–60. \emph{Lettres de l’apôtre}}
@@ -158,55 +158,41 @@
  \noindent  Les lettres de Paul de Tarse (ou \emph{Épîtres de saint Paul apôtre}) sont parmi les textes les plus lus depuis des siècles. Elles continuent d’influencer des chrétiens, spécialement les évangélistes, qui y trouvent une inspiration pour leurs cérémonies, leur vie sexuelle, le statut des femmes, ou la collecte de fonds. Il n’est pas nécessaire de croire à un texte pour s’y intéresser. Ce sont les premiers écrits chrétiens, avant les évangiles, un témoignage de l’inspiration initiale de cette religion. C’est aussi un document très vivant sur la société gréco-romaine. \par
   Ne sont données ici que les lettres attestées de Paul de Tarse, en ordre chronologique, les autres épîtres reconnues par le canon biblique apportent peu à la doctrine. Paul écrivait en grec (du très mauvais selon Nietzsche). Il est ici dans un français somptueux, la traduction de Sacy (1613–1684), dite aussi \emph{Bible de Port Royal} (1667) — un haut lieu parisien de réflexion linguistique et religieuse (Racine, Pascal, Arnault…). Pourquoi celle-là et pas une autre ? Parce qu’elle témoigne d’un moment rare en français, où le style servait la religion. Depuis les Lumières et la Révolution, le talent littéraire s’est moins souvent occupé de la Bible. \par
   Ce français est parfois beaucoup plus intelligent que le grec initial, liant par exemple des énumérations brutes et parfois énigmatiques, dans la progression d’une phrase qui lui donne du sens. Si quelqu’un veut absolument goûter l’effet du grec de Paul dans une langue actuelle, il peut essayer une traduction de Darby (1800–1882), un prédicateur anglais qui a rendu la \emph{Bible} le plus littéralement possible en anglais, mais aussi en allemand, et en français. Le résultat demande une tournure d’esprit un peu masochiste pour se plaire au texte. Sacy, plus fidèle à Paul – « la lettre tue, et l’esprit donne la vie » (2 Co 3.6) — s’explique ainsi  : \par
- 
-\begin{quoteblock}
+ \quoteskip\begin{quoteblock}
  \noindent On ne voyait pas qu’on pût garder l’exactitude littérale dans la traduction de Saint Paul, sans la rendre si obscure en plusieurs endroits que l’on n’aurait pu y rien comprendre.\par
  En faisant réflexion sur saint Jérôme, qui est comme le modèle des traducteurs de l’Écriture, puisque l’Église a si solennellement approuvé sa version, on reconnaissait qu’il n’avait point cru être obligé de s’attacher servilement à la lettre, puisque l’on voit par la manière dont il a traduit Job \& les Prophètes, que bien loin de n’en faire qu’une glose, il a tellement éclairci ces Écrits divins qui étaient beaucoup plus obscurs dans les Septante [\emph{en grec}], \& il leur a donné dans sa traduction tant de force \& tant de vigueur, que saint Augustin en cite les paroles, lors même qu’elle n’était pas encore en usage dans l’Église, pour faire voir l’éclat \& la majesté de l’Écriture.\par
  
 \bibl{Sacy, 1667, \emph{Préface à la première édition du Nouveau Testament}.}
- \end{quoteblock}
-
+ \end{quoteblock}\quoteskip
  \noindent  Les \emph{Lettres de Paul} sont un monument collectif et millénaire, comme une cathédrale. En rester à la crypte initiale et souterraine des premiers chrétiens est une illusion à jamais perdue, et ne comprendrait pas l’ampleur que l’édification a prise depuis. La traduction idéale garderait l’inspiration originale et chercherait à retrouver l’entousiasme que produisait Paul, et qu’il ne peut plus produire parmi nos esprits bien plus critiques. \par
   Sacy « \emph{a eu dessein de représenter les paroles de l’Ecriture} », comme Racine représentait les romains sur scène. Re-présenter, rendre présent, mais avec les siècles qui nous séparent de Sacy, Paul est habillé en majesté \emph{Grand Siècle}, alors qu’on le savait pauvre, laid, et sale. \par
   Les lettres racontent un militant qui essaie de conserver une cohérence de pratiques et de doctrines entre différents groupes éparpillés sur la Méditerrannée d’orient. Comment entretenir l’espoir que la fin de l’Histoire est pour bientôt, alors que l’inertie du monde s’obstine à durer et à démentir les prophéties ? \par
   Il y a un congrès (Jérusalem, 50), une scission (Antioche, 50), trois campagnes missionnaires (45\textasciitilde49, 50\textasciitilde52, 53\textasciitilde58), une arrestation (Jérusalem, \textasciitilde60), et un procès (Rome, \textasciitilde60). L’exactitude des péripéties importe moins que la manière dont elles sont vécues. Paul hésite souvent entre le cosmique et le trivial. \par
- 
-\begin{quoteblock}
+ \quoteskip\begin{quoteblock}
  \noindent Je connais un homme en Jésus-Christ \emph{[lui-même]}, qui fut ravi il y a quatorze ans (si ce fut avec son corps, ou sans son corps, je ne sais, Dieu le sait), qui fut ravi, dis-je, jusqu’au troisième ciel \emph{[…]} il y entendit des paroles ineffables, qu’il n’est pas permis à un homme de rapporter. Je pourrais me glorifier en parlant d’un tel homme ; mais pour moi, je ne veux me glorifier que dans mes faiblesses et dans mes afflictions. (2 Co 12.2-5)\par
  
 \bibl{}
- \end{quoteblock}
-
- Il se vexe quand on le prend pour un fou.\par
- 
-\begin{quoteblock}
+ \end{quoteblock}\quoteskip
+ \noindent Il se vexe quand on le prend pour un fou.\par
+ \quoteskip\begin{quoteblock}
  \noindent Je vous le dis encore une fois : « que personne ne me juge fou ; ou au moins souffrez-moi comme fou, et permettez-moi de me glorifier un peu » (2 Co 11.16)
- \end{quoteblock}
-
- Il se vante.\par
- 
-\begin{quoteblock}
+ \end{quoteblock}\quoteskip
+ \noindent Il se vante.\par
+ \quoteskip\begin{quoteblock}
  \noindent J’ai été battu de verges par trois fois, j’ai été lapidé une fois, j’ai fait naufrage trois fois, j’ai passé un jour et une nuit au fond de la mer […] (2 Co 11.25)
- \end{quoteblock}
-
+ \end{quoteblock}\quoteskip
  \noindent Et il insiste régulièrement pour se justifier de ne rien coûter, il ne prêche par par intérêt matériel.\par
- 
-\begin{quoteblock}
+ \quoteskip\begin{quoteblock}
  \noindent Et lorsque je demeurais parmi vous, et que j’étais dans la nécessité, je n’ai été a charge à personne (2 Cor 11.9)
- \end{quoteblock}
-
+ \end{quoteblock}\quoteskip
  \noindent Il n’est pas exactement mythomane, une part de ce qu’il rapporte est corroboré, mais il a dû voir Dieu d’un peu trop près, son bon sens a mal supporté. Il soigne sa vanité en entraînant les autres dans ses délires, notamment la glossolalie — la prière en langues — oubliée des catholiques mais très pratiquée par les évangélistes.\par
- 
-\begin{quoteblock}
+ \quoteskip\begin{quoteblock}
  \noindent Si toute une Église étant assemblée en un lieu, tous parlent diverses langues, et que des infidèles, ou des hommes qui ne savent que leur propre langue, entrent dans cette assemblée, ne diront-ils pas que vous êtes des insensés ? (1 Co 14.23)
- \end{quoteblock}
-
+ \end{quoteblock}\quoteskip
  \noindent  Il est étrange de lire dans ce texte comment les idées de peu de monde, et même les lubies d’un seul personnage, ont pu prendre corps et constituer une religion universelle. La force de l’impulsion initiale de ce texte est toujours présente dans les sociétés qui s’en sont réclamées, même chez les incroyants. Le trait le plus marquant du complexe chrétien est sans doute politique. \par
   Par la peur de la mort, la religion humilie les grands sous Dieu et devant les humbles ; et elle console des humbles par une grandeur imaginaire, remise au jour où Dieu reviendra. Nous ne craignons plus Dieu ou autres fictions, mais nous mourrons encore, et nos grands sont devenus fous, ils pensent trouver le secret de leur immortalité (et il n’y en aura pas pour tout le monde). Qu’ils ne croient pas à des dieux bien anciens, pourquoi pas, mais qu’ils croient leur science plus intelligente est subtile que les milliards d’années de la vie, qu’ils ne comprennent pas leur misère, qu’ils ne s’inclinent pas devant une planète qui les dépasse et qui est indispensable aux autres, et qu’ils entraînent le monde dans leur chute ; nous n’avons pas la joie mauvaise de l’apocalypse des aztèques ou des maïas, nous ne pouvant pas l’accepter. On ne se console pas en leur souhaitant une réincarnation humiliante ; nous sommes juste révoltés qu’ils se moquent aussi ouvertement de leur propre conscience. Nous ne pouvons pas nous empêcher de penser qu’ils ont une âme pareille à la nôtre, et cela nous a été appris par le christianisme (même si bien d’autres cultures le savent aussi bien). Nul n’est bon par nature, le bien est un effort perpétuel devant lequel nous sommes tous égaux. \par
- 
-\begin{quoteblock}
+ \quoteskip\begin{quoteblock}
 \noindent  Car encore que ma conscience ne me reproche rien, je ne suis pas justifié pour cela (1 Co 4.4) \end{quoteblock}
-
  \newpage
 
 }
@@ -354,7 +340,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft\normalfont #1\par}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -362,12 +348,13 @@
 \newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
+\newcommand{\question}[1]{\bigbreak{\RaggedRight\noindent\emph{#1}\par}\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
 \newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
 \newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
 \newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
-\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\lpar}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
@@ -403,9 +390,15 @@
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
 % leftskip makes big bugs in Lexmark printing \sffamily
 \newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
-\newenvironment{quoteblock}% may be used for ornaments
-  {\begin{quoting}}
+\newenvironment{quoteblock}
+  {\begin{quoting}\setstretch{0.9}} %
   {\end{quoting}}
+\newenvironment{frametext}
+  {\begin{mdframed}[default]} %
+  {\end{mdframed}}
+
+\quotingsetup{vskip=0pt}
+\newcommand{\quoteskip}{\medskip}
 \newenvironment{titlePage}
   {\Centering}
   {}
@@ -455,12 +448,18 @@
 % \renewcommand{\@pnumwidth}{0.5em} % {1.75em}
 \renewcommand{\@cftmaketoctitle}{}
 \setlength{\cftbeforesecskip}{\z@ \@plus.2\p@}
-\renewcommand{\cftchapfont}{}
-\renewcommand{\cftchapdotsep}{\cftdotsep}
-\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
-\renewcommand{\cftchappagefont}{\bfseries}
-\setlength{\cftbeforechapskip}{0em \@plus\p@}
-% \renewcommand{\cftsecfont}{\small\relax}
+
+\@ifclassloaded{article}{%
+  \typeout{class: article}%
+}{%
+  \renewcommand{\cftchapfont}{}
+  \renewcommand{\cftchapdotsep}{\cftdotsep}
+  \renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
+  \renewcommand{\cftchappagefont}{\bfseries}
+  \setlength{\cftbeforechapskip}{0pt}
+  \setlength{\cftchapnumwidth}{1em}
+}
+\renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 % \renewcommand{\cftsubsecfont}{\small\relax}
 \renewcommand{\cftsecdotsep}{\cftdotsep}
@@ -469,7 +468,6 @@
 \setlength{\cftsecindent}{1em}
 \setlength{\cftsubsecindent}{2em}
 \setlength{\cftsubsubsecindent}{3em}
-\setlength{\cftchapnumwidth}{1em}
 \setlength{\cftsecnumwidth}{1em}
 \setlength{\cftsubsecnumwidth}{1em}
 \setlength{\cftsubsubsecnumwidth}{1em}
@@ -488,6 +486,7 @@
 \setlength{\poembotskip}{0pt}
 \setlength{\poemtopskip}{0pt}
 \setlength{\poemindent}{0pt}
+\setlength{\poemmaxlinewd}{\linewidth}
 \poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
@@ -542,7 +541,7 @@
 % </TEI> end %
 %%%%%%%%%%%%%%
 
-
+\setmainlanguage{french}
 %%%%%%%%%%%%%
 % footnotes %
 %%%%%%%%%%%%%
@@ -606,7 +605,6 @@
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 \renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
-% delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
   [display] % shape
   {\vspace{1.5em}\centering} % format
@@ -1039,7 +1037,7 @@
 
 \section[{1 Cor 11}]{1 Cor 11}
 
-\initial{S}{OYEZ} mes imitateurs, comme je le suis moi-même de Jésus-Christ.\par
+\noindent \initial{S}{OYEZ} mes imitateurs, comme je le suis moi-même de Jésus-Christ.\par
 \bigbreak
 \noindent   \milestone{2}  Je vous loue, mes frères, de ce que vous vous souvenez de moi en toutes choses, et que vous gardez les traditions et les règles que je vous ai données.  \milestone{3}  Mais je désire que vous sachiez que Jésus-Christ est le chef et la tête de tout homme, que l’homme est le chef de la femme, et que Dieu est le chef de Jésus-Christ.  \milestone{4}  Tout homme qui prie, ou qui prophétise, ayant la tête couverte, déshonore sa tête.  \milestone{5}  Mais toute femme qui prie, ou qui prophétise, n’ayant point la tête couverte d’un voile, déshonore sa tête : car c’est comme si elle était rasée.  \milestone{6}  Si une femme ne se voile point la tête, elle devrait donc avoir aussi les cheveux coupés. Mais s’il est honteux à une femme d’avoir les cheveux coupés, ou d’être rasée, qu’elle se voile la tête.  \milestone{7}  Pour ce qui est de l’homme, il ne doit point se couvrir la tête, parce qu’il est l’image et la gloire de Dieu ; au lieu que la femme est la gloire de l’homme.  \milestone{8}  Car l’homme n’a point été tiré de la femme, mais la femme a été tirée de l’homme ;  \milestone{9}  et l’homme n’a point été créé pour la femme, mais la femme pour l’homme.  \milestone{10}  C’est pourquoi la femme doit porter sur sa tête, à cause des anges, la marque de la puissance que l’homme a sur elle.\par
   \milestone{11}  Toutefois ni l’homme n’est point sans la femme, ni la femme sans l’homme, en notre Seigneur.  \milestone{12}  Car comme la femme au commencement a été tirée de l’homme, aussi l’homme maintenant naît de la femme, et tout vient de Dieu.  \milestone{13}  Jugez vous-mêmes s’il est bienséant à une femme de prier Dieu sans avoir un voile sur la tête.  \milestone{14}  La nature même ne vous enseigne-t-elle pas, qu’il serait honteux à un homme de laisser toujours croître ses cheveux ;  \milestone{15}  et qu’il est au contraire honorable à une femme de les laisser toujours croître, parce qu’ils lui ont été donnés comme un voile qui doit la couvrir ?  \milestone{16}  Si après cela quelqu’un aime à contester, il nous suffit de répondre, que ce n’est point là notre coutume, ni celle de l’Église de Dieu.\par
@@ -1162,12 +1160,10 @@ si je n’ai point la charité, je ne suis que comme un airain sonnant, ou une c
 \section[{2 Cor 6}]{2 Cor 6}
 
 \noindent \initial{É}{TANT} donc les coopérateurs de Dieu, nous vous exhortons de ne pas recevoir en vain la grâce de Dieu.  \milestone{2}  Car il dit lui-même :\par
-\begin{poem}
-Je vous ai exaucé au temps favorable, \\
-et je vous ai aidé au jour du salut. \\
-Voici maintenant le temps favorable ; \\
-voici maintenant le jour du salut. \\-
-\end{poem}
+\lpar{Je vous ai exaucé au temps favorable,}
+\lpar{et je vous ai aidé au jour du salut.}
+\lpar{Voici maintenant le temps favorable ;}
+\lpar{voici maintenant le jour du salut.}
 \noindent   \milestone{3}  Et nous prenons garde aussi nous-mêmes de ne donner à personne aucun sujet de scandale, afin que notre ministère ne soit point déshonoré.  \milestone{4}  Mais agissant en toutes choses comme des ministres de Dieu, nous nous rendons recommandables par une grande patience\par
 dans les maux, dans les nécessités pressantes, et dans les extrêmes afflictions ;\par
   \milestone{5}  dans les plaies, dans les prisons, dans les séditions, dans les travaux, dans les veilles, dans les jeûnes ;\par

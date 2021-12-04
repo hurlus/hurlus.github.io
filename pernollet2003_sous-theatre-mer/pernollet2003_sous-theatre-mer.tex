@@ -25,7 +25,7 @@
 \fi\fi\fi
 
 \ifbooklet % do not enclose with {}
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
     inner=12mm,
@@ -37,7 +37,7 @@
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav % A5
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     a5paper
   ]{geometry}
@@ -63,8 +63,6 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % 1pt allow better vertical justification
-\setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
 % Colors %
@@ -89,6 +87,9 @@
 
 \makeatletter % <@@@
 
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
+\setlength{\parindent}{1.5em}
+
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage{booktabs} % for tables: \toprule, \midrule…
@@ -102,10 +103,10 @@
 \usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
-\usepackage{framed} % bordering correct with footnote hack
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{relsize} % \smaller \larger (ex: quotes in body and footnotes)
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
@@ -144,10 +145,9 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Sous le Théâtre la Mer }\par
+\title{Sous le Théâtre la Mer\par
 \medskip
-\textit{ Histoire courte }\par
-}
+\emph{Histoire courte}}
 \date{2003}
 \author{Richard Pernollet}
 \def\elbibl{Richard Pernollet. 2003. \emph{Sous le Théâtre la Mer}}
@@ -308,7 +308,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft\normalfont #1\par}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -316,12 +316,13 @@
 \newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
+\newcommand{\question}[1]{\bigbreak{\RaggedRight\noindent\emph{#1}\par}\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
 \newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
 \newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
 \newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
-\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\lpar}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
@@ -357,9 +358,15 @@
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
 % leftskip makes big bugs in Lexmark printing \sffamily
 \newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
-\newenvironment{quoteblock}% may be used for ornaments
-  {\begin{quoting}}
+\newenvironment{quoteblock}
+  {\begin{quoting}\setstretch{0.9}} %
   {\end{quoting}}
+\newenvironment{frametext}
+  {\begin{mdframed}[default]} %
+  {\end{mdframed}}
+
+\quotingsetup{vskip=0pt}
+\newcommand{\quoteskip}{\medskip}
 \newenvironment{titlePage}
   {\Centering}
   {}
@@ -409,12 +416,18 @@
 % \renewcommand{\@pnumwidth}{0.5em} % {1.75em}
 \renewcommand{\@cftmaketoctitle}{}
 \setlength{\cftbeforesecskip}{\z@ \@plus.2\p@}
-\renewcommand{\cftchapfont}{}
-\renewcommand{\cftchapdotsep}{\cftdotsep}
-\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
-\renewcommand{\cftchappagefont}{\bfseries}
-\setlength{\cftbeforechapskip}{0em \@plus\p@}
-% \renewcommand{\cftsecfont}{\small\relax}
+
+\@ifclassloaded{article}{%
+  \typeout{class: article}%
+}{%
+  \renewcommand{\cftchapfont}{}
+  \renewcommand{\cftchapdotsep}{\cftdotsep}
+  \renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
+  \renewcommand{\cftchappagefont}{\bfseries}
+  \setlength{\cftbeforechapskip}{0pt}
+  \setlength{\cftchapnumwidth}{1em}
+}
+\renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 % \renewcommand{\cftsubsecfont}{\small\relax}
 \renewcommand{\cftsecdotsep}{\cftdotsep}
@@ -423,7 +436,6 @@
 \setlength{\cftsecindent}{1em}
 \setlength{\cftsubsecindent}{2em}
 \setlength{\cftsubsubsecindent}{3em}
-\setlength{\cftchapnumwidth}{1em}
 \setlength{\cftsecnumwidth}{1em}
 \setlength{\cftsubsecnumwidth}{1em}
 \setlength{\cftsubsubsecnumwidth}{1em}
@@ -442,6 +454,7 @@
 \setlength{\poembotskip}{0pt}
 \setlength{\poemtopskip}{0pt}
 \setlength{\poemindent}{0pt}
+\setlength{\poemmaxlinewd}{\linewidth}
 \poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
@@ -496,7 +509,7 @@
 % </TEI> end %
 %%%%%%%%%%%%%%
 
-
+\setmainlanguage{french}
 %%%%%%%%%%%%%
 % footnotes %
 %%%%%%%%%%%%%
@@ -560,7 +573,6 @@
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 \renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
-% delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
   [display] % shape
   {\vspace{1.5em}\centering} % format
@@ -696,7 +708,7 @@ Et puis voilà, ce fut d’abord Saint-Laurent du Var, première étape, des bar
 \section[{— 2 —}]{— 2 —}
 \renewcommand{\leftmark}{— 2 —}
 
-― BONJOUR MONSIEUR PAUL !\par
+\noindent ― BONJOUR MONSIEUR PAUL !\par
 C’est vrai que parfois je suis distrait, mais Monsieur Mostefari tient tellement à ce qu’on lui dise bonjour que si jamais on l’oublie c’est lui qui nous le rappelle. Quand on passe devant sa loge – HÉ ! – il appelle. Je crois qu’il m’a réappris à dire bonjour.\par
 — BONJOUR ! BONJOUR MONSIEUR MOSTEFARI !\par
 Maintenant c’est devenu un exercice, un exercice de sourire, d’appel à la vie. Bien sûr, je suis au chômedu, mais bon dieu que la vie est belle, j’écris des contes laotiens !\par
@@ -773,7 +785,7 @@ L’autre jour, il me dit :\par
 \section[{— 7 —}]{— 7 —}
 \renewcommand{\leftmark}{— 7 —}
 
-On s’était pourtant presque engueulé la première fois.\par
+\noindent On s’était pourtant presque engueulé la première fois.\par
 — Le loyer se paye en début de mois, Monsieur Paul !\par
 — Mais je vous ai déjà payé mardi !\par
 — C’était le mois dernier, Monsieur Paul !\par
@@ -1097,7 +1109,7 @@ Je me suis assis en face d’elle sur la deuxième chaise du bureau, gardant la 
 \item Heu, non non, non merci !
 \end{itemize}
 
-Elle continue dans un soupir.\par
+\noindent Elle continue dans un soupir.\par
 — Je peux vous dire que c’est pas encore ça, là-bas, enfin ! Guido voulait savoir ce que ça donnait l’après-talibans, s’il y avait le moyen de s’implanter là-bas, l’Afghanistan, après tout, pourquoi pas ? Il y a tout à refaire. Je ne sais pas pourquoi je vous raconte ça. Vous ne savez pas ce que nous cherchons… Non, vraiment, ce café ?\par
 — Non !\par
 Je me suis relevé, traînant les pieds, serrant les genoux, ma serviette, je cherchais mon pantalon et tout à coup elle me dit :\par
@@ -1106,7 +1118,7 @@ Je me suis relevé, traînant les pieds, serrant les genoux, ma serviette, je ch
 \section[{— 21 —}]{— 21 —}
 \renewcommand{\leftmark}{— 21 —}
 
-C’était pas cool l’Afghanistan.\par
+\noindent C’était pas cool l’Afghanistan.\par
 Elle plaisantait !\par
 — J’aurais besoin que vous me rendiez un petit service ?\par
 — Ah !\par
@@ -1120,7 +1132,7 @@ Et elle est restée comme ça suspendue, ses lèvres en O, et moi, devant elle, 
 \section[{— 22 —}]{— 22 —}
 \renewcommand{\leftmark}{— 22 —}
 
-« Ah, mon cher ange, vous partez déjà ?\par
+\noindent « Ah, mon cher ange, vous partez déjà ?\par
 — Hélas oui, Baronne, je vous cède la place ! »\par
 Les deux femmes se croisent sur le haut des marches. Se la jouent. On se croirait sur le grand escalier à Cannes. Tapis rouge. L’une monte. L’autre descend. Les lettres du « S-MAGIK » suivent en bleu un cercle doré qui ressemble à une bouche. Il faut passer par la glotte. S’enfoncer. Après, c’est toboggan. Celle qui venait de se faire appeler Baronne, c’est bien sûr ma Femme. La même. Elle se promène en costume d’apparat. Robe-fourreau et gants noirs. Style Baronne, m’a-t-elle dit avant de sortir. C’est son costume de vamp, dit-elle. Nous avons fait l’amour tout l’après-midi. Ce soir, elle me sort. Elle veut me remercier de m’être occupé de son chat, et d’avoir aussi fait sourire sa chatte. Nous gardons la main sur la rampe en cuivre. De notre côté, ça descend. Puis dans un virage pour bobsleigh où il n’y a pas d’autre moyen que de se mettre sur le cul, nous nous mettons sur le cul et hop, on arrive directement sur la piste de danse. Elle devant. Moi derrière. Des danseurs s’écartent. On est un peu enchevêtrés. Il y a beaucoup de monde au bar. Et, quand elle se relève, la plupart des gens la saluent, viennent l’embrasser. Baronne ! Baronne ! Baronne par-ci, Baronne par là ! Elle est la reine ici ! C’est une Reine de la Nuit.\par
 Elle me prend par la main :\par
@@ -1184,7 +1196,7 @@ La Baronne s’est penchée à son oreille et, derrière sa main gantée, lui a 
 Autrefois il fallait deux jours pour rejoindre le continent.\par
 Tout à la pagaie !\par
 \bigbreak
-{\centering\itshape SAM-PA-LO ! KAYO – KAYO !\par}
+{\centering\itshape \noindent SAM-PA-LO ! KAYO – KAYO !\par}
 {\centering\itshape \noindent SAM-PA-LO ! KAYO – KAYO !\par}
 {\centering\itshape \noindent SAM-PA-LO ! KAYO – KAYO !\par}
  

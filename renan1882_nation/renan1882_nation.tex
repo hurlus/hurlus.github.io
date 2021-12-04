@@ -25,7 +25,7 @@
 \fi\fi\fi
 
 \ifbooklet % do not enclose with {}
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     papersize={105mm, 297mm},
     inner=12mm,
@@ -37,7 +37,7 @@
   ]{geometry}
   \usepackage[fontsize=9.5pt]{scrextend} % for Roboto
 \else\ifav % A5
-  \documentclass[french,twoside]{book} % ,notitlepage
+  \documentclass[twoside]{book} % ,notitlepage
   \usepackage[%
     a5paper
   ]{geometry}
@@ -63,8 +63,6 @@
 
 \setlength{\arrayrulewidth}{0.2pt}
 \setlength{\columnseprule}{\arrayrulewidth} % twocol
-\setlength{\parskip}{0pt} % 1pt allow better vertical justification
-\setlength{\parindent}{1.5em}
 
 %%%%%%%%%%
 % Colors %
@@ -89,6 +87,9 @@
 
 \makeatletter % <@@@
 
+\setlength{\parskip}{0pt} % 1pt allow better vertical justification
+\setlength{\parindent}{1.5em}
+
 \usepackage{alphalph} % for alph couter z, aa, ab…
 \usepackage{blindtext} % generate text for testing
 \usepackage{booktabs} % for tables: \toprule, \midrule…
@@ -102,10 +103,10 @@
 \usepackage{float}
 \usepackage{fontspec} % XeLaTeX mandatory for fonts
 \usepackage{footnote} % used to capture notes in minipage (ex: quote)
-\usepackage{framed} % bordering correct with footnote hack
 \usepackage{graphicx}
 \usepackage{lettrine} % drop caps
 \usepackage{lipsum} % generate text for testing
+\usepackage{relsize} % \smaller \larger (ex: quotes in body and footnotes)
 \usepackage{manyfoot} % for parallel footnote numerotation
 \usepackage[framemethod=tikz,]{mdframed} % maybe used for frame with footnotes inside
 \usepackage[defaultlines=2,all]{nowidow} % at least 2 lines by par (works well!)
@@ -144,8 +145,7 @@
 \newfontfamily\zhfont{Noto Sans CJK SC}
 
 % Metadata inserted by a program, from the TEI source, for title page and runing heads
-\title{\textbf{ Qu’est-ce qu’une nation ? }\par
-}
+\title{Qu’est-ce qu’une nation ?}
 \date{1882}
 \author{Ernest Renan}
 \def\elbibl{Ernest Renan. 1882. \emph{Qu’est-ce qu’une nation ?}}
@@ -155,32 +155,22 @@
 
  \noindent Renan est souvent cité, \emph{« Qu’est-ce qu’une nation ? […] un plébiscite de tous les jours »}, si bien qu’on croit le connaître à force d’en avoir entendu parler. On ne connaît pas une personne par ce qu’on en dit, il faut aller l’entendre soi-même. Ce discours a été prononcé en 1882, à Paris, après la défaite de la France de 1870, pendant que l’on chantait dans les écoles pour reprendre l’Alsace et la Lorraine. Ce savant, historien et philologue de bientôt 60 ans, voulait dissoudre les mauvaises raisons de partir en guerre la fleur au fusil, en commençant par demander aux alsaciens et aux lorrains, « de quel état veulent-ils faire partie ? » Le plébiscite pour une nation n’était pas alors que symbolique. L’annexion de la Savoie à la France en 1860, par exemple, résulte d’un plébiscite, un peu manipulé à l’époque, mais pas jusqu’à inverser la volonté populaire. Il s’agissait de demander aux allemands de réaliser un référendum loyal auprès des alsaciens et lorrains, afin d’éviter la guerre.\par
  Dans ce texte, le plus intéressant n’est pas tant la définition de la nation, que l’énumération de tout ce qu’elle n’est pas (la deuxième partie).\par
- 
-\begin{quoteblock}
-\noindent L’homme n’est esclave ni de sa race, ni de sa langue, ni de sa religion, ni du cours des fleuves, ni de la direction des chaînes de montagnes.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent L’homme n’est esclave ni de sa race, ni de sa langue, ni de sa religion, ni du cours des fleuves, ni de la direction des chaînes de montagnes.\end{quoteblock}\quoteskip
  \noindent Il faudrait sans doute inviter quelques réactionnaires racistes ou religieux à se persuader de ce texte, mais les personnes qui le liront effectivement n’ont généralement plus besoin d’être convaincues de ces évidences pour nos jours. Alors à quoi bon le lire ?\par
- 
-\begin{quoteblock}
-\noindent Voilà des points sur lesquels un esprit réfléchi tient à être fixé, pour se mettre d’accord avec lui-même. Les affaires du monde ne se règlent guère par ces sortes de raisonnements ; mais les hommes appliqués veulent porter en ces matières quelque raison et démêler les confusions où s’embrouillent les esprits superficiels.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent Voilà des points sur lesquels un esprit réfléchi tient à être fixé, pour se mettre d’accord avec lui-même. Les affaires du monde ne se règlent guère par ces sortes de raisonnements ; mais les hommes appliqués veulent porter en ces matières quelque raison et démêler les confusions où s’embrouillent les esprits superficiels.\end{quoteblock}\quoteskip
  \noindent Renan apporte un discours de sagesse dans un tumulte politique. D’aucuns diront un bourgeois qui a la tranquillité matérielle, sans doute, mais faut-il donc que tous les gueux soient énervés ? L’humeur et le caractère ne dépendent pas de la richesse, nul n’est interdit de sagesse ; ce discours est une leçon intellectuelle.\par
  La première récompense de cette lecture est d’entrer dans la compagnie d’un savant qui sait, mais surtout, qui réfléchit, et nous apprend à le faire. Il est saisissant que ses vues historiques ou anthropologiques, beaucoup moins informées que nous ne le sommes aujourd’hui, ne recèlent pas de défauts majeurs. Il rappelle que l’information ne dispense pas d’avoir du jugement. Avec beaucoup plus de faits aujourd’hui, on peut raconter des histoires bien plus fausses, ou nuisibles. La longue méditation permet d’oser des hypothèses durables, avec une culture classique à peine plus large que les humanistes de la Renaissance.\par
  Sur l’histoire de l’Europe par exemple, Renan constate que les germains, puis ensuite les vikings, n’ont pas laissé leur langue en terre latine. Il se demande alors simplement, quelles langues parlait la mère de leurs enfants ? La génétique des populations actuelles, ainsi que des squelettes anciens, confirme largement le brassage matrimonial qu’est l’Europe depuis des millénaires. Chez les latins, comme les germains, contrairement à par exemple l’Empire turc d’alors ; l’Europe est exogame (on se marie pas entre cousins), monogame, et \emph{universelle} (on est “tous frères”, ou plutôt, notre système de parenté est simpliste). Un médiéviste comme Alain Guerreau a dès 1980 identifié cette \href{https://halshs.archives-ouvertes.fr/halshs-00418565}{\dotuline{singularité féodale}}\footnote{\href{https://halshs.archives-ouvertes.fr/halshs-00418565}{\url{https://halshs.archives-ouvertes.fr/halshs-00418565}}} (analysée maintenant à plus \href{http://www.gallimard.fr/Catalogue/GALLIMARD/NRF-Essais/L-origine-des-systemes-familiaux}{\dotuline{large échelle}}\footnote{\href{http://www.gallimard.fr/Catalogue/GALLIMARD/NRF-Essais/L-origine-des-systemes-familiaux}{\url{http://www.gallimard.fr/Catalogue/GALLIMARD/NRF-Essais/L-origine-des-systemes-familiaux}}} par Emmanuel Todd).\par
- 
-\begin{quoteblock}
-\noindent […] le droit primordial des races est étroit et plein de danger pour le véritable progrès […] Par leurs facultés diverses, souvent opposées, les nations servent à l’œuvre commune de la civilisation […]\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent […] le droit primordial des races est étroit et plein de danger pour le véritable progrès […] Par leurs facultés diverses, souvent opposées, les nations servent à l’œuvre commune de la civilisation […]\end{quoteblock}\quoteskip
  \noindent Avec son siècle, il possède peut-être un secret que nous avons perdu pour raisonner juste avec des faits douteux et des séries incomplètes ; il a un principe selon lequel hiérarchiser l’essentiel et l’accessoire. Son principe peut être faux, il n’en a pas moins une grande force d’organisation. Nous ne pouvons pas reprendre à Renan sa religion du progrès et de la mission civilisatrice de l’Europe sans l’examen critique de la colonisation par exemple, mais nous pouvons regretter de ne pas avoir un tel principe, afin d’avoir autant d’ambition que lui dans ses vues.\par
- 
-\begin{quoteblock}
-\noindent Les nations ne sont pas quelque chose d’éternel. Elles ont commencé, elles finiront. La confédération européenne, probablement, les remplacera.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent Les nations ne sont pas quelque chose d’éternel. Elles ont commencé, elles finiront. La confédération européenne, probablement, les remplacera.\end{quoteblock}\quoteskip
  \noindent Renan avait l’optimisme à l’échelle de l’histoire, bien au-delà de 1914 et 1939, mais sans doute aussi, au-delà de notre temps ; il espérait la fin des guerres franco-allemande fratricides et une Europe fédérale (ou plutôt, une confédération de nations, dont certaines pouvaient être fédérales ; mais pas une fédération de régions). Est-ce que l’union européenne actuelle serait une nation selon lui ? Si nous avons une mémoire commune, ce n’est pas celle de héros fondateurs, mais plutôt de nos guerres fratricides ; elle ne fait pas encore nation car elle ne donne de principe organisateur positif. L’Europe est-elle un plébiscite ? Elle n’est plus l’expression de la volonté générale depuis la manipulation du référendum de 2005, mais le projet d’une classe instruite sans égard pour les autres. Renan enfonce même un pieu vicieux.\par
- 
-\begin{quoteblock}
-\noindent Les intérêts suffisent-ils à faire une nation ? je ne le crois pas. […] un \foreign{Zollverein} n’est pas une patrie.\end{quoteblock}
-
+ \quoteskip\begin{quoteblock}
+\noindent Les intérêts suffisent-ils à faire une nation ? je ne le crois pas. […] un \foreign{Zollverein} n’est pas une patrie.\end{quoteblock}\quoteskip
  \noindent Le \foreign{Zollverein} est l’union douanière allemande qui alla de 1834 jusqu’à l’unification en 1871. Mais l’Allemagne ne s’est vraiment unie qu’après les victoires militaires contre l’Autriche (1866), et contre la France (1870) ; unie jusqu’au suicide nazi. L’Europe des marchandises et de l'union douanière a bientôt 50 ans (1968), qui est prêt à mourir pour une notice en 25 langues ? L’Europe doit-elle se trouver une guerre pour faire patrie ? La démographie ne pousse pas à faire mourir une jeunesse trop rare pour la nation, bien heureusement ; mais il est à craindre qu’il faudrait encore une dure convulsion de l’histoire pour que des nations européennes, et probablement pas 25, prennent conscience d’un destin commun et fassent vraiment nation (au sens de Renan).
  \newpage
 
@@ -329,7 +319,7 @@
 
 \newcommand{\byline}[1]{\bigskip{\RaggedLeft{#1}\par}\bigskip}
 % \setlength{\RaggedLeftLeftskip}{2em plus \leftskip}
-\newcommand{\bibl}[1]{{\smallskip\RaggedLeft\normalsize\normalfont #1\par\medskip}}
+\newcommand{\bibl}[1]{{\RaggedLeft\normalfont #1\par}}
 \newcommand{\biblitem}[1]{{\noindent\hangindent=\parindent   #1\par}}
 \newcommand{\castItem}[1]{{\noindent\hangindent=\parindent #1\par}}
 \newcommand{\dateline}[1]{\medskip{\RaggedLeft{#1}\par}\bigskip}
@@ -337,12 +327,13 @@
 \newcommand{\docDate}[1]{#1 \ifvmode\par\fi }
 \newcommand{\docImprint}[1]{\ifvmode\medskip\fi #1 \ifvmode\par\fi }
 \newcommand{\labelblock}[1]{\medbreak{\noindent\color{rubric}\bfseries #1}\par\mednobreak}
+\newcommand{\question}[1]{\bigbreak{\RaggedRight\noindent\emph{#1}\par}\mednobreak}
 \newcommand{\salute}[1]{\bigbreak{#1}\par\medbreak}
 \newcommand{\signed}[1]{\medskip{\RaggedLeft #1\par}\bigbreak} % supposed bottom
 \newcommand{\speaker}[1]{\medskip{\Centering\sffamily #1 \par\nopagebreak}} % supposed bottom
 \newcommand{\stagescene}[1]{{\Centering\sffamily\textsf{#1}\par}\bigskip}
 \newcommand{\stageblock}[1]{\begingroup\leftskip\parindent\noindent\it\sffamily\footnotesize #1\par\endgroup} % left margin, better than list envs
-\newcommand{\spl}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
+\newcommand{\lpar}[1]{\noindent\hangindent=2\parindent  #1\par} % sp/l
 \newcommand{\trailer}[1]{{\Centering\bigskip #1\par}} % sp/l
 
 % environments for blocks (some may become commands)
@@ -378,9 +369,15 @@
 \newenvironment{docTitle}{\LARGE\bigskip\bfseries\onehalfspacing}{\bigskip}
 % leftskip makes big bugs in Lexmark printing \sffamily
 \newenvironment{epigraph}{\begin{addmargin}[2\parindent]{0em}\sffamily\large\setstretch{0.95}}{\end{addmargin}\bigskip}
-\newenvironment{quoteblock}% may be used for ornaments
-  {\begin{quoting}}
+\newenvironment{quoteblock}
+  {\begin{quoting}\setstretch{0.9}} %
   {\end{quoting}}
+\newenvironment{frametext}
+  {\begin{mdframed}[default]} %
+  {\end{mdframed}}
+
+\quotingsetup{vskip=0pt}
+\newcommand{\quoteskip}{\medskip}
 \newenvironment{titlePage}
   {\Centering}
   {}
@@ -430,12 +427,18 @@
 % \renewcommand{\@pnumwidth}{0.5em} % {1.75em}
 \renewcommand{\@cftmaketoctitle}{}
 \setlength{\cftbeforesecskip}{\z@ \@plus.2\p@}
-\renewcommand{\cftchapfont}{}
-\renewcommand{\cftchapdotsep}{\cftdotsep}
-\renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
-\renewcommand{\cftchappagefont}{\bfseries}
-\setlength{\cftbeforechapskip}{0em \@plus\p@}
-% \renewcommand{\cftsecfont}{\small\relax}
+
+\@ifclassloaded{article}{%
+  \typeout{class: article}%
+}{%
+  \renewcommand{\cftchapfont}{}
+  \renewcommand{\cftchapdotsep}{\cftdotsep}
+  \renewcommand{\cftchapleader}{\normalfont\cftdotfill{\cftchapdotsep}}
+  \renewcommand{\cftchappagefont}{\bfseries}
+  \setlength{\cftbeforechapskip}{0pt}
+  \setlength{\cftchapnumwidth}{1em}
+}
+\renewcommand{\cftsecfont}{\normalfont}
 \renewcommand{\cftsecpagefont}{\normalfont}
 % \renewcommand{\cftsubsecfont}{\small\relax}
 \renewcommand{\cftsecdotsep}{\cftdotsep}
@@ -444,7 +447,6 @@
 \setlength{\cftsecindent}{1em}
 \setlength{\cftsubsecindent}{2em}
 \setlength{\cftsubsubsecindent}{3em}
-\setlength{\cftchapnumwidth}{1em}
 \setlength{\cftsecnumwidth}{1em}
 \setlength{\cftsubsecnumwidth}{1em}
 \setlength{\cftsubsubsecnumwidth}{1em}
@@ -463,6 +465,7 @@
 \setlength{\poembotskip}{0pt}
 \setlength{\poemtopskip}{0pt}
 \setlength{\poemindent}{0pt}
+\setlength{\poemmaxlinewd}{\linewidth}
 \poemlinenumsfalse
 
 %   see https://tex.stackexchange.com/a/34449/5049
@@ -517,7 +520,7 @@
 % </TEI> end %
 %%%%%%%%%%%%%%
 
-
+\setmainlanguage{french}
 %%%%%%%%%%%%%
 % footnotes %
 %%%%%%%%%%%%%
@@ -581,7 +584,6 @@
 \renewcommand{\headrule}{{\color{rubric}\hrule}}
 \renewcommand{\lnatt}[1]{\marginpar{\sffamily\scriptsize #1}}
 
-% delicate tuning, image has produce line-height problems in title on 2 lines
 \titleformat{name=\chapter} % command
   [display] % shape
   {\vspace{1.5em}\centering} % format
