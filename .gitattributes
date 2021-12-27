@@ -3,3 +3,6 @@
 # sqlite files
 *.db binary
 *.pdf binary
+*.epub binary
+*.mobi binary
+
