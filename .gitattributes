@@ -1,12 +1,58 @@
-* text eol=lf
+# https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/
+# git ls-files --eol
 
-# sqlite files
+* text=auto
+
+
+*.css text
+*.csv text
+*.htm text
+*.html text
+*.ini text
+*.inc text
+*.js text
+*.json text
+*.php text
+*.pl text
+*.rb text
+*.py text
+*.scm text
+*.sql text
+.htaccess text
+*.sh text
+*.svg text
+*.tsv text
+*.txt text
+*.xml text
+*.xsl text
+
+# Specific Windows
+*.bat text eol=crlf
+
+# truly binary and should not be modified.
+*.7z binary
 *.db binary
 *.docx binary
-*.epub binary
-*.mobi binary
-*.pdf binary
+*.flv binary
+*.fla binary
+*.gif binary
+*.gz binary
+*.ico binary
+*.jar binary
 *.jpg binary
 *.jpeg binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.odg binary
+*.odt binary
+*.otf binary
+*.pdf binary
 *.png binary
-
+*.pptx binary
+*.psd binary
+*.ttf binary
+*.xlsx binary
+*.woff binary
+*.woff2 binary
+*.zip binary
